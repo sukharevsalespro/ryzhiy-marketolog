@@ -61,7 +61,7 @@ def _lead_event() -> dict[str, Any]:
         "httpMethod": "POST",
         "headers": {"Content-Type": "application/x-www-form-urlencoded"},
         "isBase64Encoded": False,
-        "body": "name=Иван&contact=%40ivan&source_page=%2F&utm_source=vk&utm_campaign=test",
+        "body": "name=Иван&contact=%40ivan&source_page=%2F&utm_source=vk&utm_campaign=test&consent=true",
     }
 
 
@@ -132,17 +132,74 @@ def test_field_length_is_capped() -> None:
         "httpMethod": "POST",
         "headers": {"Content-Type": "application/x-www-form-urlencoded"},
         "isBase64Encoded": False,
-        "body": "name=" + "А" * 500 + "&contact=@ivan",
+        "body": "name=" + "А" * 500 + "&contact=@ivan&consent=true",
     }
-    with patch.object(index, "_send_telegram", return_value=True):
+    with patch.object(index, "_send_telegram", return_value=True), patch.object(index, "_send_max", return_value=None):
         resp = index.handler(event, None)
     assert resp["statusCode"] == 200
+
+
+
+def test_consent_is_required_before_delivery() -> None:
+    event = _lead_event()
+    event["body"] = event["body"].replace("&consent=true", "")
+    with patch.object(index, "_send_telegram") as tg, patch.object(index, "_send_max") as mx:
+        assert index.handler(event, None)["statusCode"] == 422
+        tg.assert_not_called()
+        mx.assert_not_called()
+
+
+def test_large_body_is_rejected_before_delivery() -> None:
+    event = _lead_event()
+    event["body"] = "x" * (index.MAX_BODY_BYTES + 1)
+    with patch.object(index, "_send_telegram") as tg, patch.object(index, "_send_max") as mx:
+        assert index.handler(event, None)["statusCode"] == 413
+        tg.assert_not_called()
+        mx.assert_not_called()
+
+
+def test_logs_contain_only_delivery_status() -> None:
+    with patch.object(index, "_send_telegram", return_value=True), \
+         patch.object(index, "_send_max", return_value=None), \
+         patch.object(index.logger, "info") as log:
+        index.handler(_lead_event(), None)
+    log.assert_called_once_with("lead delivery: telegram=%s max=%s", True, False)
+
+
+def test_all_utm_fields_reach_notifications() -> None:
+    event = _lead_event()
+    event["body"] += "&utm_medium=social&utm_term=brand"
+    with patch.object(index, "_send_telegram", return_value=True) as tg, \
+         patch.object(index, "_send_max", return_value=True) as mx:
+        assert index.handler(event, None)["statusCode"] == 200
+    assert "vk / social / test / brand" in tg.call_args.args[0]
+    assert "vk / social / test / brand" in mx.call_args.args[0]
+
+
+def test_telegram_response_must_confirm_delivery() -> None:
+    from unittest.mock import MagicMock
+    connection = MagicMock()
+    response = connection.getresponse.return_value
+    with patch.object(index, "_PinnedHTTPSConnection", return_value=connection):
+        for status, body, expected in [(200, b'{"ok":true}', True),
+                                      (200, b'{"ok":false}', False),
+                                      (401, b'{"ok":false}', False),
+                                      (200, b'invalid json', False)]:
+            response.status = status
+            response.read.return_value = body
+            try:
+                index._post_telegram("/fake", b"", 1, "127.0.0.1")
+                success = True
+            except (RuntimeError, ValueError):
+                success = False
+            assert success is expected
 
 
 def main() -> None:
     tests = [obj for name, obj in globals().items() if name.startswith("test_") and callable(obj)]
     for test in tests:
-        test()
+        with patch("socket.create_connection", side_effect=AssertionError("Network forbidden in tests")):
+            test()
         print(f"{test.__name__}: OK")
     print(f"\n{len(tests)} tests passed")
 

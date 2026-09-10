@@ -15,6 +15,7 @@
     var month = 8;
     var year = 2026;
     calendar.querySelectorAll('[data-month]').forEach(function (control) {
+      control.disabled = false;
       control.addEventListener('click', function () {
         var date = new Date(year, month + Number(control.dataset.month), 1);
         year = date.getFullYear();
@@ -52,11 +53,21 @@
     return host;
   }
 
-  function toast(html, kind, ms) {
+  function toast(message, kind, ms, telegram) {
     var el = document.createElement('div');
     el.className = 'toast' + (kind ? ' toast--' + kind : '');
     var body = document.createElement('div');
-    body.innerHTML = html;
+    body.textContent = message;
+    if (telegram) {
+      var link = document.createElement('a');
+      link.href = TG;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'написать в Telegram';
+      body.appendChild(document.createTextNode(' Можно '));
+      body.appendChild(link);
+      body.appendChild(document.createTextNode('.'));
+    }
     var close = document.createElement('button');
     close.className = 'toast-x';
     close.type = 'button';
@@ -74,16 +85,16 @@
   if (!form) return;
 
   var TG = 'https://t.me/valentina_promarketing';
-  var TG_LINK = '<a href="' + TG + '" target="_blank" rel="noopener">написать в Telegram</a>';
   var btn = form.querySelector('button[type="submit"]');
-  var btnContent = btn ? btn.innerHTML : '';
+  var btnContent = btn ? Array.from(btn.childNodes).map(function (node) { return node.cloneNode(true); }) : [];
+  if (btn) btn.disabled = false;
   var submitting = false;
 
   function utmFields(fd) {
     var params = new URLSearchParams(window.location.search);
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (key) {
       var value = params.get(key);
-      if (value) fd.append(key, value);
+      if (value) fd.append(key, value.slice(0, 200));
     });
   }
 
@@ -92,7 +103,7 @@
     btn.disabled = on;
     btn.setAttribute('aria-busy', String(on));
     if (on) btn.textContent = 'Отправляю…';
-    else btn.innerHTML = btnContent;
+    else btn.replaceChildren.apply(btn, btnContent.map(function (node) { return node.cloneNode(true); }));
   }
 
   form.addEventListener('submit', function (event) {
@@ -116,6 +127,10 @@
       form.elements.contact.focus();
       return;
     }
+    if (name.length > 200 || contact.length > 200) {
+      toast('Имя и контакт должны содержать не больше 200 символов.', 'err');
+      return;
+    }
     if (!consent) {
       toast('Отметьте согласие на обработку персональных данных — без него не смогу принять заявку.', 'err');
       form.elements.consent.setAttribute('aria-invalid', 'true');
@@ -124,7 +139,7 @@
     }
 
     if (!CONFIG.LEADS_ENDPOINT) {
-      toast('Форма ещё подключается — пожалуйста, ' + TG_LINK + '.', 'err', 12000);
+      toast('Форма ещё подключается.', 'err', 12000, true);
       return;
     }
 
@@ -132,6 +147,7 @@
     fd.append('product', 'site');
     fd.append('name', name);
     fd.append('contact', contact);
+    fd.append('consent', 'true');
     fd.append('source_page', window.location.pathname);
     utmFields(fd);
 
@@ -146,6 +162,8 @@
         }).then(function (result) {
           if (!response.ok || result.ok !== true) {
             var reasons = {
+              'consent required': 'Сервер отклонил заявку: требуется согласие на обработку персональных данных.',
+              'body too large': 'Заявка слишком большая. Сократите имя и контакт.',
               'empty lead': 'Сервер отклонил заявку: проверьте имя и контакт.',
               'delivery failed': 'Сервер не смог доставить заявку. Попробуйте позже.'
             };
@@ -159,7 +177,7 @@
       })
       .catch(function (error) {
         var message = error.name === 'AbortError' ? 'Сервер не ответил вовремя. Попробуйте позже.' : error instanceof TypeError ? 'Не получилось отправить — проверьте подключение к сети.' : error.message;
-        toast(message + ' Можно ' + TG_LINK + '.', 'err', 12000);
+        toast(message, 'err', 12000, true);
       })
       .finally(function () {
         clearTimeout(timeout);

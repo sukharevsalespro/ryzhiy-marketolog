@@ -1,0 +1,31 @@
+.recording{font:400 18px/1.5 'Golos Text',sans-serif}.recording h1,.recording h2{text-transform:uppercase;font-family:Poster,sans-serif;font-weight:900;letter-spacing:-.035em;line-height:.98}
+.recording .record-hero,.recording .record-intro,.recording .record-program,.recording .record-bonus,.recording .record-author,.recording .record-final{padding:48px clamp(20px,3.75vw,49.5px)}
+.recording .record-back{display:inline-flex;align-items:center;min-height:44px;font-size:14px;margin-bottom:24px}
+.recording .record-label{font-size:12px;letter-spacing:.12em;line-height:1.5;margin:0 0 24px}
+.recording .record-hero-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:48px;align-items:end}
+.recording h1{font-size:clamp(52px,calc(var(--page-width) * .08),106px);margin:0}
+.recording h1 small{display:block;font-size:clamp(27px,calc(var(--page-width) * .032),43px);margin-top:22px;line-height:1.1}
+.recording .record-access{border-top:1px solid #000;padding-top:24px}
+.recording .record-access p{font-size:20px;line-height:1.5;margin:0}.recording .record-access .record-access-label{font-size:14px;margin:24px 0 14px}
+.recording .record-payment{min-width:0}.recording .record-terms{display:inline-flex;align-items:center;min-height:44px;font-size:12px;text-decoration:underline;margin-top:8px}
+.recording .record-intro{padding-block:56px;border-bottom:1px solid #000}.recording .record-intro p{max-width:62ch;font-size:clamp(22px,calc(var(--page-width) * .026),34px);line-height:1.45;margin:0}
+.recording h2{font-size:clamp(38px,calc(var(--page-width) * .046),62px);margin:0 0 32px}
+.recording .record-program ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;list-style:none;padding:0;margin:0}
+.recording .record-program li{border-top:1px solid #000;padding:28px 0;display:grid;grid-template-columns:76px minmax(0,1fr);gap:20px}
+.recording .record-number{font:900 64px/.95 Poster,sans-serif;color:var(--orange)}.recording .record-program li p{font-size:20px;line-height:1.5;margin:0}
+.recording .record-bonus p{font:900 clamp(34px,calc(var(--page-width) * .04),54px)/1.08 Poster,sans-serif;text-transform:uppercase;margin:0;max-width:26ch}
+.recording .record-author{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:64px;align-items:center}
+.recording figure{margin:0;position:relative;border:1px solid #000;max-width:450px}.recording figure img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}.recording figcaption{background:#000;color:var(--cream);padding:12px 18px;font-size:14px}
+.recording .record-author>div>p:last-child{font-size:20px;line-height:1.6;max-width:40ch}
+.recording .record-final{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:center;border-top:1px solid #000}.recording .record-final h2{margin-bottom:20px}.recording .record-final p{margin:0}.recording .record-final .record-label{margin-bottom:18px}
+@media(max-width:1000px){.recording .record-hero-grid{grid-template-columns:minmax(0,1fr);gap:32px}.recording .record-access{max-width:560px}.recording .record-author{gap:32px}.recording .record-program li{grid-template-columns:54px minmax(0,1fr);gap:16px}.recording .record-number{font-size:48px}}
+@media(max-width:760px){.recording .record-hero,.recording .record-intro,.recording .record-program,.recording .record-bonus,.recording .record-author,.recording .record-final{padding:32px 20px}.recording .record-back{margin-bottom:16px}.recording .record-program ol,.recording .record-author,.recording .record-final{grid-template-columns:minmax(0,1fr)}.recording .record-program li p{font-size:17px}.recording .record-author>div>p:last-child{font-size:18px}.recording .pay{font-size:16px;padding:14px 18px;min-height:52px}.recording .record-author figure{max-width:390px;width:100%}.recording h1{font-size:clamp(48px,12vw,80px)}.recording .record-label{margin-bottom:18px}.recording .record-access p{font-size:18px}}
+.recording .record-hero-grid{align-items:center;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)}
+.recording .record-access{margin-top:28px;max-width:520px}
+.recording .record-poster{max-width:360px;width:100%;justify-self:end}
+.recording .record-poster img{height:auto;aspect-ratio:9/16;object-fit:contain}
+.recording .record-poster>a{display:block;line-height:0}
+.recording .record-poster figcaption{font-size:12px;line-height:1.5;padding:10px 12px}
+.recording .record-poster figcaption a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;margin-left:8px}
+@media(max-width:1000px){.recording .record-hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:28px}.recording h1{font-size:clamp(46px,calc(var(--page-width) * .068),68px)}}
+@media(max-width:760px){.recording .record-hero-grid{grid-template-columns:minmax(0,1fr);gap:28px}.recording .record-poster{max-width:430px;justify-self:center}.recording h1{font-size:clamp(48px,12vw,80px)}}

@@ -45,10 +45,11 @@ _TELEGRAM_PINNED_IP = "149.154.167.220"
 MSK = ZoneInfo("Europe/Moscow")
 
 MAX_LEN = 200
+MAX_BODY_BYTES = 16_384
 
 # Поля формы. product — по умолчанию "site". contact — телефон или Telegram,
 # одно поле; на случай старой формы принимаем также phone/telegram/email.
-FIELDS = ["product", "name", "source_page", "utm_source", "utm_campaign", "utm_content"]
+FIELDS = ["product", "name", "source_page", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]
 CONTACT_KEYS = ("contact", "phone", "telegram", "email")
 
 
@@ -141,7 +142,7 @@ def _build_message(data: dict[str, str]) -> str:
         lines.append(f'🔗 {_esc(data["source_page"])}')
 
     meta = []
-    utm_parts = [data[k] for k in ("utm_source", "utm_campaign", "utm_content") if data[k]]
+    utm_parts = [data[k] for k in ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term") if data.get(k)]
     if utm_parts:
         meta.append("UTM: " + _esc(" / ".join(utm_parts)))
     meta.append("⏰ " + datetime.now(MSK).strftime("%d.%m.%Y %H:%M") + " MSK")
@@ -164,7 +165,7 @@ def _build_message_max(data: dict[str, str]) -> str:
         lines.append(f'🔗 {data["source_page"]}')
 
     meta = []
-    utm_parts = [data[k] for k in ("utm_source", "utm_campaign", "utm_content") if data[k]]
+    utm_parts = [data[k] for k in ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term") if data.get(k)]
     if utm_parts:
         meta.append("UTM: " + " / ".join(utm_parts))
     meta.append("⏰ " + datetime.now(MSK).strftime("%d.%m.%Y %H:%M") + " MSK")
@@ -198,14 +199,22 @@ def _post_telegram(path: str, body: bytes, timeout: float, pin_ip: str | None) -
             "POST", path, body=body,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
-        conn.getresponse().read()
+        response = conn.getresponse()
+        payload = response.read()
+        if response.status < 200 or response.status >= 300:
+            raise RuntimeError("Telegram rejected message")
+        result = json.loads(payload)
+        if not isinstance(result, dict) or result.get("ok") is not True:
+            raise RuntimeError("Telegram did not confirm delivery")
     finally:
         conn.close()
 
 
 def _send_telegram(text: str) -> bool:
-    token = os.environ["TG_TOKEN"]
-    chat_id = os.environ["TG_CHAT_ID"]
+    token = os.environ.get("TG_TOKEN", "").strip()
+    chat_id = os.environ.get("TG_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        return False
     params = urlencode({
         "chat_id": chat_id,
         "parse_mode": "HTML",
@@ -218,13 +227,13 @@ def _send_telegram(text: str) -> bool:
         _post_telegram(path, params, timeout=5, pin_ip=_TELEGRAM_PINNED_IP)
         return True
     except Exception:  # noqa: BLE001 — сбой Telegram не должен ронять ответ лиду
-        logger.warning("telegram sendMessage via pinned IP failed", exc_info=True)
+        logger.warning("telegram sendMessage via pinned IP failed")
 
     try:
         _post_telegram(path, params, timeout=5, pin_ip=None)
         return True
     except Exception:  # noqa: BLE001
-        logger.exception("telegram sendMessage failed (pinned IP + hostname)")
+        logger.warning("telegram sendMessage failed (pinned IP + hostname)")
         return False
 
 
@@ -246,13 +255,13 @@ def _post_max(token: str, chat_id: str, text: str) -> None:
         try:
             conn.request("POST", path, body=body, headers=headers)
             resp = conn.getresponse()
-            payload = resp.read()
-            if resp.status >= 400:
-                raise RuntimeError(f"MAX {host} HTTP {resp.status}: {payload[:300]!r}")
+            resp.read()
+            if resp.status < 200 or resp.status >= 300:
+                raise RuntimeError("MAX rejected message")
             return
         except Exception as exc:  # noqa: BLE001 — пробуем следующий хост
             last_exc = exc
-            logger.warning("max sendMessage via %s failed: %s", host, exc)
+            logger.warning("max sendMessage via %s failed", host)
         finally:
             conn.close()
     raise last_exc or RuntimeError("MAX: all hosts failed")
@@ -268,7 +277,7 @@ def _send_max(text: str) -> bool | None:
         _post_max(token, chat_id, text)
         return True
     except Exception:  # noqa: BLE001 — сбой MAX не должен ронять ответ лиду
-        logger.exception("max sendMessage failed (all hosts)")
+        logger.warning("max sendMessage failed (all hosts)")
         return False
 
 
@@ -278,6 +287,8 @@ def _json_response(status_code: int, payload: dict[str, Any]) -> dict[str, Any]:
         "headers": {
             "Content-Type": "application/json; charset=utf-8",
             "Access-Control-Allow-Origin": "*",
+            "Cache-Control": "no-store",
+            "X-Content-Type-Options": "nosniff",
         },
         "body": json.dumps(payload, ensure_ascii=False),
     }
@@ -287,21 +298,30 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     if event.get("httpMethod") != "POST":
         return _json_response(405, {"ok": False, "error": "POST only"})
 
-    form = _parse_body(event)
+    # Limit encoded input before multipart/JSON parsing; never log its contents.
+    raw = event.get("body") or ""
+    if not isinstance(raw, str):
+        return _json_response(400, {"ok": False, "error": "invalid body"})
+    if len(raw.encode("utf-8")) > MAX_BODY_BYTES:
+        return _json_response(413, {"ok": False, "error": "body too large"})
+    try:
+        form = _parse_body(event)
+    except (ValueError, UnicodeError, LookupError):
+        return _json_response(400, {"ok": False, "error": "invalid body"})
     data = {field: form.get(field, "").strip()[:MAX_LEN] for field in FIELDS}
     data["product"] = data["product"] or "site"
     data["contact"] = _pick_contact(form)
-    data["created_at"] = datetime.now(MSK).isoformat()
-    data["ip"] = _get_header(event.get("headers"), "X-Forwarded-For")
 
     if data["name"] == "" or data["contact"] == "":
         return _json_response(422, {"ok": False, "error": "empty lead"})
 
-    logger.info(json.dumps({"event": "lead", **data}, ensure_ascii=False))
+    if form.get("consent") != "true":
+        return _json_response(422, {"ok": False, "error": "consent required"})
 
     tg_ok = _send_telegram(_build_message(data))
     max_ok = _send_max(_build_message_max(data))
 
+    logger.info("lead delivery: telegram=%s max=%s", bool(tg_ok), bool(max_ok))
     if not tg_ok and not max_ok:
         return _json_response(502, {"ok": False, "error": "delivery failed"})
     return _json_response(200, {"ok": True})
