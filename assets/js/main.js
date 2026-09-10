@@ -1,22 +1,39 @@
-/* Рыжий маркетолог — минимальный клиентский слой:
-   появление плиток, тосты, отправка заявки. Без зависимостей. */
+/* Рыжий маркетолог — макет главной. Появление плиток, тосты, отправка заявки.
+   Логика формы и CONFIG.LEADS_ENDPOINT перенесены из assets/js/main.js как есть. */
 (function () {
   'use strict';
 
-  /* ---------- Появление плиток при скролле ---------- */
+  var CONFIG = {
+    // URL Яндекс.Функции для приёма заявок.
+    LEADS_ENDPOINT: 'https://functions.yandexcloud.net/d4eut85le1co28mu0lc6'
+  };
+
+  document.documentElement.classList.add('js');
+
+  /* ---------- Появление плиток при скролле (каскад 45мс) ---------- */
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var revealables = document.querySelectorAll('.reveal');
+  var revealables = [].slice.call(document.querySelectorAll('.r'));
 
   if (reduced || !('IntersectionObserver' in window)) {
     revealables.forEach(function (el) { el.classList.add('is-in'); });
   } else {
+    var batch = [];
+    var flush = null;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-in');
         io.unobserve(entry.target);
+        batch.push(entry.target);
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      if (flush) return;
+      flush = setTimeout(function () {
+        batch.forEach(function (el, i) {
+          setTimeout(function () { el.classList.add('is-in'); }, i * 45);
+        });
+        batch = [];
+        flush = null;
+      }, 20);
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
     revealables.forEach(function (el) { io.observe(el); });
   }
 
@@ -119,10 +136,4 @@
       })
       .then(function () { pending(false); });
   });
-
-  /* ---------- Конфиг ---------- */
-  var CONFIG = {
-    // URL Яндекс.Функции для приёма заявок. Пусто — форма отправляет в Telegram.
-    LEADS_ENDPOINT: 'https://functions.yandexcloud.net/d4eut85le1co28mu0lc6'
-  };
 })();

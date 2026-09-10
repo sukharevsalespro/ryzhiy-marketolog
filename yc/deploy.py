@@ -39,11 +39,12 @@ YC_DIR = Path(__file__).parent
 FUNCTION_NAME = "ryzhiy-lead"
 FUNCTION_DIR = YC_DIR / "lead"
 ENTRYPOINT = "index.handler"
-ENV_KEYS = ["TG_TOKEN", "TG_CHAT_ID"]
+ENV_KEYS = ["TG_TOKEN", "TG_CHAT_ID", "MAX_TOKEN", "MAX_CHAT_ID"]
 
 RUNTIME = "python312"
 MEMORY_BYTES = "134217728"  # 128 MB — с большим запасом хватает
-TIMEOUT_SECONDS = "12"  # запас на pinned-IP + hostname fallback в _send_telegram (до 2×5с)
+# запас на TG (pinned-IP + hostname fallback, до 2×5с) + MAX (до 3 хостов, ≤5с)
+TIMEOUT_SECONDS = "20"
 
 FUNCTION_URL_FILE = YC_DIR / "FUNCTION_URL.txt"
 
@@ -123,6 +124,8 @@ def load_env_values() -> dict[str, str]:
     return {
         "TG_TOKEN": Path("/root/.secrets/ryzhiy_leads_bot.txt").read_text().strip(),
         "TG_CHAT_ID": Path("/root/.secrets/ryzhiy_leads_chat_id.txt").read_text().strip(),
+        "MAX_TOKEN": Path("/root/.secrets/ryzhiy_max_bot.txt").read_text().strip(),
+        "MAX_CHAT_ID": Path("/root/.secrets/ryzhiy_max_chat_id.txt").read_text().strip(),
     }
 
 

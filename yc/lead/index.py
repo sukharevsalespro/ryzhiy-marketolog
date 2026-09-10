@@ -6,7 +6,12 @@
 Оплата вебинара идёт по внешней ссылке payform Продамуса — наш код в оплате
 не участвует, вебхука тут нет, только приём заявки с формы сайта.
 
-Секреты — только из переменных окружения: TG_TOKEN, TG_CHAT_ID.
+Заявка дублируется в два канала — Telegram и мессенджер MAX. Каналы
+независимы: падение одного не должно ронять другой (каждый в своём
+try/except), ответ клиенту 200, если хотя бы один канал доставил.
+
+Секреты — только из переменных окружения: TG_TOKEN, TG_CHAT_ID,
+MAX_TOKEN, MAX_CHAT_ID (MAX_* пустые → канал MAX просто пропускается).
 Никаких внешних зависимостей — только стандартная библиотека.
 """
 
@@ -146,6 +151,29 @@ def _build_message(data: dict[str, str]) -> str:
     return "\n".join(lines)
 
 
+def _build_message_max(data: dict[str, str]) -> str:
+    """Та же карточка для MAX — plain text, без HTML-тегов (формат не подтверждён)."""
+    lines = [
+        "🦊 Заявка с сайта рыжий-маркетолог.рф",
+        "",
+        f'📦 {data["product"] or "site"}',
+        f'👤 {data["name"]}',
+        f'📱 {data["contact"]}',
+    ]
+    if data["source_page"]:
+        lines.append(f'🔗 {data["source_page"]}')
+
+    meta = []
+    utm_parts = [data[k] for k in ("utm_source", "utm_campaign", "utm_content") if data[k]]
+    if utm_parts:
+        meta.append("UTM: " + " / ".join(utm_parts))
+    meta.append("⏰ " + datetime.now(MSK).strftime("%d.%m.%Y %H:%M") + " MSK")
+
+    lines.append("")
+    lines.extend(meta)
+    return "\n".join(lines)
+
+
 class _PinnedHTTPSConnection(http.client.HTTPSConnection):
     """HTTPS-соединение на заданный IP, но с SNI и проверкой сертификата по host."""
 
@@ -175,7 +203,7 @@ def _post_telegram(path: str, body: bytes, timeout: float, pin_ip: str | None) -
         conn.close()
 
 
-def _send_telegram(text: str) -> None:
+def _send_telegram(text: str) -> bool:
     token = os.environ["TG_TOKEN"]
     chat_id = os.environ["TG_CHAT_ID"]
     params = urlencode({
@@ -188,15 +216,60 @@ def _send_telegram(text: str) -> None:
 
     try:
         _post_telegram(path, params, timeout=5, pin_ip=_TELEGRAM_PINNED_IP)
-        return
+        return True
     except Exception:  # noqa: BLE001 — сбой Telegram не должен ронять ответ лиду
         logger.warning("telegram sendMessage via pinned IP failed", exc_info=True)
 
     try:
         _post_telegram(path, params, timeout=5, pin_ip=None)
-        return
+        return True
     except Exception:  # noqa: BLE001
         logger.exception("telegram sendMessage failed (pinned IP + hostname)")
+        return False
+
+
+# botapi.max.ru проверен смоуком 10.09.2026 и с сервера, и из YC egress —
+# первым в списке. platform-api.max.ru/platform-api2.max.ru — фолбэк на
+# случай, если botapi отвалится; суммарный бюджет ≤5с на канал (требование).
+_MAX_HOSTS = ("botapi.max.ru", "platform-api.max.ru", "platform-api2.max.ru")
+_MAX_HOST_TIMEOUTS = (2.0, 1.5, 1.5)  # сумма = 5с
+
+
+def _post_max(token: str, chat_id: str, text: str) -> None:
+    body = json.dumps({"text": text}, ensure_ascii=False).encode("utf-8")
+    path = "/messages?" + urlencode({"chat_id": chat_id})
+    headers = {"Authorization": token, "Content-Type": "application/json"}
+
+    last_exc: Exception | None = None
+    for host, timeout in zip(_MAX_HOSTS, _MAX_HOST_TIMEOUTS):
+        conn = http.client.HTTPSConnection(host, timeout=timeout)
+        try:
+            conn.request("POST", path, body=body, headers=headers)
+            resp = conn.getresponse()
+            payload = resp.read()
+            if resp.status >= 400:
+                raise RuntimeError(f"MAX {host} HTTP {resp.status}: {payload[:300]!r}")
+            return
+        except Exception as exc:  # noqa: BLE001 — пробуем следующий хост
+            last_exc = exc
+            logger.warning("max sendMessage via %s failed: %s", host, exc)
+        finally:
+            conn.close()
+    raise last_exc or RuntimeError("MAX: all hosts failed")
+
+
+def _send_max(text: str) -> bool | None:
+    """Отправка в MAX. None — канал не сконфигурирован (просто пропускаем)."""
+    token = os.environ.get("MAX_TOKEN", "").strip()
+    chat_id = os.environ.get("MAX_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        return None
+    try:
+        _post_max(token, chat_id, text)
+        return True
+    except Exception:  # noqa: BLE001 — сбой MAX не должен ронять ответ лиду
+        logger.exception("max sendMessage failed (all hosts)")
+        return False
 
 
 def _json_response(status_code: int, payload: dict[str, Any]) -> dict[str, Any]:
@@ -226,8 +299,11 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
 
     logger.info(json.dumps({"event": "lead", **data}, ensure_ascii=False))
 
-    _send_telegram(_build_message(data))
+    tg_ok = _send_telegram(_build_message(data))
+    max_ok = _send_max(_build_message_max(data))
 
+    if not tg_ok and not max_ok:
+        return _json_response(502, {"ok": False, "error": "delivery failed"})
     return _json_response(200, {"ok": True})
 
 

@@ -19,173 +19,306 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon-180.png">
-<meta name="theme-color" content="#ECE5DC">
+<meta name="theme-color" content="#FE6C1F">
 <link rel="preload" href="/assets/fonts/golos-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/prata-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 <a class="skip" href="#main">Перейти к содержимому</a>
 
-<main id="main" class="wrap">
-  <div class="bento">
+<header>
+  <div class="topbar">
+    <a class="brand" href="/">Валентина Сухарева</a>
+    <nav class="topnav" aria-label="Разделы страницы">
+      <a href="#about">Обо мне</a>
+      <a href="#formats">Форматы</a>
+      <a href="#calendar">Календарь</a>
+      <a href="#thoughts">Мысли</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+  <div class="topbar-line"></div>
+</header>
 
-    <!-- Hero -->
-    <section class="tile tile--hero tile--pad-lg t-12" aria-labelledby="hero-name">
-      <div class="hero-grid">
-        <div>
-          <h1 id="hero-name" class="hero-name">Валентина<br>Сухарева</h1>
-          <p class="hero-role">Рыжий маркетолог</p>
-          <p class="lead hero-line">Наставник по продвижению и личному бренду, организатор онлайн-нетворкингов.</p>
-          <div class="btn-row">
-            <a class="btn btn--primary" href="https://t.me/valentina_promarketing" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1L18.2 6c.4-.4-.1-.6-.6-.2L6.1 12.9l-5-1.6c-1.1-.3-1.1-1 .2-1.5l19.5-7.5c.9-.3 1.7.2 1.4 2z"/></svg>
-              Написать в Telegram
-            </a>
-            <a class="btn btn--ghost" href="https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H12l-5 4v-4H4z"/></svg>
-              Написать в MAX
-            </a>
-          </div>
-        </div>
-        <div class="hero-photo-frame">
-          <img class="hero-photo" src="/assets/img/portrait-vest-1200.webp"
-               srcset="/assets/img/portrait-vest-600.webp 600w, /assets/img/portrait-vest-1200.webp 1200w"
-               sizes="(min-width: 860px) 40vw, 90vw"
-               width="1200" height="1818" fetchpriority="high"
-               alt="Валентина Сухарева в бордовом жилете с рыжей короткой стрижкой и акцентными серьгами">
-        </div>
+<main id="main">
+
+  <!-- ===== HERO ===== -->
+  <section class="band band--rust" aria-labelledby="h1">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="hero-name">Валентина Сухарева</p>
+        <h1 id="h1" class="display">Рыжий<br>маркетолог</h1>
+        <p class="hero-sub">Наставник по продвижению и личному бренду, организатор онлайн-нетворкингов.
+          Работает с экспертами и бизнесами разных ниш.</p>
+        <a class="btn hero-cta" href="#calendar">
+          Выбрать мероприятие
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </a>
       </div>
-    </section>
+      <div class="hero-media">
+        <p class="script hero-script" aria-hidden="true">Больше чем маркетинг</p>
+        <img src="/assets/img/portrait-terrace-1200.webp"
+             srcset="/assets/img/portrait-terrace-600.webp 600w, /assets/img/portrait-terrace-1200.webp 1200w"
+             sizes="(min-width:821px) 44vw, 100vw"
+             width="1200" height="1600" fetchpriority="high"
+             alt="Валентина Сухарева на террасе: рыжая стрижка, светлый жилет, крупные очки">
+      </div>
+    </div>
+    <div class="hero-strip">
+      <a href="/webinar/">
+        <span class="strip-date">21<span>сентября</span></span>
+        <span class="strip-div" aria-hidden="true"></span>
+        <span class="strip-text">
+          <span class="label">Практический вебинар</span>
+          <span class="strip-title">Как развить и усовершенствовать ваш личный бренд</span>
+        </span>
+        <svg class="i strip-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
 
-    <!-- Опыт -->
-    <section class="tile tile--dark tile--hover reveal t-4" aria-labelledby="years-t">
-      <span class="eyebrow">Опыт</span>
-      <p class="stat">15+</p>
-      <h2 id="years-t" class="stat-sub">лет в маркетинге</h2>
-    </section>
-
-    <!-- С кем работаю -->
-    <section class="tile tile--hover reveal t-8" aria-labelledby="who-t">
-      <span class="eyebrow">С кем работаю</span>
-      <h2 id="who-t" class="tile-title">Эксперты и бизнесы разных ниш</h2>
-      <ul class="bullets bullets--cols">
-        <li>Запуск онлайн-продуктов</li>
-        <li>Продвижение соцсетей</li>
-        <li>Повышение ценника и узнаваемости <span class="mark">в 2 и более раз</span></li>
+  <!-- ===== О СЕБЕ ===== -->
+  <section id="about" class="band sec" aria-labelledby="about-h">
+    <div class="wrap about r">
+      <div class="about-copy">
+        <h2 id="about-h" class="h2">Маркетинг с опытом.<br>И характером.</h2>
+        <p>Личный бренд, продвижение соцсетей и запуск онлайн-продуктов.</p>
+      </div>
+      <p class="years"><b>15+</b><i>лет в маркетинге</i></p>
+      <ul class="tags" aria-label="Смысловые якоря">
+        <li>Личный бренд<br>и маркетинг доверия</li>
+        <li>Лёгкость и регулярность</li>
+        <li>Нетворкинги</li>
+        <li>Бизнес и уютная жизнь,<br>переезд в Сочи</li>
+        <li class="tags-gap">Разные локации,<br>один узнаваемый образ</li>
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <!-- Якоря -->
-    <section class="tile tile--hover tile--fill reveal t-7 t-tall" aria-labelledby="anchors-t">
-      <span class="eyebrow">Мои якоря</span>
-      <h2 id="anchors-t" class="tile-title">Разные локации, один узнаваемый образ</h2>
-      <div class="anchors">
-        <img src="/assets/img/anchor-1-600.webp" srcset="/assets/img/anchor-1-300.webp 300w, /assets/img/anchor-1-600.webp 600w" sizes="(min-width:1024px) 180px, 30vw" width="600" height="600" loading="lazy" alt="Валентина выступает с микрофоном">
-        <img src="/assets/img/anchor-2-600.webp" srcset="/assets/img/anchor-2-300.webp 300w, /assets/img/anchor-2-600.webp 600w" sizes="(min-width:1024px) 180px, 30vw" width="600" height="600" loading="lazy" alt="Валентина в зелёном шарфе">
-        <img src="/assets/img/anchor-3-600.webp" srcset="/assets/img/anchor-3-300.webp 300w, /assets/img/anchor-3-600.webp 600w" sizes="(min-width:1024px) 180px, 30vw" width="600" height="600" loading="lazy" alt="Валентина на террасе">
-        <img src="/assets/img/anchor-4-600.webp" srcset="/assets/img/anchor-4-300.webp 300w, /assets/img/anchor-4-600.webp 600w" sizes="(min-width:1024px) 180px, 30vw" width="600" height="600" loading="lazy" alt="Валентина в красных серьгах">
-        <img src="/assets/img/anchor-5-600.webp" srcset="/assets/img/anchor-5-300.webp 300w, /assets/img/anchor-5-600.webp 600w" sizes="(min-width:1024px) 180px, 30vw" width="600" height="600" loading="lazy" alt="Валентина в горах">
-        <img src="/assets/img/anchor-6-600.webp" srcset="/assets/img/anchor-6-300.webp 300w, /assets/img/anchor-6-600.webp 600w" sizes="(min-width:1024px) 180px, 30vw" width="600" height="600" loading="lazy" alt="Валентина в розовых очках">
-      </div>
-      <p class="caption">Визуальные: рыжий цвет волос, акцентные серьги и детали стиля, тёплые солнечные оттенки.</p>
-      <ul class="anchor-tags">
-        <li class="tag">Личный бренд и маркетинг доверия</li>
-        <li class="tag">Лёгкость и регулярность</li>
-        <li class="tag">Нетворкинги</li>
-        <li class="tag">Бизнес и уютная жизнь, переезд в Сочи</li>
+  <!-- ===== ФОРМАТЫ (единственная синяя полоса) ===== -->
+  <section id="formats" class="band band--blue sec" aria-labelledby="formats-h">
+    <div class="wrap r">
+      <h2 id="formats-h" class="h2">Форматы моих мероприятий</h2>
+      <ul class="formats">
+        <li>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4" width="19" height="13"/><path d="M8 20.5h8M12 17v3.5"/></svg>
+          <b>Вебинары</b>
+        </li>
+        <li>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5h6.5A2.5 2.5 0 0 1 12 8v11a2 2 0 0 0-2-2H3zM21 5.5h-6.5A2.5 2.5 0 0 0 12 8v11a2 2 0 0 1 2-2h7z"/></svg>
+          <b>Курсы</b>
+        </li>
+        <li>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8.5" r="3"/><circle cx="17" cy="10" r="2.4"/><path d="M2.5 19c0-3 2.5-4.8 5.5-4.8s5.5 1.8 5.5 4.8M15 14.5c3 0 6 1.4 6 4.5"/></svg>
+          <b>Нетворкинги</b>
+        </li>
+        <li>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5h13v9H8.5L4.5 18v-3.5H3z"/><path d="M18.5 8.5H21V17h-1.5v3l-3-3h-3.2"/></svg>
+          <b>Комьюнити</b>
+        </li>
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <!-- Путь -->
-    <section class="tile tile--hover reveal t-5" aria-labelledby="path-t">
-      <span class="eyebrow">Путь</span>
-      <h2 id="path-t" class="tile-title">От ресторана к системному маркетингу</h2>
-      <ol class="steps">
-        <li><span><span class="step-t">Ресторан</span><br><span class="step-d">Управление рестораном</span></span></li>
-        <li><span><span class="step-t">Соцсети</span><br><span class="step-d">Развитие и продвижение проектов в соцсетях</span></span></li>
-        <li><span><span class="step-t">Системный маркетинг</span><br><span class="step-d">Комьюнити, курсы, вебинары и продвижение экспертов</span></span></li>
-      </ol>
-    </section>
-
-    <!-- Каналы -->
-    <section class="tile tile--hover reveal t-5" aria-labelledby="channels-t">
-      <span class="eyebrow">Каналы</span>
-      <h2 id="channels-t" class="tile-title">Где я пишу</h2>
-      <div class="channels">
-        <a class="channel" href="https://t.me/valentina_pro_marketing" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1L18.2 6c.4-.4-.1-.6-.6-.2L6.1 12.9l-5-1.6c-1.1-.3-1.1-1 .2-1.5l19.5-7.5c.9-.3 1.7.2 1.4 2z"/></svg>
-          <span><span class="channel-t">Telegram-канал</span><br><span class="channel-d">valentina_pro_marketing</span></span>
-          <span class="channel-arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="channel" href="https://max.ru/id421204839449_biz" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v11H12l-5 4v-4H4z"/></svg>
-          <span><span class="channel-t">Канал в MAX</span><br><span class="channel-d">Рыжий маркетолог</span></span>
-          <span class="channel-arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="channel" href="https://www.instagram.com/valentina_promarketing" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
-          <span><span class="channel-t">Instagram</span><br><span class="channel-d">valentina_promarketing</span></span>
-          <span class="channel-arrow" aria-hidden="true">→</span>
-        </a>
+  <!-- ===== КАЛЕНДАРЬ ===== -->
+  <section id="calendar" class="band sec" aria-labelledby="cal-h">
+    <div class="wrap r">
+      <div class="sec-head">
+        <h2 id="cal-h" class="h2">Календарь встреч</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="label">Мероприятия,<br>которые вдохновляют</p>
       </div>
-    </section>
 
-    <!-- Проекты -->
-    <section class="tile tile--hover reveal t-12" aria-labelledby="projects-t">
-      <span class="eyebrow">Проекты</span>
-      <h2 id="projects-t" class="tile-title">Ближайшее событие</h2>
-      <div class="projects">
-        <article class="project">
-          <h3>Практический вебинар «Как развить и усовершенствовать ваш личный бренд»</h3>
-          <div class="project-meta">
-            <span><b>21 сентября 2026</b>, 15:00 мск</span>
-            <span>Онлайн</span>
-            <span><b>888 ₽</b></span>
+      <div class="cal-wrap">
+        <div class="cal">
+          <div class="cal-head">
+            <b>Сентябрь 2026</b>
+            <span class="cal-nav" aria-hidden="true"><span>‹</span><span>›</span></span>
           </div>
-          <a class="btn btn--ghost" href="/webinar/">Подробнее</a>
+          <table>
+            <caption class="skip">Сентябрь 2026, вебинар 21 сентября</caption>
+            <thead><tr><th scope="col">Пн</th><th scope="col">Вт</th><th scope="col">Ср</th><th scope="col">Чт</th><th scope="col">Пт</th><th scope="col">Сб</th><th scope="col">Вс</th></tr></thead>
+            <tbody>
+              <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+              <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+              <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+              <tr><td class="is-day"><a href="/webinar/" aria-label="21 сентября — вебинар">21</a></td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td></tr>
+              <tr><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <article class="event">
+          <p class="label muted">Практический вебинар</p>
+          <div class="event-top">
+            <p class="event-date"><b>21</b><i>сентября</i></p>
+            <div class="event-meta">
+              <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.2l3.4 2"/></svg>15:00 МСК</div>
+              <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 9-9 9-9-9z"/></svg>888 ₽</div>
+            </div>
+          </div>
+          <h3 class="h3">Как развить и усовершенствовать ваш личный бренд</h3>
+          <p class="muted">Позиционирование, маркетинг доверия и контент без выгорания. Онлайн.</p>
+          <div class="event-act">
+            <a class="btn btn--fill" href="https://payform.ru/qvcwvzr/" target="_blank" rel="noopener">
+              Зарегистрироваться
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+            </a>
+            <a class="link" href="/webinar/">Подробнее</a>
+          </div>
         </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Контакт -->
-    <section class="tile tile--pad-lg tile--hover reveal t-12" aria-labelledby="contact-t">
-      <div class="hero-grid hero-grid--top">
-        <div>
-          <span class="eyebrow">Контакт</span>
-          <h2 id="contact-t" class="tile-title">Напишите — обсудим вашу задачу</h2>
-          <p class="muted">Оставьте имя и удобный контакт. Или напишите сразу
-            <a class="underline-rust" href="https://t.me/valentina_promarketing" target="_blank" rel="noopener" style="text-decoration:none">в Telegram</a>.</p>
-        </div>
-        <form class="form" data-lead-form novalidate>
-          <div class="field">
-            <label for="f-name">Как вас зовут</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Имя">
-          </div>
-          <div class="field">
-            <label for="f-contact">Телефон или Telegram</label>
-            <input id="f-contact" name="contact" type="text" autocomplete="tel" placeholder="+7 900 000-00-00 или @nickname">
-          </div>
-          <div class="consent">
-            <input id="f-consent" name="consent" type="checkbox">
-            <label for="f-consent">Согласен(-на) на обработку персональных данных</label>
-          </div>
-          <button class="btn btn--primary" type="submit">Отправить</button>
-        </form>
+  <!-- ===== ПУТЬ ===== -->
+  <section id="path" class="band sec" aria-labelledby="path-h">
+    <div class="wrap r">
+      <div class="sec-head">
+        <h2 id="path-h" class="h2">Путь</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="label">От зала ресторана<br>до системного маркетинга</p>
       </div>
-    </section>
+      <ol class="path">
+        <li><p class="n">01</p><b>Ресторан</b><p>Управление рестораном.</p></li>
+        <li><p class="n">02</p><b>Соцсети</b><p>Развитие и продвижение проектов в соцсетях.</p></li>
+        <li><p class="n">03</p><b>Системный маркетинг</b><p>Комьюнити, курсы, вебинары и продвижение экспертов.</p></li>
+      </ol>
+    </div>
+  </section>
 
-  </div>
+  <!-- ===== ЯКОРЯ ===== -->
+  <section id="anchors" class="band sec" aria-labelledby="anchors-h">
+    <div class="wrap r">
+      <div class="sec-head">
+        <h2 id="anchors-h" class="h2">Мои якоря</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="label">Разные локации,<br>один узнаваемый образ</p>
+      </div>
+      <div class="collage">
+        <img src="/assets/img/anchor-1-600.webp" srcset="/assets/img/anchor-1-300.webp 300w, /assets/img/anchor-1-600.webp 600w" sizes="(min-width:821px) 16vw, 33vw" width="600" height="600" loading="lazy" alt="Валентина выступает с микрофоном">
+        <img src="/assets/img/anchor-2-600.webp" srcset="/assets/img/anchor-2-300.webp 300w, /assets/img/anchor-2-600.webp 600w" sizes="(min-width:821px) 16vw, 33vw" width="600" height="600" loading="lazy" alt="Валентина в зелёном шарфе">
+        <img src="/assets/img/anchor-3-600.webp" srcset="/assets/img/anchor-3-300.webp 300w, /assets/img/anchor-3-600.webp 600w" sizes="(min-width:821px) 16vw, 33vw" width="600" height="600" loading="lazy" alt="Валентина на террасе">
+        <img src="/assets/img/anchor-4-600.webp" srcset="/assets/img/anchor-4-300.webp 300w, /assets/img/anchor-4-600.webp 600w" sizes="(min-width:821px) 16vw, 33vw" width="600" height="600" loading="lazy" alt="Валентина в красных серьгах">
+        <img src="/assets/img/anchor-5-600.webp" srcset="/assets/img/anchor-5-300.webp 300w, /assets/img/anchor-5-600.webp 600w" sizes="(min-width:821px) 16vw, 33vw" width="600" height="600" loading="lazy" alt="Валентина в горах">
+        <img src="/assets/img/anchor-6-600.webp" srcset="/assets/img/anchor-6-300.webp 300w, /assets/img/anchor-6-600.webp 600w" sizes="(min-width:821px) 16vw, 33vw" width="600" height="600" loading="lazy" alt="Валентина в розовых очках">
+      </div>
+      <div class="anchors-foot">
+        <p>Визуальные якоря: рыжий цвет волос, акцентные серьги и детали стиля, тёплые солнечные оттенки.</p>
+        <p class="script">один узнаваемый образ</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== МЫСЛИ ===== -->
+  <section id="thoughts" class="band sec" aria-labelledby="th-h">
+    <div class="wrap r">
+      <div class="sec-head">
+        <h2 id="th-h" class="h2">Мысли о маркетинге</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="label">Здесь рождаются<br>большие идеи</p>
+      </div>
+      <div class="cards">
+        <article class="card card--c1">
+          <p class="label">Статья</p>
+          <h3 class="h3">Контент без выгорания</h3>
+          <span class="btn btn--soon" aria-disabled="true">Скоро</span>
+        </article>
+        <article class="card card--blue card--c2">
+          <p class="label">Статья</p>
+          <h3 class="h3">Маркетинг доверия</h3>
+          <span class="btn btn--soon" aria-disabled="true">Скоро</span>
+        </article>
+        <article class="card card--c3">
+          <p class="label">Статья</p>
+          <h3 class="h3">Как найти своё позиционирование</h3>
+          <span class="btn btn--soon" aria-disabled="true">Скоро</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== КАНАЛЫ ===== -->
+  <section id="contacts" class="band sec" aria-labelledby="ch-h">
+    <div class="wrap r">
+      <div class="sec-head">
+        <h2 id="ch-h" class="h2">Каналы</h2>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="label">Пишите там,<br>где вам удобно</p>
+      </div>
+      <div class="channels">
+        <a class="channel" href="https://t.me/valentina_pro_marketing" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="i-fill" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1L18.2 6c.4-.4-.1-.6-.6-.2L6.1 12.9l-5-1.6c-1.1-.3-1.1-1 .2-1.5l19.5-7.5c.9-.3 1.7.2 1.4 2z"/></svg>
+          <b>Telegram-канал</b><span class="ch-id">valentina_pro_marketing</span>
+          <svg class="i ch-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a class="channel" href="https://max.ru/id421204839449_biz" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M3.5 5h17v11H12l-5 4v-4H3.5z"/></svg>
+          <b>Канал в MAX</b><span class="ch-id">Рыжий маркетолог</span>
+          <svg class="i ch-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a class="channel" href="https://www.instagram.com/valentina_promarketing" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" class="i" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6"/><circle cx="12" cy="12" r="4.2"/><path d="M17.2 6.8h.01"/></svg>
+          <b>Instagram</b><span class="ch-id">valentina_promarketing</span>
+          <svg class="i ch-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЗАЯВКА ===== -->
+  <section id="zayavka" class="band band--rust sec" aria-labelledby="form-h">
+    <div class="wrap contact r">
+      <div class="contact-copy">
+        <h2 id="form-h" class="h2">Напишите — обсудим<br>вашу задачу</h2>
+        <p>Оставьте имя и удобный контакт, я отвечу. Или напишите сразу в мессенджер.</p>
+        <a class="btn btn--ink" href="https://t.me/valentina_promarketing" target="_blank" rel="noopener">
+          Telegram
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+        <a class="btn" href="https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM" target="_blank" rel="noopener">
+          MAX
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </a>
+      </div>
+      <form class="form" data-lead-form novalidate>
+        <div class="field">
+          <label for="f-name">Как вас зовут</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Имя">
+        </div>
+        <div class="field">
+          <label for="f-contact">Телефон или Telegram</label>
+          <input id="f-contact" name="contact" type="text" autocomplete="tel" placeholder="+7 900 000-00-00 или @nickname">
+        </div>
+        <div class="consent">
+          <input id="f-consent" name="consent" type="checkbox">
+          <label for="f-consent" style="font-size:13.5px;letter-spacing:normal;text-transform:none;font-weight:500">Согласен(-на) на обработку персональных данных</label>
+        </div>
+        <button class="btn btn--ink btn--wide" type="submit">
+          Отправить заявку
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m0 0-6-6m6 6-6 6"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
 </main>
 
-<footer class="footer wrap">
-    <p>© 2026 Валентина Сухарева · Рыжий маркетолог</p>
-    <nav class="footer-links" aria-label="Каналы">
-      <a href="https://t.me/valentina_pro_marketing" target="_blank" rel="noopener">Telegram-канал</a>
+<footer class="band band--black">
+  <div class="wrap foot">
+    <a class="brand" href="/">Валентина Сухарева</a>
+    <nav class="foot-nav" aria-label="Каналы и разделы">
+      <a href="#about">Обо мне</a>
+      <a href="#formats">Форматы</a>
+      <a href="#calendar">Календарь</a>
+      <a href="https://t.me/valentina_pro_marketing" target="_blank" rel="noopener">Telegram</a>
       <a href="https://max.ru/id421204839449_biz" target="_blank" rel="noopener">MAX</a>
       <a href="https://www.instagram.com/valentina_promarketing" target="_blank" rel="noopener">Instagram</a>
     </nav>
-  </footer>
+    <span class="foot-line" aria-hidden="true"></span>
+    <p class="foot-slogan">Личный бренд и маркетинг доверия</p>
+  </div>
+</footer>
 
 <script src="/assets/js/main.js" defer></script>
 </body>
