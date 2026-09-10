@@ -1,5 +1,4 @@
-/* Рыжий маркетолог — макет главной. Появление плиток, тосты, отправка заявки.
-   Логика формы и CONFIG.LEADS_ENDPOINT перенесены из assets/js/main.js как есть. */
+/* Рыжий маркетолог: календарь, валидация и подтверждённая отправка заявки. */
 (function () {
   'use strict';
 
@@ -10,31 +9,34 @@
 
   document.documentElement.classList.add('js');
 
-  /* ---------- Появление плиток при скролле (каскад 45мс) ---------- */
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var revealables = [].slice.call(document.querySelectorAll('.r'));
-
-  if (reduced || !('IntersectionObserver' in window)) {
-    revealables.forEach(function (el) { el.classList.add('is-in'); });
-  } else {
-    var batch = [];
-    var flush = null;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        io.unobserve(entry.target);
-        batch.push(entry.target);
+  /* Календарь: месяц открывается на дате объявленного вебинара. */
+  var calendar = document.querySelector('.cal');
+  if (calendar) {
+    var month = 8;
+    var year = 2026;
+    calendar.querySelectorAll('[data-month]').forEach(function (control) {
+      control.addEventListener('click', function () {
+        var date = new Date(year, month + Number(control.dataset.month), 1);
+        year = date.getFullYear();
+        month = date.getMonth();
+        var title = date.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }).replace(' г.', '');
+        calendar.querySelector('.cal-head b').textContent = title.charAt(0).toUpperCase() + title.slice(1);
+        calendar.querySelector('caption').textContent = title;
+        var offset = (date.getDay() + 6) % 7;
+        var count = new Date(year, month + 1, 0).getDate();
+        calendar.classList.toggle('is-long-month', Math.ceil((offset + count) / 7) === 6);
+        var rows = '';
+        for (var i = 0; i < Math.ceil((offset + count) / 7) * 7; i++) {
+          if (i % 7 === 0) rows += '<tr>';
+          var day = i - offset + 1;
+          var valid = day > 0 && day <= count;
+          var selected = valid && day === 21 && month === 8 && year === 2026;
+          rows += selected ? '<td class="is-day"><a href="/webinar/" aria-label="21 сентября — вебинар">21</a></td>' : '<td>' + (valid ? day : '') + '</td>';
+          if (i % 7 === 6) rows += '</tr>';
+        }
+        calendar.querySelector('tbody').innerHTML = rows;
       });
-      if (flush) return;
-      flush = setTimeout(function () {
-        batch.forEach(function (el, i) {
-          setTimeout(function () { el.classList.add('is-in'); }, i * 45);
-        });
-        batch = [];
-        flush = null;
-      }, 20);
-    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
-    revealables.forEach(function (el) { io.observe(el); });
+    });
   }
 
   /* ---------- Тосты: кнопка никогда не молчит ---------- */
@@ -74,7 +76,8 @@
   var TG = 'https://t.me/valentina_promarketing';
   var TG_LINK = '<a href="' + TG + '" target="_blank" rel="noopener">написать в Telegram</a>';
   var btn = form.querySelector('button[type="submit"]');
-  var btnText = btn ? btn.textContent : '';
+  var btnContent = btn ? btn.innerHTML : '';
+  var submitting = false;
 
   function utmFields(fd) {
     var params = new URLSearchParams(window.location.search);
@@ -87,11 +90,15 @@
   function pending(on) {
     if (!btn) return;
     btn.disabled = on;
-    btn.textContent = on ? 'Отправляю…' : btnText;
+    btn.setAttribute('aria-busy', String(on));
+    if (on) btn.textContent = 'Отправляю…';
+    else btn.innerHTML = btnContent;
   }
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
+    if (submitting) return;
+    [form.elements.name, form.elements.contact, form.elements.consent].forEach(function (field) { field.removeAttribute('aria-invalid'); });
 
     var name = form.elements.name.value.trim();
     var contact = form.elements.contact.value.trim();
@@ -99,16 +106,19 @@
 
     if (!name) {
       toast('Не заполнено имя — напишите, как к вам обращаться.', 'err');
+      form.elements.name.setAttribute('aria-invalid', 'true');
       form.elements.name.focus();
       return;
     }
     if (!contact) {
       toast('Нужен контакт для ответа: телефон или ник в Telegram.', 'err');
+      form.elements.contact.setAttribute('aria-invalid', 'true');
       form.elements.contact.focus();
       return;
     }
     if (!consent) {
       toast('Отметьте согласие на обработку персональных данных — без него не смогу принять заявку.', 'err');
+      form.elements.consent.setAttribute('aria-invalid', 'true');
       form.elements.consent.focus();
       return;
     }
@@ -125,15 +135,59 @@
     fd.append('source_page', window.location.pathname);
     utmFields(fd);
 
+    submitting = true;
     pending(true);
-    fetch(CONFIG.LEADS_ENDPOINT, { method: 'POST', mode: 'no-cors', body: fd })
+    var controller = new AbortController();
+    var timeout = setTimeout(function () { controller.abort(); }, 20000);
+    fetch(CONFIG.LEADS_ENDPOINT, { method: 'POST', body: fd, signal: controller.signal })
+      .then(function (response) {
+        return response.json().catch(function () {
+          throw new Error('Сервер вернул некорректный ответ. Попробуйте позже.');
+        }).then(function (result) {
+          if (!response.ok || result.ok !== true) {
+            var reasons = {
+              'empty lead': 'Сервер отклонил заявку: проверьте имя и контакт.',
+              'delivery failed': 'Сервер не смог доставить заявку. Попробуйте позже.'
+            };
+            throw new Error(reasons[result.error] || 'Сервер отклонил заявку (код ' + response.status + '). Попробуйте позже.');
+          }
+        });
+      })
       .then(function () {
         form.reset();
-        toast('Заявка отправлена. Валентина свяжется с вами — обычно в течение дня.', 'ok');
+        toast('Заявка отправлена. Валентина свяжется с вами.', 'ok');
       })
-      .catch(function () {
-        toast('Не получилось отправить — похоже, пропала сеть. Попробуйте ещё раз или ' + TG_LINK + '.', 'err', 12000);
+      .catch(function (error) {
+        var message = error.name === 'AbortError' ? 'Сервер не ответил вовремя. Попробуйте позже.' : error instanceof TypeError ? 'Не получилось отправить — проверьте подключение к сети.' : error.message;
+        toast(message + ' Можно ' + TG_LINK + '.', 'err', 12000);
       })
-      .then(function () { pending(false); });
+      .finally(function () {
+        clearTimeout(timeout);
+        submitting = false;
+        pending(false);
+      });
   });
+})();
+
+/* Motion: progressive enhancement; no form/network work. */
+(function(){
+const q=matchMedia('(prefers-reduced-motion: reduce)');
+if(q.matches||!window.IntersectionObserver||!Element.prototype.animate)return;
+const items=[...document.querySelectorAll('[data-motion]')],running=new Set();
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)show(e.target)}),{threshold:.08});
+function show(el,play=true){
+ if(!el.classList.contains('motion-pending'))return;
+ io.unobserve(el);el.classList.remove('motion-pending');
+ if(!play)return;
+ const kind=el.dataset.motion,t=kind==='hand'?el.querySelector('.hand-window'):el;
+ const base=getComputedStyle(t).transform.replace('none','');
+ const from=kind==='hand'?'scaleX(0)':kind==='photo'?base+' scale(1.06)':kind==='number'?base+' scale(.94)':'translateY(20px) '+base;
+ t.style.willChange='transform, opacity';
+ const a=t.animate([{transform:from,opacity:kind==='photo'||kind==='hand'?1:0},{transform:base||'none',opacity:1}],{duration:kind==='photo'?700:kind==='hand'?600:420,delay:Number(el.dataset.delay)||0,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+ running.add(a);a.onfinish=a.oncancel=()=>{t.style.willChange='';running.delete(a)};
+ if(el.matches('.cal')){el.classList.add('date-pulse');setTimeout(()=>el.classList.remove('date-pulse'),650)}
+}
+items.forEach(el=>{el.classList.add('motion-pending');io.observe(el)});
+document.addEventListener('focusin',e=>items.forEach(el=>{if(el.contains(e.target))show(el,false)}));
+q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=>show(el,false));running.forEach(a=>a.cancel())}});
 })();
