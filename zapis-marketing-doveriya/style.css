@@ -13,7 +13,7 @@
 .recording .record-program ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;list-style:none;padding:0;margin:0}
 .recording .record-program li{border-top:1px solid #000;padding:28px 0;display:grid;grid-template-columns:76px minmax(0,1fr);gap:20px}
 .recording .record-number{font:900 condensed 64px/.95 Poster,sans-serif;color:var(--orange)}.recording .record-program li p{font-size:20px;line-height:1.5;margin:0}
-.recording .record-bonus p{font:900 condensed clamp(34px,calc(var(--page-width) * .04),54px)/1.08 Poster,sans-serif;text-transform:uppercase;margin:0;max-width:26ch}
+.recording .record-bonus p{font:900 condensed clamp(34px,calc(var(--page-width) * .04),54px)/1.08 Poster,sans-serif;text-transform:uppercase;word-spacing:.25em;margin:0;max-width:26ch}
 .recording .record-author{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:64px;align-items:center}
 .recording figure{margin:0;position:relative;border:1px solid #000;max-width:450px}.recording figure img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}.recording figcaption{background:#000;color:var(--cream);padding:12px 18px;font-size:14px}
 .recording .record-author>div>p:last-child{font-size:20px;line-height:1.6;max-width:40ch}
