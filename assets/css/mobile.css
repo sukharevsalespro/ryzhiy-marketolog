@@ -35,6 +35,8 @@
  /* ── Главная: фото героя во всю ширину. Диагональ сверху остаётся,
        нижний клин убран, низ стыкуется со следующей секцией. ───────── */
  .home .hero{overflow:hidden}
+ /* Высота шапки героя — по содержимому: на 320 фикс 346px обрезал анонс диагональю. */
+ .home .hero-copy{height:auto;min-height:0;padding:var(--s2) var(--mx) var(--s2)}
  .home .hero-media{
   width:100%;height:auto;aspect-ratio:320/266;padding:0;
   clip-path:polygon(0 6%,100% 0,100% 100%,0 100%)
@@ -91,7 +93,7 @@
  .home .card h3,
  .home .card-three h3,
  .home :is(.card-product,.card-article) h3{
-  font-size:26px;line-height:1;letter-spacing:-.045em;margin-top:var(--s1);
+  font-size:min(26px,6.6vw);line-height:1;letter-spacing:-.045em;margin-top:var(--s1);
   width:auto;max-width:15ch;transform:none
  }
  .home .card .record-note,
@@ -157,6 +159,9 @@
  .home .consent input{margin-top:11px;flex:none}
  .home .consent label{min-height:0;display:block;line-height:1.35}
  .home .consent-links{margin-top:2px}
+
+ /* Два абзаца подряд в блоке автора не должны слипаться. */
+ .webinar .author-path + .author-path{margin-top:var(--s1)}
 
  /* ── Страница записи вебинара ───────────────────────────────────── */
  .recording .record-hero,
