@@ -28,11 +28,15 @@
  }
  /* Кадрирование не трогаем: object-fit/position те же, меняется только размер рамки. */
  .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
- /* Рукопись под кнопкой/анонсом, своей высоты — уже < 481px не хватает места
-    поставить её колонкой рядом с заголовком без сжатия текста. */
+ /* Рукопись в зазоре между кнопкой и анонсом (там справа и снизу пусто —
+    и текст анонса, и текст кнопки туда не доходят, замерено getBoundingClientRect).
+    Отрицательный margin-top поднимает её из потока в этот зазор — своей высоты
+    НЕ добавляет (владелец: было 434px до правок, 583px после версии с рукописью
+    отдельной строкой, следующая попытка колонкой у кнопки задевала анонс —
+    вернул компактность и сдвинул точнее). */
  .home .hero-note{
-  grid-area:note;position:static;width:min(38%,140px);height:auto;margin:2px var(--mx) 2px auto;
-  aspect-ratio:1073 / 1281.94;padding:0;display:block
+  grid-area:note;position:static;width:auto;height:clamp(50px,15cqw,66px);
+  margin:-124px var(--mx) 4px auto;aspect-ratio:1073 / 1281.94;padding:0;display:block
  }
  .home .hero-note::before{display:none}
  .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
@@ -187,7 +191,7 @@
   flex:none;font-size:12px;letter-spacing:-.02em;min-height:44px;padding:0;white-space:nowrap
  }
  :is(.home,.webinar) .topbar .header-social{
-  order:1;flex:none;width:auto;margin:0 -8px 0 0;padding:0;gap:0;justify-content:flex-end
+  order:1;flex:none;width:auto;margin:0 -8px 0 12px;padding:0;gap:0;justify-content:flex-end
  }
  :is(.home,.webinar) .topbar .header-social a{width:44px;height:44px;min-height:44px;flex:none}
  :is(.home,.webinar) .topbar .brand{flex:none;font-size:18px}
