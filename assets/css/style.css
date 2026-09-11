@@ -915,7 +915,14 @@ html:not(.js) [data-motion]{opacity:1}
 .home .formats .i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter}
 /* Explicit widths prevent the mobile social nav from squeezing the menu to zero. */
 :is(.home,.webinar) .topbar .header-social{width:auto;padding:0}
-@media(max-width:1279.98px){
+/* Этот блок — калибровка под узкий телефон (hero-media min(82%,360px), hero-note
+   в vw с потолком 134px, hero-copy 346px и т.д.), но жил на max-width:1279.98px —
+   перекрывал и планшетную cqw-вёрстку (заголовок держался на 75.4px вместо
+   12.33cqw), пока mobile.css не подхватывал те же ноды. Сузил до телефона
+   (≤700.98px) — 701–1279.98px возвращается к готовой cqw/% системе (mobile.css
+   + общий блок ниже 701px в этом файле). Баг-репорт владельца, снимок 980px.
+   См. отчёт по замене шрифта. */
+@media(max-width:700.98px){
  .home .hero{--mobile-photo-height:266px;overflow:hidden}
  .home .hero-copy{height:346px;padding:16px 20px 12px}
  .home .hero-name{font-size:20px;margin-bottom:8px}

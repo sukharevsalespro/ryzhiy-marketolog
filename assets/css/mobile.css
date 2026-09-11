@@ -41,6 +41,12 @@
  .home .sec-head{margin-bottom:var(--s2);gap:var(--s1)}
  .home .about{gap:var(--s3) var(--s2);grid-template-columns:minmax(0,1fr) 150px}
  .home .cal-wrap{gap:var(--s3)}
+ /* На планшетной ширине текстовая колонка растягивалась на всю полосу и отрывала
+    метки СТРАТЕГИЯ/КОНТЕНТ... к правому борту — дыра в пол-экрана (баг-репорт
+    владельца). Текстовому блоку хватает читаемой меры, метки остаются рядом. */
+ @media(min-width:701px){
+  .home .page-band>.about{max-width:640px}
+ }
 
  /* ── Типографика: метки не мельче 11px, текст 16px, строка ≤60 знаков ── */
  .home .about-copy h2,
@@ -56,6 +62,11 @@
  .home .strip-text .label{font-size:11px;letter-spacing:.14em}
  .home .formats-section h2{font-size:26px}
  .home .formats{margin-top:var(--s3);gap:var(--s3) var(--s2)}
+ /* На планшете 2 колонки растягивались на всю ширину с пустотой шире самих
+    карточек — 4 колонки в ряд, как на десктопе, никакой дыры посередине. */
+ @media(min-width:701px){
+  .home .formats{grid-template-columns:repeat(4,1fr)}
+ }
  .home .formats b{font-size:16px}
  .home .formats p{font-size:13px;line-height:1.35;max-width:none}
  .home .event h3{font-size:26px;margin-top:var(--s2)}
