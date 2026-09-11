@@ -21,11 +21,8 @@
  }
  /* Кадрирование не трогаем: object-fit/position те же, меняется только размер рамки. */
  .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
- /* Рукопись у локтя: точка привязки пересчитана под мобильный кроп фото (object-position
-    50% 46%, cover) по факту скриншота, не на глаз — см. отчёт по замене шрифта. Раньше
-    52cqw обрезал текст справа («Больш[е]», «маркет[инг]» вылезали за экран). */
  .home .hero-note{
-  position:absolute;inset:auto auto 3cqw 14cqw;width:40cqw;height:auto;
+  position:absolute;inset:auto auto 2.5cqw 52cqw;width:40cqw;height:auto;
   aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
  }
  .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
