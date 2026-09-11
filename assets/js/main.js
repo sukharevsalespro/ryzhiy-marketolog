@@ -191,10 +191,10 @@
 (function(){
 const q=matchMedia('(prefers-reduced-motion: reduce)');
 if(q.matches||!window.IntersectionObserver||!Element.prototype.animate)return;
-const items=[...document.querySelectorAll('[data-motion]')],running=new Set();
+const items=[...document.querySelectorAll('[data-motion]')],running=new Set(),pending=new Set(items);
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)show(e.target)}),{threshold:.08});
 function show(el,play=true){
- if(!el.classList.contains('motion-pending'))return;
+ if(!pending.delete(el))return;
  io.unobserve(el);el.classList.remove('motion-pending');
  if(!play)return;
  const kind=el.dataset.motion,t=kind==='hand'?el.querySelector('.hand-window'):el;
@@ -205,7 +205,7 @@ function show(el,play=true){
  running.add(a);a.onfinish=a.oncancel=()=>{t.style.willChange='';running.delete(a)};
  if(el.matches('.cal')){el.classList.add('date-pulse');setTimeout(()=>el.classList.remove('date-pulse'),650)}
 }
-items.forEach(el=>{el.classList.add('motion-pending');io.observe(el)});
+items.forEach(el=>io.observe(el));
 document.addEventListener('focusin',e=>items.forEach(el=>{if(el.contains(e.target))show(el,false)}));
 q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=>show(el,false));running.forEach(a=>a.cancel())}});
 })();
