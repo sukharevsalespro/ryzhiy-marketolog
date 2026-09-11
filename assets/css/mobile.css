@@ -1,40 +1,18 @@
 /* Мобильный слой. Загружается последним на всех страницах.
-   Всё внутри @media(max-width:700px) — десктоп (>=701px) не затрагивается.
+   Главная переходит на эту раскладку до 1279.98px (постер читаем только от 1280),
+   остальные страницы — до 700px.
    Шкала отступов: 12 / 20 / 32 / 48 / 72. Боковое поле — одно на весь сайт: 20px.
    Кегли: секция 34 · подзаголовок 26 · лид 19 · текст 16 · подпись 13 · метка 11.
    На .home/.webinar html{font-size:1px}, поэтому здесь только px. */
-@media(max-width:700px){
+@media(max-width:1279.98px){
  :root,
  html:has(body:is(.home,.webinar)){
   --s1:12px;--s2:20px;--s3:32px;--s4:48px;--s5:72px;--mx:20px;
  }
 
- /* ── Шапка: один ряд. Меню слева (прокручивается при нехватке места),
-       иконки закреплены справа, зона нажатия 44×44. ───────────────── */
- :is(.home,.webinar) .topbar{
-  display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;
-  gap:8px;height:auto;min-height:56px;padding:0 var(--mx)
- }
- :is(.home,.webinar) .topbar .header-menu{
-  order:0;flex:1 1 auto;width:auto;min-width:0;margin:0;
-  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:9px;
-  overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
-  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent);
-  mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent)
- }
- :is(.home,.webinar) .topbar .header-menu::-webkit-scrollbar{display:none}
- :is(.home,.webinar) .topbar .header-menu a{
-  flex:none;font-size:12px;letter-spacing:-.02em;min-height:44px;padding:0;white-space:nowrap
- }
- :is(.home,.webinar) .topbar .header-social{
-  order:1;flex:none;width:auto;margin:0 -8px 0 0;padding:0;gap:0;justify-content:flex-end
- }
- :is(.home,.webinar) .topbar .header-social a{width:44px;height:44px;min-height:44px;flex:none}
- :is(.home,.webinar) .topbar .brand{flex:none;font-size:18px}
-
  /* ── Главная: фото героя во всю ширину. Диагональ сверху остаётся,
        нижний клин убран, низ стыкуется со следующей секцией. ───────── */
- .home .hero{overflow:hidden}
+ .home .hero{overflow:hidden;container-type:inline-size}
  /* Высота шапки героя — по содержимому: на 320 фикс 346px обрезал анонс диагональю. */
  .home .hero-copy{height:auto;min-height:0;padding:var(--s2) var(--mx) var(--s2)}
  .home .hero-media{
@@ -45,7 +23,7 @@
  .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
  /* Рукопись держится на той же точке фотографии: доли ширины снимка сохранены. */
  .home .hero-note{
-  position:absolute;inset:auto auto 2.5vw 52vw;width:40vw;height:auto;
+  position:absolute;inset:auto auto 2.5cqw 52cqw;width:40cqw;height:auto;
   aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
  }
  .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
@@ -134,6 +112,46 @@
  .home .card-three .orange-square{width:86px;height:86px;bottom:18px;right:18px}
  .home .card-three .card-hand{right:16px;top:16px;left:auto;width:92px;height:123px}
 
+ /* ── Форма обратной связи на главной ────────────────────────────── */
+ .home .contact{gap:var(--s3)}
+ .home .messengers{margin-top:var(--s2)}
+ .home .form{gap:var(--s2)}
+ .home .field input{font-size:16px}
+ /* Чекбокс согласия выравниваем по первой строке подписи, а не по центру группы. */
+ .home .consent{align-items:flex-start;gap:var(--s1)}
+ .home .consent input{margin-top:11px;flex:none}
+ .home .consent label{min-height:0;display:block;line-height:1.35}
+ .home .consent-links{margin-top:2px}
+}
+@media(max-width:700px){
+ :root,
+ html:has(body:is(.home,.webinar)){
+  --s1:12px;--s2:20px;--s3:32px;--s4:48px;--s5:72px;--mx:20px;
+ }
+
+ /* ── Шапка: один ряд. Меню слева (прокручивается при нехватке места),
+       иконки закреплены справа, зона нажатия 44×44. ───────────────── */
+ :is(.home,.webinar) .topbar{
+  display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;
+  gap:8px;height:auto;min-height:56px;padding:0 var(--mx)
+ }
+ :is(.home,.webinar) .topbar .header-menu{
+  order:0;flex:1 1 auto;width:auto;min-width:0;margin:0;
+  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:9px;
+  overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent)
+ }
+ :is(.home,.webinar) .topbar .header-menu::-webkit-scrollbar{display:none}
+ :is(.home,.webinar) .topbar .header-menu a{
+  flex:none;font-size:12px;letter-spacing:-.02em;min-height:44px;padding:0;white-space:nowrap
+ }
+ :is(.home,.webinar) .topbar .header-social{
+  order:1;flex:none;width:auto;margin:0 -8px 0 0;padding:0;gap:0;justify-content:flex-end
+ }
+ :is(.home,.webinar) .topbar .header-social a{width:44px;height:44px;min-height:44px;flex:none}
+ :is(.home,.webinar) .topbar .brand{flex:none;font-size:18px}
+
  /* ── Подвал: плотнее, ровный ритм, меню компактной сеткой ───────── */
  :is(.home,.webinar) footer{padding:var(--s3) var(--mx) var(--s3)}
  :is(.home,.webinar) .footer-top{grid-template-columns:minmax(0,1fr);gap:var(--s1)}
@@ -148,17 +166,6 @@
  :is(.home,.webinar) .footer-legal a{min-height:36px}
  :is(.home,.webinar) .footer-credit{margin-top:var(--s1)}
  :is(.home,.webinar) .footer-credit a{min-height:36px}
-
- /* ── Форма обратной связи на главной ────────────────────────────── */
- .home .contact{gap:var(--s3)}
- .home .messengers{margin-top:var(--s2)}
- .home .form{gap:var(--s2)}
- .home .field input{font-size:16px}
- /* Чекбокс согласия выравниваем по первой строке подписи, а не по центру группы. */
- .home .consent{align-items:flex-start;gap:var(--s1)}
- .home .consent input{margin-top:11px;flex:none}
- .home .consent label{min-height:0;display:block;line-height:1.35}
- .home .consent-links{margin-top:2px}
 
  /* Два абзаца подряд в блоке автора не должны слипаться. */
  .webinar .author-path + .author-path{margin-top:var(--s1)}
