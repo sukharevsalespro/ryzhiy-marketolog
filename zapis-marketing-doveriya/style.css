@@ -4,7 +4,7 @@
 .recording .record-label{font-size:12px;letter-spacing:.12em;line-height:1.5;margin:0 0 24px}
 .recording .record-hero-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:48px;align-items:end}
 .recording h1{font-size:clamp(52px,calc(var(--page-width) * .08),106px);margin:0}
-.recording h1 small{display:block;font-size:clamp(27px,calc(var(--page-width) * .032),43px);margin-top:22px;line-height:1.1}
+.recording h1 small{display:block;font-size:clamp(27px,calc(var(--page-width) * .032),43px);margin-top:22px;line-height:1.1;letter-spacing:0}
 .recording .record-access{border-top:1px solid #000;padding-top:24px}
 .recording .record-access p{font-size:20px;line-height:1.5;margin:0}.recording .record-access .record-access-label{font-size:14px;margin:24px 0 14px}
 .recording .record-payment{min-width:0}.recording .record-terms{display:inline-flex;align-items:center;min-height:44px;font-size:12px;text-decoration:underline;margin-top:8px}
