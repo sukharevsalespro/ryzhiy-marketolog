@@ -26,6 +26,11 @@
   aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
  }
  .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
+ /* На планшетной колонке (после того как она перестала быть зашита в 768px)
+    правый росчерк «маркетинг» стал доставать до края — тут запас больше. */
+ @media(min-width:701px){
+  .home .hero-note{inset:auto auto 2.5cqw 40cqw}
+ }
 
  /* ── Единые поля и вертикальный ритм секций главной ──────────────── */
  .home .about,

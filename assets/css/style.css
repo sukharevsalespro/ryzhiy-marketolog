@@ -688,11 +688,16 @@ html:not(.js) [data-motion]{opacity:1}
 :is(.home,.webinar) .page-band--blue{background:var(--blue)}
 :is(.home,.webinar) .page-band--black{background:#000}
 :is(.home,.webinar) .page-band>:is(header,section,footer){width:100%;max-width:var(--page-max);margin-inline:auto}
-/* 701–1279px: постерная сетка нечитаема (кегль падает до 7px), поэтому главная
-   идёт той же одноколоночной раскладкой, что и телефон, в колонке планшетной
-   ширины. Полосы остаются во всю ширину, шапка и подвал — тоже. */
+/* 701–1279px: постерная сетка (абсолютное позиционирование десктопа) здесь не
+   включается — раскладка одноколоночная, как на телефоне (см. mobile.css, тот же
+   @media(max-width:1279.98px); поля даёт padding:var(--mx) у самих блоков —
+   .hero-copy, .about и т.д., секции он не нужен). Раньше секцию дополнительно
+   зашивали в max-width:768px — на 900–1279px это оставляло пустую полосу справа
+   и мелкий вид первого экрана (баг-репорт владельца с живого телефона в режиме
+   «Версия для ПК», ~980 CSS px; скрин при width:980 совпал с фото пиксель в
+   пиксель). Убрал спец-кап — секция снова наследует width:100% из общего
+   правила выше, как на телефоне. */
 @media(min-width:701px) and (max-width:1279.98px){
- .home .page-band>section{max-width:768px}
  /* Заголовок героя растёт вместе с колонкой (доли ширины, как в постере), телефон не трогаем. */
  .home .hero h1 span:first-child{font-size:12.33cqw}
  .home .hero h1 span:last-child{font-size:9.04cqw}
