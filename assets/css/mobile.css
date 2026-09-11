@@ -10,26 +10,51 @@
   --s1:12px;--s2:20px;--s3:32px;--s4:48px;--s5:72px;--mx:20px;
  }
 
- /* ── Главная: фото героя во всю ширину. Диагональ сверху остаётся,
-       нижний клин убран, низ стыкуется со следующей секцией. ───────── */
- .home .hero{overflow:hidden;container-type:inline-size}
+ /* ── Главная: фото героя во всю ширину. Рукопись «Больше, чем маркетинг»
+       ниже 1280px больше НЕ лежит на фото (перекрывала модель) — переехала
+       в правую половину оранжевого блока вторым смысловым блоком афиши,
+       как на десктопе привязана к локтю (там не трогали, отдельное
+       требование владельца). Диагональ сверху остаётся, нижний клин убран,
+       низ стыкуется со следующей секцией. Фото/object-position не трогали. */
+ .home .hero{
+  overflow:hidden;container-type:inline-size;
+  display:grid;grid-template-columns:1fr;grid-template-areas:"copy" "note" "media";
+ }
  /* Высота шапки героя — по содержимому: на 320 фикс 346px обрезал анонс диагональю. */
- .home .hero-copy{height:auto;min-height:0;padding:var(--s2) var(--mx) var(--s2)}
+ .home .hero-copy{grid-area:copy;height:auto;min-height:0;padding:12px var(--mx) 6px}
  .home .hero-media{
-  width:100%;height:auto;aspect-ratio:320/266;padding:0;
+  grid-area:media;width:100%;height:auto;aspect-ratio:320/266;padding:0;
   clip-path:polygon(0 6%,100% 0,100% 100%,0 100%)
  }
  /* Кадрирование не трогаем: object-fit/position те же, меняется только размер рамки. */
  .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
+ /* Рукопись под кнопкой/анонсом, своей высоты — уже < 481px не хватает места
+    поставить её колонкой рядом с заголовком без сжатия текста. */
  .home .hero-note{
-  position:absolute;inset:auto auto 2.5cqw 52cqw;width:40cqw;height:auto;
-  aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
+  grid-area:note;position:static;width:min(38%,140px);height:auto;margin:2px var(--mx) 2px auto;
+  aspect-ratio:1073 / 1281.94;padding:0;display:block
  }
+ .home .hero-note::before{display:none}
  .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
+
+ /* ── 481–1279.98px: хватает ширины на постерную композицию в 2 колонки —
+    слева подпись/заголовок/лид/кнопка/анонс, справа крупно рукопись. ───── */
+ @media(min-width:481px){
+  .home .hero{
+   grid-template-columns:1.15fr 1fr;
+   grid-template-areas:"copy note" "media media";
+   align-items:center;column-gap:16px
+  }
+  .home .hero-note{width:100%;max-width:260px;margin:0 var(--mx) 0 auto}
+ }
  /* На планшетной колонке (после того как она перестала быть зашита в 768px)
-    правый росчерк «маркетинг» стал доставать до края — тут запас больше. */
+    воздух между блоками первого экрана был лишним — сжато. */
  @media(min-width:701px){
-  .home .hero-note{inset:auto auto 2.5cqw 40cqw}
+  .home .hero-copy{padding:18px var(--mx) 16px}
+  .home .hero-name{margin-bottom:8px}
+  .home .hero-sub{margin-top:10px}
+  .home .hero-cta{margin-top:14px}
+  .home .hero-announcement{margin-top:16px}
  }
 
  /* ── Единые поля и вертикальный ритм секций главной ──────────────── */
@@ -45,7 +70,7 @@
     метки СТРАТЕГИЯ/КОНТЕНТ... к правому борту — дыра в пол-экрана (баг-репорт
     владельца). Текстовому блоку хватает читаемой меры, метки остаются рядом. */
  @media(min-width:701px){
-  .home .page-band>.about{max-width:640px}
+  .home .page-band>.about{max-width:640px;margin-left:0}
  }
 
  /* ── Типографика: метки не мельче 11px, текст 16px, строка ≤60 знаков ── */
