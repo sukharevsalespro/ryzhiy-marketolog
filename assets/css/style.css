@@ -5,12 +5,10 @@
 @font-face{font-family:'Golos Text';font-style:normal;font-weight:400 900;font-display:swap;
   src:url(/assets/fonts/golos-latin.woff2) format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
-/* Poster — переменный Roboto: ось ширины wdth 75–100, ось веса 100–900.
-   wdth 75 метрически совпадает со статическим Roboto Condensed (замер: «РЫЖИЙ»
-   900/100px = 347.03px в обоих), поэтому базовое начертание не изменилось.
-   Всё, что раньше растягивалось transform:scaleX, теперь берёт настоящую ширину. */
-@font-face{font-family:Poster;src:url('/assets/fonts/roboto-var-cyrillic.woff2') format('woff2');font-weight:100 900;font-stretch:75% 100%;font-display:swap;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:Poster;src:url('/assets/fonts/roboto-var-latin.woff2') format('woff2');font-weight:100 900;font-stretch:75% 100%;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2190-21FF}
+/* Poster — Fira Sans Extra Condensed Black (статика, нарисованный узкий рез, вес 900).
+   Решение владельца: замена переменного Roboto + programmatic scaleX. Лицензия SIL OFL 1.1:
+   assets/fonts/OFL-FiraSans.txt. Сабсет: кириллица, базовая латиница, типографика (см. файл). */
+@font-face{font-family:Poster;src:url('/assets/fonts/fira-sans-extra-condensed-black.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap;unicode-range:U+0020-007E,U+00AB,U+00B7,U+00BB,U+00D7,U+0400-04FF,U+2010-2027,U+2030-205E,U+2190,U+2192,U+2193,U+20BD,U+2116}
 html:not(:has(body:is(.home,.webinar))){
   --cream:#FAF7F2;     /* канвас страницы */
   --paper:#FFFFFF;     /* внутренние поверхности: календарь, поля формы */
@@ -465,22 +463,22 @@ footer{background:#000;color:var(--cream);padding:19rem 24rem 10rem;min-height:6
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(max-width:700px){.topbar{height:auto;min-height:86rem;padding:15rem 20rem;gap:8rem;flex-wrap:wrap}.brand{font-size:18rem}.topbar nav{padding:0;width:100%;justify-content:space-between;gap:8rem;font-size:12rem}.topbar nav a{padding:10rem 0}}
 @media(max-width:1279.98px){
-:scope{font-size:16rem}.hero{height:auto;display:flex;flex-direction:column;overflow:hidden}.hero-copy{width:100%;padding:27rem 20rem 24rem;order:0}.hero-name{font-size:23rem;margin-bottom:12rem}.hero h1 span:first-child{font-size:clamp(72rem,22vw,112rem)}.hero h1 span:last-child{font-size:clamp(40rem,12.9vw,80rem);letter-spacing:-.045em}.hero-sub{font-size:16rem;margin-top:16rem;letter-spacing:-.03em}.hero-cta{width:245rem;margin-top:20rem}.btn{min-height:44rem;font-size:13rem;padding:10rem 13rem}.hero-announcement{margin-top:32rem;width:100%;gap:16rem}.strip-date{font-size:48rem;width:64rem}.strip-date small{font-size:11rem}.strip-text{font-size:15rem}.strip-text .label{font-size:7rem}.hero-media{position:relative;inset:auto;order:1;height:430rem;width:100%;clip-path:polygon(0 7%,100% 0,100% 100%,0 100%)}.hero-media img{height:115%;width:100%;transform:translateY(-5%);object-fit:cover;object-position:50% 40%}.hero-note{top:auto;bottom:0;height:130rem;width:105rem;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%);z-index:2}.hero-note .script{font-size:29rem;margin:25rem 0 0 15rem}.about{height:auto;padding:28rem 20rem;grid-template-columns:1fr 100rem;gap:25rem 12rem}.about-copy{grid-column:1/-1}.about h2{font-size:35rem}.about-copy p{font-size:16rem;line-height:1.25}.about-copy p br{display:none}.years{padding-left:0;border-left:0;align-items:flex-start;height:117rem}.years b{font-size:124rem}.years span{font-size:18rem}.tags{font-size:8rem;line-height:1.6}.formats-section{height:auto;padding:22rem 20rem}.formats-section h2{font-size:19rem}.formats{grid-template-columns:1fr 1fr;margin-top:20rem;gap:24rem 0}.formats li{height:98rem;padding-left:15rem}.formats li:nth-child(odd){padding-left:0;border-left:0}.formats b{font-size:14rem}.formats p{font-size:12rem;max-width:130rem}.formats .i{width:35rem;height:35rem}.calendar-section{height:auto;padding:28rem 20rem}.sec-head{height:auto;gap:12rem;margin-bottom:20rem;flex-wrap:wrap}.sec-head h2{font-size:35rem;white-space:normal}.sec-head .rule{display:none}.sec-head .label{font-size:8rem;width:100%}.sec-head .label br{display:none}.cal-wrap{grid-template-columns:1fr;gap:24rem}.cal{height:auto}.cal-head{height:48rem;font-size:17rem}.cal-nav button{height:44rem;width:38rem;font-size:26rem}.cal table{font-size:15rem}.cal th{font-size:11rem;height:32rem}.cal td{height:44rem}.is-day a{font-size:17rem}.event{border-left:0;border-top:1rem solid;padding:23rem 0 0}.event .label{font-size:9rem}.event-top{height:105rem;margin-top:9rem}.event-date{width:125rem}.event-date b{font-size:102rem}.event-date span{font-size:22rem}.event-meta{font-size:13rem;padding-left:25rem;gap:17rem}.event-meta .i{width:22rem;height:22rem}.event h3{font-size:24rem;line-height:1.05;margin-top:18rem}.event h3 br,.event-desc br{display:none}.event-desc{font-size:15rem;margin-top:10rem;line-height:1.35}.event-act{margin-top:17rem;gap:14rem;flex-wrap:wrap}.btn--fill{font-size:13rem;min-width:236rem}.details{font-size:13rem;padding:10rem 0}.thoughts{height:auto;padding:0 20rem 28rem}.cards{grid-template-columns:1fr;gap:15rem}.card{height:245rem}.card-copy,.card-two .card-copy,.card-three .card-copy{padding:20rem}.card .label{font-size:10rem}.card h3,.card-three h3{font-size:29rem;margin-top:12rem}.soon{font-size:13rem;margin-top:18rem;min-height:36rem;padding:7rem 18rem}.plant{width:195rem;height:165rem;right:-2rem}.orange-disc{width:185rem;height:185rem;right:-68rem}.card-script{font-size:23rem;top:18rem;right:15rem}.black-disc{width:270rem;height:230rem;bottom:-130rem;left:55rem}.orange-square{width:95rem;height:95rem;bottom:20rem;right:20rem}.contact{grid-template-columns:1fr;padding:28rem 20rem;gap:25rem}.contact h2{font-size:34rem}.messengers{margin-top:18rem}.field label{font-size:11rem}.field input{font-size:16rem;padding:13rem}.form{gap:16rem}.consent{font-size:13rem;gap:10rem;min-height:44rem}.consent input{width:20rem;height:20rem}.foot-main{flex-wrap:wrap;gap:20rem}.foot-main nav{width:100%;font-size:12rem;justify-content:space-between;gap:12rem}.foot-main nav a{padding:8rem 0}.foot-slogan{font-size:8rem;border:0;padding:0}.socials{font-size:12rem;gap:24rem;margin-top:20rem}.socials a{padding:10rem 0}footer{padding:25rem 20rem 20rem}}
+:scope{font-size:16rem}.hero{height:auto;display:flex;flex-direction:column;overflow:hidden}.hero-copy{width:100%;padding:27rem 20rem 24rem;order:0}.hero-name{font-size:23rem;margin-bottom:12rem}.hero h1 span:first-child{font-size:clamp(71rem,21.7vw,110.5rem)}.hero h1 span:last-child{font-size:clamp(44.65rem,14.4vw,89.3rem);letter-spacing:-.045em}.hero-sub{font-size:16rem;margin-top:16rem;letter-spacing:-.03em}.hero-cta{width:245rem;margin-top:20rem}.btn{min-height:44rem;font-size:13rem;padding:10rem 13rem}.hero-announcement{margin-top:32rem;width:100%;gap:16rem}.strip-date{font-size:48rem;width:64rem}.strip-date small{font-size:11rem}.strip-text{font-size:15rem}.strip-text .label{font-size:7rem}.hero-media{position:relative;inset:auto;order:1;height:430rem;width:100%;clip-path:polygon(0 7%,100% 0,100% 100%,0 100%)}.hero-media img{height:115%;width:100%;transform:translateY(-5%);object-fit:cover;object-position:50% 40%}.hero-note{top:auto;bottom:0;height:130rem;width:105rem;clip-path:polygon(12% 0,100% 0,100% 100%,0 100%);z-index:2}.hero-note .script{font-size:29rem;margin:25rem 0 0 15rem}.about{height:auto;padding:28rem 20rem;grid-template-columns:1fr 100rem;gap:25rem 12rem}.about-copy{grid-column:1/-1}.about h2{font-size:35rem}.about-copy p{font-size:16rem;line-height:1.25}.about-copy p br{display:none}.years{padding-left:0;border-left:0;align-items:flex-start;height:117rem}.years b{font-size:124rem}.years span{font-size:18rem}.tags{font-size:8rem;line-height:1.6}.formats-section{height:auto;padding:22rem 20rem}.formats-section h2{font-size:19rem}.formats{grid-template-columns:1fr 1fr;margin-top:20rem;gap:24rem 0}.formats li{height:98rem;padding-left:15rem}.formats li:nth-child(odd){padding-left:0;border-left:0}.formats b{font-size:14rem}.formats p{font-size:12rem;max-width:130rem}.formats .i{width:35rem;height:35rem}.calendar-section{height:auto;padding:28rem 20rem}.sec-head{height:auto;gap:12rem;margin-bottom:20rem;flex-wrap:wrap}.sec-head h2{font-size:35rem;white-space:normal}.sec-head .rule{display:none}.sec-head .label{font-size:8rem;width:100%}.sec-head .label br{display:none}.cal-wrap{grid-template-columns:1fr;gap:24rem}.cal{height:auto}.cal-head{height:48rem;font-size:17rem}.cal-nav button{height:44rem;width:38rem;font-size:26rem}.cal table{font-size:15rem}.cal th{font-size:11rem;height:32rem}.cal td{height:44rem}.is-day a{font-size:17rem}.event{border-left:0;border-top:1rem solid;padding:23rem 0 0}.event .label{font-size:9rem}.event-top{height:105rem;margin-top:9rem}.event-date{width:125rem}.event-date b{font-size:102rem}.event-date span{font-size:22rem}.event-meta{font-size:13rem;padding-left:25rem;gap:17rem}.event-meta .i{width:22rem;height:22rem}.event h3{font-size:24rem;line-height:1.05;margin-top:18rem}.event h3 br,.event-desc br{display:none}.event-desc{font-size:15rem;margin-top:10rem;line-height:1.35}.event-act{margin-top:17rem;gap:14rem;flex-wrap:wrap}.btn--fill{font-size:13rem;min-width:236rem}.details{font-size:13rem;padding:10rem 0}.thoughts{height:auto;padding:0 20rem 28rem}.cards{grid-template-columns:1fr;gap:15rem}.card{height:245rem}.card-copy,.card-two .card-copy,.card-three .card-copy{padding:20rem}.card .label{font-size:10rem}.card h3,.card-three h3{font-size:29rem;margin-top:12rem}.soon{font-size:13rem;margin-top:18rem;min-height:36rem;padding:7rem 18rem}.plant{width:195rem;height:165rem;right:-2rem}.orange-disc{width:185rem;height:185rem;right:-68rem}.card-script{font-size:23rem;top:18rem;right:15rem}.black-disc{width:270rem;height:230rem;bottom:-130rem;left:55rem}.orange-square{width:95rem;height:95rem;bottom:20rem;right:20rem}.contact{grid-template-columns:1fr;padding:28rem 20rem;gap:25rem}.contact h2{font-size:34rem}.messengers{margin-top:18rem}.field label{font-size:11rem}.field input{font-size:16rem;padding:13rem}.form{gap:16rem}.consent{font-size:13rem;gap:10rem;min-height:44rem}.consent input{width:20rem;height:20rem}.foot-main{flex-wrap:wrap;gap:20rem}.foot-main nav{width:100%;font-size:12rem;justify-content:space-between;gap:12rem}.foot-main nav a{padding:8rem 0}.foot-slogan{font-size:8rem;border:0;padding:0}.socials{font-size:12rem;gap:24rem;margin-top:20rem}.socials a{padding:10rem 0}footer{padding:25rem 20rem 20rem}}
 /* Calibration pass 2: matching the poster's condensed text and optical widths. */
 
 
 
 
-.brand{font-family:Poster,sans-serif;font-stretch:condensed;letter-spacing:-.025em}.hero-media img{width:145%;height:145%;transform:translate(-16%,-11%)}.hero h1 span:first-child{transform:scaleX(.89);transform-origin:left}.hero h1 span:last-child{transform:scaleX(.95);transform-origin:left;margin-top:0}.hero-name{letter-spacing:-.045em}.hero-announcement{margin-top:32rem}.event h3{font-family:Poster,sans-serif;font-stretch:condensed;font-weight:700}.card h3{font-weight:700}.years{align-items:flex-start}.years b{margin-left:0}.years span{margin-left:8rem}.card-photo{opacity:1}.contact h2{font-size:30rem;letter-spacing:-.045em}
+.brand{font-family:Poster,sans-serif;font-stretch:condensed;letter-spacing:-.025em}.hero-media img{width:145%;height:145%;transform:translate(-16%,-11%)}.hero h1 span:last-child{margin-top:0}.hero-name{letter-spacing:-.045em}.hero-announcement{margin-top:32rem}.event h3{font-family:Poster,sans-serif;font-stretch:condensed;font-weight:700}.card h3{font-weight:700}.years{align-items:flex-start}.years b{margin-left:0}.years span{margin-left:8rem}.card-photo{opacity:1}.contact h2{font-size:30rem;letter-spacing:-.045em}
 @media(min-width:1280px){.about-copy h2{font-stretch:86%}.sec-head h2{font-size:38rem;letter-spacing:-.015em}.thoughts .sec-head h2{font-size:38rem}.event-date{height:76rem}.event-meta{font-size:11rem}.hero-sub{margin-top:12rem}}
 @media(max-width:1279.98px){.hero-media img{width:100%;height:115%;transform:translateY(-5%)}.years span{margin-left:0}.hero-announcement{margin-top:32rem}.contact h2{font-size:34rem}.card-three h3{max-width:240rem}}
 /* Calibration pass 3: raster glyph bounds, portrait crop, annotation clearance. */
 @media(min-width:1280px){
 .hero-media img{width:145%;height:116%;object-fit:fill;transform:translate(-16%,-9.5%)}
-.hero h1 span:first-child{font-size:90rem;transform:scaleX(.85);line-height:.82}
-.hero h1 span:last-child{font-size:68rem;transform:scaleX(.865);line-height:.79;margin-top:1rem}
+.hero h1 span:first-child{font-size:90rem;line-height:.82}
+.hero h1 span:last-child{font-size:68rem;line-height:.79;margin-top:1rem}
 .hero-sub{margin-top:10rem}.hero-announcement{margin-top:29rem}
-.card-three h3{font-size:19rem;transform:scaleX(.87);transform-origin:left;width:168rem}
+.card-three h3{font-size:16.8rem;width:168rem}
 .card-script{right:4rem;top:15rem;font-size:13rem;letter-spacing:-.055em}
 .about-copy p{margin-top:9rem}
 }
@@ -498,8 +496,8 @@ footer{background:#000;color:var(--cream);padding:19rem 24rem 10rem;min-height:6
 .hero{overflow:visible}
 .hero-copy{height:391rem}
 .hero-name{max-width:200rem}
-.hero h1 span:first-child{transform:translate(-1rem,2rem) scaleX(.85)}
-.hero h1 span:last-child{font-size:67.5rem;transform:translateX(-1rem) scaleX(.865)}
+.hero h1 span:first-child{transform:translate(-1rem,2rem)}
+.hero h1 span:last-child{font-size:65.6rem;transform:translateX(-1rem)}
 .hero-sub{position:absolute;left:25rem;top:195.5rem;font-size:15rem;line-height:1.12;margin:0;width:290rem}
 .hero-cta{position:absolute;left:24rem;top:259rem;margin:0}
 .hero-announcement{position:absolute;left:24rem;top:324rem;margin:0;gap:15rem}
@@ -587,11 +585,10 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
 @media(min-width:1280px){
 .hero-media{clip-path:polygon(21rem 8rem,257rem 0,252rem 71rem,243rem 191rem,237rem 271rem,242rem 311rem,252rem 341rem,262rem 361rem,304rem 386rem,335rem 391rem,0 391rem,3rem 352rem,9rem 274rem,15rem 195rem,18rem 117rem,21rem 39rem)}
 .hero-media img{width:370rem;height:493.333333rem;object-fit:contain;transform:translate(-50rem,-48rem)}
-/* Ниже wdth 75 (это и есть Condensed) настоящего узкого начертания у Roboto нет:
-   заголовок первого экрана и подпись третьей карточки остаются сжатыми по X.
-   Убрать можно только сменой гарнитуры — решение владельца, см. отчёт. */
-.hero h1 span:first-child{font-size:89.6rem;line-height:73.8rem;transform:translate(-1.7rem,1.5rem) scaleX(.858);transform-origin:left top}
-.hero h1 span:last-child{transform:translateX(-1rem) scaleX(.871)}
+/* Fira Sans Extra Condensed Black — настоящий узкий рез, programmatic scaleX больше не нужен.
+   font-size пересчитан от ширины/весов глифов (fontTools), см. отчёт по замене шрифта. */
+.hero h1 span:first-child{font-size:85.2rem;line-height:70.2rem;transform:translate(-1.7rem,1.5rem);transform-origin:left top}
+.hero h1 span:last-child{transform:translateX(-1rem)}
 }
 
 /* Owner-reference handwriting: the original slant and underline are in the paths. */
@@ -697,8 +694,8 @@ html:not(.js) [data-motion]{opacity:1}
 @media(min-width:701px) and (max-width:1279.98px){
  .home .page-band>section{max-width:768px}
  /* Заголовок героя растёт вместе с колонкой (доли ширины, как в постере), телефон не трогаем. */
- .home .hero h1 span:first-child{font-size:12.5cqw}
- .home .hero h1 span:last-child{font-size:8.1cqw}
+ .home .hero h1 span:first-child{font-size:12.33cqw}
+ .home .hero h1 span:last-child{font-size:9.04cqw}
 }
 .webinar .page-band--split{position:relative}
 .webinar .page-band--split::before{content:"";position:absolute;inset:0 0 0 50%;background:#000}
@@ -801,7 +798,7 @@ html:not(.js) [data-motion]{opacity:1}
 }
 @media(max-width:1279.98px){
  .home .card-article{height:245px}
- .home .card-article h3{font-size:24px;width:190px;max-width:190px;margin-top:12px;transform:scaleX(.87);transform-origin:left}
+ .home .card-article h3{font-size:24px;width:190px;max-width:190px;margin-top:12px}
  .home .card-article .record-note{font-size:11px;max-width:none;margin-top:10px}
 }
 .home .card-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6rem;align-items:center;margin-top:8rem}
@@ -814,8 +811,8 @@ html:not(.js) [data-motion]{opacity:1}
  .home .hero{--hero-unit:min(1rem,max(1.1px,calc((100svh - 64px) / 391)));height:calc(391 * var(--hero-unit))}
  .home .hero-copy{height:calc(391 * var(--hero-unit));padding-top:calc(30 * var(--hero-unit))}
  .home .hero-name{font-size:calc(21 * var(--hero-unit));margin-bottom:calc(8 * var(--hero-unit))}
- .home .hero h1 span:first-child{font-size:calc(89.6 * var(--hero-unit));line-height:calc(73.8 * var(--hero-unit))}
- .home .hero h1 span:last-child{font-size:calc(67.5 * var(--hero-unit));margin-top:var(--hero-unit)}
+ .home .hero h1 span:first-child{font-size:calc(85.2 * var(--hero-unit));line-height:calc(70.2 * var(--hero-unit))}
+ .home .hero h1 span:last-child{font-size:calc(65.6 * var(--hero-unit));margin-top:var(--hero-unit)}
  .home .hero-sub{top:calc(198 * var(--hero-unit));font-size:max(16px,calc(16 * var(--hero-unit)))}
  .home .hero-cta{top:calc(259 * var(--hero-unit));width:calc(205 * var(--hero-unit));min-width:245px;min-height:44px;font-size:max(13px,calc(12 * var(--hero-unit)));padding:calc(7 * var(--hero-unit)) calc(12 * var(--hero-unit));gap:calc(10 * var(--hero-unit))}
  .home .hero-cta .i{width:calc(19 * var(--hero-unit));height:calc(19 * var(--hero-unit))}
@@ -856,7 +853,7 @@ html:not(.js) [data-motion]{opacity:1}
  .home .hero{--hero-unit:min(1rem,max(1.1px,calc((100vh - 80px) / 391)));--hero-unit:min(1rem,max(1.1px,calc((100svh - 80px) / 391)))}
 }
 @media(min-width:1280px){
- .home .hero h1 span:last-child{font-size:min(calc(67.5 * var(--hero-unit,1rem)),56rem)}
+ .home .hero h1 span:last-child{font-size:min(calc(65.6 * var(--hero-unit,1rem)),54.5rem)}
 }
 /* Bound decorative media explicitly; only the copy layer can receive clicks. */
 .home .card-two{position:relative;isolation:isolate;overflow:hidden}
@@ -917,8 +914,8 @@ html:not(.js) [data-motion]{opacity:1}
  .home .hero{--mobile-photo-height:266px;overflow:hidden}
  .home .hero-copy{height:346px;padding:16px 20px 12px}
  .home .hero-name{font-size:20px;margin-bottom:8px}
- .home .hero h1 span:first-child{font-size:68px;line-height:.84}
- .home .hero h1 span:last-child{font-size:44px;line-height:.92;margin-top:3px}
+ .home .hero h1 span:first-child{font-size:75.4px;line-height:.84}
+ .home .hero h1 span:last-child{font-size:49.1px;line-height:.92;margin-top:3px}
  .home .hero-sub{font-size:15px;line-height:1.15;margin-top:12px}
  .home .hero-cta{margin-top:14px;min-height:44px;padding:10px 16px}
  .home .hero-announcement{margin-top:24px;gap:12px}
