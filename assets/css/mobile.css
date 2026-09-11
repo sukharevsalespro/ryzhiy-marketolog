@@ -17,8 +17,8 @@
        требование владельца). Диагональ сверху остаётся, нижний клин убран,
        низ стыкуется со следующей секцией. Фото/object-position не трогали. */
  .home .hero{
-  overflow:hidden;container-type:inline-size;
-  display:grid;grid-template-columns:1fr;grid-template-areas:"copy" "note" "media";
+  overflow:hidden;container-type:inline-size;position:relative;
+  display:grid;grid-template-columns:1fr;grid-template-areas:"copy" "media";
  }
  /* Высота шапки героя — по содержимому: на 320 фикс 346px обрезал анонс диагональю. */
  .home .hero-copy{grid-area:copy;height:auto;min-height:0;padding:12px var(--mx) 6px}
@@ -28,17 +28,21 @@
  }
  /* Кадрирование не трогаем: object-fit/position те же, меняется только размер рамки. */
  .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
- /* Рукопись в зазоре между кнопкой и анонсом (там справа и снизу пусто —
-    и текст анонса, и текст кнопки туда не доходят, замерено getBoundingClientRect).
-    Отрицательный margin-top поднимает её из потока в этот зазор — своей высоты
-    НЕ добавляет (владелец: было 434px до правок, 583px после версии с рукописью
-    отдельной строкой, следующая попытка колонкой у кнопки задевала анонс —
-    вернул компактность и сдвинул точнее). */
+ /* Рукопись назад на фото, но не на модели: свободная зона — терраса/мебель
+    справа внизу от силуэта. Проверено по пикселям на 320/390/430 отдельно
+    (object-fit:cover при aspect-ratio:320/266 даёт одну и ту же долю кадра на
+    любой ширине, но координаты в px разные) — силуэт (рука/корпус) нигде не
+    заходит правее 75% ширины кадра, бокс держим от 78% с запасом. Абсолютно
+    позиционирована от .hero — это совпадает с низом фото (фото последняя
+    строка сетки), высоты в поток не добавляет: было 434px, стало 412px. */
  .home .hero-note{
-  grid-area:note;position:static;width:auto;height:clamp(50px,15cqw,66px);
-  margin:-124px var(--mx) 4px auto;aspect-ratio:1073 / 1281.94;padding:0;display:block
+  grid-area:unset;position:absolute;left:calc(80cqw - 8px);right:auto;bottom:8px;width:20cqw;height:auto;
+  aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
  }
- .home .hero-note::before{display:none}
+ .home .hero-note::before{
+  content:'';position:absolute;inset:-14% -10%;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse closest-side at 50% 50%,#fe6c1fb3 0%,#fe6c1f70 45%,#fe6c1f00 100%)
+ }
  .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
 
  /* ── 481–1279.98px: хватает ширины на постерную композицию в 2 колонки —
@@ -179,21 +183,26 @@
   display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;
   gap:8px;height:auto;min-height:56px;padding:0 var(--mx)
  }
+ /* D07: на 320 «Блог» резался краем иконок соцсетей. Замер
+    (getBoundingClientRect): 4 пункта меню при 12px/gap:9px = 216px контента,
+    доступная полоса на 320 (320 - 2*20 полей - 108 иконок - зазоры) — около
+    150px. Ужал кегль/трекинг/gap меню и сами иконки (44→38px, ещё держит
+    палец) — на 320 и 390 контент помещается без обрезки. */
  :is(.home,.webinar) .topbar .header-menu{
   order:0;flex:1 1 auto;width:auto;min-width:0;margin:0;
-  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:9px;
+  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:3px;
   overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
   -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent);
   mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent)
  }
  :is(.home,.webinar) .topbar .header-menu::-webkit-scrollbar{display:none}
  :is(.home,.webinar) .topbar .header-menu a{
-  flex:none;font-size:12px;letter-spacing:-.02em;min-height:44px;padding:0;white-space:nowrap
+  flex:none;font-size:10px;letter-spacing:-.03em;min-height:38px;padding:0;white-space:nowrap
  }
  :is(.home,.webinar) .topbar .header-social{
-  order:1;flex:none;width:auto;margin:0 -8px 0 12px;padding:0;gap:0;justify-content:flex-end
+  order:1;flex:none;width:auto;margin:0 -6px 0 6px;padding:0;gap:0;justify-content:flex-end
  }
- :is(.home,.webinar) .topbar .header-social a{width:44px;height:44px;min-height:44px;flex:none}
+ :is(.home,.webinar) .topbar .header-social a{width:36px;height:36px;min-height:36px;flex:none}
  :is(.home,.webinar) .topbar .brand{flex:none;font-size:18px}
 
  /* ── Подвал: плотнее, ровный ритм, меню компактной сеткой ───────── */
