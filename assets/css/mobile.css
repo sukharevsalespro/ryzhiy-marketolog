@@ -1,0 +1,204 @@
+/* Мобильный слой. Загружается последним на всех страницах.
+   Всё внутри @media(max-width:700px) — десктоп (>=701px) не затрагивается.
+   Шкала отступов: 12 / 20 / 32 / 48 / 72. Боковое поле — одно на весь сайт: 20px.
+   Кегли: секция 34 · подзаголовок 26 · лид 19 · текст 16 · подпись 13 · метка 11.
+   На .home/.webinar html{font-size:1px}, поэтому здесь только px. */
+@media(max-width:700px){
+ :root,
+ html:has(body:is(.home,.webinar)){
+  --s1:12px;--s2:20px;--s3:32px;--s4:48px;--s5:72px;--mx:20px;
+ }
+
+ /* ── Шапка: один ряд. Меню слева (прокручивается при нехватке места),
+       иконки закреплены справа, зона нажатия 44×44. ───────────────── */
+ :is(.home,.webinar) .topbar{
+  display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;
+  gap:8px;height:auto;min-height:56px;padding:0 var(--mx)
+ }
+ :is(.home,.webinar) .topbar .header-menu{
+  order:0;flex:1 1 auto;width:auto;min-width:0;margin:0;
+  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:9px;
+  overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent)
+ }
+ :is(.home,.webinar) .topbar .header-menu::-webkit-scrollbar{display:none}
+ :is(.home,.webinar) .topbar .header-menu a{
+  flex:none;font-size:12px;letter-spacing:-.02em;min-height:44px;padding:0;white-space:nowrap
+ }
+ :is(.home,.webinar) .topbar .header-social{
+  order:1;flex:none;width:auto;margin:0 -8px 0 0;padding:0;gap:0;justify-content:flex-end
+ }
+ :is(.home,.webinar) .topbar .header-social a{width:44px;height:44px;min-height:44px;flex:none}
+ :is(.home,.webinar) .topbar .brand{flex:none;font-size:18px}
+
+ /* ── Главная: фото героя во всю ширину. Диагональ сверху остаётся,
+       нижний клин убран, низ стыкуется со следующей секцией. ───────── */
+ .home .hero{overflow:hidden}
+ .home .hero-media{
+  width:100%;height:auto;aspect-ratio:320/266;padding:0;
+  clip-path:polygon(0 6%,100% 0,100% 100%,0 100%)
+ }
+ /* Кадрирование не трогаем: object-fit/position те же, меняется только размер рамки. */
+ .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
+ /* Рукопись держится на той же точке фотографии: доли ширины снимка сохранены. */
+ .home .hero-note{
+  position:absolute;inset:auto auto 2.5vw 52vw;width:40vw;height:auto;
+  aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
+ }
+ .home .hero-note .hero-hand{width:100%;height:100%;margin:0}
+
+ /* ── Единые поля и вертикальный ритм секций главной ──────────────── */
+ .home .about,
+ .home .calendar-section{padding:var(--s4) var(--mx)}
+ .home .formats-section,
+ .home .contact{padding:var(--s5) var(--mx)}
+ .home .thoughts{padding:0 var(--mx) var(--s4)}
+ .home .sec-head{margin-bottom:var(--s2);gap:var(--s1)}
+ .home .about{gap:var(--s3) var(--s2);grid-template-columns:minmax(0,1fr) 150px}
+ .home .cal-wrap{gap:var(--s3)}
+
+ /* ── Типографика: метки не мельче 11px, текст 16px, строка ≤60 знаков ── */
+ .home .about-copy h2,
+ .home .sec-head h2,
+ .home .contact h2{font-size:34px}
+ .home .about-copy p{font-size:16px;line-height:1.35;max-width:60ch}
+ .home .tags{font-size:11px;line-height:1.75;letter-spacing:.1em}
+ .home .sec-head .label,
+ .home .event .label,
+ .home .card .label,
+ .home :is(.card-product,.card-article) .label{font-size:11px;letter-spacing:.1em}
+ .home .strip-text{font-size:15px}
+ .home .strip-text .label{font-size:11px;letter-spacing:.14em}
+ .home .formats-section h2{font-size:26px}
+ .home .formats{margin-top:var(--s3);gap:var(--s3) var(--s2)}
+ .home .formats b{font-size:16px}
+ .home .formats p{font-size:13px;line-height:1.35;max-width:none}
+ .home .event h3{font-size:26px;margin-top:var(--s2)}
+ .home .event-desc{font-size:16px;line-height:1.4;margin-top:var(--s1);max-width:60ch}
+ .home .event-act{margin-top:var(--s2);gap:var(--s1) var(--s2)}
+ .home .event-meta{font-size:14px}
+
+ /* ── Карточки «Мысли о маркетинге»: высота по содержимому,
+       графика живёт в своей нижней зоне и не наезжает на текст. ───── */
+ .home .cards{grid-template-columns:minmax(0,1fr);gap:var(--s2)}
+ .home .card,
+ .home .card-three,
+ .home .card-article{height:auto;min-height:0;overflow:hidden;position:relative;isolation:isolate}
+ .home .card-copy,
+ .home .card-two .card-copy,
+ .home .card-three .card-copy{position:relative;z-index:2;padding:var(--s2)}
+ .home .card h3,
+ .home .card-three h3,
+ .home :is(.card-product,.card-article) h3{
+  font-size:26px;line-height:1;letter-spacing:-.045em;margin-top:var(--s1);
+  width:auto;max-width:15ch;transform:none
+ }
+ .home .card .record-note,
+ .home :is(.card-product,.card-article) .record-note{
+  font-size:13px;line-height:1.4;margin-top:var(--s1);max-width:24ch;white-space:normal
+ }
+
+ /* Карточка 1: растение и диск целиком внутри своей зоны */
+ .home .card-one .card-copy{padding-bottom:128px}
+ .home .card-one .orange-disc{width:150px;height:150px;right:-34px;top:-34px}
+ .home .card-one .plant{width:140px;height:118px;right:12px;bottom:10px;left:auto}
+ .home .card-one .soon{font-size:13px;min-height:40px;margin-top:var(--s2);padding:8px 18px}
+
+ /* Карточка 2: фото — нижняя полоса с той же диагональю, кнопки над ней
+    на сплошном синем, друг под другом. Чёрный клин-артефакт убран. */
+ .home .card-two .card-copy{padding-bottom:158px}
+ .home .card-two .card-photo{
+  inset:auto 0 0 0;width:100%;height:146px;
+  clip-path:polygon(0 34%,100% 0,100% 100%,0 100%);opacity:1;z-index:0;object-position:50% 28%
+ }
+ .home .card-two .black-wedge{display:none}
+ .home .card-two .card-actions{
+  display:flex;flex-direction:column;align-items:flex-start;gap:var(--s1);
+  margin-top:var(--s2);background:none;border:0;position:relative;z-index:3
+ }
+ .home .card-two .card-actions .record-buy{
+  width:100%;max-width:240px;min-height:48px;margin:0;font-size:14px;padding-inline:16px;gap:8px;
+  background:#000;color:var(--cream);border:0
+ }
+ .home .card-two .card-actions .record-details{
+  min-height:44px;font-size:14px;padding:0;color:#000;text-decoration:underline;text-underline-offset:4px
+ }
+
+ /* Карточка 3: круг и квадрат в нижней зоне, рукопись — в правом верхнем углу */
+ .home .card-three .card-copy{padding-bottom:150px;padding-right:118px}
+ .home .card-three .record-buy{width:auto;max-width:100%}
+ .home .card-three .black-disc{width:230px;height:190px;bottom:-98px;left:20px}
+ .home .card-three .orange-square{width:86px;height:86px;bottom:18px;right:18px}
+ .home .card-three .card-hand{right:16px;top:16px;left:auto;width:92px;height:123px}
+
+ /* ── Подвал: плотнее, ровный ритм, меню компактной сеткой ───────── */
+ :is(.home,.webinar) footer{padding:var(--s3) var(--mx) var(--s3)}
+ :is(.home,.webinar) .footer-top{grid-template-columns:minmax(0,1fr);gap:var(--s1)}
+ :is(.home,.webinar) .footer-identity .brand{font-size:20px;min-height:0;margin-bottom:4px}
+ :is(.home,.webinar) .footer-tagline{font-size:11px}
+ :is(.home,.webinar) .footer-social{margin-top:6px;gap:0 20px;font-size:14px}
+ :is(.home,.webinar) :is(.footer-social,.footer-menu) a{min-height:34px}
+ :is(.home,.webinar) .footer-menu{
+  max-width:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--s2);font-size:14px
+ }
+ :is(.home,.webinar) .footer-legal{margin-top:var(--s2);padding-top:var(--s1);gap:4px}
+ :is(.home,.webinar) .footer-legal a{min-height:36px}
+ :is(.home,.webinar) .footer-credit{margin-top:var(--s1)}
+ :is(.home,.webinar) .footer-credit a{min-height:36px}
+
+ /* ── Форма обратной связи на главной ────────────────────────────── */
+ .home .contact{gap:var(--s3)}
+ .home .messengers{margin-top:var(--s2)}
+ .home .form{gap:var(--s2)}
+ .home .field input{font-size:16px}
+ /* Чекбокс согласия выравниваем по первой строке подписи, а не по центру группы. */
+ .home .consent{align-items:flex-start;gap:var(--s1)}
+ .home .consent input{margin-top:11px;flex:none}
+ .home .consent label{min-height:0;display:block;line-height:1.35}
+ .home .consent-links{margin-top:2px}
+
+ /* ── Страница записи вебинара ───────────────────────────────────── */
+ .recording .record-hero,
+ .recording .record-intro,
+ .recording .record-program,
+ .recording .record-bonus,
+ .recording .record-author,
+ .recording .record-final{padding:var(--s4) var(--mx)}
+ .recording .record-hero{padding-block:var(--s4) var(--s5)}
+ .recording .record-intro p{font-size:19px;line-height:1.45;max-width:60ch}
+ .recording h2{font-size:34px;margin-bottom:var(--s2)}
+ .recording .record-label{font-size:11px;letter-spacing:.12em;margin-bottom:var(--s1)}
+ .recording .record-access{padding-top:var(--s2)}
+ .recording .record-access p{font-size:17px}
+ .recording .record-access .record-access-label{margin:var(--s2) 0 var(--s1)}
+ .recording .record-program li{padding:var(--s2) 0;gap:var(--s2)}
+ .recording .record-program li p{font-size:16px;line-height:1.45;max-width:60ch}
+ .recording .record-number{font-size:40px}
+ .recording .record-bonus p{font-size:32px;line-height:1.1}
+ /* Автор: карточка, а не вываленный абзац заголовочным кеглем. */
+ .recording .record-author{gap:var(--s3)}
+ .recording .record-author figure{max-width:260px;width:100%}
+ .recording .record-author figcaption{font-size:13px;padding:10px 14px}
+ .recording .record-author>div>p{font-size:16px;line-height:1.5;max-width:60ch;margin:0 0 var(--s1)}
+ .recording .record-author>div>p:last-child{margin-bottom:0}
+ /* Финальный блок: без провала между подписью и кнопкой,
+    ссылка на оферту — под кнопкой, не у самого края. */
+ .recording .record-final{gap:var(--s3);align-items:start}
+ .recording .record-final h2{margin-bottom:var(--s1)}
+ .recording .record-final p{font-size:17px}
+ .recording .record-payment{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s1)}
+ .recording .record-payment .pay{width:100%;max-width:320px;justify-content:center;gap:14px}
+ .recording .record-terms{margin-top:0;font-size:13px;min-height:44px}
+
+ /* ── Служебные страницы (реквизиты, юридические, 404) ───────────── */
+ .utility .utility-main{padding-left:var(--mx);padding-right:var(--mx);padding-top:var(--s3)}
+ .utility h1{font-size:34px;margin-bottom:var(--s3)}
+ .utility p,.utility li{font-size:16px;line-height:1.55;max-width:64ch}
+ .legal-document h2{font-size:22px}
+ .error-actions{gap:var(--s1)}
+
+ /* ── Страница-статья «позиционирование»: кегли там уже в шкале,
+       добираем только зону нажатия у ссылки на источник. ─────────── */
+ .article-page .article-origin a{padding-block:12px}
+}

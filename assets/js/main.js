@@ -173,6 +173,7 @@
       })
       .then(function () {
         form.reset();
+        if (window.ymGoal) window.ymGoal('lead_form');
         toast('Заявка отправлена. Валентина свяжется с вами.', 'ok');
       })
       .catch(function (error) {

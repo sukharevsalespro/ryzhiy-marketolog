@@ -874,31 +874,18 @@ html:not(.js) [data-motion]{opacity:1}
 .topbar a:active{transform:translateY(1px)}
 .topbar a:focus-visible{outline:2px solid #000;outline-offset:0}
 @media(max-width:700px){
- :is(.home,.webinar) .topbar{gap:0;flex-wrap:wrap;padding-block:2px;min-height:60px}
- :is(.home,.webinar) .topbar .header-menu{gap:0;justify-content:space-between;flex:1 0 100%;order:1}
- :is(.home,.webinar) .topbar .header-menu a{font-size:13px;min-height:44px}
- :is(.home,.webinar) .topbar .header-social{margin-left:auto;order:0}
  .home .card-actions{gap:8px 12px;margin-top:12px}
  .home .card-actions .record-buy{font-size:13px;padding-inline:12px}
  .home .card-actions .record-details{font-size:12px}
  .home .hero-cta{font-size:15px;padding:13px 18px;min-height:48px}
 }
 @media(prefers-reduced-motion:reduce){.topbar a{transition:none}.topbar a:is(:hover,:active){transform:none}}
-@media(max-width:700px){
- :is(.home,.webinar) .topbar{flex-wrap:nowrap;gap:8px;min-height:60px}
- :is(.home,.webinar) .topbar .header-menu{order:0;flex:1 1 auto;min-width:0;overflow-x:auto;justify-content:flex-start;gap:16px;scrollbar-width:thin}
- :is(.home,.webinar) .topbar .header-menu a{flex:none}
- :is(.home,.webinar) .topbar .header-social{order:1;margin-left:0}
-}
 /* Handwriting starts at the elbow: the top-left ink corner of the letter B is the anchor. */
 @media(min-width:701px){.home .hero-note{--hu:var(--hero-unit,1rem);--img-w:max(calc(370 * var(--hu)),calc(257rem + 50 * var(--hu)));--anchor-x:calc(296rem - 50 * var(--hu) + .648 * var(--img-w));--anchor-y:calc(.668 * var(--img-w) * 4 / 3 - 48 * var(--hu));--note-h:min(calc(133.8 * var(--hu)),calc((385 * var(--hu) - var(--anchor-y)) / .8144));--note-w:calc(var(--note-h) * .83702);left:calc(var(--anchor-x) - .0447 * var(--note-w));top:calc(var(--anchor-y) - .1856 * var(--note-h));right:auto;width:var(--note-w);height:var(--note-h)}}
 .home .formats .i{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter}
 /* Explicit widths prevent the mobile social nav from squeezing the menu to zero. */
 :is(.home,.webinar) .topbar .header-social{width:auto;padding:0}
 @media(max-width:700px){
- :is(.home,.webinar) .topbar{flex-wrap:wrap;padding:0 20px;gap:0;min-height:88px}
- :is(.home,.webinar) .topbar .header-menu{width:100%;flex:1 0 100%;justify-content:space-between;gap:12px;overflow:visible}
- :is(.home,.webinar) .topbar .header-social{margin-left:auto;justify-content:flex-end}
  .home .hero{--mobile-photo-height:266px;overflow:hidden}
  .home .hero-copy{height:346px;padding:16px 20px 12px}
  .home .hero-name{font-size:20px;margin-bottom:8px}
