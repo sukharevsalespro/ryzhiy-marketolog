@@ -28,15 +28,19 @@
  }
  /* Кадрирование не трогаем: object-fit/position те же, меняется только размер рамки. */
  .home .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:none}
- /* Рукопись назад на фото, но не на модели: свободная зона — терраса/мебель
+ /* Рукопись на фото, не на модели: свободная зона — терраса/мебель
     справа внизу от силуэта. Проверено по пикселям на 320/390/430 отдельно
     (object-fit:cover при aspect-ratio:320/266 даёт одну и ту же долю кадра на
-    любой ширине, но координаты в px разные) — силуэт (рука/корпус) нигде не
-    заходит правее 75% ширины кадра, бокс держим от 78% с запасом. Абсолютно
-    позиционирована от .hero — это совпадает с низом фото (фото последняя
-    строка сетки), высоты в поток не добавляет: было 434px, стало 412px. */
+    любой ширине, но координаты в px разные): рука/запястье модели у самого
+    низа кадра доходят максимум до ~75% ширины (перепроверено несколькими
+    кропами — у плеча свободнее, у низа теснее всего, это и есть узкое
+    место). left:76cqw — 1%-запас от измеренной границы, дальше некуда без
+    риска задеть руку. Ширина увеличена с 20cqw до 21cqw (больше — уже
+    заступ за 75%). Абсолютно позиционирована от .hero — совпадает с низом
+    фото (фото последняя строка сетки), высоты в поток не добавляет:
+    было 434px, стало 412px. */
  .home .hero-note{
-  grid-area:unset;position:absolute;left:calc(80cqw - 8px);right:auto;bottom:8px;width:20cqw;height:auto;
+  grid-area:unset;position:absolute;left:76cqw;right:auto;bottom:6px;width:21cqw;height:auto;
   aspect-ratio:1073 / 1281.94;margin:0;padding:0;display:block;z-index:4
  }
  .home .hero-note::before{
@@ -183,26 +187,29 @@
   display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;
   gap:8px;height:auto;min-height:56px;padding:0 var(--mx)
  }
- /* D07: на 320 «Блог» резался краем иконок соцсетей. Замер
-    (getBoundingClientRect): 4 пункта меню при 12px/gap:9px = 216px контента,
-    доступная полоса на 320 (320 - 2*20 полей - 108 иконок - зазоры) — около
-    150px. Ужал кегль/трекинг/gap меню и сами иконки (44→38px, ещё держит
-    палец) — на 320 и 390 контент помещается без обрезки. */
+ /* D07: на 320 «Блог» резался краем иконок соцсетей. Первый заход (gap:3px)
+    убрал обрезку, но слепил пункты в одну строку — второй проход: иконки
+    44→32px (нижняя граница комфортного нажатия), gap меню 3→6px для
+    читаемых промежутков, letter-spacing чуть туже (-.05em) и маска fade
+    сокращена 14→6px (при плотной посадке 14px маски гасили последнюю
+    букву «Блога», даже когда контент физически помещался). На 320/390
+    menuScrollWidth == menuClientWidth (без обрезки и без скролла), зазор
+    меню/иконки 16px (было 0 по факту, gap съедался отрицательным margin). */
  :is(.home,.webinar) .topbar .header-menu{
   order:0;flex:1 1 auto;width:auto;min-width:0;margin:0;
-  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:3px;
+  display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:6px;
   overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
-  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent);
-  mask-image:linear-gradient(90deg,#000 calc(100% - 14px),transparent)
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 6px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 6px),transparent)
  }
  :is(.home,.webinar) .topbar .header-menu::-webkit-scrollbar{display:none}
  :is(.home,.webinar) .topbar .header-menu a{
-  flex:none;font-size:10px;letter-spacing:-.03em;min-height:38px;padding:0;white-space:nowrap
+  flex:none;font-size:10px;letter-spacing:-.05em;min-height:38px;padding:0;white-space:nowrap
  }
  :is(.home,.webinar) .topbar .header-social{
-  order:1;flex:none;width:auto;margin:0 -6px 0 6px;padding:0;gap:0;justify-content:flex-end
+  order:1;flex:none;width:auto;margin:0 -4px 0 8px;padding:0;gap:0;justify-content:flex-end
  }
- :is(.home,.webinar) .topbar .header-social a{width:36px;height:36px;min-height:36px;flex:none}
+ :is(.home,.webinar) .topbar .header-social a{width:32px;height:32px;min-height:32px;flex:none}
  :is(.home,.webinar) .topbar .brand{flex:none;font-size:18px}
 
  /* ── Подвал: плотнее, ровный ритм, меню компактной сеткой ───────── */
