@@ -39,7 +39,7 @@ YC_DIR = Path(__file__).parent
 FUNCTION_NAME = "ryzhiy-lead"
 FUNCTION_DIR = YC_DIR / "lead"
 ENTRYPOINT = "index.handler"
-ENV_KEYS = ["TG_TOKEN", "TG_CHAT_ID", "MAX_TOKEN", "MAX_CHAT_ID"]
+ENV_KEYS = ["TG_TOKEN", "TG_CHAT_ID", "MAX_TOKEN", "MAX_CHAT_ID", "INGRESS_SECRET"]
 
 RUNTIME = "python312"
 MEMORY_BYTES = "134217728"  # 128 MB — с большим запасом хватает
@@ -126,6 +126,7 @@ def load_env_values() -> dict[str, str]:
         "TG_CHAT_ID": Path("/root/.secrets/ryzhiy_leads_chat_id.txt").read_text().strip(),
         "MAX_TOKEN": Path("/root/.secrets/ryzhiy_max_bot.txt").read_text().strip(),
         "MAX_CHAT_ID": Path("/root/.secrets/ryzhiy_max_chat_id.txt").read_text().strip(),
+        "INGRESS_SECRET": Path("/root/.secrets/ryzhiy_ingress_key.txt").read_text().strip(),
     }
 
 

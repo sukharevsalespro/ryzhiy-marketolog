@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import html
 import http.client
+import hmac
 import json
 import logging
 import os
@@ -294,7 +295,21 @@ def _json_response(status_code: int, payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _gateway_authorized(event: dict[str, Any]) -> bool:
+    """Вызов допустим только через nginx: raw-event сам по себе не доверенный."""
+    secret = os.environ.get("INGRESS_SECRET", "")
+    if len(secret) < 32 or not isinstance(event, dict):
+        return False
+    headers = event.get("headers") or {}
+    if not isinstance(headers, dict):
+        return False
+    values = [value for key, value in headers.items() if key.lower() == "x-ryzhiy-gateway-key"]
+    return len(values) == 1 and isinstance(values[0], str) and hmac.compare_digest(values[0].encode(), secret.encode())
+
+
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
+    if not _gateway_authorized(event):
+        return _json_response(403, {"ok": False, "error": "gateway required"})
     if event.get("httpMethod") != "POST":
         return _json_response(405, {"ok": False, "error": "POST only"})
 

@@ -3,8 +3,8 @@
   'use strict';
 
   var CONFIG = {
-    // URL Яндекс.Функции для приёма заявок.
-    LEADS_ENDPOINT: 'https://functions.yandexcloud.net/d4eut85le1co28mu0lc6'
+    // Общий nginx-лимит перед Яндекс.Функцией. Секрет остаётся на сервере.
+    LEADS_ENDPOINT: 'https://crm.xn--80abbgkqqiqk5bzb.xn--p1ai/public/ryzhiy-lead'
   };
 
   document.documentElement.classList.add('js');

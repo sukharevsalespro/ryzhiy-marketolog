@@ -198,7 +198,7 @@ def test_telegram_response_must_confirm_delivery() -> None:
 def main() -> None:
     tests = [obj for name, obj in globals().items() if name.startswith("test_") and callable(obj)]
     for test in tests:
-        with patch("socket.create_connection", side_effect=AssertionError("Network forbidden in tests")):
+        with patch("socket.create_connection", side_effect=AssertionError("Network forbidden in tests")), patch.object(index, "_gateway_authorized", return_value=True):
             test()
         print(f"{test.__name__}: OK")
     print(f"\n{len(tests)} tests passed")
