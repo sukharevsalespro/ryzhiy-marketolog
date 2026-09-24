@@ -640,14 +640,17 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
    Тень мягкая и короткая (b49ec76c Symbolic.ai: «soft shadows», efa91668:
    «gentle elevation»), плюс волосяная подложка-контур 1px тушью под нижним
    краем — чтобы белый пузырь не сливался с кремовым на светлых мониторах. */
-.rev-stage{display:block;position:relative;background:var(--cream);padding:13rem 10rem}
+.rev-stage{display:block;position:relative;background:var(--cream);padding:13rem 10rem 44rem}
 /* Рукописная пометка — реакция Валентины на результат. Не шрифт на странице,
    а отрисованный контур Caveat 600 (ближайшая к hand-bolshe.svg по толщине
    штриха и наклону), подключён маской, поэтому красится currentColor.
-   Лежит у нижнего угла пузыря, слегка заходя на него. */
-.rev-note{position:absolute;right:4rem;bottom:-7rem;width:min(52%,130rem);aspect-ratio:var(--ar);
-  background:currentColor;pointer-events:none;z-index:2;transform:rotate(var(--tilt));
-  -webkit-mask:var(--note) no-repeat center/contain;mask:var(--note) no-repeat center/contain}
+   Лежит В ПОЛОСЕ ПОД пузырём, а не на нём: время и «изменено» — часть
+   доказательства подлинности, перекрывать их нельзя ни на одной ширине.
+   Непересечение обеспечено конструктивно, не подбором отступов.
+   Задана ВЫСОТА, а ширина считается из пропорции: при фиксированной ширине
+   короткая фраза («сдвинулось») вырастала выше полосы и залезала на пузырь.
+   Заодно у всех пометок одинаковый кегль рукописи. */
+.rev-note{position:absolute;right:8rem;bottom:5rem;height:26rem;width:calc(var(--ar)*26rem);max-width:66%;background:currentColor;pointer-events:none;z-index:2;transform:rotate(var(--tilt));-webkit-mask:var(--note) no-repeat right center/contain;mask:var(--note) no-repeat right center/contain}
 .rev-note--rust{background:#c4490a}
 .rev-card img{width:100%;height:auto;
   filter:drop-shadow(0 .5rem 0 #00000014) drop-shadow(0 3rem 7rem #00000021)}

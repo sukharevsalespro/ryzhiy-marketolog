@@ -182,9 +182,9 @@
  .home .rev-wall{columns:1;column-gap:var(--s2)}
  .home .rev-wall{margin-top:var(--s3)}
  .home .rev-card{margin-bottom:var(--s3);padding:10px;border-width:2px}
- .home .rev-stage{padding:14px 10px}
+ .home .rev-stage{padding:14px 10px 56px}
  /* на 320 пометка не должна вылезать за поле и накрывать текст */
- .home .rev-note{right:6px;bottom:-10px;width:min(58%,190px)}
+ .home .rev-note{right:10px;bottom:8px;height:30px;width:calc(var(--ar)*30px);max-width:64%}
  .home .rev-card img{filter:drop-shadow(0 1px 0 #00000014) drop-shadow(0 6px 14px #00000021)}
  .home .rev-cap{margin-top:10px;padding-top:10px;gap:6px 10px;border-top-width:1px}
  .home .rev-cap b,
