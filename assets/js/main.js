@@ -193,12 +193,27 @@
 const q=matchMedia('(prefers-reduced-motion: reduce)');
 if(q.matches||!window.IntersectionObserver||!Element.prototype.animate)return;
 const items=[...document.querySelectorAll('[data-motion]')],running=new Set(),pending=new Set(items);
+let qn=0,qt=0;
+function queue(){const n=performance.now();if(n-qt>400)qn=0;qt=n;return Math.min(qn++,5)*100}
 const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)show(e.target)}),{threshold:.08});
 function show(el,play=true){
  if(!pending.delete(el))return;
  io.unobserve(el);el.classList.remove('motion-pending');
  if(!play)return;
  const kind=el.dataset.motion,t=kind==='hand'?el.querySelector('.hand-window'):el;
+ /* Пузыри прилетают как входящие сообщения: снизу, с лёгким перелётом по
+    масштабу, друг за другом. Очередь сбрасывается, если между появлениями
+    прошло больше 400 мс, и обрезается шестью — иначе последний в длинной
+    стене ждал бы секунду. */
+ if(kind==='bubble'){
+  const a=t.animate([{transform:'translateY(22px) scale(.985)',opacity:0},
+                     {transform:'translateY(0) scale(1.02)',opacity:1,offset:.62},
+                     {transform:'none',opacity:1}],
+   {duration:300,delay:queue(),easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+  t.style.willChange='transform, opacity';
+  running.add(a);a.onfinish=a.oncancel=()=>{t.style.willChange='';running.delete(a)};
+  return;
+ }
  const base=getComputedStyle(t).transform.replace('none','');
  const from=kind==='hand'?'scaleX(0)':kind==='photo'?base+' scale(1.06)':kind==='number'?base+' scale(.94)':'translateY(20px) '+base;
  t.style.willChange='transform, opacity';
@@ -209,4 +224,30 @@ function show(el,play=true){
 items.forEach(el=>io.observe(el));
 document.addEventListener('focusin',e=>items.forEach(el=>{if(el.contains(e.target))show(el,false)}));
 q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=>show(el,false));running.forEach(a=>a.cancel())}});
+})();
+
+/* Отзывы: лайтбокс с полным необрезанным оригиналом переписки.
+   Нативный <dialog> — Esc, ловушка фокуса и возврат фокуса на вызвавшую
+   карточку работают без библиотек. Без JS карточка остаётся обычной
+   ссылкой и открывает оригинал прямо в браузере. */
+(function () {
+  'use strict';
+  var section = document.querySelector('.reviews');
+  if (!section) return;
+  var dialog = document.getElementById('shot');
+  var shot = dialog && dialog.querySelector('.shot-img');
+  if (!dialog || !shot || typeof dialog.showModal !== 'function') return;
+
+  section.addEventListener('click', function (event) {
+    var link = event.target.closest('a[data-shot]');
+    if (!link) return;
+    event.preventDefault();
+    shot.src = link.getAttribute('href');
+    shot.alt = link.dataset.alt || 'Оригинал переписки';
+    dialog.showModal();
+  });
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog || event.target.closest('.shot-x')) dialog.close();
+  });
+  dialog.addEventListener('close', function () { shot.removeAttribute('src'); });
 })();

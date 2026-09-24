@@ -604,6 +604,88 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
 .card-hand{left:auto;right:8rem;top:9rem;width:82.5rem;height:110.52rem}
 }
 
+/* ── Отзывы «Своими словами»: скриншоты переписок как экспонаты ───────────
+   REFERENCE LOCK (Refero):
+   · efa91668 «Brisbane Web Developer» — ядро приёма: скриншот живёт как
+     framed artifact на светлой подложке, с ЩЕДРЫМ равным полем вокруг и
+     лёгким подъёмом («gallery-plaque feel»). Именно поле вокруг снимает
+     ощущение «обрезка скрина».
+   · e10603e3 exactly.ai — masonry-сетка снимков разной высоты, одинаковые
+     узкие жёлобы, один акцентный цвет на всю страницу.
+   · b8272fb8 lovable.dev/reviews — колонки одинаковой ширины, высота карточки
+     по содержимому; подпись = жирное имя + тихая мелкая мета.
+   · afc83cd4 Tailark Pro — «collectible object»: волосяная обводка и мягкий
+     подъём вместо тяжёлой рамки.
+   · 2ddb0953 prose.com — подпись под снимком капсом, мельче содержимого.
+   · b7d6c8c3 SSENSE — сдержанность: тонкие линии, много воздуха, без игры.
+   · 12092400 wandb.ai — единственная тёплая акцентная кнопка внизу блока.
+   АНТИ-РЕФЕРЕНС: рамки телефона с чёлкой (владелец читает их как «обрезки»)
+   и скругления/градиенты Lovable — у сайта радиус 0.
+   Подъём даёт НЕ тень. Аудит impeccable зарезал оба варианта разом: жёсткий
+   сдвиг без размытия — «костюм необрутализма», которого у этого постера нет,
+   а обводка ПЛЮС тень — «ghost card» (элевация объявляется чем-то одним).
+   Осталась обводка тушью, а «gallery-plaque» из efa91668 держит щедрое поле
+   вокруг снимка. Сигнал кликабельности — подъём и рыжая обводка на наведении. */
+.reviews{padding:14rem 25rem 24rem}
+.reviews .sec-head{margin-bottom:18rem}
+.rev-lead{columns:2;column-gap:16rem}
+.rev-wall{columns:2;column-gap:16rem;margin-top:16rem}
+.rev-card{
+  display:block;break-inside:avoid;margin:0 0 16rem;
+  background:#fff;border:1rem solid var(--ink);padding:10rem;
+}
+/* Пузырь лежит на кремовой сцене внутри белой карточки: на белом белое облачко
+   потерялось бы. Форму держит тень — её носителем сделан filter:drop-shadow,
+   он повторяет альфу PNG вместе с хвостиком, чего box-shadow не умеет.
+   Тень мягкая и короткая (b49ec76c Symbolic.ai: «soft shadows», efa91668:
+   «gentle elevation»), плюс волосяная подложка-контур 1px тушью под нижним
+   краем — чтобы белый пузырь не сливался с кремовым на светлых мониторах. */
+.rev-stage{display:block;background:var(--cream);padding:13rem 10rem}
+.rev-card img{width:100%;height:auto;
+  filter:drop-shadow(0 .5rem 0 #00000014) drop-shadow(0 3rem 7rem #00000021)}
+.rev-card>.rev-stage+.rev-cap{margin-top:9rem}
+.rev-cap{display:flex;flex-wrap:wrap;align-items:center;gap:6rem 8rem;
+  margin-top:9rem;padding-top:8rem;border-top:1rem solid var(--line)}
+.rev-cap b{font-size:9.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.rev-tag{font:500 6.5rem/1.5 'Golos Text',sans-serif;letter-spacing:.18em;
+  text-transform:uppercase;color:#0009}
+/* Рыжий — только у трёх ведущих: пятнадцать плашек сделали бы из акцента фон. */
+.rev-card--lead .rev-tag{background:var(--orange);color:#000;padding:2rem 6rem;letter-spacing:.16em}
+.rev-card--lead .rev-cap b{font-size:11rem}
+/* Ведущий блок от 1280: высокий скрин (Ольга) занимает правую колонку на обе
+   строки, два коротких — левую. align-self start/end прибивает верхний к верху,
+   нижний к низу, поэтому низ блока ровный: лишняя высота уходит в зазор МЕЖДУ
+   короткими карточками, а не провалом под колонкой. columns здесь не годится —
+   он балансирует по своему усмотрению и низ гуляет. */
+@media(min-width:1280px){
+ .rev-lead{display:grid;grid-template-columns:1fr 1fr;gap:16rem;columns:auto}
+ .rev-lead>:nth-child(1){grid-area:1/1;align-self:start}
+ .rev-lead>:nth-child(2){grid-area:1/2/3/3}
+ .rev-lead>:nth-child(3){grid-area:2/1;align-self:end}
+ .rev-lead>.rev-card{margin-bottom:0}
+}
+.rev-all{margin-top:6rem}
+.rev-back-band{padding:0 25rem 30rem}
+.rev-all .btn{min-width:200rem}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .rev-card{transition:transform 200ms cubic-bezier(.2,.7,.2,1),border-color 200ms cubic-bezier(.2,.7,.2,1)}
+ .rev-card:hover{transform:translateY(-3rem);border-color:var(--orange)}
+}
+.rev-card:active{transform:translateY(1rem)}
+/* Выделение текста и каретка — тоже часть постера, а не дефолт браузера. */
+::selection{background:var(--orange);color:#000}
+.rev-card:focus-visible{outline:2rem solid var(--ink);outline-offset:4rem}
+
+/* Лайтбокс с полным необрезанным оригиналом: нативный <dialog> — Esc,
+   ловушка и возврат фокуса работают без библиотек. */
+.shot{border:0;padding:0;background:none;max-width:min(94vw,520rem);max-height:94vh;overflow:visible;color:var(--cream)}
+.shot::backdrop{background:#000000e6}
+.shot[open]{display:grid;grid-template-rows:auto auto auto;gap:8rem;justify-items:center}
+.shot-x{justify-self:end;width:36rem;height:36rem;display:grid;place-items:center;
+  background:var(--cream);color:#000;border:1rem solid #000;font:400 22rem/1 'Golos Text',sans-serif}
+.shot-img{max-width:100%;max-height:74vh;width:auto;height:auto;background:var(--cream);border:1rem solid #000}
+.shot-cap{font:500 7rem/1 'Golos Text',sans-serif;letter-spacing:.18em;text-transform:uppercase}
+
 }
 
 /* Webinar reference lock: docs/DESIGN-WEBINAR.md. All new rules stay in this scope. */
