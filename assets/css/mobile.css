@@ -193,8 +193,15 @@
     940px — строка длиннее, чем в самом мессенджере, и карточка переставала
     читаться как переписка. */
  @media(min-width:701px){
-  .home .rev-lead,
   .home .rev-wall{columns:2;column-gap:var(--s3)}
+  /* Ведущий блок — та же сетка, что и на десктопе: высокий скрин справа на обе
+     строки, два коротких слева. На masonry правая колонка проваливалась
+     на пол-экрана под короткой карточкой. */
+  .home .rev-lead{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);columns:auto}
+  .home .rev-lead>:nth-child(1){grid-area:1/1;align-self:start}
+  .home .rev-lead>:nth-child(2){grid-area:1/2/3/3}
+  .home .rev-lead>:nth-child(3){grid-area:2/1;align-self:end}
+  .home .rev-lead>.rev-card{margin-bottom:0}
  }
  /* Лайтбокс */
  .home .shot{max-width:94vw;max-height:94vh}

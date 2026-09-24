@@ -629,7 +629,7 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
 .reviews{padding:14rem 25rem 24rem}
 .reviews .sec-head{margin-bottom:18rem}
 .rev-lead{columns:2;column-gap:16rem}
-.rev-wall{columns:3;column-gap:16rem;margin-top:16rem}
+.rev-wall{columns:2;column-gap:16rem;margin-top:16rem}
 .rev-card{
   display:block;break-inside:avoid;margin:0 0 16rem;
   background:#fff;border:1rem solid var(--ink);padding:10rem;
@@ -643,6 +643,18 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
 /* Рыжий — только у трёх ведущих: пятнадцать плашек сделали бы из акцента фон. */
 .rev-card--lead .rev-tag{background:var(--orange);color:#000;padding:2rem 6rem;letter-spacing:.16em}
 .rev-card--lead .rev-cap b{font-size:11rem}
+/* Ведущий блок от 1280: высокий скрин (Ольга) занимает правую колонку на обе
+   строки, два коротких — левую. align-self start/end прибивает верхний к верху,
+   нижний к низу, поэтому низ блока ровный: лишняя высота уходит в зазор МЕЖДУ
+   короткими карточками, а не провалом под колонкой. columns здесь не годится —
+   он балансирует по своему усмотрению и низ гуляет. */
+@media(min-width:1280px){
+ .rev-lead{display:grid;grid-template-columns:1fr 1fr;gap:16rem;columns:auto}
+ .rev-lead>:nth-child(1){grid-area:1/1;align-self:start}
+ .rev-lead>:nth-child(2){grid-area:1/2/3/3}
+ .rev-lead>:nth-child(3){grid-area:2/1;align-self:end}
+ .rev-lead>.rev-card{margin-bottom:0}
+}
 .rev-all{margin-top:6rem}
 .rev-back-band{padding:0 25rem 30rem}
 .rev-all .btn{min-width:200rem}
