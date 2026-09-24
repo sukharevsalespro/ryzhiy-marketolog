@@ -634,7 +634,16 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
   display:block;break-inside:avoid;margin:0 0 16rem;
   background:#fff;border:1rem solid var(--ink);padding:10rem;
 }
-.rev-card img{width:100%;height:auto;border:.5rem solid #e3ded7}
+/* Пузырь лежит на кремовой сцене внутри белой карточки: на белом белое облачко
+   потерялось бы. Форму держит тень — её носителем сделан filter:drop-shadow,
+   он повторяет альфу PNG вместе с хвостиком, чего box-shadow не умеет.
+   Тень мягкая и короткая (b49ec76c Symbolic.ai: «soft shadows», efa91668:
+   «gentle elevation»), плюс волосяная подложка-контур 1px тушью под нижним
+   краем — чтобы белый пузырь не сливался с кремовым на светлых мониторах. */
+.rev-stage{display:block;background:var(--cream);padding:13rem 10rem}
+.rev-card img{width:100%;height:auto;
+  filter:drop-shadow(0 .5rem 0 #00000014) drop-shadow(0 3rem 7rem #00000021)}
+.rev-card>.rev-stage+.rev-cap{margin-top:9rem}
 .rev-cap{display:flex;flex-wrap:wrap;align-items:center;gap:6rem 8rem;
   margin-top:9rem;padding-top:8rem;border-top:1rem solid var(--line)}
 .rev-cap b{font-size:9.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
