@@ -604,57 +604,61 @@ footer{height:60rem;min-height:60rem;padding:22rem 24rem 4rem}
 .card-hand{left:auto;right:8rem;top:9rem;width:82.5rem;height:110.52rem}
 }
 
-/* ── Отзывы «Своими словами» ───────────────────────────────────────────────
-   Reference lock (Refero): Album Colors 2020 (99be9294) — постерный холст,
-   узкий капс, 0 радиуса, ghost-бордеры вместо заливок, иерархия только
-   масштабом; Waka Waka (dbfdd355) + SSENSE culture — цитаты разделяют
-   волосяные линии, а не карточки, ни одной тени. Рыжий — только акцент:
-   штрих над ведущей цитатой и метка продукта (чёрный на рыжем, 6.7:1).
-   Рыжий ТЕКСТОМ не используем: #fd5918 на сливочном даёт 2.97:1. */
-.reviews{padding:14rem 25rem 22rem}
-.reviews .sec-head{margin-bottom:16rem}
-.rev-lead{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
-.rev{display:flex;flex-direction:column;align-items:flex-start}
-.rev--lead{padding:0 20rem 0 22rem;border-left:1rem solid #0009}
-.rev--lead:first-child{border-left:0;padding-left:0}
-.rev--lead::before{content:'';display:block;width:34rem;border-top:3rem solid var(--orange);margin-bottom:10rem}
-.rev-shout{font-family:Poster,'Golos Text',sans-serif;font-stretch:condensed;font-weight:900;letter-spacing:-.04em}
-.rev--lead .rev-shout{font-size:26rem;line-height:.93}
-.rev-text{font-size:10rem;line-height:1.45;letter-spacing:-.015em;margin-top:9rem}
-.rev--lead .rev-text{font-size:10.5rem}
-.rev--clamped:not(.rev--open) .rev-tail{display:none}
-.rev--clamped:not(.rev--open) .rev-head::after{content:' …'}
-.rev-expand{display:none;background:none;border:0;padding:5rem 0;margin-top:2rem;
-  font:700 9rem/1.2 'Golos Text',sans-serif;color:inherit;text-align:left}
-.rev--clamped .rev-expand{display:inline-block}
-.rev-expand span{border-bottom:1rem solid currentColor;padding-bottom:2rem}
-.rev-by{margin-top:auto;padding-top:11rem;display:flex;flex-wrap:wrap;align-items:center;gap:7rem}
-.rev-by b{font-size:9.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
-.rev-tag{background:var(--orange);color:#000;padding:2rem 6rem;
-  font:500 6.5rem/1.5 'Golos Text',sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
-.rev-orig{display:inline-flex;align-items:center;gap:6rem;margin-top:8rem;
-  font:500 7rem/1 'Golos Text',sans-serif;letter-spacing:.16em;text-transform:uppercase}
-.rev-orig .i{width:13rem;height:13rem;stroke-width:2}
-.rev-wall{margin-top:22rem;columns:4;column-gap:22rem;column-rule:1rem solid #0003}
-.rev-wall .rev{display:block;break-inside:avoid;border-top:1rem solid #0009;padding-top:11rem;margin-bottom:22rem}
-.rev--wall .rev-shout{font-size:13.5rem;line-height:1.02;font-weight:700}
-.rev--short .rev-text{font-size:11.5rem;line-height:1.4;margin-top:0}
-.rev-wall .rev-by{margin-top:0}
-/* Рыжей заливкой отмечены только три ведущие цитаты: пятнадцать плашек
-   подряд превращают акцент в фон. В стене метка продукта — капс тушью. */
-.rev-wall .rev-tag{background:none;color:#0009;padding:0;letter-spacing:.18em}
-@media(hover:hover) and (prefers-reduced-motion:no-preference){
- .rev{transition:transform 220ms cubic-bezier(.2,.7,.2,1)}
- .rev:hover{transform:translateY(-3rem)}
- .rev:hover .rev-orig .i{transform:translateX(3rem)}
+/* ── Отзывы «Своими словами»: скриншоты переписок как экспонаты ───────────
+   REFERENCE LOCK (Refero):
+   · efa91668 «Brisbane Web Developer» — ядро приёма: скриншот живёт как
+     framed artifact на светлой подложке, с ЩЕДРЫМ равным полем вокруг и
+     лёгким подъёмом («gallery-plaque feel»). Именно поле вокруг снимает
+     ощущение «обрезка скрина».
+   · e10603e3 exactly.ai — masonry-сетка снимков разной высоты, одинаковые
+     узкие жёлобы, один акцентный цвет на всю страницу.
+   · b8272fb8 lovable.dev/reviews — колонки одинаковой ширины, высота карточки
+     по содержимому; подпись = жирное имя + тихая мелкая мета.
+   · afc83cd4 Tailark Pro — «collectible object»: волосяная обводка и мягкий
+     подъём вместо тяжёлой рамки.
+   · 2ddb0953 prose.com — подпись под снимком капсом, мельче содержимого.
+   · b7d6c8c3 SSENSE — сдержанность: тонкие линии, много воздуха, без игры.
+   · 12092400 wandb.ai — единственная тёплая акцентная кнопка внизу блока.
+   АНТИ-РЕФЕРЕНС: рамки телефона с чёлкой (владелец читает их как «обрезки»)
+   и скругления/градиенты Lovable — у сайта радиус 0.
+   Подъём даёт НЕ тень. Аудит impeccable зарезал оба варианта разом: жёсткий
+   сдвиг без размытия — «костюм необрутализма», которого у этого постера нет,
+   а обводка ПЛЮС тень — «ghost card» (элевация объявляется чем-то одним).
+   Осталась обводка тушью, а «gallery-plaque» из efa91668 держит щедрое поле
+   вокруг снимка. Сигнал кликабельности — подъём и рыжая обводка на наведении. */
+.reviews{padding:14rem 25rem 24rem}
+.reviews .sec-head{margin-bottom:18rem}
+.rev-lead{columns:2;column-gap:16rem}
+.rev-wall{columns:3;column-gap:16rem;margin-top:16rem}
+.rev-card{
+  display:block;break-inside:avoid;margin:0 0 16rem;
+  background:#fff;border:1rem solid var(--ink);padding:10rem;
 }
-.rev:hover{cursor:pointer}
-.rev .rev-expand:hover{cursor:pointer}
+.rev-card img{width:100%;height:auto;border:.5rem solid #e3ded7}
+.rev-cap{display:flex;flex-wrap:wrap;align-items:center;gap:6rem 8rem;
+  margin-top:9rem;padding-top:8rem;border-top:1rem solid var(--line)}
+.rev-cap b{font-size:9.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.rev-tag{font:500 6.5rem/1.5 'Golos Text',sans-serif;letter-spacing:.18em;
+  text-transform:uppercase;color:#0009}
+/* Рыжий — только у трёх ведущих: пятнадцать плашек сделали бы из акцента фон. */
+.rev-card--lead .rev-tag{background:var(--orange);color:#000;padding:2rem 6rem;letter-spacing:.16em}
+.rev-card--lead .rev-cap b{font-size:11rem}
+.rev-all{margin-top:6rem}
+.rev-back-band{padding:0 25rem 30rem}
+.rev-all .btn{min-width:200rem}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .rev-card{transition:transform 200ms cubic-bezier(.2,.7,.2,1),border-color 200ms cubic-bezier(.2,.7,.2,1)}
+ .rev-card:hover{transform:translateY(-3rem);border-color:var(--orange)}
+}
+.rev-card:active{transform:translateY(1rem)}
+/* Выделение текста и каретка — тоже часть постера, а не дефолт браузера. */
+::selection{background:var(--orange);color:#000}
+.rev-card:focus-visible{outline:2rem solid var(--ink);outline-offset:4rem}
 
-/* Лайтбокс с оригиналом переписки: нативный <dialog> — Esc, возврат фокуса
-   и ловушка фокуса работают сами, без библиотеки. */
+/* Лайтбокс с полным необрезанным оригиналом: нативный <dialog> — Esc,
+   ловушка и возврат фокуса работают без библиотек. */
 .shot{border:0;padding:0;background:none;max-width:min(94vw,520rem);max-height:94vh;overflow:visible;color:var(--cream)}
-.shot::backdrop{background:#000000e0}
+.shot::backdrop{background:#000000e6}
 .shot[open]{display:grid;grid-template-rows:auto auto auto;gap:8rem;justify-items:center}
 .shot-x{justify-self:end;width:36rem;height:36rem;display:grid;place-items:center;
   background:var(--cream);color:#000;border:1rem solid #000;font:400 22rem/1 'Golos Text',sans-serif}

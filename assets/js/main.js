@@ -211,47 +211,26 @@ document.addEventListener('focusin',e=>items.forEach(el=>{if(el.contains(e.targe
 q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=>show(el,false));running.forEach(a=>a.cancel())}});
 })();
 
-/* Отзывы: раскрытие полного текста и лайтбокс с оригиналом переписки.
-   Лайтбокс — нативный <dialog>: Esc, ловушка фокуса и возврат фокуса
-   на вызвавший элемент работают без библиотек. Без JS текст отзыва виден
-   целиком, а «Оригинал переписки» остаётся обычной ссылкой на картинку. */
+/* Отзывы: лайтбокс с полным необрезанным оригиналом переписки.
+   Нативный <dialog> — Esc, ловушка фокуса и возврат фокуса на вызвавшую
+   карточку работают без библиотек. Без JS карточка остаётся обычной
+   ссылкой и открывает оригинал прямо в браузере. */
 (function () {
   'use strict';
   var section = document.querySelector('.reviews');
   if (!section) return;
-
-  section.querySelectorAll('.rev-tail').forEach(function (tail) {
-    tail.closest('.rev').classList.add('rev--clamped');
-  });
-
   var dialog = document.getElementById('shot');
   var shot = dialog && dialog.querySelector('.shot-img');
-  var usable = !!(dialog && shot && typeof dialog.showModal === 'function');
+  if (!dialog || !shot || typeof dialog.showModal !== 'function') return;
 
   section.addEventListener('click', function (event) {
-    var expand = event.target.closest('.rev-expand');
-    if (expand) {
-      var review = expand.closest('.rev');
-      var opened = review.classList.toggle('rev--open');
-      expand.setAttribute('aria-expanded', String(opened));
-      expand.firstElementChild.textContent = opened ? 'Свернуть' : 'Читать целиком';
-      return;
-    }
-    if (!usable) return;
-    var hit = event.target.closest('.rev-orig') || event.target.closest('.rev');
-    if (!hit) return;
-    var link = hit.matches('.rev-orig') ? hit : hit.querySelector('.rev-orig');
+    var link = event.target.closest('a[data-shot]');
     if (!link) return;
-    // Клик, которым выделяли текст отзыва, лайтбокс не открывает.
-    var selection = window.getSelection && window.getSelection();
-    if (selection && String(selection).trim().length > 2) return;
     event.preventDefault();
     shot.src = link.getAttribute('href');
     shot.alt = link.dataset.alt || 'Оригинал переписки';
     dialog.showModal();
   });
-
-  if (!usable) return;
   dialog.addEventListener('click', function (event) {
     if (event.target === dialog || event.target.closest('.shot-x')) dialog.close();
   });
