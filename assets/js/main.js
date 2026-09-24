@@ -212,6 +212,14 @@ function show(el,play=true){
    {duration:300,delay:queue(),easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
   t.style.willChange='transform, opacity';
   running.add(a);a.onfinish=a.oncancel=()=>{t.style.willChange='';running.delete(a)};
+  /* пометка появляется следом за пузырём — как будто её дописали от руки */
+  const note=el.querySelector('.rev-note');
+  if(note){
+   const na=note.animate([{opacity:0,transform:'rotate(var(--tilt)) scale(.92)'},
+                          {opacity:1,transform:'rotate(var(--tilt)) scale(1)'}],
+    {duration:260,delay:(a.effect.getTiming().delay||0)+170,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
+   running.add(na);na.onfinish=na.oncancel=()=>running.delete(na);
+  }
   return;
  }
  const base=getComputedStyle(t).transform.replace('none','');
