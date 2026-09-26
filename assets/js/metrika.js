@@ -18,7 +18,7 @@
     if (typeof window.ym === 'function') { window.ym(ID, 'reachGoal', goal); }
   };
 
-  var PAY_GOALS = { qvcwvzr: 'pay_webinar', e0cjdjM: 'pay_zapis', '6ccEnWO': 'nw_pay_standard' };
+  var PAY_GOALS = { g9cC0N3: 'pay_webinar', e0cjdjM: 'pay_zapis', '6ccEnWO': 'nw_pay_standard' };
 
   document.addEventListener('click', function (event) {
     var link = event.target.closest && event.target.closest('a[href]');

@@ -258,6 +258,19 @@
   padding-top: 28px;
 }
 .networking .nw-acts .nw-btn { flex: 1 1 200px; }
+.networking .nw-acts--pay { flex-direction: column; align-items: flex-start; gap: 12px; }
+.networking .nw-acts--pay .nw-btn { flex: 0 0 auto; width: 100%; }
+.networking .nw-quiet { margin: 0; font: 400 14px/1.4 'Golos Text', sans-serif; opacity: .72; }
+.networking .nw-quiet a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.networking .nw-quiet a:hover,
+.networking .nw-quiet a:focus-visible { opacity: 1; }
 
 /* Accent plan: black card, cream type. */
 .networking .nw-plan--ink { background: var(--nw-ink); color: var(--nw-cream); border-color: var(--nw-ink); }
