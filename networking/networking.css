@@ -429,21 +429,6 @@
   text-underline-offset: 4px;
 }
 
-/* Handwritten note on the accent plan: existing vector, coloured through a mask. */
-.networking .nw-plan--ink { position: relative; }
-.networking .nw-note {
-  position: absolute;
-  top: -16px;
-  right: 18px;
-  width: 170px;
-  height: 29px;
-  background: var(--nw-orange);
-  transform: rotate(-5deg);
-  -webkit-mask: url(/assets/img/notes/note-s-nulya.svg) no-repeat right center / contain;
-  mask: url(/assets/img/notes/note-s-nulya.svg) no-repeat right center / contain;
-  pointer-events: none;
-}
-
 /* ---------- CTA: blue band like "Форматы" ---------- */
 .networking .nw-cta {
   display: grid;
@@ -549,7 +534,6 @@
   .networking .nw-t-pick { right: 14px; bottom: auto; top: 50%; margin-top: -11px; }
   .networking .nw-head .nw-picked { flex-basis: 100%; }
 
-  .networking .nw-note { width: 140px; height: 24px; top: -12px; right: 12px; }
 
   .networking .nw-cta { grid-template-columns: 1fr; min-height: 0; }
   .networking .nw-cta-copy { padding: 36px 20px 32px; }
@@ -562,4 +546,44 @@
 
 @media (prefers-reduced-motion: reduce) {
   .networking .nw-btn, .networking .nw-btn .i, .networking .nw-ticket, .networking .nw-t-pick::after { transition: none; }
+}
+
+/* ---------- Experiment (27.09.2026, stand only): glass date plate over the cover photo.
+   Enabled by ?glass=1 (networking.js adds .nw-cover--glass). Default cover is untouched. ---------- */
+.networking .nw-cover--glass .nw-copy { position: static; }
+.networking .nw-cover--glass .nw-next {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 2;
+  width: auto;
+  margin: 0;
+  padding: 18px 22px;
+  gap: 18px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 2px;
+  /* Measured 27.09 on the real photo (pixels under the plate, p2/p98): white text on light glass 1.2:1 (white hoodie),
+     black text 8.3:1 at .24 on 1440; on 390 the plate also covers dark background, .24 gives 3.4:1, .4 gives 5.4:1.
+     Orange numeral 1.1-2.2:1 on any tint, so the numeral is black here. */
+  background: rgba(255, 255, 255, .24);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  color: var(--glass-ink, #000);
+}
+.networking .nw-cover--glass .nw-next-date { border-right-color: currentColor; }
+.networking .nw-cover--glass .nw-next-date b { color: var(--glass-num, #000); }
+.networking.nw-glass .page-band--cream:has(> .topbar) {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(250, 247, 242, .72);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid rgba(0, 0, 0, .08);
+}
+@media (max-width: 760px) {
+  .networking .nw-cover--glass .nw-next { left: 20px; right: 20px; bottom: 20px; padding: 14px 16px; background: rgba(255, 255, 255, .4); }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .networking .nw-cover--glass .nw-next { background: rgba(0, 0, 0, .62); --glass-ink: #fff; --glass-num: var(--nw-orange); }
 }

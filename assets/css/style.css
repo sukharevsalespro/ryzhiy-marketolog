@@ -1046,8 +1046,9 @@ html:not(.js) [data-motion]{opacity:1}
 .home .cal .has-ev :is(a,button){position:relative;display:grid;place-items:center;width:100%;height:100%;min-height:44px;padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;touch-action:manipulation}
 .home .cal .has-ev :is(a,button)::before{content:"";position:absolute;left:50%;bottom:14%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--orange)}
 .home .cal .has-ev.is-day :is(a,button)::before{background:#000}
-.home .cal .has-ev.is-past :is(a,button){color:#7a736c;font-weight:400}
-.home .cal .has-ev.is-past :is(a,button)::before{background:#b3aca4}
+.home .cal .has-ev.is-past{background:#e6e2da}
+.home .cal .has-ev.is-past :is(a,button){color:#665f58;font-weight:400}
+.home .cal .has-ev.is-past :is(a,button)::before{background:#8a857c}
 .home .cal .has-ev button[aria-pressed=true]{box-shadow:inset 0 0 0 2px #000}
 .home .cal .has-ev button:focus-visible{outline:2px solid #000;outline-offset:-5px}
 .home .cal-nav button:disabled{opacity:.3;cursor:default}
@@ -1058,3 +1059,5 @@ html:not(.js) [data-motion]{opacity:1}
 .home .formats .format-link:is(:hover,:focus-visible){text-decoration:underline;text-underline-offset:4px}
 .home .formats .format-link:focus-visible{outline:none}
 .home .formats li:has(.format-link:focus-visible){outline:2px solid #000;outline-offset:4px}
+/* Карточка события на телефоне: симметричные внутренние поля, как у карточек «Мысли о маркетинге». */
+@media(max-width:700px){.home .event{padding:22px 20px 24px}.home .cal-wrap>*{min-width:0}.home .event .btn--fill{min-width:0;width:100%;white-space:normal}.home .event-meta{min-width:0}.home .event-meta p{white-space:normal}}
