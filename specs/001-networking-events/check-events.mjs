@@ -73,8 +73,9 @@ if (near) {
   const nearTime = near.time.replace(/\s*МСК$/, '');
   expect(nw.includes(`data-bind="time">${nearTime}</span>`), `обложка: плашка времени не "${nearTime}" (ближайшая дата ${near.id})`);
   const want = encodeURIComponent(`Хочу на нетворкинг ${d} ${m}`);
+  // 7: у «Стандарта» с 58e172b оплата через Prodamus, мессенджеры — только у остальных тарифов.
   const hrefs = [...nw.matchAll(/data-msg="[^"]+"[^>]*href="[^"]*\?text=([^"]+)"/g)].map((x) => x[1]);
-  expect(hrefs.length === 8 && hrefs.every((h) => h.startsWith(want)), `кнопки мессенджеров: текст не на ${d} ${m} (${hrefs.length} ссылок)`);
+  expect(hrefs.length === 7 && hrefs.every((h) => h.startsWith(want)), `кнопки мессенджеров: текст не на ${d} ${m} (${hrefs.length} ссылок)`);
 }
 
 // 3. Главная: статичный календарь на месяце ближайшего события + карточка.
