@@ -11,14 +11,33 @@
 
   /* Календарь: события из /assets/data/events.json. Открывается на месяце
      ближайшего непрошедшего события (все прошли — на последнем), листается
-     от первого до последнего месяца с событиями. Даты считаются по Москве. */
+     от первого до последнего месяца с событиями. Даты считаются по Москве.
+     Анонс на обложке (.hero-announcement) — та же ближайшая дата, из тех же данных. */
   var calendar = document.querySelector('.cal');
   var card = document.getElementById('event');
-  if (calendar && card && window.fetch) {
+  var hero = document.querySelector('.hero-announcement');
+  if ((calendar && card || hero) && window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
-      .then(function (data) { initCalendar(data.events || []); })
-      .catch(function (err) { console.error('Календарь остаётся статичным:', err); });
+      .then(function (data) {
+        var events = data.events || [];
+        if (calendar && card) initCalendar(events);
+        if (hero) fillHero(events);
+      })
+      .catch(function (err) { console.error('Календарь/анонс остаются статичными:', err); });
+  }
+
+  function fillHero(events) {
+    var now = Date.now();
+    var next = events.filter(function (ev) { return !isPast(ev, now); })
+      .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
+    if (!next) { hero.remove(); return; }
+    var p = mskParts(next.start);
+    hero.href = next.url;
+    hero.querySelector('.strip-date').firstChild.textContent = p.d;
+    hero.querySelector('.strip-date small').textContent = ruMonthGen(next.start);
+    hero.querySelector('.strip-text .label').textContent = next.label;
+    hero.querySelector('.strip-text span:last-child').textContent = next.title;
   }
 
   function mskParts(iso) {

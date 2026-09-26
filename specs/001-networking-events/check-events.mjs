@@ -85,6 +85,19 @@ if (next) {
   expect(cardHtml.includes(next.time), `главная: время карточки не "${next.time}"`);
   expect(cardHtml.includes(`<b>${next.price}</b>`), `главная: цена карточки не "${next.price}"`);
   expect(cardHtml.includes(next.desc), 'главная: описание карточки');
+
+  // Анонс на обложке (первый экран) — та же ближайшая дата, не сборка вручную.
+  const heroStart = home.indexOf('<a class="hero-announcement"');
+  expect(heroStart !== -1, 'главная: нет анонса .hero-announcement');
+  if (heroStart !== -1) {
+    const heroHtml = home.slice(heroStart, home.indexOf('</a>', heroStart) + 4);
+    expect(heroHtml.includes(`href="${next.url}"`), `анонс обложки: ссылка не "${next.url}"`);
+    expect(heroHtml.includes(`>${d}<small>${m}</small>`), `анонс обложки: дата не "${d} ${m}"`);
+    expect(heroHtml.includes(`class="label">${next.label}<`), `анонс обложки: надзаголовок не "${next.label}"`);
+    expect(heroHtml.includes(`<span>${next.title}</span>`), `анонс обложки: название не "${next.title}"`);
+  }
+} else {
+  expect(!home.includes('<a class="hero-announcement"'), 'главная: анонс обложки должен быть скрыт — будущих событий нет');
 }
 
 if (errors.length) {
