@@ -130,7 +130,7 @@
       var arrow = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
       act.innerHTML = item.past
         ? '<a class="details" href="' + ev.url + '">Подробнее</a>'
-        : '<a class="btn btn--fill" href="' + ev.url + '">' + ev.cta + ' ' + arrow + '</a>';
+        : '<a class="btn btn--fill md-plate" href="' + ev.url + '">' + ev.cta + ' ' + arrow + '</a>';
     }
 
     calendar.querySelector('tbody').addEventListener('click', function (e) {
@@ -408,4 +408,29 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
       }, { threshold: .3 }).observe(hand);
     })
     .catch(function (err) { console.error('Рукопись показана без анимации:', err); ink.removeAttribute('mask'); reveal(); });
+})();
+
+/* «15+»: счёт 0→15 за 600 мс при появлении (спека 002, T005). Ширина зарезервирована заранее,
+   чтобы соседние блоки не дёргались; при reduced-motion число сразу итоговое. */
+(function () {
+  'use strict';
+  var el = document.querySelector('[data-count]');
+  if (!el || !window.IntersectionObserver || !window.requestAnimationFrame) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var to = parseInt(el.dataset.count, 10);
+  var suffix = el.textContent.replace(/^\d+/, '');
+  if (!to) return;
+  new IntersectionObserver(function (e, obs) {
+    if (!e[0].isIntersecting) return;
+    obs.disconnect();
+    el.style.minWidth = el.getBoundingClientRect().width + 'px';
+    el.setAttribute('aria-label', to + suffix);
+    var t0 = performance.now(), dur = 600;
+    (function tick(now) {
+      var k = Math.min(1, (now - t0) / dur);
+      var eased = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(eased * to) + suffix;
+      if (k < 1) requestAnimationFrame(tick);
+    })(t0);
+  }, { threshold: .4 }).observe(el);
 })();

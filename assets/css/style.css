@@ -1211,3 +1211,19 @@ html:has(.hdr-dialog[open]){overflow:hidden}
   :is(.home,.webinar) .md-plate,:is(.home,.webinar) .formats li,:is(.home,.webinar) .formats li::before,:is(.home,.webinar) .hdr-band,:is(.home,.webinar) .hdr-menu a::after{transition:none}
   :is(.home,.webinar) .md-plate:is(:hover,:focus-visible,:active),:is(.home,.webinar) .formats li:is(:hover,:active){translate:none!important}
 }
+
+/* ===== 002 T003–T005: действие после каждого блока, «кнопка не молчит», счёт «15+». */
+.home .about-cta{margin-top:20px;width:fit-content;gap:14px}
+@media (min-width:1280px){.home .about{height:auto;min-height:151rem}.home .about-cta{margin-top:12rem;min-height:44px;font-size:max(13px,12rem);padding:8px 14px}}
+.home .rev-all{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
+.home .rev-all .btn{gap:14px;font-size:15px;min-height:52px;padding:0 20px;min-width:0;width:auto}
+@media (max-width:700px){.home .rev-all .btn{width:100%}}
+/* «Скоро» заменена на подписку: та же кнопка, что у соседних карточек ряда (D28). */
+.home .card-one .card-notify{margin-top:16px;align-self:flex-start;position:relative;z-index:1;white-space:normal;text-align:left;max-width:100%}
+/* Внешние ссылки и кнопки: мгновенный отклик нажатия, даже если уход со страницы задержится. */
+:is(.home,.webinar) :is(.btn,.pay,.record-buy,.record-details,.details):active:not(:disabled){transition-duration:60ms}
+/* /webinar/ 320: «ОТКЛАДЫВАТЬ» в финальном блоке шире колонки (40px) — сетка раздувалась до 326px,
+   горизонтальная прокрутка была до 002. Колонка не шире экрана, кегль под узкий экран. */
+@media (max-width:359.98px){.webinar .w-final{grid-template-columns:minmax(0,1fr)}.webinar .final-copy h2{font-size:34px}}
+
+:is(.home,.webinar) .md-plate:disabled{translate:none!important;box-shadow:none!important}

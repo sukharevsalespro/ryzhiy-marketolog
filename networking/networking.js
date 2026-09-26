@@ -98,6 +98,25 @@
     bind('mon').textContent = parts[1];
     bind('wd').textContent = first.dataset.weekday.charAt(0).toUpperCase() + first.dataset.weekday.slice(1);
     var ev = events.filter(function (e) { return e.id === visible[0].dataset.ev; })[0];
+    /* Время в фактах: общее для большинства дат + исключения по датам (из того же events.json). */
+    var timesEl = bind('times');
+    var fut = events.filter(function (e) { return e.type === 'networking' && !ended[e.id]; });
+    if (timesEl && fut.length) {
+      var count = {};
+      fut.forEach(function (e) { count[e.time] = (count[e.time] || 0) + 1; });
+      var main = Object.keys(count).sort(function (a, b) { return count[b] - count[a]; })[0];
+      var other = fut.filter(function (e) { return e.time !== main; }).map(function (e) {
+        var d = new Date(e.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
+        return d + ' — ' + e.time.replace(/\s*МСК$/, '');
+      });
+      timesEl.textContent = '';
+      [main].concat(other).forEach(function (t, i) {
+        var sp = document.createElement('span');
+        sp.textContent = t;
+        if (i) timesEl.appendChild(document.createTextNode(' '));
+        timesEl.appendChild(sp);
+      });
+    }
     var timeEl = bind('time');
     if (ev && timeEl) timeEl.textContent = ev.time.replace(/\s*МСК$/, '');
     sync();
