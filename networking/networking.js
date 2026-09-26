@@ -97,6 +97,9 @@
     bind('day').textContent = parts[0];
     bind('mon').textContent = parts[1];
     bind('wd').textContent = first.dataset.weekday.charAt(0).toUpperCase() + first.dataset.weekday.slice(1);
+    var ev = events.filter(function (e) { return e.id === visible[0].dataset.ev; })[0];
+    var timeEl = bind('time');
+    if (ev && timeEl) timeEl.textContent = ev.time.replace(/\s*МСК$/, '');
     sync();
   }
 

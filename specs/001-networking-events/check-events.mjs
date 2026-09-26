@@ -52,6 +52,8 @@ future.forEach((ev) => {
   if (!n) return;
   expect(n.endDate === ev.end, `JSON-LD ${ev.id}: endDate ${n.endDate}`);
   expect(n.location && n.location.name === 'Контур.Толк', `JSON-LD ${ev.id}: location.name`);
+  const nTime = ev.time.replace(/\s*МСК$/, '');
+  expect(n.description.includes(`${nTime} по московскому времени`), `JSON-LD ${ev.id}: описание не содержит "${nTime} по московскому времени"`);
   expect(n.offers.map((o) => o.price).join(',') === offers, `JSON-LD ${ev.id}: цены offers ${n.offers.map((o) => o.price)} ≠ ${offers}`);
   expect(n.offers.every((o) => o.priceCurrency === 'RUB'), `JSON-LD ${ev.id}: валюта`);
 });
@@ -59,13 +61,17 @@ future.forEach((ev) => {
 // Цены тарифов в видимом тексте.
 const body = text(nw);
 for (const t of data.tariffs) for (const o of t.offers) expect(body.includes(rub(o.price)), `/networking/: нет цены "${rub(o.price)}" (${t.name})`);
-expect(body.includes('12:00–14:00 МСК'), '/networking/: нет времени 12:00–14:00 МСК');
+// Время у каждой даты своё (ФТ-9): в тексте страницы должно быть время каждого будущего нетворкинга,
+// а не единое "12:00–14:00" на все даты.
+for (const ev of future) expect(body.includes(ev.time), `/networking/: нет времени "${ev.time}" (${ev.id})`);
 
 // Ближайшая дата в обложке и ссылки мессенджеров без JS.
 const near = future[0];
 if (near) {
   const [d, m] = fmt(near.start, { day: 'numeric', month: 'long' }).split(' ');
   expect(nw.includes(`<b data-bind="day">${d}</b><span data-bind="mon">${m}</span>`), `обложка: ближайшая дата не ${d} ${m}`);
+  const nearTime = near.time.replace(/\s*МСК$/, '');
+  expect(nw.includes(`data-bind="time">${nearTime}</span>`), `обложка: плашка времени не "${nearTime}" (ближайшая дата ${near.id})`);
   const want = encodeURIComponent(`Хочу на нетворкинг ${d} ${m}`);
   const hrefs = [...nw.matchAll(/data-msg="[^"]+"[^>]*href="[^"]*\?text=([^"]+)"/g)].map((x) => x[1]);
   expect(hrefs.length === 8 && hrefs.every((h) => h.startsWith(want)), `кнопки мессенджеров: текст не на ${d} ${m} (${hrefs.length} ссылок)`);
