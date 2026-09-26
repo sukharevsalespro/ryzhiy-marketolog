@@ -1,0 +1,132 @@
+/* 002 motion-depth — МАКЕТ T000 (шапка А/Б, плашка-оттиск, движение обложки, плитки «Форматов»).
+   Reference-lock (Refero): эталон docs/reference-poster.jpg — главный; OpenWeb 4ba1eb9b (чёрная
+   прямоугольная CTA, тонкая линейка), Album Colors 99be9294 (0px, контролы в цвет текста),
+   Pop Manifesto 137e85e2 (вариант Б: навигация цветовым блоком), Nothing 5e52ffa8 (полноэкранное меню).
+   Глубина — оттиск второй краски без размытия, не тень. Движение — только transform/opacity/clip-path. */
+
+:root{
+  --md-ink:#000;--md-cream:#faf7f2;--md-orange:#fe6c1f;--md-rust-ink:#c4490a;
+  --md-ease:cubic-bezier(.2,.7,.2,1);--md-t-tap:90ms;--md-t-state:200ms;--md-off:3px;
+}
+
+/* ---------- Плашка-оттиск ---------- */
+.home .md-plate{--plate:var(--md-ink);transition:translate var(--md-t-state) var(--md-ease),box-shadow var(--md-t-state) var(--md-ease),background-color .2s,color .2s,border-color .2s}
+@media (hover:hover){
+  .home .md-plate:is(:hover,:focus-visible){translate:calc(-1 * var(--md-off)) calc(-1 * var(--md-off));box-shadow:var(--md-off) var(--md-off) 0 0 var(--plate)}
+  .home .md-plate:active{translate:1px 1px;box-shadow:0 0 0 0 var(--plate);transition-duration:var(--md-t-tap)}
+}
+@media (hover:none){ /* телефон: оттиск только в момент нажатия (решение владельца 2) */
+  .home .md-plate:active{translate:calc(-1 * var(--md-off)) calc(-1 * var(--md-off));box-shadow:var(--md-off) var(--md-off) 0 0 var(--plate);transition-duration:var(--md-t-tap)}
+}
+.home .hero-cta.md-plate{--plate:var(--md-ink)}
+/* Отклик нажатия — оттиск, а не общее «потускнение» .72 из style.css. */
+.home :is(a,button).md-plate:active:not(:disabled),.home .formats .fmt-tile:active{opacity:1}
+@media (hover:hover){.home .hero-cta.md-plate:is(:hover,:focus-visible){background:var(--md-cream);color:var(--md-ink);border-color:var(--md-ink)}}
+
+/* ---------- Шапка ---------- */
+html[data-hdr="a"],html:not([data-hdr]){--hdr-bg:var(--md-cream);--hdr-fg:var(--md-ink);--hdr-glass:rgba(250,247,242,.78);--hdr-line:rgba(0,0,0,.22);--hdr-hover:var(--md-rust-ink);--hdr-cta-bg:var(--md-ink);--hdr-cta-fg:var(--md-cream);--hdr-cta-hbg:var(--md-cream);--hdr-cta-hfg:var(--md-ink);--hdr-plate:var(--md-ink)}
+html[data-hdr="b"]{--hdr-bg:var(--md-ink);--hdr-fg:var(--md-cream);--hdr-glass:rgba(0,0,0,.74);--hdr-line:rgba(250,247,242,.22);--hdr-hover:var(--md-orange);--hdr-cta-bg:var(--md-orange);--hdr-cta-fg:var(--md-ink);--hdr-cta-hbg:var(--md-orange);--hdr-cta-hfg:var(--md-ink);--hdr-plate:var(--md-cream)}
+
+.home .hdr-band{position:sticky;top:0;z-index:60;background:var(--hdr-bg);color:var(--hdr-fg);transition:background-color .25s var(--md-ease),box-shadow .25s var(--md-ease)}
+.home .hdr-band.is-stuck{background:var(--hdr-glass);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);box-shadow:inset 0 -1px 0 var(--hdr-line)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.home .hdr-band.is-stuck{background:var(--hdr-bg)}}
+@media (prefers-reduced-transparency:reduce){.home .hdr-band.is-stuck{background:var(--hdr-bg);backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+.home .hdr{display:flex;align-items:center;gap:8px;height:64px;padding-inline:20px;font:500 15px/1 'Golos Text',sans-serif;color:inherit}
+@media (min-width:1280px){.home .hdr{padding-inline:24rem}}
+.home .hdr a{color:inherit;text-decoration:none}
+.home .hdr-name{margin-right:auto;display:inline-flex;align-items:center;gap:.28em;min-height:44px;font:700 23px/1 Poster,sans-serif;font-stretch:92.3%;letter-spacing:-.035em;white-space:nowrap}
+.home .hdr-menu{display:flex;gap:0;padding:0}
+.home .hdr-menu a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 13px;transition:color .15s}
+.home .hdr-menu a::after{content:"";position:absolute;left:13px;right:13px;bottom:9px;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--md-t-state) var(--md-ease)}
+.home .hdr-menu a[aria-current="true"]::after{transform:scaleX(1)}
+@media (hover:hover){.home .hdr .hdr-menu a:hover{color:var(--hdr-hover);text-decoration:none}.home .hdr-menu a:hover::after{transform:scaleX(1)}}
+.home .hdr-social{display:flex;gap:0;padding:0 6px 0 10px;margin-left:6px;border-left:1px solid var(--hdr-line)}
+.home .hdr-social a,.home .hdr-dialog-social a{display:grid;place-items:center;width:44px;height:44px;transition:color .15s,translate var(--md-t-state) var(--md-ease)}
+.home :is(.hdr-social,.hdr-dialog-social) svg{width:21px;height:21px;fill:currentColor}
+@media (hover:hover){.home .hdr .hdr-social a:hover{color:var(--hdr-hover);translate:0 -2px}}
+.home .hdr-social a:active{translate:0 1px}
+.home .hdr-cta,.home .hdr-dialog-cta{--plate:var(--hdr-plate);display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;margin-left:6px;background:var(--hdr-cta-bg);color:var(--hdr-cta-fg);border:1.5px solid var(--hdr-cta-bg);font:600 14px/1 'Golos Text',sans-serif;white-space:nowrap}
+.home .hdr .hdr-cta{color:var(--hdr-cta-fg)}
+.home .hdr-cta b{font:900 17px/1 Poster,sans-serif;font-stretch:condensed;letter-spacing:0}
+.home :is(.hdr-cta,.hdr-dialog-cta) .i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;transition:translate var(--md-t-state) var(--md-ease)}
+@media (hover:hover){
+  .home .hdr .hdr-cta:is(:hover,:focus-visible){background:var(--hdr-cta-hbg);color:var(--hdr-cta-hfg);border-color:var(--hdr-cta-hfg);text-decoration:none}
+  .home .hdr-cta:hover .i{translate:4px 0}
+}
+.home .hdr-burger{display:none;width:44px;height:44px;padding:0;border:0;background:none;color:inherit;cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:7px}
+.home .hdr-burger span{display:block;width:24px;height:2px;background:currentColor;transition:translate var(--md-t-state) var(--md-ease)}
+.home .hdr-burger:active span:first-child{translate:0 2px}.home .hdr-burger:active span:last-child{translate:0 -2px}
+.home .hdr :focus-visible,.home .hdr-dialog :focus-visible{outline:2px solid currentColor;outline-offset:2px}
+
+@media (max-width:1199.98px){.home .hdr-cta{display:none}}
+@media (max-width:1023.98px){
+  .home .hdr{height:60px;gap:0}
+  .home .hdr-menu{display:none}
+  .home .hdr-social{border-left:0;margin:0;padding:0}
+  .home .hdr-burger{display:inline-flex}
+}
+@media (max-width:419.98px){
+  .home .hdr-name{flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;font-size:18px;line-height:.95}
+}
+
+/* Мобильное меню: нативный <dialog>, выезжает из-под шапки (эмерджит от кнопки). */
+.home .hdr-dialog{position:fixed;inset:0;width:100%;max-width:none;height:100dvh;max-height:none;margin:0;padding:0 20px 24px;border:0;background:var(--md-orange);color:var(--md-ink);display:none;flex-direction:column;overflow:auto}
+.home .hdr-dialog[open]{display:flex}
+.home .hdr-dialog::backdrop{background:transparent}
+.home .hdr-dialog-top{display:flex;align-items:center;justify-content:space-between;height:60px;flex:none}
+.home .hdr-close{width:44px;height:44px;border:0;background:none;color:inherit;font:300 40px/1 'Golos Text',sans-serif;cursor:pointer;padding:0}
+.home .hdr-dialog-nav{display:flex;flex-direction:column;gap:0;margin-top:18px}
+.home .hdr-dialog-nav a{display:block;padding:12px 0 10px;border-bottom:1.5px solid var(--md-ink);color:inherit;text-decoration:none;font:900 clamp(40px,12.5vw,60px)/.92 Poster,sans-serif;font-stretch:condensed;letter-spacing:-.02em;text-transform:uppercase}
+.home .hdr-dialog-nav a:first-child{border-top:1.5px solid var(--md-ink)}
+.home .hdr-dialog-nav a:active{color:var(--md-cream)}
+.home .hdr-dialog-foot{margin-top:auto;padding-top:28px;display:grid;gap:14px}
+.home .hdr-dialog-cta{--plate:var(--md-cream);justify-content:space-between;margin:0;min-height:52px;background:var(--md-ink);color:var(--md-cream);border-color:var(--md-ink);font-size:16px}
+.home .hdr-dialog-social{display:flex;gap:4px;margin-left:-11px}
+.home .hdr-dialog-social svg{width:24px;height:24px}
+html:has(.hdr-dialog[open]){overflow:hidden}
+@media (min-width:1024px){.home .hdr-dialog{display:none!important}}
+
+/* ---------- Плитки «Форматов»: оттиск карточки ---------- */
+.home .formats li{position:relative;transition:translate var(--md-t-state) var(--md-ease)}
+.home .formats .fmt-tile{display:block;color:inherit;text-decoration:none}
+.home .formats .fmt-tile::after{content:"";position:absolute;inset:-10px -12px;z-index:4}
+.home .formats li::before{content:"";position:absolute;inset:-10px -12px;z-index:0;background:var(--md-blue,#1f7efc);border:1.5px solid var(--md-ink);box-shadow:0 0 0 0 var(--md-ink);opacity:0;transition:opacity .12s,box-shadow var(--md-t-state) var(--md-ease),translate var(--md-t-state) var(--md-ease)}
+.home .formats li>a>*{position:relative;z-index:1}
+.home .formats li>a>:is(b,p){position:absolute}
+.home .fmt-go{position:absolute!important;top:2px;right:6px;font:400 22px/1 'Golos Text',sans-serif;transition:translate var(--md-t-state) var(--md-ease)}
+@media (min-width:1280px){.home .fmt-go{top:6rem;right:10rem;font-size:max(18px,11rem)}}
+@media (max-width:1279.98px){.home .formats li>a>:is(b,p){position:relative}}
+@media (hover:hover){
+  .home .formats li:hover,.home .formats li:has(.fmt-tile:focus-visible){z-index:3;translate:calc(-1 * var(--md-off)) calc(-1 * var(--md-off))}
+  .home .formats li:is(:hover,:has(.fmt-tile:focus-visible))::before{opacity:1;box-shadow:5px 5px 0 0 var(--md-ink)}
+  .home .formats li:hover .fmt-go{translate:4px 0}
+  .home .formats li:active{translate:1px 1px}
+  .home .formats li:active::before{box-shadow:0 0 0 0 var(--md-ink);transition-duration:var(--md-t-tap)}
+}
+@media (hover:none){
+  .home .formats li:active{z-index:3;translate:calc(-1 * var(--md-off)) calc(-1 * var(--md-off))}
+  .home .formats li:active::before{opacity:1;box-shadow:5px 5px 0 0 var(--md-ink)}
+}
+.home .formats .fmt-tile:focus-visible{outline:none}
+.home .formats li:has(.fmt-tile:focus-visible)::before{outline:2px solid var(--md-ink);outline-offset:3px}
+
+/* ---------- Обложка: строки заголовка, параллакс, перо ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .home [data-md="line"]{animation:md-line .7s var(--md-ease) backwards;animation-delay:calc(var(--i,0) * 90ms + 120ms)}
+  @supports (animation-timeline:view()){
+    .home .hero-media img{animation:md-parallax linear both;animation-timeline:view();animation-range:exit 0% exit 100%}
+  }
+}
+@keyframes md-line{from{clip-path:inset(100% -2% -12% -2%);translate:0 .22em}to{clip-path:inset(-12% -2% -12% -2%);translate:0 0}}
+@keyframes md-parallax{from{translate:0 0}to{translate:0 var(--md-par,64px)}}
+@media (max-width:1279.98px){.home .hero-media img{--md-par:28px}}
+
+.home .hand-pen path{stroke-dasharray:1 1;stroke-dashoffset:1}
+.home .hero-hand.is-writing .hand-pen path{animation:md-pen var(--t) linear var(--d) forwards}
+@keyframes md-pen{to{stroke-dashoffset:0}}
+
+@media (prefers-reduced-motion:reduce){
+  .home .md-plate,.home .formats li,.home .formats li::before,.home .hdr-band,.home .hdr-menu a::after{transition:none}
+  .home .md-plate:is(:hover,:focus-visible,:active),.home .formats li:is(:hover,:active){translate:none!important}
+}
