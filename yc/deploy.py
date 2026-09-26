@@ -1,4 +1,4 @@
-"""Деплой Yandex Cloud Function ryzhiy-lead в каталог b1gca5upee7s5m8bssk8.
+"""Деплой Yandex Cloud Functions ryzhiy-lead / ryzhiy-pay (`python3 yc/deploy.py ryzhiy-pay`) в каталог b1gca5upee7s5m8bssk8.
 
 НЕ ЗАПУСКАТЬ автоматически — только по явной команде оператора, после ревью.
 
@@ -36,17 +36,23 @@ OPERATION_URL = "https://operation.api.cloud.yandex.net/operations"
 
 YC_DIR = Path(__file__).parent
 
-FUNCTION_NAME = "ryzhiy-lead"
-FUNCTION_DIR = YC_DIR / "lead"
 ENTRYPOINT = "index.handler"
-ENV_KEYS = ["TG_TOKEN", "TG_CHAT_ID", "MAX_TOKEN", "MAX_CHAT_ID", "INGRESS_SECRET"]
+_COMMON_ENV = ["TG_TOKEN", "TG_CHAT_ID", "MAX_TOKEN", "MAX_CHAT_ID", "INGRESS_SECRET"]
+# имя → (файлы zip {arcname: источник}, env-ключи, файл с URL функции)
+FUNCTIONS = {
+    "ryzhiy-lead": ({"index.py": YC_DIR / "lead" / "index.py"}, _COMMON_ENV, YC_DIR / "FUNCTION_URL.txt"),
+    # lead.py — общий модуль доставки TG/MAX, ryzhiy-pay делает `import lead`
+    "ryzhiy-pay": (
+        {"index.py": YC_DIR / "ryzhiy-pay" / "index.py", "lead.py": YC_DIR / "lead" / "index.py"},
+        _COMMON_ENV + ["PRODAMUS_SECRET"],
+        YC_DIR / "PAY_FUNCTION_URL.txt",
+    ),
+}
 
 RUNTIME = "python312"
 MEMORY_BYTES = "134217728"  # 128 MB — с большим запасом хватает
 # запас на TG (pinned-IP + hostname fallback, до 2×5с) + MAX (до 3 хостов, ≤5с)
 TIMEOUT_SECONDS = "20"
-
-FUNCTION_URL_FILE = YC_DIR / "FUNCTION_URL.txt"
 
 
 def iam_token() -> str:
@@ -107,12 +113,19 @@ def create_function(name: str, token: str) -> str:
     return response["id"]
 
 
-def zip_source(directory: Path) -> bytes:
+def zip_source(files: dict[str, Path]) -> bytes:
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
-        for path in sorted(directory.rglob("*.py")):
-            zf.write(path, arcname=path.name)
+        for arcname, path in files.items():
+            zf.write(path, arcname=arcname)
     return buf.getvalue()
+
+
+def _prodamus_key() -> str:
+    """Файл вида `secret_key=<значение>` → только значение; иначе весь файл."""
+    raw = Path("/root/.secrets/prodamus.txt").read_text().strip()
+    name, sep, value = raw.partition("=")
+    return value.strip() if sep and "\n" not in raw and name.strip().isidentifier() else raw
 
 
 def load_env_values() -> dict[str, str]:
@@ -127,6 +140,7 @@ def load_env_values() -> dict[str, str]:
         "MAX_TOKEN": Path("/root/.secrets/ryzhiy_max_bot.txt").read_text().strip(),
         "MAX_CHAT_ID": Path("/root/.secrets/ryzhiy_max_chat_id.txt").read_text().strip(),
         "INGRESS_SECRET": Path("/root/.secrets/ryzhiy_ingress_key.txt").read_text().strip(),
+        "PRODAMUS_SECRET": _prodamus_key(),
     }
 
 
@@ -140,25 +154,26 @@ def make_public(function_id: str, token: str) -> None:
     _wait_operation(op["id"], token)
 
 
-def deploy() -> str:
+def deploy(name: str) -> str:
+    files, env_keys, url_file = FUNCTIONS[name]
     token = iam_token()
     env_values = load_env_values()
 
-    function_id = find_function_id(FUNCTION_NAME, token)
+    function_id = find_function_id(name, token)
     if function_id is None:
-        print(f"создаю функцию {FUNCTION_NAME}...")
-        function_id = create_function(FUNCTION_NAME, token)
+        print(f"создаю функцию {name}...")
+        function_id = create_function(name, token)
     else:
-        print(f"функция {FUNCTION_NAME} уже есть: {function_id}")
+        print(f"функция {name} уже есть: {function_id}")
 
-    content_b64 = base64.b64encode(zip_source(FUNCTION_DIR)).decode()
+    content_b64 = base64.b64encode(zip_source(files)).decode()
     body = {
         "functionId": function_id,
         "runtime": RUNTIME,
         "entrypoint": ENTRYPOINT,
         "resources": {"memory": MEMORY_BYTES},
         "executionTimeout": f"{TIMEOUT_SECONDS}s",
-        "environment": {key: env_values[key] for key in ENV_KEYS},
+        "environment": {key: env_values[key] for key in env_keys},
         "content": content_b64,
     }
     print("  заливаю версию кода...")
@@ -169,13 +184,15 @@ def deploy() -> str:
     make_public(function_id, token)
 
     url = f"https://functions.yandexcloud.net/{function_id}"
-    FUNCTION_URL_FILE.write_text(url + "\n")
-    print(f"готово: {FUNCTION_NAME} -> {function_id}\n{url}")
+    url_file.write_text(url + "\n")
+    print(f"готово: {name} -> {function_id}\n{url}")
     return url
 
 
 def main() -> None:
-    deploy()
+    import sys
+
+    deploy(sys.argv[1] if len(sys.argv) > 1 else "ryzhiy-lead")
 
 
 if __name__ == "__main__":
