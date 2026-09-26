@@ -1,0 +1,579 @@
+/* /networking/: cover, format, date tickets, tariffs, CTA band, past line.
+   Reference lock (Refero, 26.09.2026):
+   - primary: docs/reference-poster.jpg + Album Colors 99be9294 — orange field, black condensed caps,
+     1px straight rules, radius 0, no shadows;
+   - Art In DUMBO 33e3087c — print-programme date line, thin dividers, orange only for status;
+   - fal.ai /events adc4e269 — nearest event carries the cover;
+   - ManyChat 5c1a397c — price-by-volume as hairline table rows ("Спикер");
+   - Tilda pricing 407e4fb2 — bordered plan cards in one row, action at the bottom;
+   - Airbnb radio cards c91ca562 — whole card is the radio, state drawn on the card (date tickets);
+   - Runway /meetups 2beb1f1f — past events quiet, no CTA. */
+
+.networking {
+  --nw-ink: #000;
+  --nw-cream: #faf7f2;
+  --nw-orange: #fe6c1f;
+  --nw-rule: 1px solid var(--nw-ink);
+  --nw-ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* ---------- Buttons: poster ghost button, orange fill for the primary action ---------- */
+.networking .nw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1.5px solid var(--nw-ink);
+  background: transparent;
+  color: var(--nw-ink);
+  font: 600 15px/1.2 'Golos Text', sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 160ms var(--nw-ease), color 160ms var(--nw-ease), transform 90ms ease-out;
+}
+.networking .nw-btn .i {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  transition: transform 180ms var(--nw-ease);
+}
+.networking .nw-btn--fill { background: var(--nw-orange); }
+.networking .nw-btn:hover { background: var(--nw-ink); color: var(--nw-cream); }
+.networking .nw-btn:active { transform: translateY(1px); }
+.networking .nw-btn:focus-visible { outline: 2px solid var(--nw-ink); outline-offset: 3px; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .networking .nw-btn:hover .i { transform: translateX(3px); }
+  .networking .nw-btn--hero:hover .i { transform: translateY(3px); }
+}
+
+/* ---------- Cover ---------- */
+.networking .nw-nb { white-space: nowrap; }
+.networking .nw-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44%;
+  min-height: min(640px, calc(100svh - 64px));
+  position: relative;
+  overflow: hidden;
+}
+.networking .nw-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px 32px 40px var(--gutter, 40px);
+  color: var(--nw-ink);
+}
+.networking .nw-back { margin: 0 0 28px; color: var(--nw-ink); }
+.networking .nw-kicker,
+.networking .nw-next-label {
+  margin: 0;
+  font: 600 12px/1.4 'Golos Text', sans-serif;
+  letter-spacing: .16em;
+}
+.networking .nw-title {
+  margin: 14px 0 0;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(56px, 8.4vw, 124px);
+  line-height: .84;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+}
+.networking .nw-title span { display: block; white-space: nowrap; }
+.networking .nw-lead {
+  max-width: 25em;
+  margin: 24px 0 0;
+  font: 500 clamp(17px, 1.35vw, 20px)/1.4 'Golos Text', sans-serif;
+  text-wrap: pretty;
+}
+.networking .nw-btn--hero { margin: 28px 0 36px; min-width: 230px; }
+
+/* Poster's date strip: big numeral | label + facts, hairline above. */
+.networking .nw-next {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: auto;
+  padding-top: 22px;
+  border-top: 1px solid rgba(0, 0, 0, .55);
+}
+.networking .nw-next-date {
+  margin: 0;
+  padding-right: 20px;
+  border-right: var(--nw-rule);
+  font-family: Poster, sans-serif;
+  font-stretch: 75%;
+}
+.networking .nw-next-date b {
+  display: block;
+  font-weight: 900;
+  font-size: 88px;
+  line-height: .8;
+  letter-spacing: -.04em;
+}
+.networking .nw-next-date span {
+  display: block;
+  margin-top: 6px;
+  font: 700 17px/1 'Golos Text', sans-serif;
+}
+.networking .nw-next-meta p { margin: 0; font: 500 17px/1.35 'Golos Text', sans-serif; }
+.networking .nw-next-meta .nw-next-label { margin-bottom: 6px; font-size: 11px; }
+
+/* Photo: poster diagonal on the left edge, straight elsewhere. */
+.networking .nw-photo {
+  margin: 0;
+  position: relative;
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+}
+.networking .nw-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Owner's choice 26.09: variant D, portrait-phone-call, full source width, reflection kept whole. */
+  object-position: 50% 40%;
+}
+
+/* ---------- Tariffs ---------- */
+.networking .nw-tariffs { padding: 64px var(--gutter, 40px) 80px; color: var(--nw-ink); }
+.networking .nw-head {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 36px;
+}
+.networking .nw-head h2 {
+  margin: 0;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(44px, 4.6vw, 68px);
+  line-height: .9;
+  letter-spacing: -.02em;
+}
+.networking .nw-rule { flex: 1 1 auto; border-top: var(--nw-rule); min-width: 40px; }
+.networking .nw-head p { flex: 0 1 25em; margin: 0; font: 500 16px/1.45 'Golos Text', sans-serif; }
+
+.networking .nw-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.22fr;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0 16px;
+}
+.networking .nw-plan {
+  position: relative;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  gap: 0;
+  padding: 28px 28px 28px;
+  border: var(--nw-rule);
+  background: var(--nw-cream);
+}
+.networking .nw-plan h3 {
+  margin: 0;
+  font-family: Poster, sans-serif;
+  font-weight: 800;
+  font-stretch: 75%;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.networking .nw-price {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+  padding: 18px 0 20px;
+  border-block: var(--nw-rule);
+}
+.networking .nw-sum {
+  margin: 0;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: 64px;
+  line-height: .9;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.networking .nw-sum { margin-top: auto; padding-top: 14px; }
+.networking .nw-rate { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.networking .nw-cap {
+  margin: 0;
+  font: 600 11px/1.4 'Golos Text', sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.networking .nw-rate th,
+.networking .nw-rate td { padding: 7px 0; border-top: 1px solid rgba(0, 0, 0, .18); vertical-align: baseline; }
+.networking .nw-rate tr:first-child :is(th, td) { border-top: 0; }
+.networking .nw-rate th { text-align: left; font: 500 16px/1.2 'Golos Text', sans-serif; }
+.networking .nw-rate td {
+  text-align: right;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: 30px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.networking .nw-list-wrap { padding-top: 20px; }
+.networking .nw-list { margin: 0; padding: 20px 0 0; list-style: none; }
+.networking .nw-list-wrap .nw-list { padding-top: 8px; }
+.networking .nw-list li {
+  position: relative;
+  padding-left: 18px;
+  font: 400 16px/1.45 'Golos Text', sans-serif;
+}
+.networking .nw-list li + li { margin-top: 8px; }
+.networking .nw-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .58em;
+  width: 7px;
+  height: 7px;
+  background: var(--nw-orange);
+}
+.networking .nw-sub,
+.networking .nw-extra { margin: 0; font: 400 16px/1.45 'Golos Text', sans-serif; }
+.networking .nw-sub { font-weight: 600; }
+.networking .nw-extra { margin-top: 12px; }
+.networking .nw-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-self: end;
+  padding-top: 28px;
+}
+.networking .nw-acts .nw-btn { flex: 1 1 200px; }
+
+/* Accent plan: black card, cream type. */
+.networking .nw-plan--ink { background: var(--nw-ink); color: var(--nw-cream); border-color: var(--nw-ink); }
+.networking .nw-plan--ink .nw-price { border-color: rgba(250, 247, 242, .6); }
+.networking .nw-plan--ink .nw-btn { color: var(--nw-cream); border-color: var(--nw-cream); }
+.networking .nw-plan--ink .nw-btn--fill { color: var(--nw-ink); border-color: var(--nw-orange); }
+.networking .nw-plan--ink .nw-btn:hover { background: var(--nw-cream); color: var(--nw-ink); border-color: var(--nw-cream); }
+.networking .nw-plan--ink .nw-btn:focus-visible { outline-color: var(--nw-cream); }
+
+
+.networking [hidden] { display: none !important; }
+.networking .toast-x { min-width: 44px; min-height: 44px; }
+
+/* ---------- Format: poster "15+" numeral + verbatim copy ---------- */
+.networking .nw-format {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px 64px;
+  align-items: end;
+  padding: 72px var(--gutter, 40px) 64px;
+  color: var(--nw-ink);
+  border-bottom: var(--nw-rule);
+}
+.networking .nw-big { margin: 0; }
+.networking .nw-big b {
+  display: block;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(120px, 15vw, 220px);
+  line-height: .8;
+  letter-spacing: -.035em;
+  color: #fd5918;
+  -webkit-text-stroke: 1px #fd5918;
+}
+.networking .nw-big span {
+  display: block;
+  max-width: 17em;
+  margin-top: 16px;
+  font: 700 clamp(19px, 1.6vw, 24px)/1.25 'Golos Text', sans-serif;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.networking .nw-format-text {
+  margin: 0;
+  max-width: 30em;
+  font: 500 clamp(18px, 1.45vw, 21px)/1.45 'Golos Text', sans-serif;
+  text-wrap: pretty;
+}
+.networking .nw-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0 0;
+  padding-top: 18px;
+  border-top: var(--nw-rule);
+}
+.networking .nw-facts dt { font: 600 11px/1.4 'Golos Text', sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.networking .nw-facts dd { margin: 4px 0 0; font: 700 17px/1.3 'Golos Text', sans-serif; }
+
+/* ---------- Date tickets: the whole ticket is the radio ---------- */
+.networking .nw-dates { padding: 56px var(--gutter, 40px) 12px; color: var(--nw-ink); }
+.networking .nw-tickets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.networking .nw-ticket {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  min-height: 150px;
+  border: 1.5px solid var(--nw-ink);
+  background: var(--nw-cream);
+  color: var(--nw-ink);
+  cursor: pointer;
+  overflow: hidden;
+  touch-action: manipulation;
+  transition: background-color 180ms var(--nw-ease), color 180ms var(--nw-ease), transform 90ms ease-out;
+}
+.networking .nw-ticket input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.networking .nw-t-main { display: flex; flex-direction: column; justify-content: center; padding: 18px 20px; }
+.networking .nw-t-day {
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: 92px;
+  line-height: .8;
+  letter-spacing: -.04em;
+  color: #fd5918;
+  font-variant-numeric: tabular-nums;
+}
+.networking .nw-t-mon { margin-top: 8px; font: 700 18px/1 'Golos Text', sans-serif; }
+.networking .nw-t-stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 18px 18px 18px 22px;
+  border-left: 1.5px dashed currentColor;
+}
+/* Perforation notches: half-circles cut into the top and bottom edge. */
+.networking .nw-t-stub::before,
+.networking .nw-t-stub::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--nw-ink);
+  border-radius: 50%;
+  background: var(--nw-cream);
+}
+.networking .nw-t-stub::before { top: -11px; }
+.networking .nw-t-stub::after { bottom: -11px; }
+.networking .nw-t-wd { font: 700 16px/1.3 'Golos Text', sans-serif; }
+.networking .nw-t-wd::first-letter { text-transform: uppercase; }
+.networking .nw-t-time { font: 500 15px/1.3 'Golos Text', sans-serif; white-space: nowrap; }
+.networking .nw-tag {
+  margin-top: 6px;
+  padding: 3px 7px;
+  background: var(--nw-orange);
+  color: var(--nw-ink);
+  font: 700 10.5px/1.3 'Golos Text', sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.networking .nw-t-pick {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid currentColor;
+  display: grid;
+  place-items: center;
+}
+.networking .nw-t-pick::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: var(--nw-orange);
+  transform: scale(0);
+  transition: transform 160ms var(--nw-ease);
+}
+.networking .nw-ticket:has(input:checked) { background: var(--nw-ink); color: var(--nw-cream); }
+.networking .nw-ticket:has(input:checked) .nw-t-pick::after { transform: scale(1); }
+.networking .nw-ticket:has(input:focus-visible) { outline: 2px solid var(--nw-ink); outline-offset: 3px; }
+.networking .nw-ticket:active { transform: translateY(1px); }
+@media (hover: hover) {
+  .networking .nw-ticket:not(:has(input:checked)):hover { background: #fff; }
+}
+.networking .nw-empty { margin: 0; font: 600 18px/1.4 'Golos Text', sans-serif; }
+
+/* Picked date line in the tariffs header. */
+.networking .nw-head .nw-picked { flex: 0 1 auto; font: 500 16px/1.4 'Golos Text', sans-serif; }
+.networking .nw-picked a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-left: 10px;
+  color: var(--nw-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- CTA: blue band like "Форматы" ---------- */
+.networking .nw-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34%;
+  min-height: 420px;
+  color: var(--nw-ink);
+  overflow: hidden;
+}
+.networking .nw-cta-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px 40px 56px var(--gutter, 40px);
+}
+.networking .nw-cta h2 {
+  margin: 0;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(48px, 5.4vw, 80px);
+  line-height: .9;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
+.networking .nw-cta-text {
+  max-width: 26em;
+  margin: 18px 0 0;
+  font: 500 clamp(18px, 1.5vw, 22px)/1.4 'Golos Text', sans-serif;
+  text-wrap: pretty;
+}
+.networking .nw-acts--cta { align-self: flex-start; width: 100%; max-width: 560px; padding-top: 28px; }
+.networking .nw-acts--cta .nw-btn--fill { background: var(--nw-ink); color: var(--nw-cream); }
+.networking .nw-acts--cta .nw-btn--fill:hover { background: var(--nw-cream); color: var(--nw-ink); }
+.networking .nw-cta-photo { position: relative; margin: 0; clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%); }
+.networking .nw-cta-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 26%;
+}
+
+/* ---------- Past: one quiet line, no actions ---------- */
+.networking .nw-past { padding: 22px var(--gutter, 40px); }
+.networking .nw-past p { margin: 0; font: 500 15px/1.4 'Golos Text', sans-serif; color: #6b635c; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) and (min-width: 761px) {
+  .networking .nw-plans { grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 16px; }
+  .networking .nw-plan { grid-row: auto; grid-template-rows: auto auto 1fr auto; }
+  .networking .nw-plan--ink { grid-column: 1 / -1; }
+  /* Tablet: three narrow tickets, stub torn off below the date. */
+  .networking .nw-ticket { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .networking .nw-t-day { font-size: 76px; }
+  .networking .nw-t-stub { border-left: 0; border-top: 1.5px dashed currentColor; padding: 14px 20px 48px; }
+  .networking .nw-t-stub::before { top: -10px; left: -10px; }
+  .networking .nw-t-stub::after { top: -10px; bottom: auto; left: auto; right: -10px; }
+  .networking .nw-format { gap: 28px 40px; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 760px) {
+  .networking .nw-hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .networking .nw-copy { padding: 18px 20px 28px; }
+  .networking .nw-back { margin-bottom: 18px; }
+  .networking .nw-title { font-size: clamp(40px, 15.4vw, 84px); }
+  .networking .nw-lead { font-size: 17px; margin-top: 18px; }
+  .networking .nw-btn--hero { width: 100%; margin-top: 22px; }
+  .networking .nw-next { width: 100%; margin-top: 26px; padding-top: 18px; gap: 16px; }
+  .networking .nw-next-date { padding-right: 16px; }
+  .networking .nw-next-date b { font-size: 76px; }
+  .networking .nw-next-meta p { font-size: 16px; }
+  .networking .nw-photo { height: 440px; clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 100%); }
+
+  .networking .nw-tariffs { padding: 36px 20px 44px; }
+  .networking .nw-head { flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .networking .nw-head h2 { font-size: 44px; }
+  .networking .nw-rule { display: none; }
+  .networking .nw-head p { flex-basis: 100%; }
+  .networking .nw-plans { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; }
+  .networking .nw-plan { grid-row: auto; grid-template-rows: none; padding: 22px 20px 20px; }
+  .networking .nw-plan h3 { font-size: 30px; }
+  .networking .nw-sum { font-size: 56px; }
+  .networking .nw-btn--hero { margin-bottom: 0; }
+  .networking .nw-acts { flex-direction: column; padding-top: 22px; }
+  .networking .nw-acts .nw-btn { flex: 0 0 auto; width: 100%; }
+
+  .networking .nw-format { grid-template-columns: 1fr; padding: 40px 20px 36px; gap: 22px; }
+  .networking .nw-big b { font-size: clamp(104px, 34vw, 150px); }
+  .networking .nw-big span { font-size: 19px; }
+  .networking .nw-format-text { font-size: 17px; }
+  .networking .nw-facts { margin-top: 22px; }
+  .networking .nw-facts dd { font-size: 16px; }
+
+  .networking .nw-dates { padding: 36px 20px 0; }
+  .networking .nw-tickets { grid-template-columns: 1fr; gap: 12px; }
+  .networking .nw-ticket { min-height: 108px; grid-template-columns: 116px minmax(0, 1fr); }
+  .networking .nw-t-main { padding: 14px 16px; }
+  .networking .nw-t-day { font-size: 68px; }
+  .networking .nw-t-mon { font-size: 16px; margin-top: 6px; }
+  .networking .nw-t-stub { padding: 14px 48px 14px 18px; }
+  .networking .nw-t-pick { right: 14px; bottom: auto; top: 50%; margin-top: -11px; }
+  .networking .nw-head .nw-picked { flex-basis: 100%; }
+
+
+  .networking .nw-cta { grid-template-columns: 1fr; min-height: 0; }
+  .networking .nw-cta-copy { padding: 36px 20px 32px; }
+  .networking .nw-cta h2 { font-size: 48px; }
+  .networking .nw-cta-text { font-size: 17px; }
+  .networking .nw-acts--cta { flex-direction: column; padding-top: 22px; }
+  .networking .nw-cta-photo { height: 380px; clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 100%); }
+  .networking .nw-past { padding: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .networking .nw-btn, .networking .nw-btn .i, .networking .nw-ticket, .networking .nw-t-pick::after { transition: none; }
+}
+
+/* ---------- Cover: glass date plate over the photo (owner approved 27.09.2026) ---------- */
+.networking .nw-hero .nw-copy { position: static; }
+.networking .nw-hero .nw-next {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 2;
+  width: auto;
+  margin: 0;
+  padding: 18px 22px;
+  gap: 18px;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 2px;
+  /* Measured 27.09 on the real photo (pixels under the plate, p2/p98): white text on light glass 1.2:1 (white hoodie),
+     black text 8.3:1 at .24 on 1440; on 390 the plate also covers dark background, .24 gives 3.4:1, .4 gives 5.4:1.
+     Orange numeral 1.1-2.2:1 on any tint, so the numeral is black here. */
+  background: rgba(255, 255, 255, .24);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  color: var(--glass-ink, #000);
+}
+.networking .nw-hero .nw-next-date { border-right-color: currentColor; }
+.networking .nw-hero .nw-next-date b { color: var(--glass-num, #000); }
+@media (max-width: 760px) {
+  .networking .nw-hero .nw-next { left: 20px; right: 20px; bottom: 20px; padding: 14px 16px; background: rgba(255, 255, 255, .4); }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .networking .nw-hero .nw-next { background: rgba(0, 0, 0, .62); --glass-ink: #fff; --glass-num: var(--nw-orange); }
+}
