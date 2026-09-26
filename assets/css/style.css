@@ -1219,7 +1219,13 @@ html:has(.hdr-dialog[open]){overflow:hidden}
 .home .rev-all .btn{gap:14px;font-size:15px;min-height:52px;padding:0 20px;min-width:0;width:auto}
 @media (max-width:700px){.home .rev-all .btn{width:100%}}
 /* «Скоро» заменена на подписку: та же кнопка, что у соседних карточек ряда (D28). */
-.home .card-one .card-notify{margin-top:16px;align-self:flex-start;position:relative;z-index:1;white-space:normal;text-align:left;max-width:100%}
+.home .card-one .card-notify{margin-top:16px;align-self:flex-start;position:relative;z-index:1;width:fit-content;max-width:100%;padding:11px 15px;min-height:44px;font-size:14px;background:#f2e7dc;color:#000;border:1px solid #000}
+/* Та же ghost-кнопка, что «Читать статью» в третьей карточке: карточки 1 и 3 одной логики, арт справа не перекрыт. */
+@media (hover:hover){.home .card-one .card-notify:is(:hover,:focus-visible){background:#000;color:var(--cream)}}
+/* «Маркетинг доверия»: «Подробнее →» — текстовая ссылка отдельной строкой под кнопкой, без плашки (D09). */
+.home .card-two .card-actions{flex-direction:column;align-items:flex-start;background:transparent;border:0;padding:0;gap:10px}
+.home .card-two .card-actions .record-details{background:transparent;color:#000;padding:0;min-height:32px;text-decoration:underline;text-underline-offset:3px}
+@media (hover:hover){.home .card-two .card-actions .record-details:hover{background:transparent;color:#000;text-decoration-thickness:2px}}
 /* Внешние ссылки и кнопки: мгновенный отклик нажатия, даже если уход со страницы задержится. */
 :is(.home,.webinar) :is(.btn,.pay,.record-buy,.record-details,.details):active:not(:disabled){transition-duration:60ms}
 /* /webinar/ 320: «ОТКЛАДЫВАТЬ» в финальном блоке шире колонки (40px) — сетка раздувалась до 326px,

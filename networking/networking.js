@@ -107,12 +107,13 @@
       var main = Object.keys(count).sort(function (a, b) { return count[b] - count[a]; })[0];
       var other = fut.filter(function (e) { return e.time !== main; }).map(function (e) {
         var d = new Date(e.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
-        return d + ' — ' + e.time.replace(/\s*МСК$/, '');
+        return [d + ' — ', e.time.replace(/\s*МСК$/, '')];
       });
       timesEl.textContent = '';
       [main].concat(other).forEach(function (t, i) {
         var sp = document.createElement('span');
-        sp.textContent = t;
+        if (typeof t === 'string') sp.textContent = t;
+        else { sp.appendChild(document.createTextNode(t[0])); var tm = document.createElement('span'); tm.textContent = t[1]; sp.appendChild(tm); }
         if (i) timesEl.appendChild(document.createTextNode(' '));
         timesEl.appendChild(sp);
       });
