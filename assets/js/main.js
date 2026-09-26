@@ -9,35 +9,125 @@
 
   document.documentElement.classList.add('js');
 
-  /* Календарь: месяц открывается на дате объявленного вебинара. */
+  /* Календарь: события из /assets/data/events.json. Открывается на месяце
+     ближайшего непрошедшего события (все прошли — на последнем), листается
+     от первого до последнего месяца с событиями. Даты считаются по Москве. */
   var calendar = document.querySelector('.cal');
-  if (calendar) {
-    var month = 8;
-    var year = 2026;
-    calendar.querySelectorAll('[data-month]').forEach(function (control) {
-      control.disabled = false;
-      control.addEventListener('click', function () {
-        var date = new Date(year, month + Number(control.dataset.month), 1);
-        year = date.getFullYear();
-        month = date.getMonth();
-        var title = date.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }).replace(' г.', '');
-        calendar.querySelector('.cal-head b').textContent = title.charAt(0).toUpperCase() + title.slice(1);
-        calendar.querySelector('caption').textContent = title;
-        var offset = (date.getDay() + 6) % 7;
-        var count = new Date(year, month + 1, 0).getDate();
-        calendar.classList.toggle('is-long-month', Math.ceil((offset + count) / 7) === 6);
-        var rows = '';
-        for (var i = 0; i < Math.ceil((offset + count) / 7) * 7; i++) {
-          if (i % 7 === 0) rows += '<tr>';
-          var day = i - offset + 1;
-          var valid = day > 0 && day <= count;
-          var selected = valid && day === 21 && month === 8 && year === 2026;
-          rows += selected ? '<td class="is-day"><a href="/webinar/" aria-label="21 сентября — вебинар">21</a></td>' : '<td>' + (valid ? day : '') + '</td>';
-          if (i % 7 === 6) rows += '</tr>';
+  var card = document.getElementById('event');
+  if (calendar && card && window.fetch) {
+    fetch('/assets/data/events.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
+      .then(function (data) { initCalendar(data.events || []); })
+      .catch(function (err) { console.error('Календарь остаётся статичным:', err); });
+  }
+
+  function mskParts(iso) {
+    var p = {};
+    new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Moscow', year: 'numeric', month: 'numeric', day: 'numeric' })
+      .formatToParts(new Date(iso)).forEach(function (x) { p[x.type] = Number(x.value); });
+    return { y: p.year, m: p.month - 1, d: p.day };
+  }
+  function ruMonthGen(iso) {
+    return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' }).split(' ')[1];
+  }
+  function isPast(ev, now) { return new Date(ev.end || ev.start).getTime() < now; }
+
+  function initCalendar(events) {
+    if (!events.length) return;
+    var now = Date.now();
+    events = events.map(function (ev) {
+      var p = mskParts(ev.start);
+      return { ev: ev, y: p.y, m: p.m, d: p.d, past: isPast(ev, now) };
+    }).sort(function (a, b) { return new Date(a.ev.start) - new Date(b.ev.start); });
+    var nearest = events.filter(function (e) { return !e.past; })[0] || null;
+    var shown = nearest || events[events.length - 1];
+    var first = events[0], last = events[events.length - 1];
+    var year = shown.y, month = shown.m;
+    var prev = calendar.querySelector('[data-month="-1"]');
+    var next = calendar.querySelector('[data-month="1"]');
+
+    function key(y, m) { return y * 12 + m; }
+    function render() {
+      var date = new Date(year, month, 1);
+      var title = date.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }).replace(' г.', '');
+      title = title.charAt(0).toUpperCase() + title.slice(1);
+      var inMonth = events.filter(function (e) { return e.y === year && e.m === month; });
+      calendar.querySelector('.cal-head b').textContent = title;
+      calendar.querySelector('caption').textContent = title + (inMonth.length ? ', событий: ' + inMonth.length : ', событий нет');
+      var offset = (date.getDay() + 6) % 7;
+      var count = new Date(year, month + 1, 0).getDate();
+      var weeks = Math.ceil((offset + count) / 7);
+      calendar.classList.toggle('is-long-month', weeks === 6);
+      var rows = '';
+      for (var i = 0; i < weeks * 7; i++) {
+        if (i % 7 === 0) rows += '<tr>';
+        var day = i - offset + 1;
+        var valid = day > 0 && day <= count;
+        var hit = valid && inMonth.filter(function (e) { return e.d === day; })[0];
+        if (hit) {
+          var cls = 'has-ev' + (hit === nearest ? ' is-day' : '') + (hit.past ? ' is-past' : '');
+          var label = day + ' ' + ruMonthGen(hit.ev.start) + ' — ' + hit.ev.label.toLowerCase() + (hit.past ? ', прошло' : '');
+          rows += '<td class="' + cls + '"><button type="button" data-ev="' + hit.ev.id + '" aria-pressed="false" aria-label="' + label + '">' + day + '</button></td>';
+        } else {
+          rows += '<td>' + (valid ? day : '') + '</td>';
         }
-        calendar.querySelector('tbody').innerHTML = rows;
+        if (i % 7 === 6) rows += '</tr>';
+      }
+      calendar.querySelector('tbody').innerHTML = rows;
+      prev.disabled = key(year, month) <= key(first.y, first.m);
+      next.disabled = key(year, month) >= key(last.y, last.m);
+      var pick = inMonth.filter(function (e) { return !e.past; })[0] || inMonth[inMonth.length - 1];
+      if (pick) select(pick);
+    }
+
+    function select(item) {
+      calendar.querySelectorAll('[data-ev]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.ev === item.ev.id));
+      });
+      fillCard(item);
+    }
+
+    function fillCard(item) {
+      var ev = item.ev;
+      var label = card.querySelector('.label');
+      label.textContent = ev.label;
+      if (item.past) {
+        var tag = document.createElement('span');
+        tag.className = 'ev-tag';
+        tag.textContent = 'Прошло';
+        label.appendChild(document.createTextNode(' '));
+        label.appendChild(tag);
+      }
+      card.classList.toggle('is-past', item.past);
+      card.querySelector('.event-date b').textContent = item.d;
+      card.querySelector('.event-date span').textContent = ruMonthGen(ev.start);
+      var meta = card.querySelectorAll('.event-meta p');
+      meta[0].lastChild.textContent = ev.time;
+      meta[1].lastChild.textContent = ev.price;
+      meta[1].style.display = item.past ? 'none' : '';
+      card.querySelector('h3').textContent = ev.type === 'networking' ? 'Онлайн-нетворкинг «' + ev.title + '»' : ev.title;
+      card.querySelector('.event-desc').textContent = ev.desc;
+      var act = card.querySelector('.event-act');
+      var arrow = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
+      act.innerHTML = item.past
+        ? '<a class="details" href="' + ev.url + '">Подробнее</a>'
+        : '<a class="btn btn--fill" href="' + ev.url + '">' + ev.cta + ' ' + arrow + '</a>';
+    }
+
+    calendar.querySelector('tbody').addEventListener('click', function (e) {
+      var b = e.target.closest('[data-ev]');
+      if (!b) return;
+      select(events.filter(function (x) { return x.ev.id === b.dataset.ev; })[0]);
+    });
+    [prev, next].forEach(function (control) {
+      control.addEventListener('click', function () {
+        var d = new Date(year, month + Number(control.dataset.month), 1);
+        year = d.getFullYear();
+        month = d.getMonth();
+        render();
       });
     });
+    render();
   }
 
   /* ---------- Тосты: кнопка никогда не молчит ---------- */
@@ -79,6 +169,8 @@
     toastHost().appendChild(el);
     setTimeout(function () { el.remove(); }, ms || 7000);
   }
+
+  window.rmToast = toast; /* общий тост для страниц со своим скриптом (/networking/) */
 
   /* ---------- Форма заявки ---------- */
   var form = document.querySelector('[data-lead-form]');

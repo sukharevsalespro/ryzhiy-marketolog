@@ -1,11 +1,13 @@
-/* /networking/ — cover + tariffs (mockup T000).
+/* /networking/: cover, format, date tickets, tariffs, CTA band, past line.
    Reference lock (Refero, 26.09.2026):
    - primary: docs/reference-poster.jpg + Album Colors 99be9294 — orange field, black condensed caps,
      1px straight rules, radius 0, no shadows;
    - Art In DUMBO 33e3087c — print-programme date line, thin dividers, orange only for status;
    - fal.ai /events adc4e269 — nearest event carries the cover;
    - ManyChat 5c1a397c — price-by-volume as hairline table rows ("Спикер");
-   - Tilda pricing 407e4fb2 — bordered plan cards in one row, action at the bottom. */
+   - Tilda pricing 407e4fb2 — bordered plan cards in one row, action at the bottom;
+   - Airbnb radio cards c91ca562 — whole card is the radio, state drawn on the card (date tickets);
+   - Runway /meetups 2beb1f1f — past events quiet, no CTA. */
 
 .networking {
   --nw-ink: #000;
@@ -136,10 +138,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 20%;
-  /* Crop to Valentina alone: source frame has a neighbour's hand on the left and hair on the right. */
-  transform: scale(1.5);
-  transform-origin: 60% 26%;
+  /* Owner's choice 26.09: variant D, portrait-phone-call, full source width, reflection kept whole. */
+  object-position: 50% 40%;
 }
 
 /* ---------- Tariffs ---------- */
@@ -267,11 +267,242 @@
 .networking .nw-plan--ink .nw-btn:hover { background: var(--nw-cream); color: var(--nw-ink); border-color: var(--nw-cream); }
 .networking .nw-plan--ink .nw-btn:focus-visible { outline-color: var(--nw-cream); }
 
+
+.networking [hidden] { display: none !important; }
+.networking .toast-x { min-width: 44px; min-height: 44px; }
+
+/* ---------- Format: poster "15+" numeral + verbatim copy ---------- */
+.networking .nw-format {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px 64px;
+  align-items: end;
+  padding: 72px var(--gutter, 40px) 64px;
+  color: var(--nw-ink);
+  border-bottom: var(--nw-rule);
+}
+.networking .nw-big { margin: 0; }
+.networking .nw-big b {
+  display: block;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(120px, 15vw, 220px);
+  line-height: .8;
+  letter-spacing: -.035em;
+  color: #fd5918;
+  -webkit-text-stroke: 1px #fd5918;
+}
+.networking .nw-big span {
+  display: block;
+  max-width: 17em;
+  margin-top: 16px;
+  font: 700 clamp(19px, 1.6vw, 24px)/1.25 'Golos Text', sans-serif;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.networking .nw-format-text {
+  margin: 0;
+  max-width: 30em;
+  font: 500 clamp(18px, 1.45vw, 21px)/1.45 'Golos Text', sans-serif;
+  text-wrap: pretty;
+}
+.networking .nw-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 28px 0 0;
+  padding-top: 18px;
+  border-top: var(--nw-rule);
+}
+.networking .nw-facts dt { font: 600 11px/1.4 'Golos Text', sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.networking .nw-facts dd { margin: 4px 0 0; font: 700 17px/1.3 'Golos Text', sans-serif; }
+
+/* ---------- Date tickets: the whole ticket is the radio ---------- */
+.networking .nw-dates { padding: 56px var(--gutter, 40px) 12px; color: var(--nw-ink); }
+.networking .nw-tickets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.networking .nw-ticket {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  min-height: 150px;
+  border: 1.5px solid var(--nw-ink);
+  background: var(--nw-cream);
+  color: var(--nw-ink);
+  cursor: pointer;
+  overflow: hidden;
+  touch-action: manipulation;
+  transition: background-color 180ms var(--nw-ease), color 180ms var(--nw-ease), transform 90ms ease-out;
+}
+.networking .nw-ticket input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.networking .nw-t-main { display: flex; flex-direction: column; justify-content: center; padding: 18px 20px; }
+.networking .nw-t-day {
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: 92px;
+  line-height: .8;
+  letter-spacing: -.04em;
+  color: #fd5918;
+  font-variant-numeric: tabular-nums;
+}
+.networking .nw-t-mon { margin-top: 8px; font: 700 18px/1 'Golos Text', sans-serif; }
+.networking .nw-t-stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 18px 18px 18px 22px;
+  border-left: 1.5px dashed currentColor;
+}
+/* Perforation notches: half-circles cut into the top and bottom edge. */
+.networking .nw-t-stub::before,
+.networking .nw-t-stub::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--nw-ink);
+  border-radius: 50%;
+  background: var(--nw-cream);
+}
+.networking .nw-t-stub::before { top: -11px; }
+.networking .nw-t-stub::after { bottom: -11px; }
+.networking .nw-t-wd { font: 700 16px/1.3 'Golos Text', sans-serif; }
+.networking .nw-t-wd::first-letter { text-transform: uppercase; }
+.networking .nw-t-time { font: 500 15px/1.3 'Golos Text', sans-serif; white-space: nowrap; }
+.networking .nw-tag {
+  margin-top: 6px;
+  padding: 3px 7px;
+  background: var(--nw-orange);
+  color: var(--nw-ink);
+  font: 700 10.5px/1.3 'Golos Text', sans-serif;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.networking .nw-t-pick {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid currentColor;
+  display: grid;
+  place-items: center;
+}
+.networking .nw-t-pick::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: var(--nw-orange);
+  transform: scale(0);
+  transition: transform 160ms var(--nw-ease);
+}
+.networking .nw-ticket:has(input:checked) { background: var(--nw-ink); color: var(--nw-cream); }
+.networking .nw-ticket:has(input:checked) .nw-t-pick::after { transform: scale(1); }
+.networking .nw-ticket:has(input:focus-visible) { outline: 2px solid var(--nw-ink); outline-offset: 3px; }
+.networking .nw-ticket:active { transform: translateY(1px); }
+@media (hover: hover) {
+  .networking .nw-ticket:not(:has(input:checked)):hover { background: #fff; }
+}
+.networking .nw-empty { margin: 0; font: 600 18px/1.4 'Golos Text', sans-serif; }
+
+/* Picked date line in the tariffs header. */
+.networking .nw-head .nw-picked { flex: 0 1 auto; font: 500 16px/1.4 'Golos Text', sans-serif; }
+.networking .nw-picked a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-left: 10px;
+  color: var(--nw-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Handwritten note on the accent plan: existing vector, coloured through a mask. */
+.networking .nw-plan--ink { position: relative; }
+.networking .nw-note {
+  position: absolute;
+  top: -16px;
+  right: 18px;
+  width: 170px;
+  height: 29px;
+  background: var(--nw-orange);
+  transform: rotate(-5deg);
+  -webkit-mask: url(/assets/img/notes/note-s-nulya.svg) no-repeat right center / contain;
+  mask: url(/assets/img/notes/note-s-nulya.svg) no-repeat right center / contain;
+  pointer-events: none;
+}
+
+/* ---------- CTA: blue band like "Форматы" ---------- */
+.networking .nw-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34%;
+  min-height: 420px;
+  color: var(--nw-ink);
+  overflow: hidden;
+}
+.networking .nw-cta-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 56px 40px 56px var(--gutter, 40px);
+}
+.networking .nw-cta h2 {
+  margin: 0;
+  font-family: Poster, sans-serif;
+  font-weight: 900;
+  font-stretch: 75%;
+  font-size: clamp(48px, 5.4vw, 80px);
+  line-height: .9;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
+.networking .nw-cta-text {
+  max-width: 26em;
+  margin: 18px 0 0;
+  font: 500 clamp(18px, 1.5vw, 22px)/1.4 'Golos Text', sans-serif;
+  text-wrap: pretty;
+}
+.networking .nw-acts--cta { align-self: flex-start; width: 100%; max-width: 560px; padding-top: 28px; }
+.networking .nw-acts--cta .nw-btn--fill { background: var(--nw-ink); color: var(--nw-cream); }
+.networking .nw-acts--cta .nw-btn--fill:hover { background: var(--nw-cream); color: var(--nw-ink); }
+.networking .nw-cta-photo { position: relative; margin: 0; clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%); }
+.networking .nw-cta-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 26%;
+}
+
+/* ---------- Past: one quiet line, no actions ---------- */
+.networking .nw-past { padding: 22px var(--gutter, 40px); }
+.networking .nw-past p { margin: 0; font: 500 15px/1.4 'Golos Text', sans-serif; color: #6b635c; }
+
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) and (min-width: 761px) {
   .networking .nw-plans { grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 16px; }
   .networking .nw-plan { grid-row: auto; grid-template-rows: auto auto 1fr auto; }
   .networking .nw-plan--ink { grid-column: 1 / -1; }
+  /* Tablet: three narrow tickets, stub torn off below the date. */
+  .networking .nw-ticket { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .networking .nw-t-day { font-size: 76px; }
+  .networking .nw-t-stub { border-left: 0; border-top: 1.5px dashed currentColor; padding: 14px 20px 48px; }
+  .networking .nw-t-stub::before { top: -10px; left: -10px; }
+  .networking .nw-t-stub::after { top: -10px; bottom: auto; left: auto; right: -10px; }
+  .networking .nw-format { gap: 28px 40px; }
 }
 
 /* ---------- Phone ---------- */
@@ -300,8 +531,35 @@
   .networking .nw-btn--hero { margin-bottom: 0; }
   .networking .nw-acts { flex-direction: column; padding-top: 22px; }
   .networking .nw-acts .nw-btn { flex: 0 0 auto; width: 100%; }
+
+  .networking .nw-format { grid-template-columns: 1fr; padding: 40px 20px 36px; gap: 22px; }
+  .networking .nw-big b { font-size: clamp(104px, 34vw, 150px); }
+  .networking .nw-big span { font-size: 19px; }
+  .networking .nw-format-text { font-size: 17px; }
+  .networking .nw-facts { margin-top: 22px; }
+  .networking .nw-facts dd { font-size: 16px; }
+
+  .networking .nw-dates { padding: 36px 20px 0; }
+  .networking .nw-tickets { grid-template-columns: 1fr; gap: 12px; }
+  .networking .nw-ticket { min-height: 108px; grid-template-columns: 116px minmax(0, 1fr); }
+  .networking .nw-t-main { padding: 14px 16px; }
+  .networking .nw-t-day { font-size: 68px; }
+  .networking .nw-t-mon { font-size: 16px; margin-top: 6px; }
+  .networking .nw-t-stub { padding: 14px 48px 14px 18px; }
+  .networking .nw-t-pick { right: 14px; bottom: auto; top: 50%; margin-top: -11px; }
+  .networking .nw-head .nw-picked { flex-basis: 100%; }
+
+  .networking .nw-note { width: 140px; height: 24px; top: -12px; right: 12px; }
+
+  .networking .nw-cta { grid-template-columns: 1fr; min-height: 0; }
+  .networking .nw-cta-copy { padding: 36px 20px 32px; }
+  .networking .nw-cta h2 { font-size: 48px; }
+  .networking .nw-cta-text { font-size: 17px; }
+  .networking .nw-acts--cta { flex-direction: column; padding-top: 22px; }
+  .networking .nw-cta-photo { height: 380px; clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 100%); }
+  .networking .nw-past { padding: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .networking .nw-btn, .networking .nw-btn .i { transition: none; }
+  .networking .nw-btn, .networking .nw-btn .i, .networking .nw-ticket, .networking .nw-t-pick::after { transition: none; }
 }
