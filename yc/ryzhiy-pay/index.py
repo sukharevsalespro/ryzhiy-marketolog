@@ -22,10 +22,11 @@ import html
 import json
 import logging
 import os
+import re
 from datetime import datetime
 from email import message_from_bytes
 from typing import Any
-from urllib.parse import parse_qsl
+from urllib.parse import parse_qsl, quote, urlencode
 from zoneinfo import ZoneInfo
 
 import lead
@@ -43,9 +44,19 @@ FIELD_LEN = 300
 # ponytail: список в коде; новый товар Валентины = строка сюда + деплой.
 OUR_PRODUCT_MARKERS = ("нетворкинг", "личный бренд", "маркетинг доверия")
 
-# ponytail: дедуп только в памяти тёплого инстанса; холодный старт/второй
-# инстанс может дать дубль (тогда attempt>1 → пометка «повтор»). Апгрейд — YDB.
-_SEEN_ORDERS: set[str] = set()
+# Дедуп ПО КАНАЛУ: маркер `<order_id>/<канал>` ставится только после успешной
+# отправки. Любой канал упал → 502, Продамус повторит и дошлёт только в упавший.
+# Хранилище — Object Storage (env DEDUP_BUCKET + сервисный аккаунт функции,
+# IAM-токен из context.token). Без них — память инстанса (повтор, попавший
+# в другой инстанс, может продублировать уже отправленный канал).
+_MEM_SENT: set[str] = set()
+_STORAGE_HOST = "storage.yandexcloud.net"
+
+# Egress YC → Telegram: из проверенных 8 адресов (пробник 27.09) отвечает только
+# 149.154.167.220, и то ~2 из 3 соединений; адрес из DNS (149.154.166.110) — никогда.
+# Поэтому несколько коротких попыток на пиннинг вместо фолбэка на резолв.
+TG_ATTEMPTS = 4
+TG_ATTEMPT_TIMEOUT = 2.5
 
 
 # ---------- разбор тела (bracket-нотация products[0][name], как $_POST в PHP) ----------
@@ -193,6 +204,74 @@ def build_message_max(data: dict[str, Any], names: list[str]) -> str:
     return head + " — " + " · ".join(_parts(data, names))
 
 
+# ---------- доставка и дедуп ----------
+
+def _send_tg(text: str) -> bool:
+    token = os.environ.get("TG_TOKEN", "").strip()
+    chat_id = os.environ.get("TG_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        return False
+    body = urlencode({"chat_id": chat_id, "parse_mode": "HTML", "text": text, "disable_web_page_preview": "true"}).encode()
+    for attempt in range(1, TG_ATTEMPTS + 1):
+        try:
+            lead._post_telegram(f"/bot{token}/sendMessage", body, timeout=TG_ATTEMPT_TIMEOUT, pin_ip=lead._TELEGRAM_PINNED_IP)
+            logger.info(json.dumps({"event": "telegram", "ok": True, "attempt": attempt}))
+            return True
+        except Exception as exc:  # noqa: BLE001 — без трейса: в нём URL с токеном
+            logger.warning(json.dumps({"event": "telegram", "ok": False, "attempt": attempt, "error": type(exc).__name__}))
+    return False
+
+
+def _iam_token(context: Any) -> str:
+    token = getattr(context, "token", None)
+    return token.get("access_token", "") if isinstance(token, dict) else ""
+
+
+def _storage(method: str, key: str, iam: str) -> int:
+    import http.client
+
+    conn = http.client.HTTPSConnection(_STORAGE_HOST, timeout=3)
+    try:
+        conn.request(method, f"/{os.environ['DEDUP_BUCKET']}/{quote(key)}", body=b"1" if method == "PUT" else None,
+                     headers={"X-YaCloud-SubjectToken": iam})
+        resp = conn.getresponse()
+        resp.read()
+        return resp.status
+    finally:
+        conn.close()
+
+
+def _was_sent(key: str, iam: str) -> bool:
+    if key in _MEM_SENT:
+        return True
+    if not (iam and os.environ.get("DEDUP_BUCKET")):
+        return False
+    try:
+        status = _storage("HEAD", key, iam)
+    except Exception as exc:  # noqa: BLE001 — хранилище недоступно: лучше дубль, чем потеря
+        logger.warning(json.dumps({"event": "dedup", "op": "head", "error": type(exc).__name__}))
+        return False
+    if status not in (200, 404):
+        logger.warning(json.dumps({"event": "dedup", "op": "head", "status": status}))
+    return status == 200
+
+
+def _mark_sent(key: str, iam: str) -> None:
+    _MEM_SENT.add(key)
+    if not (iam and os.environ.get("DEDUP_BUCKET")):
+        return
+    try:
+        status = _storage("PUT", key, iam)
+    except Exception as exc:  # noqa: BLE001
+        status = type(exc).__name__
+    if status != 200:
+        logger.warning(json.dumps({"event": "dedup", "op": "put", "status": status}))
+
+
+def _order_key(order_id: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_-]", "_", order_id)[:100] if order_id else ""
+
+
 # ---------- handler ----------
 
 def _resp(status: int, body: str) -> dict[str, Any]:
@@ -226,15 +305,26 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     if status != "success" or not is_our_product(names):
         logger.info(json.dumps({**base_log, "action": "skip", "ours": is_our_product(names)}))
         return _resp(200, "success")
-    if order_id and order_id in _SEEN_ORDERS:
-        logger.info(json.dumps({**base_log, "action": "duplicate"}))
-        return _resp(200, "success")
-
-    tg_ok = lead._send_telegram(build_message_tg(data, names))
-    max_ok = lead._send_max(build_message_max(data, names))
-    logger.info(json.dumps({**base_log, "action": "notify", "telegram": bool(tg_ok), "max": bool(max_ok)}))
-    if not tg_ok and not max_ok:
-        return _resp(502, "delivery failed")  # Продамус повторит по своему расписанию
-    if order_id:
-        _SEEN_ORDERS.add(order_id)
+    iam = _iam_token(context)
+    okey = _order_key(order_id)
+    senders = {
+        "telegram": lambda: _send_tg(build_message_tg(data, names)),
+        "max": lambda: lead._send_max(build_message_max(data, names)),
+    }
+    result: dict[str, str] = {}
+    for channel, send in senders.items():
+        key = f"{okey}/{channel}"
+        if okey and _was_sent(key, iam):
+            result[channel] = "already"
+            continue
+        ok = send()
+        if ok is None:  # канал не сконфигурирован
+            result[channel] = "off"
+            continue
+        result[channel] = "ok" if ok else "fail"
+        if ok and okey:
+            _mark_sent(key, iam)
+    logger.info(json.dumps({**base_log, "action": "notify", **result, "store": bool(iam and os.environ.get("DEDUP_BUCKET"))}))
+    if "fail" in result.values():
+        return _resp(502, "delivery failed")  # Продамус повторит, дошлём только в упавший канал
     return _resp(200, "success")

@@ -65,14 +65,18 @@ def _event(fields: dict[str, str], sign: str | None = None, gate: str | None = G
     return {"httpMethod": method, "headers": headers, "isBase64Encoded": False, "body": body}
 
 
-def _run(event: dict, tg: bool = True, mx: bool | None = True):
-    with patch.object(lead, "_send_telegram", return_value=tg) as t, patch.object(lead, "_send_max", return_value=mx) as m:
-        resp = pay.handler(event, None)
+class _Ctx:
+    token = {"access_token": "iam-test"}
+
+
+def _run(event: dict, tg: bool = True, mx: bool | None = True, ctx=None):
+    with patch.object(pay, "_send_tg", return_value=tg) as t, patch.object(lead, "_send_max", return_value=mx) as m:
+        resp = pay.handler(event, ctx)
     return resp, t, m
 
 
 def _reset() -> None:
-    pay._SEEN_ORDERS.clear()
+    pay._MEM_SENT.clear()
 
 
 def test_success_ours_sends_both() -> None:
@@ -162,13 +166,72 @@ def test_both_channels_down_502_then_retry_sends() -> None:
     _reset()
     ev = _event(FIELDS)
     assert _run(ev, tg=False, mx=False)[0]["statusCode"] == 502
-    resp, t, _ = _run(ev)
-    assert resp["statusCode"] == 200 and t.call_count == 1
+    resp, t, m = _run(ev)
+    assert resp["statusCode"] == 200 and t.call_count == 1 and m.call_count == 1
 
 
-def test_one_channel_enough() -> None:
+def test_one_channel_down_502_retry_only_failed_channel() -> None:
     _reset()
-    assert _run(_event(FIELDS), tg=False, mx=True)[0]["statusCode"] == 200
+    ev = _event(FIELDS)
+    assert _run(ev, tg=False, mx=True)[0]["statusCode"] == 502
+    resp, t, m = _run(ev)
+    assert resp["statusCode"] == 200 and t.call_count == 1 and m.call_count == 0
+
+
+def test_max_not_configured_is_not_failure() -> None:
+    _reset()
+    assert _run(_event(FIELDS), mx=None)[0]["statusCode"] == 200
+
+
+def test_object_storage_dedup_survives_new_instance() -> None:
+    _reset()
+    store: dict[str, int] = {}
+    calls: list[tuple[str, str]] = []
+
+    def fake_storage(method: str, key: str, iam: str) -> int:
+        assert iam == "iam-test"
+        calls.append((method, key))
+        if method == "PUT":
+            store[key] = 1
+            return 200
+        return 200 if key in store else 404
+
+    ev = _event({**FIELDS, "order_id": "ab/c 1"})
+    with patch.dict(os.environ, DEDUP_BUCKET="bkt"), patch.object(pay, "_storage", fake_storage):
+        assert _run(ev, tg=True, mx=False, ctx=_Ctx())[0]["statusCode"] == 502
+        assert set(store) == {"ab_c_1/telegram"}
+        pay._MEM_SENT.clear()  # «другой инстанс»
+        resp, t, m = _run(ev, ctx=_Ctx())
+        assert resp["statusCode"] == 200 and t.call_count == 0 and m.call_count == 1
+        pay._MEM_SENT.clear()
+        resp, t, m = _run(ev, ctx=_Ctx())
+        assert resp["statusCode"] == 200 and t.call_count == 0 and m.call_count == 0
+
+
+def test_storage_down_sends_anyway() -> None:
+    _reset()
+
+    def broken(method: str, key: str, iam: str) -> int:
+        raise TimeoutError
+
+    with patch.dict(os.environ, DEDUP_BUCKET="bkt"), patch.object(pay, "_storage", broken):
+        resp, t, m = _run(_event(FIELDS), ctx=_Ctx())
+    assert resp["statusCode"] == 200 and t.call_count == 1 and m.call_count == 1
+
+
+def test_send_tg_retries_pinned_ip() -> None:
+    attempts: list[str | None] = []
+
+    def flaky(path, body, timeout, pin_ip):
+        attempts.append(pin_ip)
+        if len(attempts) < 3:
+            raise TimeoutError
+
+    with patch.dict(os.environ, TG_TOKEN="1:x", TG_CHAT_ID="-1"), patch.object(lead, "_post_telegram", flaky):
+        assert pay._send_tg("t") is True
+    assert attempts == [lead._TELEGRAM_PINNED_IP] * 3
+    with patch.dict(os.environ, TG_TOKEN="1:x", TG_CHAT_ID="-1"), patch.object(lead, "_post_telegram", side_effect=TimeoutError):
+        assert pay._send_tg("t") is False
 
 
 def test_html_escaped_in_tg() -> None:
