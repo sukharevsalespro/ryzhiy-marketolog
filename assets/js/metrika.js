@@ -34,7 +34,7 @@
 
     /* Мессенджеры: Telegram и MAX. Instagram — соцсеть, отдельной целью не считаем. */
     if (href.indexOf('t.me/') === -1 && href.indexOf('max.ru/') === -1) return;
-    if (link.closest('header, .topbar, .header-social')) window.ymGoal('messenger_header');
+    if (link.closest('header, .hdr-dialog')) window.ymGoal('messenger_header');
     else if (link.closest('.messengers, .contact, #contacts, footer, .footer-social')) window.ymGoal('messenger_contacts');
   }, true);
 })();

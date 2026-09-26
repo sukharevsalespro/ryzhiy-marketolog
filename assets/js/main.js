@@ -370,3 +370,42 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
   });
   dialog.addEventListener('close', function () { shot.removeAttribute('src'); });
 })();
+
+/* Обложка главной: «письмо пером» рукописи «Больше, чем маркетинг» (спека 002, 1.56 с — исключение
+   из «вход ≤700 мс»: авторский момент). */
+(function () {
+  'use strict';
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* «Письмо пером»: маска из штрихов по средней линии букв (служебная геометрия, видимый контур
+     тот же). Маска ставится только на время анимации и снимается после — итог = исходный вектор. */
+  var hand = document.querySelector('.hero-hand[data-md="pen"]');
+  var ink = hand && hand.querySelector('.hand-ink');
+  if (!hand || !ink) return;
+  function reveal() { hand.classList.add('pen-done'); }
+  if (reduce || !window.IntersectionObserver || !window.fetch) { reveal(); return; }
+  /* Маска (9 КБ штрихов) грузится отдельно после первой отрисовки, чтобы не утяжелять HTML. */
+  fetch('/assets/img/hand-pen-mask.svg')
+    .then(function (r) { if (!r.ok) throw new Error('hand-pen-mask: HTTP ' + r.status); return r.text(); })
+    .then(function (txt) {
+      var doc = new DOMParser().parseFromString(txt, 'image/svg+xml');
+      var mask = doc.querySelector('mask');
+      if (!mask) throw new Error('hand-pen-mask: нет <mask>');
+      hand.querySelector('defs').appendChild(document.importNode(mask, true));
+      var end = 0;
+      Array.prototype.forEach.call(hand.querySelectorAll('.hand-pen path'), function (p) {
+        var t = parseFloat(p.style.getPropertyValue('--d')) + parseFloat(p.style.getPropertyValue('--t'));
+        if (t > end) end = t;
+      });
+      ink.setAttribute('mask', 'url(#hand-pen)');
+      hand.classList.add('pen-ready');
+      new IntersectionObserver(function (e, obs) {
+        if (!e[0].isIntersecting) return;
+        obs.disconnect();
+        setTimeout(function () {
+          hand.classList.add('is-writing');
+          setTimeout(function () { ink.removeAttribute('mask'); hand.classList.remove('is-writing'); reveal(); }, end + 120);
+        }, 380);
+      }, { threshold: .3 }).observe(hand);
+    })
+    .catch(function (err) { console.error('Рукопись показана без анимации:', err); ink.removeAttribute('mask'); reveal(); });
+})();
