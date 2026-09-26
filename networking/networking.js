@@ -100,12 +100,6 @@
     sync();
   }
 
-  /* Эксперимент со стеклом на обложке: только по ?glass=1, по умолчанию выключен. */
-  if (/[?&]glass=1(&|$)/.test(location.search)) {
-    document.querySelector('.nw-hero').classList.add('nw-cover--glass');
-    document.body.classList.add('nw-glass');
-  }
-
   sync();
   if (window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })

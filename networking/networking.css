@@ -548,10 +548,9 @@
   .networking .nw-btn, .networking .nw-btn .i, .networking .nw-ticket, .networking .nw-t-pick::after { transition: none; }
 }
 
-/* ---------- Experiment (27.09.2026, stand only): glass date plate over the cover photo.
-   Enabled by ?glass=1 (networking.js adds .nw-cover--glass). Default cover is untouched. ---------- */
-.networking .nw-cover--glass .nw-copy { position: static; }
-.networking .nw-cover--glass .nw-next {
+/* ---------- Cover: glass date plate over the photo (owner approved 27.09.2026) ---------- */
+.networking .nw-hero .nw-copy { position: static; }
+.networking .nw-hero .nw-next {
   position: absolute;
   right: 32px;
   bottom: 32px;
@@ -570,20 +569,11 @@
   backdrop-filter: blur(18px) saturate(140%);
   color: var(--glass-ink, #000);
 }
-.networking .nw-cover--glass .nw-next-date { border-right-color: currentColor; }
-.networking .nw-cover--glass .nw-next-date b { color: var(--glass-num, #000); }
-.networking.nw-glass .page-band--cream:has(> .topbar) {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: rgba(250, 247, 242, .72);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  backdrop-filter: blur(16px) saturate(140%);
-  border-bottom: 1px solid rgba(0, 0, 0, .08);
-}
+.networking .nw-hero .nw-next-date { border-right-color: currentColor; }
+.networking .nw-hero .nw-next-date b { color: var(--glass-num, #000); }
 @media (max-width: 760px) {
-  .networking .nw-cover--glass .nw-next { left: 20px; right: 20px; bottom: 20px; padding: 14px 16px; background: rgba(255, 255, 255, .4); }
+  .networking .nw-hero .nw-next { left: 20px; right: 20px; bottom: 20px; padding: 14px 16px; background: rgba(255, 255, 255, .4); }
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .networking .nw-cover--glass .nw-next { background: rgba(0, 0, 0, .62); --glass-ink: #fff; --glass-num: var(--nw-orange); }
+  .networking .nw-hero .nw-next { background: rgba(0, 0, 0, .62); --glass-ink: #fff; --glass-num: var(--nw-orange); }
 }
