@@ -1,4 +1,4 @@
-/* /raspakovka-lichnosti/ — посадочная по шаблону /networking/ (nw-* из networking.css).
+/* Посадочные (body.lp): /raspakovka-lichnosti/, /razvitie-lichnogo-brenda/ — шаблон /networking/ (nw-* из networking.css).
    Reference lock (Refero, 27.09.2026): docs/reference-poster.jpg — главный; Album Colors 99be9294
    (0px, тонкие линейки, контролы в цвет текста); Pop Manifesto 137e85e2 (секции цветовыми полями);
    TidyCal bd346950 (страница услуги: обложка → для кого → отзывы → FAQ на тонких линейках);
@@ -129,3 +129,34 @@
   .lp .lp-cta-photo img { object-position: 74% 36%; }
 }
 @media (prefers-reduced-motion: reduce) { .lp .lp-plus::before, .lp .lp-plus::after { transition: none; } }
+
+/* ===== /razvitie-lichnogo-brenda/ (body.lp-rz), 27.09.2026.
+   Reference lock (Refero): постер + Kajabi 6a80f749 (портрет как доказательство, чёрная секция, форматы
+   карточками с прямыми углами), Elementor affiliates 5b879336 (hero → проблема → шаги → форматы → отзывы → FAQ → CTA).
+   Сигнатура страницы — срок крупным постерным числом в карточке формата вместо цены. */
+/* Лицо на 35–50% ширины кадра, табличка на двери (17–25%) — за левым краем окна. */
+.lp-rz .lp-photo img { object-position: 60% 30%; }
+.lp-rz .lp-cta-photo img { object-position: 50% 18%; }
+.lp .lp-traps { margin-top: 12px; }
+.lp .lp-punch { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid #000; font: 700 clamp(18px, 1.5vw, 22px)/1.35 'Golos Text', sans-serif; text-wrap: balance; }
+.lp .lp-qs--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
+.lp .lp-qs--3 li { grid-template-columns: 1fr; gap: 12px; }
+.lp .lp-formats { padding: 64px var(--gutter, 40px) 56px; }
+.lp .lp-formats .nw-plan h3 { font-size: 30px; }
+.lp .lp-formats .nw-sum { font-size: 56px; }
+.lp .lp-home-link { margin: 24px 0 0; font: 500 16px/1.45 'Golos Text', sans-serif; }
+.lp .lp-home-link a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+/* Отзывы: длинный (Таня) справа на всю высоту, два коротких слева. */
+@media (min-width: 761px) {
+  .lp .rev-lead--stack > :nth-child(2) { grid-column: 2; grid-row: 1 / span 2; }
+  .lp .rev-lead--stack > :not(:nth-child(2)) { grid-column: 1; }
+}
+@media (max-width: 1100px) and (min-width: 761px) { .lp .lp-qs--3 { grid-template-columns: 1fr; } .lp .lp-qs--3 li { grid-template-columns: 96px minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .lp-rz .lp-photo img { object-position: 60% 30%; }
+  .lp .lp-qs--3 { grid-template-columns: 1fr; }
+  .lp .lp-qs--3 li { grid-template-columns: 64px minmax(0, 1fr); }
+  .lp .lp-formats { padding: 36px 20px 40px; }
+  .lp .lp-formats .nw-sum { font-size: 48px; }
+  .lp .lp-formats .nw-plan h3 { font-size: 28px; }
+}

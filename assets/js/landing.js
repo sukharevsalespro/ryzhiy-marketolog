@@ -1,7 +1,8 @@
-/* /raspakovka-lichnosti/: текст для мессенджеров — копия в буфер + тост (механизм /networking/). */
+/* Посадочные (body.lp): текст для мессенджеров из <body data-msg-text> — копия в буфер + тост (механизм /networking/). */
 (function () {
   'use strict';
-  var TEXT = 'Здравствуйте! Хочу на распаковку, пишу с сайта';
+  var TEXT = document.body.dataset.msgText || '';
+  if (!TEXT) return;
   function copy(text) {
     if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
     return new Promise(function (resolve, reject) {
