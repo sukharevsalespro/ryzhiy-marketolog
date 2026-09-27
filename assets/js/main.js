@@ -434,3 +434,45 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
     })(t0);
   }, { threshold: .4 }).observe(el);
 })();
+
+/* «Спасибо» после Продамуса (спека 004): ?paid=1 / ?payfail=1 → модалка на главной.
+   Native <dialog> + showModal(): фокус внутри и возврат фокуса — от браузера;
+   добор — Esc (родное поведение dialog), клик по фону и крестик, как у #shot. */
+(function () {
+  'use strict';
+  var dlg = document.getElementById('paid');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+
+  var params = new URLSearchParams(window.location.search);
+  var state = params.get('paid') === '1' ? 'ok' : params.get('payfail') === '1' ? 'fail' : null;
+  if (!state) return;
+
+  var COPY = {
+    ok: {
+      title: 'Оплата прошла',
+      text: 'Спасибо! Доступ и детали придут в Telegram или на почту, указанную при оплате. Если что-то не пришло в течение часа — напишите Валентине.',
+      goal: 'paid_success'
+    },
+    fail: {
+      title: 'Оплата не прошла',
+      text: 'Деньги не списаны. Попробуйте ещё раз или напишите Валентине — поможем.',
+      goal: 'paid_fail'
+    }
+  }[state];
+
+  dlg.classList.toggle('paid--fail', state === 'fail');
+  dlg.querySelector('#paid-h').textContent = COPY.title;
+  dlg.querySelector('#paid-d').textContent = COPY.text;
+  window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+  dlg.showModal();
+
+  /* main.js исполняется раньше metrika.js (оба defer, порядок тегов) — ymGoal
+     на момент этого кода ещё не определён; ждём 'load', как весь остальной сайт дождался бы. */
+  function fireGoal() { if (window.ymGoal) window.ymGoal(COPY.goal); }
+  if (document.readyState === 'complete') fireGoal();
+  else window.addEventListener('load', fireGoal);
+
+  dlg.querySelector('.paid-x').addEventListener('click', function () { dlg.close(); });
+  dlg.querySelector('.paid-close').addEventListener('click', function () { dlg.close(); });
+  dlg.addEventListener('click', function (event) { if (event.target === dlg) dlg.close(); });
+})();

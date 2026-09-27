@@ -1093,6 +1093,31 @@ html:not(.js) [data-motion]{opacity:1}
 /* Тёмная системная тема — чёрная шапка (вариант Б); остальной сайт не меняется. */
 @media (prefers-color-scheme:dark){:root{--hdr-bg:var(--md-ink);--hdr-fg:var(--md-cream);--hdr-glass:rgba(0,0,0,.74);--hdr-line:rgba(250,247,242,.22);--hdr-hover:var(--md-orange);--hdr-cta-bg:var(--md-orange);--hdr-cta-fg:var(--md-ink);--hdr-cta-hbg:var(--md-orange);--hdr-cta-hfg:var(--md-ink);--hdr-plate:var(--md-cream)}}
 
+/* ---------- «Спасибо» после оплаты (спека 004): ?paid=1 / ?payfail=1 ----------
+   Как остальной сайт — не инвертируется по системной тёмной теме, только шапка. */
+.paid{border:2px solid var(--md-ink);border-radius:0;padding:34px 26px 28px;max-width:420px;width:calc(100vw - 40px);background:var(--md-cream);color:var(--md-ink);box-shadow:none;font:400 15px/1.5 'Golos Text',sans-serif;position:relative}
+.paid::backdrop{background:rgba(0,0,0,.6)}
+.paid:not([open]){display:none}
+.paid[open]{display:grid;gap:14px}
+.paid-x{position:absolute;top:8px;right:8px;width:40px;height:40px;display:grid;place-items:center;background:none;border:0;font-size:22px;line-height:1;color:inherit}
+.paid-x:hover,.paid-x:focus-visible{background:var(--md-ink);color:var(--md-cream)}
+.paid-ico{width:52px;height:52px;flex:none;border:2px solid var(--md-ink);background:var(--md-orange);display:grid;place-items:center;color:var(--md-ink);font:900 24px/1 Poster,'Golos Text',sans-serif;font-stretch:condensed}
+.paid-ico::before{content:'\2713'}
+.paid--fail .paid-ico{background:#b82b13;color:#fff}
+.paid--fail .paid-ico::before{content:'!'}
+.paid h3{font-family:Poster,'Golos Text',sans-serif;font-stretch:condensed;font-weight:900;font-size:26px;letter-spacing:-.03em;line-height:1;margin-top:6px}
+.paid p{margin:0;color:var(--md-ink)}
+.paid-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.paid-act>*{display:inline-flex;align-items:center;justify-content:center;flex:1 1 auto;min-width:0;min-height:48px;padding:12px 18px;border:1px solid var(--md-ink);font:600 15px/1.2 'Golos Text',sans-serif;text-decoration:none;white-space:nowrap;cursor:pointer}
+.paid-tg{--plate:var(--md-ink);background:var(--md-ink);color:var(--md-cream)}
+.paid-close{--plate:var(--md-ink);background:transparent;color:var(--md-ink)}
+@media (hover:hover){
+  .paid-tg:hover{background:var(--md-cream);color:var(--md-ink)}
+  .paid-close:hover{background:var(--md-ink);color:var(--md-cream)}
+}
+.paid-tg:focus-visible,.paid-close:focus-visible{outline:2px solid var(--md-ink);outline-offset:3px}
+@media(max-width:420px){.paid-act{flex-direction:column}.paid-act>*{width:100%}}
+
 :is(.home,.webinar) .hdr-band{position:sticky;top:0;z-index:60;background:var(--hdr-bg);color:var(--hdr-fg);transition:background-color .25s var(--md-ease),box-shadow .25s var(--md-ease)}
 :is(.home,.webinar) .hdr-band.is-stuck{background:var(--hdr-glass);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);box-shadow:inset 0 -1px 0 var(--hdr-line)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){:is(.home,.webinar) .hdr-band.is-stuck{background:var(--hdr-bg)}}
