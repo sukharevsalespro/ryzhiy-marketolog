@@ -592,5 +592,13 @@
 }
 /* Факт «Время»: одна строка на дату (не мешать общее время с исключением), кегль и капс — как у «Где». */
 .networking .nw-facts dd[data-bind="times"] { display: flex; flex-direction: column; gap: 5px; }
+/* <b> дублирует вес dd (700), но UA-стиль b/strong ставит font-weight:bolder поверх — на 700
+   это уходит в 900 (постерный чёрный) и рвёт гарнитуру с соседним «Где». Фиксируем вес явно. */
+.networking .nw-time-row b { font: inherit; font-weight: 700; }
 .networking .nw-time-hm { font-weight: 500; white-space: nowrap; }
 .networking .nw-facts-note { margin: 10px 0 0; font: 500 13px/1.4 'Golos Text', sans-serif; color: #6b635c; }
+/* ≤760: дата и время на разных строках, тире-разделитель скрыт (не повисает в начале строки). */
+@media (max-width: 760px) {
+  .networking .nw-time-dash { display: none; }
+  .networking .nw-time-hm { display: block; margin-top: 1px; }
+}

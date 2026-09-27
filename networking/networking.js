@@ -113,7 +113,10 @@
         var b = document.createElement('b');
         b.textContent = parts[1] + ', ' + parts[0];
         row.appendChild(b);
-        row.appendChild(document.createTextNode(' — '));
+        var dash = document.createElement('span');
+        dash.className = 'nw-time-dash';
+        dash.textContent = ' — ';
+        row.appendChild(dash);
         var hm = document.createElement('span');
         hm.className = 'nw-time-hm';
         hm.textContent = e.time.replace(/\s*МСК$/, '');
