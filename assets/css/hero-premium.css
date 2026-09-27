@@ -90,3 +90,44 @@
 /* B: исходник по плечи режется снизу, поэтому якорь сверху — макушка чуть выше плашки */
 .phero-cut--b img{bottom:auto;top:calc(var(--ph-top) - 12px)}
 @media (max-width:760px){.phero-cut--a img{translate:-50% 0}.phero-cut--b{--ph-w:112%;--ph-x:-6%}.phero-cut--b img{top:12px}}
+
+/* рукописная «Больше, чем маркетинг» (тот же SVG и анимация пера, что на прежней обложке) — белым в левом нижнем углу плашки */
+.phero-note{position:absolute;z-index:3;left:calc(16% + clamp(12px,1.4vw,22px));bottom:clamp(12px,1.4vw,22px);width:clamp(92px,8.8vw,128px);color:#fff;pointer-events:none}
+.phero-note .hero-hand{display:block;width:100%;height:auto;aspect-ratio:1073 / 1281.94;margin:0;fill:currentColor}
+/* штамп поднят над надписью, остаётся на левом краю плашки */
+.phero-stamp{bottom:clamp(150px,15vw,216px)}
+@media (max-width:760px){
+  .phero-place{display:none}
+  .phero-note{left:14px;bottom:14px;width:clamp(96px,30vw,124px)}
+  .phero-stamp{bottom:12px}
+}
+/* штамп: стекло (полупрозрачный кремовый + размытие), читается и над пиджаком, и над плашкой */
+.phero-stamp{background:rgba(250,247,242,.82);border:1px solid rgba(17,17,17,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 6px 22px rgba(17,17,17,.18)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .phero-stamp{background:rgba(250,247,242,.62);-webkit-backdrop-filter:blur(10px) saturate(140%);backdrop-filter:blur(10px) saturate(140%)}
+}
+@media (prefers-reduced-transparency:reduce){.phero-stamp{background:rgba(250,247,242,.94);-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+/* ---------- движение обложки (только transform/opacity; при reduced-motion всё статично) ---------- */
+@media (prefers-reduced-motion:no-preference){
+  /* звёздочка: «прилёт» после строки заголовка, затем едва заметное дыхание */
+  .phero-mark{animation:ph-mark-in .7s cubic-bezier(.2,.8,.2,1) .55s backwards,ph-mark-breathe 8s ease-in-out 1.3s infinite alternate}
+  /* кнопка: стрелка раз в ~5 с мягко подталкивает вправо; на наведении/нажатии — сдвиг стрелки */
+  .phero-cta .ph-arrow svg{animation:ph-nudge 5s cubic-bezier(.4,0,.2,1) 2.4s infinite;transition:translate .2s cubic-bezier(.4,0,.2,1)}
+  .phero-cta:is(:hover,:focus-visible,:active) .ph-arrow svg{animation:none;translate:4px 0}
+  /* плашка выезжает снизу, портрет проявляется снизу с масштабом 1.04 → 1 (виден сразу: без opacity) */
+  .phero-plate{transform-origin:50% 100%;animation:ph-plate .75s cubic-bezier(.2,.8,.2,1) .1s backwards}
+  .phero-cut img{transform-origin:50% 100%;animation:ph-cut .9s cubic-bezier(.2,.8,.2,1) .15s backwards}
+}
+@keyframes ph-mark-in{from{opacity:0;translate:-.35em -.55em;rotate:-140deg;scale:.4}}
+@keyframes ph-mark-breathe{from{rotate:0deg;scale:1}to{rotate:24deg;scale:1.08}}
+@keyframes ph-nudge{0%,78%,100%{translate:0 0}84%{translate:5px 0}90%{translate:0 0}95%{translate:2px 0}}
+@keyframes ph-plate{from{transform:scaleY(.001)}}
+@keyframes ph-cut{from{transform:translateY(5%) scale(1.04)}}
+/* лёгкий параллакс портрета по скроллу — только десктоп и только где есть scroll-driven animations */
+@supports (animation-timeline:scroll()){
+  @media (min-width:761px) and (prefers-reduced-motion:no-preference){
+    .phero-cut img{animation:ph-cut .9s cubic-bezier(.2,.8,.2,1) .15s backwards,ph-par linear both;animation-timeline:auto,scroll(root);animation-range:normal,0 640px}
+  }
+}
+@keyframes ph-par{to{translate:0 -28px}}
