@@ -32,6 +32,8 @@
 }
 .lp .lp-steps li:first-child { border-top: 0; padding-top: 0; }
 .lp :is(.lp-steps, .lp-qs) b { font: 900 44px/.85 Poster, sans-serif; font-stretch: 75%; color: #fd5918; }
+/* На креме #fd5918 даёт 2.97:1 (< 3:1 для крупного текста) — тёмно-рыжий токен шапки --md-rust-ink, 4.57:1. На чёрном остаётся оранжевый (6.6:1). */
+.lp .lp-steps b { color: #c4490a; }
 .lp :is(.lp-steps, .lp-qs) p { margin: 0; font: 500 18px/1.45 'Golos Text', sans-serif; }
 .lp .lp-price { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid #000; font: 700 17px/1.4 'Golos Text', sans-serif; }
 
@@ -87,6 +89,7 @@
 .lp .lp-q[open] .lp-plus::after { transform: rotate(0deg); }
 .lp .lp-q p { max-width: 46em; margin: 0; padding: 0 0 20px; font: 400 18px/1.5 'Golos Text', sans-serif; }
 @media (hover: hover) { .lp .lp-q summary:hover h3 { color: #c4490a; } }
+.lp .lp-q summary:active h3 { color: #c4490a; transition: none; } /* отклик нажатия на телефоне, где нет hover */
 .lp .lp-q summary:focus-visible { outline: 2px solid #000; outline-offset: 4px; }
 
 .lp .lp-cta-photo img { object-position: 74% 38%; }
