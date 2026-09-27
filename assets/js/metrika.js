@@ -32,6 +32,9 @@
       return;
     }
 
+    /* Своя цель у ссылки (посадочные: data-goal="raspakovka_msg"). */
+    if (link.dataset && link.dataset.goal) { window.ymGoal(link.dataset.goal); return; }
+
     /* Мессенджеры: Telegram и MAX. Instagram — соцсеть, отдельной целью не считаем. */
     if (href.indexOf('t.me/') === -1 && href.indexOf('max.ru/') === -1) return;
     if (link.closest('header, .hdr-dialog')) window.ymGoal('messenger_header');

@@ -1260,3 +1260,8 @@ html:has(.hdr-dialog[open]){overflow:hidden}
   .home .card-two .card-photo-frame .card-photo{width:440px;left:auto;right:-110px;top:236px}
 }
 
+
+/* Ссылка на посадочную «Распаковка личности» рядом с «Написать мне» (003, 27.09). Текстовая, как «Подробнее» в карточках. */
+.home .about-more{display:inline-flex;align-items:center;min-height:44px;margin-left:18px;vertical-align:bottom;font:600 15px/1.2 'Golos Text',sans-serif;text-decoration:underline;text-underline-offset:4px}
+@media (hover:hover){.home .about-more:hover{text-decoration-thickness:2px}}
+@media (max-width:700px){.home .about-more{display:flex;margin:8px 0 0}}
