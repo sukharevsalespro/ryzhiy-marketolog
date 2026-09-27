@@ -92,13 +92,14 @@
 @media (max-width:760px){.phero-cut--a img{translate:-50% 0}.phero-cut--b{--ph-w:112%;--ph-x:-6%}.phero-cut--b img{top:12px}}
 
 /* рукописная «Больше, чем маркетинг» (тот же SVG и анимация пера, что на прежней обложке) — белым в левом нижнем углу плашки */
-.phero-note{position:absolute;z-index:3;left:calc(16% + clamp(12px,1.4vw,22px));bottom:clamp(12px,1.4vw,22px);width:clamp(92px,8.8vw,128px);color:#fff;pointer-events:none}
+/* десктоп: правый нижний угол плашки, на пиджаке (правка владельца 28.09) */
+.phero-note{position:absolute;z-index:3;left:auto;right:clamp(12px,1.4vw,22px);bottom:clamp(12px,1.4vw,22px);width:clamp(92px,8.8vw,128px);color:#fff;pointer-events:none}
 .phero-note .hero-hand{display:block;width:100%;height:auto;aspect-ratio:1073 / 1281.94;margin:0;fill:currentColor}
 /* штамп поднят над надписью, остаётся на левом краю плашки */
 .phero-stamp{bottom:clamp(150px,15vw,216px)}
 @media (max-width:760px){
   .phero-place{display:none}
-  .phero-note{left:14px;bottom:14px;width:clamp(96px,30vw,124px)}
+  .phero-note{left:14px;right:auto;bottom:14px;width:clamp(96px,30vw,124px)}
   .phero-stamp{bottom:12px}
 }
 /* штамп: стекло (полупрозрачный кремовый + размытие), читается и над пиджаком, и над плашкой */
@@ -131,3 +132,15 @@
   }
 }
 @keyframes ph-par{to{translate:0 -28px}}
+/* блик по оранжевым числам полосы: светлая полоса слева направо, каскадом по ячейкам, цикл 7 с */
+@media (prefers-reduced-motion:no-preference){
+  .phero-stats b{
+    background:linear-gradient(100deg,var(--ph-orange) 0 42%,#ffd2b3 50%,var(--ph-orange) 58% 100%) 100% 0 / 250% 100% no-repeat;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+    animation:ph-shine 7s cubic-bezier(.4,0,.2,1) infinite;animation-delay:calc(1s + var(--k,0) * .25s)
+  }
+  .phero-stats li:nth-child(2) b{--k:1}
+  .phero-stats li:nth-child(3) b{--k:2}
+  .phero-stats li:nth-child(4) b{--k:3}
+}
+@keyframes ph-shine{0%{background-position:100% 0}16%,100%{background-position:0 0}}
