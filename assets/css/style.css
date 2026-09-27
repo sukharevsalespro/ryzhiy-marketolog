@@ -1233,3 +1233,22 @@ html:has(.hdr-dialog[open]){overflow:hidden}
 @media (max-width:359.98px){.webinar .w-final{grid-template-columns:minmax(0,1fr)}.webinar .final-copy h2{font-size:34px}}
 
 :is(.home,.webinar) .md-plate:disabled{translate:none!important;box-shadow:none!important}
+
+/* ===== «Маркетинг доверия»: лицо целиком в видимой диагонали (владелец поймал срезанную голову, 27.09).
+   Рамка держит диагональ и серый фон под цвет стены снимка; сам снимок уменьшен и поставлен так, чтобы
+   голова (волосы…подбородок) была внутри видимой зоны и не под текстом/кнопками; края снимка растушёваны
+   в фон. Параметры --pw/--pl/--pt — ширина, отступ слева и сверху снимка в % рамки. */
+.home .card-two .card-photo-frame{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--photo-bg,#d6d6d4);clip-path:polygon(100% 14%,100% 100%,5% 100%);pointer-events:none;--pw:78%;--pl:48%;--pt:46%}
+.home .card-two .card-photo-frame .card-photo{position:absolute;inset:auto;left:var(--pl);top:var(--pt);width:var(--pw);height:auto;max-width:none;aspect-ratio:1;object-fit:cover;clip-path:none;opacity:1;filter:grayscale(1);
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 18%),linear-gradient(to bottom,transparent 0,#000 16%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 18%),linear-gradient(to bottom,transparent 0,#000 16%);mask-composite:intersect}
+.home .card-two .black-wedge{display:none}
+@media (max-width:700px){
+  .home .card-two .card-photo-frame{inset:auto 0 0 0;height:146px;clip-path:polygon(0 34%,100% 0,100% 100%,0 100%)}
+  .home .card-two .card-photo-frame .card-photo{width:200px;left:auto;right:12px;top:24px}
+}
+/* Планшет 701–1279: карточка во всю ширину — вместо широкой серой полосы тот же угол, что на десктопе. */
+@media (min-width:701px) and (max-width:1279.98px){
+  .home .card-two .card-photo-frame{inset:0;height:auto;clip-path:polygon(100% 22%,100% 100%,40% 100%)}
+  .home .card-two .card-photo-frame .card-photo{width:440px;left:auto;right:-110px;top:236px}
+}
+
