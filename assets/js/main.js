@@ -410,29 +410,44 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
     .catch(function (err) { console.error('Рукопись показана без анимации:', err); ink.removeAttribute('mask'); reveal(); });
 })();
 
-/* «20+»: счёт 0→20 за 600 мс при появлении (спека 002, T005). Ширина зарезервирована заранее,
-   чтобы соседние блоки не дёргались; при reduced-motion число сразу итоговое. */
+/* Досчёт чисел при появлении в экране (спека 002, T005; обобщено на полосу обложки).
+   [data-count] — итоговое число; data-count-dec — знаков после запятой в процессе (0,1→1);
+   data-count-late — «+»/«млн» появляются только с финальным значением; data-count-delay — каскад, мс.
+   В HTML стоят финальные значения (SEO, без JS); при reduced-motion ничего не трогаем.
+   Контейнер [data-count-group] получает .is-counted после последнего числа (старт блика). */
 (function () {
   'use strict';
-  var el = document.querySelector('[data-count]');
-  if (!el || !window.IntersectionObserver || !window.requestAnimationFrame) return;
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var to = parseInt(el.dataset.count, 10);
-  var suffix = el.textContent.replace(/^\d+/, '');
-  if (!to) return;
-  new IntersectionObserver(function (e, obs) {
-    if (!e[0].isIntersecting) return;
-    obs.disconnect();
-    el.style.minWidth = el.getBoundingClientRect().width + 'px';
-    el.setAttribute('aria-label', to + suffix);
-    var t0 = performance.now(), dur = 600;
-    (function tick(now) {
-      var k = Math.min(1, (now - t0) / dur);
-      var eased = 1 - Math.pow(1 - k, 3);
-      el.textContent = Math.round(eased * to) + suffix;
-      if (k < 1) requestAnimationFrame(tick);
-    })(t0);
-  }, { threshold: .4 }).observe(el);
+  var els = [].slice.call(document.querySelectorAll('[data-count]'));
+  var groups = [].slice.call(document.querySelectorAll('[data-count-group]'));
+  function done(g) { g.classList.add('is-counted'); }
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!els.length || reduce || !window.IntersectionObserver || !window.requestAnimationFrame) { groups.forEach(done); return; }
+  function fmt(v, dec) { return dec ? v.toFixed(dec).replace('.', ',') : String(Math.round(v)); }
+  els.forEach(function (el) {
+    var to = parseFloat(el.dataset.count);
+    if (!to) return;
+    var finalText = el.textContent, dec = parseInt(el.dataset.countDec || '0', 10);
+    var late = el.hasAttribute('data-count-late'), delay = parseInt(el.dataset.countDelay || '0', 10);
+    var suffix = finalText.replace(/^[\d\s]+/, '');
+    var group = el.closest('[data-count-group]');
+    el.style.minWidth = el.getBoundingClientRect().width + 'px';  /* ширина ячейки не прыгает */
+    el.setAttribute('aria-label', finalText);
+    el.textContent = fmt(0, dec) + (late ? '' : suffix);
+    new IntersectionObserver(function (e, obs) {
+      if (!e[0].isIntersecting) return;
+      obs.disconnect();
+      setTimeout(function () {
+        var t0 = performance.now(), dur = 1600;
+        (function tick(now) {
+          var k = Math.min(1, (now - t0) / dur), eased = 1 - Math.pow(1 - k, 3);
+          el.textContent = k < 1 ? fmt(eased * to, dec) + (late ? '' : suffix) : finalText;
+          if (k < 1) { requestAnimationFrame(tick); return; }
+          el.dataset.counted = '';
+          if (group && !group.querySelector('[data-count]:not([data-counted])')) done(group);
+        })(t0);
+      }, delay);
+    }, { threshold: .4 }).observe(el);
+  });
 })();
 
 /* «Спасибо» после Продамуса (спека 004): ?paid=1 / ?payfail=1 → модалка на главной.

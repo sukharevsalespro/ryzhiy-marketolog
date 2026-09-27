@@ -52,7 +52,7 @@
 .phero-stats{grid-area:stats;margin:0 var(--ph-pad);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--ph-ink);color:var(--ph-cream);list-style:none;padding:0}
 .phero-stats li{padding:clamp(18px,2vw,28px) clamp(14px,2vw,32px);display:flex;flex-direction:column;gap:8px;min-width:0}
 .phero-stats li+li{box-shadow:inset 1px 0 0 rgba(250,247,242,.28)}
-.phero-stats b{font:900 clamp(40px,4.4vw,64px)/.9 Poster,sans-serif;font-stretch:75%;letter-spacing:-.02em;color:var(--ph-orange);white-space:nowrap}
+.phero-stats b{font:900 clamp(40px,4.4vw,64px)/.9 Poster,sans-serif;font-variant-numeric:tabular-nums;font-stretch:75%;letter-spacing:-.02em;color:var(--ph-orange);white-space:nowrap}
 .phero-stats span{text-wrap:balance;font:500 13px/1.3 'Golos Text',sans-serif;letter-spacing:.04em;text-transform:uppercase;max-width:22ch}
 
 /* ---------- планшет ---------- */
@@ -134,10 +134,10 @@
 @keyframes ph-par{to{translate:0 -28px}}
 /* блик по оранжевым числам полосы: светлая полоса слева направо, каскадом по ячейкам, цикл 7 с */
 @media (prefers-reduced-motion:no-preference){
-  .phero-stats b{
+  .phero-stats.is-counted b{
     background:linear-gradient(100deg,var(--ph-orange) 0 42%,#ffd2b3 50%,var(--ph-orange) 58% 100%) 100% 0 / 250% 100% no-repeat;
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-    animation:ph-shine 7s cubic-bezier(.4,0,.2,1) infinite;animation-delay:calc(1s + var(--k,0) * .25s)
+    animation:ph-shine 7s cubic-bezier(.4,0,.2,1) infinite;animation-delay:calc(.2s + var(--k,0) * .25s)
   }
   .phero-stats li:nth-child(2) b{--k:1}
   .phero-stats li:nth-child(3) b{--k:2}

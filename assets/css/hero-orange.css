@@ -1,7 +1,7 @@
-/* МАКЕТ (ветка design-hero-orange, не прод): обложка на рыжем со стеклянными накладками.
-   V1 — сплошной #FE6C1F; V2 — сияние от ржавого к яркому оранжевому. Поверх hero-premium.css. */
+/* Обложка на рыжем (выбор владельца 28.09: V2 — сияние от ржавого к оранжевому, P1 — графитовая панель за портретом).
+   Стеклянная карточка текста, графитовая полоса цифр до краёв экрана. Поверх hero-premium.css. */
 
-/* ---------- общее для V1/V2 ---------- */
+/* ---------- общее ---------- */
 .ph-orange .phero{background:transparent}
 .ph-orange .phero-plate{display:none}
 /* стекло: общий рецепт (светлое, край 1px, мягкая тень); фолбэк без backdrop-filter — плотнее */
@@ -27,7 +27,7 @@
 .ph-orange .phero-media{margin-right:0}
 .ph-orange .ph-glass{position:absolute;z-index:1;inset:var(--ph-glass-top,96px) var(--ph-pad) 0 8%}
 /* тёмная подложка стекла за головой — чтобы рыжие волосы отделялись от рыжего фона */
-/* (бурая подложка за головой убрана по правке владельца — варианты P1/P2 ниже) */
+
 .ph-orange .phero-cut{inset:0;clip-path:inset(-60% -60vw 0 -60vw);z-index:2}
 .ph-orange .phero-cut img{top:22px;bottom:auto;left:var(--ph-bx,-28%);width:var(--ph-bw,156%)}
 .ph-orange .phero-stamp{z-index:6}
@@ -47,8 +47,7 @@
 }
 .ph-orange .phero-stats{margin-top:0}
 
-/* ---------- V1: сплошной оранжевый, full-bleed ---------- */
-.home .page-band.ph-band-v1{background:#fe6c1f}
+
 
 /* ---------- V2: сияние ржавый → яркий оранжевый, крупные размытые пятна света ---------- */
 .home .page-band.ph-band-v2{
@@ -87,9 +86,6 @@
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .035 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),linear-gradient(180deg,#2b2d32,#232529);
   border:1px solid rgba(255,255,255,.08);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 18px 48px rgba(20,22,28,.28)
 }
-/* P2: панели нет; волосы отделяет мягкая холодная тень по контуру выреза */
-.ph-orange.ph-p2 .ph-glass{display:none}
-.ph-orange.ph-p2 .phero-cut img{filter:drop-shadow(0 6px 26px rgba(16,20,34,.34))}
 
 /* рукопись крупнее (~1.4×) и ниже-правее: правая часть пиджака над полосой цифр */
 .ph-orange .phero-note{width:clamp(120px,11.4vw,166px);right:calc(var(--ph-pad) + 2px);bottom:8px}
@@ -101,3 +97,12 @@
 /* штамп ниже, у короткой строки кнопки — не перекрывает заголовок и подзаголовок */
 .ph-orange .phero-stamp{bottom:clamp(24px,3.4vw,56px)}
 @media (max-width:760px){.ph-orange .phero h1{font-size:min(88px,calc(100cqi / 5.75))}}
+/* рукопись не пересекает лицо (правка владельца 28.09): портрет левее, надпись правее лица на плече;
+   проверено программно по bbox лица из face-parsing на 1024–1920 шаг 64 и 390/320 */
+.ph-v2 .phero-cut img{left:var(--ph-bx,-38%)}
+.ph-orange .phero-note{width:clamp(104px,9.4vw,150px);right:10px;bottom:10px}
+@media (max-width:1100px){.ph-orange .phero-cut img{--ph-bw:160%;--ph-bx:-44%}}
+@media (max-width:760px){
+  .ph-orange .phero-cut img{--ph-bw:130%;--ph-bx:-15%}
+  .ph-orange .phero-note{width:clamp(88px,27vw,106px);left:8px;right:auto;bottom:8px}
+}
