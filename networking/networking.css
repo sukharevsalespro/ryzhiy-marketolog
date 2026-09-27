@@ -590,5 +590,7 @@
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .networking .nw-hero .nw-next { background: rgba(0, 0, 0, .62); --glass-ink: #fff; --glass-num: var(--nw-orange); }
 }
-/* Факт «Время»: общее время и исключения по датам — каждое своей строкой, пары не рвутся. */
-.networking [data-bind="times"]>span{display:block}.networking [data-bind="times"]>span:first-child,.networking [data-bind="times"] span span{white-space:nowrap}
+/* Факт «Время»: одна строка на дату (не мешать общее время с исключением), кегль и капс — как у «Где». */
+.networking .nw-facts dd[data-bind="times"] { display: flex; flex-direction: column; gap: 5px; }
+.networking .nw-time-hm { font-weight: 500; white-space: nowrap; }
+.networking .nw-facts-note { margin: 10px 0 0; font: 500 13px/1.4 'Golos Text', sans-serif; color: #6b635c; }

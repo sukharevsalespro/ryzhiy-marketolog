@@ -65,15 +65,15 @@ for (const t of data.tariffs) for (const o of t.offers) expect(body.includes(rub
 // а не единое "12:00–14:00" на все даты.
 for (const ev of future) expect(body.includes(ev.time), `/networking/: нет времени "${ev.time}" (${ev.id})`);
 
-// Факт «Время» на /networking/: общее время большинства будущих дат + исключения (как в networking.js).
+// Факт «Время» на /networking/: список по датам, одна строка на встречу (ФТ-9, не мешать общее
+// время с исключением по дате — переделка 27.09.2026), МСК вынесена в общую подпись один раз.
 {
-  const count = {};
-  future.forEach((e) => { count[e.time] = (count[e.time] || 0) + 1; });
-  const main = Object.keys(count).sort((a, b) => count[b] - count[a])[0];
-  const other = future.filter((e) => e.time !== main).map((e) => `${fmt(e.start, { day: 'numeric', month: 'long' })} — ${e.time.replace(/\s*МСК$/, '')}`);
-  const want = [main, ...other].join(' ');
+  const want = future
+    .map((e) => `${fmt(e.start, { day: 'numeric', month: 'long' })}, ${fmt(e.start, { weekday: 'short' })} — ${e.time.replace(/\s*МСК$/, '')}`)
+    .join(' ');
   const dd = (nw.match(/<dd data-bind="times">([\s\S]*?)<\/dd>/) || [])[1] || '';
   expect(text(dd).trim() === want, `/networking/: факт «Время» не "${want}"`);
+  expect(nw.includes('class="nw-facts-note">По московскому времени.</p>'), '/networking/: нет общей подписи "По московскому времени." у факта «Время»');
 }
 
 // Ближайшая дата в обложке и ссылки мессенджеров без JS.
