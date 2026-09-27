@@ -134,8 +134,9 @@
    Reference lock (Refero): постер + Kajabi 6a80f749 (портрет как доказательство, чёрная секция, форматы
    карточками с прямыми углами), Elementor affiliates 5b879336 (hero → проблема → шаги → форматы → отзывы → FAQ → CTA).
    Сигнатура страницы — срок крупным постерным числом в карточке формата вместо цены. */
-/* Лицо на 35–50% ширины кадра, табличка на двери (17–25%) — за левым краем окна. */
-.lp-rz .lp-photo img { object-position: 60% 30%; }
+/* portrait-table-talk: лицо на 18–35% ширины кадра, чужой логотип «Деловая Среда» справа (от 68%) — окно от левого края. */
+.lp-rz .lp-photo img { object-position: 0% 35%; }
+/* webinar-portrait: лицо на 18–33% высоты кадра. */
 .lp-rz .lp-cta-photo img { object-position: 50% 18%; }
 .lp .lp-traps { margin-top: 12px; }
 .lp .lp-punch { margin: 22px 0 0; padding-top: 16px; border-top: 1px solid #000; font: 700 clamp(18px, 1.5vw, 22px)/1.35 'Golos Text', sans-serif; text-wrap: balance; }
@@ -153,7 +154,7 @@
 }
 @media (max-width: 1100px) and (min-width: 761px) { .lp .lp-qs--3 { grid-template-columns: 1fr; } .lp .lp-qs--3 li { grid-template-columns: 96px minmax(0, 1fr); } }
 @media (max-width: 760px) {
-  .lp-rz .lp-photo img { object-position: 60% 30%; }
+  .lp-rz .lp-photo img { object-position: 0% 35%; }
   .lp .lp-qs--3 { grid-template-columns: 1fr; }
   .lp .lp-qs--3 li { grid-template-columns: 64px minmax(0, 1fr); }
   .lp .lp-formats { padding: 36px 20px 40px; }
