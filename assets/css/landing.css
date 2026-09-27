@@ -36,6 +36,9 @@
 .lp .lp-steps b { color: #c4490a; }
 .lp :is(.lp-steps, .lp-qs) p { margin: 0; font: 500 18px/1.45 'Golos Text', sans-serif; }
 .lp .lp-price { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid #000; font: 700 17px/1.4 'Golos Text', sans-serif; }
+/* Цены игры (подтверждены Валентиной 27.09.2026): строки «формат — цена», цена постерным кеглем, как тарифы /networking/. */
+.lp .lp-price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 10px 0 0; margin-top: 10px; border-top: 1px solid rgba(0, 0, 0, .18); font-weight: 500; }
+.lp .lp-price-row b { font: 900 34px/1 Poster, sans-serif; font-stretch: 75%; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .lp .lp-self { padding: 64px var(--gutter, 40px) 72px; background: #000; color: #faf7f2; }
 .lp .lp-self .nw-rule { border-top-color: #faf7f2; }
