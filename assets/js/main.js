@@ -410,7 +410,7 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
     .catch(function (err) { console.error('Рукопись показана без анимации:', err); ink.removeAttribute('mask'); reveal(); });
 })();
 
-/* «15+»: счёт 0→15 за 600 мс при появлении (спека 002, T005). Ширина зарезервирована заранее,
+/* «20+»: счёт 0→20 за 600 мс при появлении (спека 002, T005). Ширина зарезервирована заранее,
    чтобы соседние блоки не дёргались; при reduced-motion число сразу итоговое. */
 (function () {
   'use strict';

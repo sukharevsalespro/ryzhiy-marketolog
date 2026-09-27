@@ -1,0 +1,92 @@
+/* Пробная обложка главной «постер-портфолио» (ветка design-premium-hero, НЕ прод).
+   Референс владельца: огромный узкий заголовок слева, вырезанный ч/б портрет на цветной
+   плашке справа, круглый штамп, чёрная полоса цифр. Плоско, прямые углы, один акцент.
+   На главной html font-size ≈ 2px (постерная сетка), поэтому здесь только px / vw / clamp. */
+.phero{
+  --ph-ink:#111111; --ph-cream:#faf7f2; --ph-orange:#fe6c1f; --ph-rust:#c4490a;
+  --ph-pad:clamp(16px,3.6vw,52px);
+  position:relative;display:grid;overflow-x:clip;
+  grid-template-columns:minmax(0,1.32fr) minmax(0,1fr);
+  grid-template-areas:"copy media" "stats stats";
+  background:var(--ph-cream);color:var(--ph-ink);
+  font-family:'Golos Text',system-ui,sans-serif;
+}
+.phero *{box-sizing:border-box}
+
+/* ---------- левая колонка ---------- */
+.phero-copy{grid-area:copy;align-self:center;padding:clamp(28px,4vw,64px) clamp(12px,2vw,32px) clamp(32px,4vw,64px) var(--ph-pad);min-width:0}
+.phero h1{margin:0;font:900 clamp(52px,8.6vw,124px)/.86 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.035em;text-transform:uppercase}
+.phero h1>span{display:block;width:max-content;white-space:nowrap}
+.phero-mark{display:inline-block;color:var(--ph-orange);font-weight:700;font-size:.62em;line-height:1;vertical-align:.62em;margin-left:.14em}
+.phero-sub{margin:clamp(20px,2.2vw,32px) 0 0;max-width:30ch;font:700 clamp(19px,1.8vw,26px)/1.08 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:.005em;text-transform:uppercase;text-wrap:balance}
+.phero-sub em{font-style:normal;color:var(--ph-rust)}
+.phero-cta{
+  margin-top:clamp(22px,2.4vw,34px);display:inline-flex;align-items:center;gap:14px;min-height:52px;padding:0 20px 0 0;
+  background:var(--ph-ink);color:var(--ph-cream);text-decoration:none;font:600 15px/1.2 'Golos Text',sans-serif;white-space:nowrap;
+  --plate:var(--ph-orange);touch-action:manipulation
+}
+.phero-cta .ph-arrow{display:grid;place-items:center;width:52px;height:52px;background:var(--ph-orange);color:var(--ph-ink);flex:0 0 auto}
+.phero-cta svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.phero-cta:hover{text-decoration:none}
+.phero-cta:focus-visible{outline:2px solid var(--ph-ink);outline-offset:4px}
+
+/* ---------- правая колонка: плашка + вырез ---------- */
+.phero-media{--ph-top:clamp(40px,3.8vw,52px);grid-area:media;position:relative;min-height:clamp(420px,40vw,580px);margin-right:var(--ph-pad)}
+.phero-plate{position:absolute;inset:var(--ph-top) 0 0 16%;background:var(--ph-orange)}
+.phero-place{position:absolute;top:0;right:0;z-index:3;margin:0;text-align:right;font:600 11px/1.3 'Golos Text',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ph-ink)}
+/* портрет: снизу/слева/справа обрезан плашкой (прямые срезы исходника не видны), сверху волосам можно выйти за край */
+.phero-cut{position:absolute;inset:0 0 0 16%;clip-path:inset(-40% 0 0 0);z-index:2;pointer-events:none}
+.phero-cut img{position:absolute;bottom:0;left:var(--ph-x,-25%);width:var(--ph-w,150%);max-width:none;height:auto;display:block}
+
+/* ---------- штамп ---------- */
+.phero-stamp{position:absolute;z-index:4;left:0;bottom:clamp(40px,6vw,96px);width:clamp(112px,10.4vw,150px);aspect-ratio:1;border-radius:50%;background:var(--ph-cream);border:1.5px solid var(--ph-ink);display:grid;place-items:center}
+.phero-stamp svg{position:absolute;inset:6%;width:88%;height:88%;overflow:visible}
+.phero-stamp text{font:700 10.4px 'Golos Text',sans-serif;letter-spacing:.16em;text-transform:uppercase;fill:var(--ph-ink)}
+.phero-stamp b{position:relative;font:700 clamp(40px,3.6vw,54px)/1 Poster,sans-serif;color:var(--ph-orange);translate:0 .12em}
+@media (prefers-reduced-motion:no-preference){
+  .phero-stamp svg{animation:ph-spin 22s linear infinite}
+}
+@keyframes ph-spin{to{rotate:360deg}}
+
+/* ---------- чёрная полоса цифр ---------- */
+.phero-stats{grid-area:stats;margin:0 var(--ph-pad);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--ph-ink);color:var(--ph-cream);list-style:none;padding:0}
+.phero-stats li{padding:clamp(18px,2vw,28px) clamp(14px,2vw,32px);display:flex;flex-direction:column;gap:8px;min-width:0}
+.phero-stats li+li{box-shadow:inset 1px 0 0 rgba(250,247,242,.28)}
+.phero-stats b{font:900 clamp(40px,4.4vw,64px)/.9 Poster,sans-serif;font-stretch:75%;letter-spacing:-.02em;color:var(--ph-orange);white-space:nowrap}
+.phero-stats span{text-wrap:balance;font:500 13px/1.3 'Golos Text',sans-serif;letter-spacing:.04em;text-transform:uppercase;max-width:22ch}
+
+/* ---------- планшет ---------- */
+@media (max-width:1100px){
+  .phero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+  .phero-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .phero-stats li:nth-child(3){box-shadow:inset 0 1px 0 rgba(250,247,242,.28)}
+  .phero-stats li:nth-child(4){box-shadow:inset 1px 0 0 rgba(250,247,242,.28),inset 0 1px 0 rgba(250,247,242,.28)}
+}
+
+/* ---------- телефон ---------- */
+@media (max-width:760px){
+  .phero{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "media" "stats"}
+  .phero-copy{padding:24px var(--ph-pad) 28px}
+  .phero h1{font-size:clamp(44px,16.6vw,96px)}
+  .phero-sub{font-size:clamp(19px,5.6vw,24px)}
+  .phero-media{min-height:0;height:clamp(380px,112vw,520px);margin:0 var(--ph-pad)}
+  .phero-media{--ph-top:24px}
+  .phero-plate{inset:24px 0 0 0}
+  .phero-cut{inset:0}
+  .phero-stamp{left:auto;right:10px;bottom:12px;width:100px}
+  .phero-stamp text{font-size:10px}
+  .phero-stamp b{font-size:38px}
+  .phero-place{top:auto;bottom:12px;left:12px;right:auto;text-align:left;font-size:11px;color:var(--ph-ink);background:var(--ph-cream);padding:5px 8px}
+}
+@media (max-width:380px){
+  .phero-stamp{width:86px}
+  .phero-stamp b{font-size:32px}
+  .phero-stats li{padding:16px 12px}
+  .phero-stats span{font-size:12px}
+}
+/* подгонка кадра под плашку: голова целиком внутри, лицо левее подписи */
+.phero-cut--a img{left:50%;width:auto;height:calc(100% - var(--ph-top) + 16px);translate:-54% 0}
+.phero-cut--b{--ph-w:134%;--ph-x:-31%}
+/* B: исходник по плечи режется снизу, поэтому якорь сверху — макушка чуть выше плашки */
+.phero-cut--b img{bottom:auto;top:calc(var(--ph-top) - 12px)}
+@media (max-width:760px){.phero-cut--a img{translate:-50% 0}.phero-cut--b{--ph-w:112%;--ph-x:-6%}.phero-cut--b img{top:12px}}
