@@ -46,6 +46,7 @@ _TELEGRAM_PINNED_IP = "149.154.167.220"
 MSK = ZoneInfo("Europe/Moscow")
 
 MAX_LEN = 200
+COMMENT_MAX_LEN = 500  # необязательный комментарий из билета-заявки главной
 MAX_BODY_BYTES = 16_384
 
 # Поля формы. product — по умолчанию "site". contact — телефон или Telegram,
@@ -141,6 +142,8 @@ def _build_message(data: dict[str, str]) -> str:
     ]
     if data["source_page"]:
         lines.append(f'🔗 {_esc(data["source_page"])}')
+    if data.get("comment"):
+        lines.append(f'💬 {_esc(data["comment"])}')
 
     meta = []
     utm_parts = [data[k] for k in ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term") if data.get(k)]
@@ -164,6 +167,8 @@ def _build_message_max(data: dict[str, str]) -> str:
     ]
     if data["source_page"]:
         lines.append(f'🔗 {data["source_page"]}')
+    if data.get("comment"):
+        lines.append(f'💬 {data["comment"]}')
 
     meta = []
     utm_parts = [data[k] for k in ("utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term") if data.get(k)]
@@ -326,6 +331,7 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     data = {field: form.get(field, "").strip()[:MAX_LEN] for field in FIELDS}
     data["product"] = data["product"] or "site"
     data["contact"] = _pick_contact(form)
+    data["comment"] = form.get("comment", "").strip()[:COMMENT_MAX_LEN]
 
     if data["name"] == "" or data["contact"] == "":
         return _json_response(422, {"ok": False, "error": "empty lead"})

@@ -206,3 +206,20 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+def test_comment_reaches_both_messages_escaped_and_capped() -> None:
+    event = {
+        "httpMethod": "POST",
+        "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+        "isBase64Encoded": False,
+        "body": "name=Ира&contact=@ira_k&consent=true&comment=%3Cb%3E" + "я" * 600,
+    }
+    with patch.object(index, "_send_telegram", return_value=True) as tg, patch.object(index, "_send_max", return_value=True) as mx:
+        resp = index.handler(event, None)
+    assert resp["statusCode"] == 200
+    tg_text, max_text = tg.call_args[0][0], mx.call_args[0][0]
+    assert "💬 &lt;b&gt;" in tg_text and "<b>я" not in tg_text
+    assert "💬 <b>" in max_text
+    comment_line = next(line for line in max_text.splitlines() if line.startswith("💬 "))
+    assert len(comment_line) == len("💬 ") + index.COMMENT_MAX_LEN

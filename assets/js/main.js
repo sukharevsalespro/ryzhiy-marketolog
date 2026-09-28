@@ -16,7 +16,8 @@
   var agenda = document.querySelector('[data-agenda]');
   var hero = document.querySelector('.hero-announcement');
   var fmtCards = document.querySelectorAll('[data-fmt-type]');
-  if ((agenda || hero || fmtCards.length) && window.fetch) {
+  var ticket = document.querySelector('[data-next-ticket]');
+  if ((agenda || hero || fmtCards.length || ticket) && window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
       .then(function (data) {
@@ -24,6 +25,7 @@
         if (agenda) initAgenda(events);
         if (hero) fillHero(events);
         if (fmtCards.length) fillFormats(events);
+        if (ticket) fillTicket(events);
       })
       .catch(function (err) { console.error('Календарь/анонс остаются статичными:', err); });
   }
@@ -57,6 +59,17 @@
         meta.appendChild(sp);
       });
     });
+  }
+
+  /* Корешок билета-заявки: ближайшая дата и тип встречи (как CTA шапки). Нет будущих — корешок без даты. */
+  function fillTicket(events) {
+    var now = Date.now();
+    var next = events.filter(function (ev) { return !isPast(ev, now); })
+      .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
+    if (!next) { ticket.hidden = true; return; }
+    var kinds = { networking: 'Нетворкинг', webinar: 'Вебинар' };
+    ticket.href = next.url;
+    ticket.firstElementChild.textContent = mskParts(next.start).d + ' ' + ruMonthGen(next.start) + ' · ' + (kinds[next.type] || next.label.toLowerCase());
   }
 
   function mskParts(iso) {
@@ -351,6 +364,10 @@
   var btnContent = btn ? Array.from(btn.childNodes).map(function (node) { return node.cloneNode(true); }) : [];
   if (btn) btn.disabled = false;
   var submitting = false;
+  var done = form.querySelector('.tk-done');
+  if (done) done.querySelector('.tk-again').addEventListener('click', function () {
+    form.classList.remove('is-sent'); done.hidden = true; form.elements.name.focus();
+  });
 
   function utmFields(fd) {
     var params = new URLSearchParams(window.location.search);
@@ -389,6 +406,15 @@
       form.elements.contact.focus();
       return;
     }
+    var digits = contact.replace(/\D/g, '');
+    var isPhone = /^[+\d][\d\s()-]*$/.test(contact) && digits.length >= 10 && digits.length <= 15;
+    var isNick = /^(@|https?:\/\/t\.me\/|t\.me\/)?[A-Za-z][A-Za-z0-9_]{4,31}$/.test(contact);
+    if (!isPhone && !isNick) {
+      toast('Не похоже на телефон или ник. Пример: +7 999 123-45-67 или @nickname.', 'err');
+      form.elements.contact.setAttribute('aria-invalid', 'true');
+      form.elements.contact.focus();
+      return;
+    }
     if (name.length > 200 || contact.length > 200) {
       toast('Имя и контакт должны содержать не больше 200 символов.', 'err');
       return;
@@ -410,7 +436,9 @@
     fd.append('name', name);
     fd.append('contact', contact);
     fd.append('consent', 'true');
-    fd.append('source_page', window.location.pathname);
+    fd.append('source_page', window.location.pathname + (form.dataset.leadSource ? ' · ' + form.dataset.leadSource : ''));
+    var comment = form.elements.comment ? form.elements.comment.value.trim() : '';
+    if (comment) fd.append('comment', comment.slice(0, 500));
     utmFields(fd);
 
     submitting = true;
@@ -437,6 +465,7 @@
         form.reset();
         if (window.ymGoal) window.ymGoal('lead_form');
         toast('Заявка отправлена. Валентина свяжется с вами.', 'ok');
+        if (done) { form.classList.add('is-sent'); done.hidden = false; done.focus(); }
       })
       .catch(function (error) {
         var message = error.name === 'AbortError' ? 'Сервер не ответил вовремя. Попробуйте позже.' : error instanceof TypeError ? 'Не получилось отправить — проверьте подключение к сети.' : error.message;
