@@ -165,17 +165,29 @@
 
 /* ---------- C3 = лента C2 + вертикальное слово месяца C1 (по умолчанию) ---------- */
 .home .agenda .c3{display:grid;grid-template-columns:150px minmax(0,1fr) 352px;gap:clamp(24px,3vw,40px);align-items:start;isolation:isolate}
-.home .agenda .c3 .c2-track{grid-auto-columns:calc(100% / 2.2)}
-@media (max-width:1100px){
+/* колонки считаются от ширины без зоны затухания: две карточки целиком, третья выглядывает только в затухании */
+.home .agenda .c3 .c2-track{grid-auto-columns:max(236px,calc((100% - 56px) / 2))}
+/* ≥1180 лента листается свайпом/колесом/клавишами, стрелки месяцев — только у мини-календаря */
+.home .agenda .c3 .c2-arrows{display:none}
+.home .agenda .c3 .c2-fbar{min-height:48px}
+/* правый край ленты затухает, пока есть что листать: «есть ещё», а не обрезанные буквы */
+.home .agenda .c3 .c2-track:not(.is-end){
+  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent);
+  mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent)
+}
+@media (max-width:1179px){
   .home .agenda .c3{grid-template-columns:150px minmax(0,1fr)}
-  .home .agenda .c3 .c2-mini{grid-column:2;width:100%;max-width:420px}
-  .home .agenda .c3 .c2-track{grid-auto-columns:max(260px,calc(100% / 2.5))}
+  .home .agenda .c3 .c2-mini{display:none}
+  .home .agenda .c3 .c2-arrows{display:flex}
 }
 @media (max-width:700px){
   .home .agenda .c3{grid-template-columns:minmax(0,1fr);gap:16px}
-  .home .agenda .c3 .c2-mini{grid-column:auto;max-width:none}
   .home .agenda .c3 .c2-track{grid-auto-columns:78%}
 }
+/* без JS лента сама открывается на ближайшей встрече (Chromium 133+; в остальных — с начала) */
+.home .agenda .c2-card.is-near{scroll-initial-target:nearest}
+/* без JS стрелки не работают — не показываем */
+html:not(.js) .home .agenda .ag-nav{display:none}
 
 /* ---------- адаптив ---------- */
 @media (max-width:1100px){

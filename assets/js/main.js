@@ -244,7 +244,9 @@
       var t = agenda.querySelector('.c2-track');
       if (!t) return;
       agenda.querySelector('[data-scroll="-1"]').disabled = t.scrollLeft < 4;
-      agenda.querySelector('[data-scroll="1"]').disabled = t.scrollLeft + t.clientWidth > t.scrollWidth - 4;
+      var end = t.scrollLeft + t.clientWidth > t.scrollWidth - 4;
+      agenda.querySelector('[data-scroll="1"]').disabled = end;
+      t.classList.toggle('is-end', end);
     }
     function reveal(card) {
       if (variant === 'c3') focusIt = items.filter(function (it) { return card.id === 'c2-' + it.ev.id; })[0] || focusIt;
@@ -286,14 +288,17 @@
       else if (b.dataset.go) go(Number(b.dataset.go));
       else if (b.dataset.scroll) {
         var t = agenda.querySelector('.c2-track');
-        t.scrollBy({ left: Number(b.dataset.scroll) * t.firstChild.offsetWidth, behavior: reduce ? 'auto' : 'smooth' });
+        t.scrollBy({ left: Number(b.dataset.scroll) * t.firstElementChild.offsetWidth, behavior: reduce ? 'auto' : 'smooth' });
       } else if (b.dataset.ev) reveal(document.getElementById('c2-' + b.dataset.ev));
     });
     /* Стрелки клавиатуры: по дням со встречами в мини-календаре, по месяцам — на кнопках месяцев. */
     agenda.addEventListener('keydown', function (e) {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
       var d = e.key === 'ArrowLeft' ? -1 : 1, t = e.target;
-      if (t.classList.contains('c2-dayb')) {
+      if (t.classList.contains('c2-track')) {
+        e.preventDefault();
+        t.scrollBy({ left: d * t.firstElementChild.offsetWidth, behavior: reduce ? 'auto' : 'smooth' });
+      } else if (t.classList.contains('c2-dayb')) {
         var all = Array.prototype.slice.call(agenda.querySelectorAll('.c2-dayb')), n = all[all.indexOf(t) + d];
         e.preventDefault();
         if (n) { n.focus(); return; }
