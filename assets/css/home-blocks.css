@@ -75,7 +75,7 @@
 .tk-main h2 s{white-space:nowrap;color:rgba(0,0,0,.5);text-decoration:line-through;text-decoration-color:#000;text-decoration-thickness:.09em}
 .tk-sub{margin-top:8rem;max-width:44ch;font-size:9rem;line-height:1.4}
 .tk-fields{display:grid;grid-template-columns:1fr 1fr;gap:10rem 18rem;margin-top:14rem}
-.tk-f{display:grid;gap:3rem;margin:0}
+.tk-f{display:grid;gap:3rem;margin:0;position:relative}
 .tk-f--wide{grid-column:1/-1}
 .tk-f label{font-size:7.5rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 .tk-f label span{font-weight:400;text-transform:none;letter-spacing:0}
@@ -85,7 +85,9 @@
 .tk-f :is(input,textarea):hover{background:rgba(255,255,255,.12)}
 .tk-f :is(input,textarea):focus{outline:none;border-bottom-color:#000;background:rgba(255,255,255,.22);box-shadow:0 2px 0 #000}
 .tk-f :is(input,textarea)[aria-invalid=true]{border-bottom-color:#7a0e00;background:rgba(255,255,255,.3);box-shadow:0 2px 0 #7a0e00}
-.tk-hint{font-size:7rem;color:rgba(0,0,0,.72)}
+/* подсказка вынесена абсолютом — без неё оба .tk-f одинаковой высоты (2 ряда: label+input),
+   иначе grid-строка тянулась под более высокое поле и подчёркивание «Имени» съезжало вниз */
+.tk-hint{position:absolute;left:0;top:100%;margin-top:3rem;font-size:7rem;color:rgba(0,0,0,.72)}
 .tk-consent{display:flex;align-items:flex-start;gap:8rem;margin-top:12rem;font-size:7.5rem;line-height:1.4}
 .tk-consent input{flex:0 0 auto;width:20px;height:20px;margin:1px 0 0;accent-color:#000}
 .tk-consent input[aria-invalid=true]{outline:2px solid #7a0e00;outline-offset:2px}
@@ -168,6 +170,8 @@
   .tk-main{padding:var(--s3) var(--s2) var(--s2)}
   .tk-main h2{font-size:clamp(30px,10vw,44px)}
   .tk-fields{grid-template-columns:1fr}
+  /* на 390/320 поля идут в колонку — подсказке место в обычном потоке, не абсолютом */
+  .tk-hint{position:static;margin-top:0}
   .tk-alt{display:grid;grid-template-columns:1fr 1fr}
   .tk-alt>span{grid-column:1/-1}
   .tk-alt-btn{justify-content:space-between}
