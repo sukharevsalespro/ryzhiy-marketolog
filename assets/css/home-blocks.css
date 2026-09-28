@@ -16,7 +16,8 @@
 .bn-item:hover .bn-proof{translate:0 -3rem;box-shadow:0 3rem 0 var(--nb-orange)}
 .bn-fig{font:400 condensed 10rem/1.15 Poster,sans-serif;letter-spacing:.01em;color:var(--nb-muted-d)}
 .bn-fig b{display:block;font-weight:900;font-size:21rem;line-height:.9;letter-spacing:-.03em;color:var(--nb-orange-soft)}
-.bn-proof blockquote{margin:0;flex:1}
+.bn-proof{justify-content:flex-end}
+.bn-proof blockquote{margin:0}
 .bn-proof blockquote p{font-size:8.5rem;line-height:1.4;text-wrap:pretty}
 .bn-proof figcaption{display:grid;gap:1rem;padding-top:6rem;border-top:1px solid rgba(255,255,255,.14);font-size:7rem;line-height:1.3}
 .bn-proof figcaption b{font-weight:700}
@@ -56,13 +57,14 @@
    Корешок: графит + ч/б портрет с рыжими волосами + вертикальная дата ближайшей встречи (events.json).
    Перфорация: пунктир + полукруглые вырезы цвета полосы. Основная часть — рыжее сияние обложки. Радиус 0. */
 .nb-ticket{padding:30rem 25rem 26rem;--tk-cut:11rem}
-.tk{min-height:290rem;--seam-x:128rem;--seam-y:50%;--n1:0 50%;--n2:100% 50%;--n3:var(--seam-x) 0;--n4:var(--seam-x) 100%;position:relative;display:grid;grid-template-columns:var(--seam-x) 1fr;
+.tk{min-height:290rem;--seam-x:172rem;--seam-y:50%;--n1:0 50%;--n2:100% 50%;--n3:var(--seam-x) 0;--n4:var(--seam-x) 100%;position:relative;display:grid;grid-template-columns:var(--seam-x) 1fr;
   --hole:#0000 var(--tk-cut),#000 calc(var(--tk-cut) + .5px);
   -webkit-mask:radial-gradient(circle at var(--n1),var(--hole)),radial-gradient(circle at var(--n2),var(--hole)),radial-gradient(circle at var(--n3),var(--hole)),radial-gradient(circle at var(--n4),var(--hole));
   mask:radial-gradient(circle at var(--n1),var(--hole)),radial-gradient(circle at var(--n2),var(--hole)),radial-gradient(circle at var(--n3),var(--hole)),radial-gradient(circle at var(--n4),var(--hole));
   -webkit-mask-composite:source-in;mask-composite:intersect}
 .tk-stub{position:relative;overflow:hidden;background:var(--nb-graphite) var(--nb-noise);min-height:100%}
-.tk-stub img{position:absolute;left:-10%;top:14rem;width:108%;height:auto;max-width:none}
+/* кадр на всю высоту корешка, фокус на лице */
+.tk-stub img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 0}
 .tk-when{position:absolute;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;width:26rem;writing-mode:vertical-rl;rotate:180deg;background:var(--nb-orange);color:#000;font:900 condensed 11rem/1 Poster,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;transition:background-color .2s}
 .tk-when:is(:hover,:focus-visible){background:#000;color:var(--nb-cream);text-decoration:none!important}
 .tk-main{position:relative;padding:22rem 30rem 20rem 34rem;color:#000;
@@ -70,7 +72,7 @@
 /* перфорация: пунктир по шву + вырезы сверху/снизу шва и по бокам билета */
 .tk-main::before{content:"";position:absolute;left:0;top:var(--tk-cut);bottom:var(--tk-cut);border-left:2px dashed rgba(0,0,0,.55)}
 .tk-main h2{max-width:22ch;font:900 condensed 34rem/.92 Poster,sans-serif;letter-spacing:-.03em;text-transform:uppercase;text-wrap:balance}
-.tk-main h2 s{color:rgba(0,0,0,.5);text-decoration:line-through;text-decoration-color:#000;text-decoration-thickness:.09em}
+.tk-main h2 s{white-space:nowrap;color:rgba(0,0,0,.5);text-decoration:line-through;text-decoration-color:#000;text-decoration-thickness:.09em}
 .tk-sub{margin-top:8rem;max-width:44ch;font-size:9rem;line-height:1.4}
 .tk-fields{display:grid;grid-template-columns:1fr 1fr;gap:10rem 18rem;margin-top:14rem}
 .tk-f{display:grid;gap:3rem;margin:0}
@@ -138,7 +140,7 @@
   .fq-a p{padding:0 0 var(--s2);font-size:16px}
 
   .nb-ticket{padding:var(--s4) var(--mx) var(--s5);--tk-cut:14px}
-  .tk{--seam-x:clamp(150px,24vw,230px);min-height:560px}
+  .tk{--seam-x:clamp(210px,31vw,330px);min-height:560px}
   .tk-when{width:40px;font-size:18px}
   .tk-main{padding:var(--s3) var(--s3) var(--s3) calc(var(--s3) + 8px)}
   .tk-main h2{font-size:clamp(34px,5.4vw,56px)}
@@ -160,7 +162,7 @@
   /* билет вертикально: корешок сверху, перфорация горизонтальная */
   .tk{min-height:0;--stub-h:clamp(260px,78vw,340px);--n1:0 var(--stub-h);--n2:100% var(--stub-h);--n3:-99px -99px;--n4:-99px -99px;grid-template-columns:1fr;grid-template-rows:var(--stub-h) auto}
   .tk-stub{height:var(--stub-h)}
-  .tk-stub img{left:50%;bottom:auto;top:10px;width:min(96%,330px);translate:-50% 0}
+  .tk-stub img{object-position:50% 12%}
   .tk-when{left:0;right:0;top:auto;bottom:0;width:auto;height:40px;writing-mode:horizontal-tb;rotate:none;font-size:17px}
   .tk-main::before{left:var(--tk-cut);right:var(--tk-cut);top:0;bottom:auto;border-left:0;border-top:2px dashed rgba(0,0,0,.55)}
   .tk-main{padding:var(--s3) var(--s2) var(--s2)}
@@ -174,21 +176,21 @@
 }
 
 /* ---------- Подвал: панорама Сочи (фото владельца, грейд в палитре сайта на NVR) ----------
-   Верх картинки запечён в сплошной #111111 — стыка нет; текст лежит на графите. F1 — плёночный дуотон, F2 — мягкая стилизация.
+   Верх картинки запечён в сплошной #111111 — стыка нет; текст лежит на графите. F1 «вечер» — натуральный приглушённый, F3 — дуотон графит + #C4490A.
    Высота кадра: ПК 2560×1400 (54.7vw), телефон 1280×1386 (108.3vw). Параллакс — CSS view-timeline, только ПК, без reduced-motion. */
 .home .nb-foot{--foot-h:54.7vw;position:relative;overflow:hidden;background:#111!important}
 .home .nb-foot::before{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--foot-h);background:#111 var(--foot-img) center bottom/100% auto no-repeat;pointer-events:none}
-.home .nb-foot--f1{--foot-img:image-set(url(/assets/img/footer-sochi-f1-1280.webp) 1x,url(/assets/img/footer-sochi-f1-2560.webp) 2x)}
-.home .nb-foot--f2{--foot-img:image-set(url(/assets/img/footer-sochi-f2-1280.webp) 1x,url(/assets/img/footer-sochi-f2-2560.webp) 2x)}
+.home .nb-foot--f1{--foot-img:image-set(url(/assets/img/footer-sochi-f1v2-1280.webp) 1x,url(/assets/img/footer-sochi-f1v2-2560.webp) 2x)}
+.home .nb-foot--f3{--foot-img:image-set(url(/assets/img/footer-sochi-f3-1280.webp) 1x,url(/assets/img/footer-sochi-f3-2560.webp) 2x)}
 @media (min-width:1441px){
-  .home .nb-foot--f1{--foot-img:url(/assets/img/footer-sochi-f1-2560.webp)}
-  .home .nb-foot--f2{--foot-img:url(/assets/img/footer-sochi-f2-2560.webp)}
+  .home .nb-foot--f1{--foot-img:url(/assets/img/footer-sochi-f1v2-2560.webp)}
+  .home .nb-foot--f3{--foot-img:url(/assets/img/footer-sochi-f3-2560.webp)}
 }
 .home .nb-foot>footer{position:relative;z-index:1;background:transparent!important;padding-bottom:calc(var(--foot-h) * .6)}
 @media (max-width:699.98px){
   .home .nb-foot{--foot-h:108.3vw}
-  .home .nb-foot--f1{--foot-img:url(/assets/img/footer-sochi-f1-m-1280.webp)}
-  .home .nb-foot--f2{--foot-img:url(/assets/img/footer-sochi-f2-m-1280.webp)}
+  .home .nb-foot--f1{--foot-img:url(/assets/img/footer-sochi-f1v2-m-1280.webp)}
+  .home .nb-foot--f3{--foot-img:url(/assets/img/footer-sochi-f3-m-1280.webp)}
   .home .nb-foot>footer{padding-bottom:calc(var(--foot-h) * .6)}
 }
 @media (min-width:1024px) and (prefers-reduced-motion:no-preference){
