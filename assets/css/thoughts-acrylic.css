@@ -103,6 +103,9 @@
 
 /* ================= T1 — три пластины в ряд, 3D-наклон ================= */
 @media (min-width:900px){
+  /* левый край контейнера был на фиксированных 24px (var(--gutter) не задан на главной) — уже теснее,
+     чем у соседних секций (Календарь и др. используют clamp(16px,4vw,48px)); выравниваем по общему контейнеру */
+  .th{padding-inline:clamp(16px,4vw,48px)}
   .th[data-th="t1"] .th-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,2.4vw,36px);align-items:stretch;padding-top:14px;padding-bottom:10px}
   .th[data-th="t1"] .th-hand{transform:none}
   /* в покое пластины стоят ровно (правка владельца 28.09: «всё покосило»); глубина — толщиной, бликом, отражением.
