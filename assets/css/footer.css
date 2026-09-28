@@ -1,0 +1,23 @@
+/* Общий подвал всех страниц сайта (вынесен из home-blocks.css главной). Разметка подвала не меняется —
+   селектор цепляется за штатный <div class="page-band page-band--black"><footer>. */
+/* ---------- Подвал: панорама Сочи (фото владельца, грейд в палитре сайта на NVR) ----------
+   Верх картинки запечён в сплошной #111111 — стыка нет; текст лежит на графите. F1 «вечер» — натуральный приглушённый.
+   Высота кадра: ПК 2560×1400 (54.7vw), телефон 1280×1386 (108.3vw). Параллакс — CSS view-timeline, только ПК, без reduced-motion. */
+.page-band--black:has(>footer){--foot-h:54.7vw;position:relative;overflow:hidden;background:#111!important}
+.page-band--black:has(>footer)::before{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--foot-h);background:#111 var(--foot-img) center bottom/100% auto no-repeat;pointer-events:none}
+.page-band--black:has(>footer){--foot-img:image-set(url(/assets/img/footer-sochi-f1v2-1280.webp) 1x,url(/assets/img/footer-sochi-f1v2-2560.webp) 2x)}
+@media (min-width:1441px){
+  .page-band--black:has(>footer){--foot-img:url(/assets/img/footer-sochi-f1v2-2560.webp)}
+}
+.page-band--black:has(>footer)>footer{position:relative;z-index:1;background:transparent!important;padding-bottom:calc(var(--foot-h) * .6)}
+@media (max-width:699.98px){
+  .page-band--black:has(>footer){--foot-h:108.3vw}
+  .page-band--black:has(>footer){--foot-img:url(/assets/img/footer-sochi-f1v2-m-1280.webp)}
+  .page-band--black:has(>footer)>footer{padding-bottom:calc(var(--foot-h) * .6)}
+}
+@media (min-width:1024px) and (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    .page-band--black:has(>footer)::before{animation:foot-par linear both;animation-timeline:view();animation-range:entry 0% entry 100%}
+    @keyframes foot-par{from{translate:0 48px}to{translate:0 0}}
+  }
+}
