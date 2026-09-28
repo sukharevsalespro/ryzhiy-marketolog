@@ -1,0 +1,197 @@
+/* Календарь встреч (макет 28.09): графит + рыжее сияние, постерный узкий шрифт, 0 радиус.
+   C1 «Афиша месяца» — .is-c1, C2 «Лента + мини-календарь» — .is-c2 (?cal=c2). Разметка — main.js initAgenda. */
+.home{
+  --cg-bg:#26282d;--cg-ink:#ecebe8;--cg-soft:#c9cacd;--cg-mute:#a3a5ab;--cg-dim:#74777e;
+  --cg-line:rgba(255,255,255,.14);--cg-line2:rgba(255,255,255,.28);--cg-or:#fe6c1f;--cg-on-or:#141414;
+  --cg-glass:rgba(255,255,255,.045);--cg-ease:cubic-bezier(.2,.7,.2,1)
+}
+.home .page-band.cal-band{
+  background:
+    radial-gradient(38% 55% at 4% 38%,rgba(254,108,31,.30) 0%,rgba(254,108,31,0) 100%),
+    radial-gradient(34% 50% at 100% 100%,rgba(168,51,12,.34) 0%,rgba(168,51,12,0) 100%),
+    var(--cg-bg)
+}
+.home .page-band.cal-band>.calendar-section.agenda{
+  height:auto;min-height:0;background:transparent;color:var(--cg-ink);overflow:clip;
+  padding:clamp(48px,6vw,96px) clamp(16px,4vw,48px)
+}
+.home .agenda .ag-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;
+  padding-bottom:18px;margin-bottom:clamp(24px,3vw,40px);border-bottom:1px solid var(--cg-line)}
+.home .agenda .ag-head h2{font-size:clamp(40px,5vw,64px);line-height:.95;color:var(--cg-ink);white-space:normal}
+.home .agenda .ag-note{font:400 15px/1.4 'Golos Text',sans-serif;color:var(--cg-mute)}
+
+/* полоса месяца и кнопки */
+.home .agenda .ag-bar{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.home .agenda .ag-title{order:-1;flex:1 1 auto;min-width:0;font:500 15px/1.2 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .ag-title b{font:900 30px/1 Poster,'Golos Text',sans-serif;font-stretch:75%;color:var(--cg-ink);letter-spacing:-.01em}
+.home .agenda .ag-title span{margin-left:10px;white-space:nowrap}
+.home .agenda .ag-nav{flex:none;display:grid;place-items:center;width:48px;height:48px;padding:0;
+  border:1px solid var(--cg-line2);background:var(--cg-glass);color:var(--cg-ink);
+  transition:border-color .2s,color .2s,transform 90ms var(--cg-ease)}
+.home .agenda .ag-nav .i{width:22px;height:22px;stroke-width:2}
+.home .agenda .ag-nav:hover:not(:disabled){border-color:var(--cg-or);color:var(--cg-or)}
+.home .agenda .ag-nav:active:not(:disabled){transform:scale(.94)}
+.home .agenda .ag-nav:disabled{opacity:.3}
+.home .agenda :is(button,a):focus-visible{outline:2px solid var(--cg-or);outline-offset:3px}
+
+/* бейджи */
+.home .agenda .ag-badge,.home .agenda .ag-tag{display:inline-block;padding:3px 8px;font-size:11px;letter-spacing:.12em;line-height:1.3}
+.home .agenda .ag-badge{background:var(--cg-or);color:var(--cg-on-or);font-weight:700}
+.home .agenda .ag-tag{box-shadow:inset 0 0 0 1px currentColor}
+
+/* действия */
+.home .agenda .ag-price{font:800 18px/1.2 'Golos Text',sans-serif;white-space:nowrap;font-variant-numeric:tabular-nums}
+.home .agenda .ag-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:0 18px;
+  background:var(--cg-or);color:var(--cg-on-or);font:700 15px/1 'Golos Text',sans-serif;text-decoration:none;white-space:nowrap;
+  transition:transform .2s var(--cg-ease),box-shadow .2s var(--cg-ease)}
+.home .agenda .ag-cta .i{width:20px;height:20px;stroke-width:2}
+.home .agenda .ag-cta:is(:hover,:focus-visible){text-decoration:none;transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--cg-ink)}
+.home .agenda .ag-cta:active{transform:none;box-shadow:none;transition-duration:90ms}
+.home .agenda .ag-more{display:inline-flex;align-items:center;min-height:44px;color:var(--cg-mute);font:500 15px 'Golos Text',sans-serif;
+  text-decoration:underline;text-underline-offset:4px}
+.home .agenda .ag-more:hover{color:var(--cg-ink)}
+.home .agenda .ag-go{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px;border:1px solid var(--cg-or);
+  background:transparent;color:var(--cg-or);font:700 15px/1.2 'Golos Text',sans-serif;text-align:left;transition:background-color .2s,color .2s}
+.home .agenda .ag-go .i{width:20px;height:20px;stroke-width:2}
+.home .agenda .ag-go:hover{background:var(--cg-or);color:var(--cg-on-or)}
+
+/* ---------- C1 «Афиша месяца» ---------- */
+.home .agenda .c1{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start;isolation:isolate}
+.home .agenda .c1-month{position:relative;margin:0;line-height:0}
+.home .agenda .c1-month::before{content:"";position:absolute;inset:-12% -40%;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(254,108,31,.42),rgba(254,108,31,0));filter:blur(24px)}
+.home .agenda .c1-month span{display:inline-block;writing-mode:vertical-rl;white-space:nowrap;
+  font:900 100px/.78 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.01em;
+  color:var(--cg-or);background:linear-gradient(180deg,#ffb27a 0%,#fe6c1f 48%,#c2410c 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.home .agenda .c1-main{min-width:0}
+.home .agenda .c1-list{list-style:none;margin:0;padding:0;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:clamp(24px,3vw,40px) clamp(16px,2vw,28px)}
+.home .agenda .c1-card{display:flex;flex-direction:column;min-width:0;padding:16px 18px 20px;border-top:4px solid var(--cg-ink);
+  background:var(--cg-glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.home .agenda .c1-card.is-near{border-top-color:var(--cg-or);
+  background:linear-gradient(180deg,rgba(254,108,31,.16),rgba(254,108,31,.04) 60%,rgba(255,255,255,.03));
+  box-shadow:inset 0 0 0 1px rgba(254,108,31,.28),0 24px 60px rgba(120,30,4,.35)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .home .agenda :is(.c1-card,.c2-mini){-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+}
+.home .agenda .c1-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.home .agenda .c1-day{font:900 clamp(76px,7vw,104px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;
+  color:var(--cg-or);font-variant-numeric:tabular-nums}
+.home .agenda .c1-when{display:grid;gap:6px;justify-items:end;text-align:right;padding-top:2px}
+.home .agenda .c1-time{font:700 17px/1.1 'Golos Text',sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.home .agenda .c1-wd{font:500 14px/1 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .c1-fmt{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:22px;
+  font:600 12px/1.3 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cg-mute)}
+.home .agenda .c1-card h3{margin-top:8px;font-size:clamp(24px,2.2vw,28px);line-height:1.02;color:var(--cg-ink);text-wrap:balance}
+.home .agenda .c1-desc{margin-top:10px;font:400 15px/1.45 'Golos Text',sans-serif;color:var(--cg-soft);max-width:34ch}
+.home .agenda .c1-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:20px}
+.home .agenda .c1-card.is-past{border-top-color:#55585f;background:rgba(255,255,255,.02)}
+.home .agenda .c1-card.is-past :is(.c1-day){color:var(--cg-dim)}
+.home .agenda .c1-card.is-past :is(h3,.c1-time){color:#b3b5ba}
+.home .agenda .c1-card.is-past .c1-desc{color:var(--cg-mute)}
+
+/* «дальше» и пустой месяц */
+.home .agenda .c1-next{display:flex;align-self:start}
+.home .agenda .c1-list.is-sparse{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+.home .agenda .c1 .ag-title b{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.home .agenda .c1 .ag-title{font:900 30px/1 Poster,'Golos Text',sans-serif;font-stretch:75%;color:var(--cg-ink)}
+.home .agenda .c1 .ag-title span{margin-left:12px;font:500 15px/1.2 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .c1-next .ag-go{flex:1;display:grid;grid-template-rows:auto auto 1fr;align-content:stretch;gap:10px;padding:18px;border:1px dashed var(--cg-line2);
+  border-top:4px solid var(--cg-line2);color:var(--cg-mute);font-weight:500;min-height:100%}
+.home .agenda .c1-next .c1-day{color:var(--cg-soft);font-size:clamp(56px,5vw,72px)}
+.home .agenda .c1-next .c1-next-t{align-self:end;display:inline-flex;align-items:center;gap:8px;color:var(--cg-ink);font-weight:700}
+.home .agenda .c1-next .ag-go:hover{background:rgba(254,108,31,.1);border-color:var(--cg-or);color:var(--cg-mute)}
+.home .agenda .c1-next .ag-go:hover .c1-day{color:var(--cg-or)}
+.home .agenda .c1-empty{grid-column:1/-1;display:grid;justify-items:start;gap:10px;padding:28px 0 8px;border-top:4px solid var(--cg-line2)}
+.home .agenda .c1-empty-h{font:900 clamp(30px,3.4vw,44px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;color:var(--cg-ink)}
+.home .agenda .c1-empty p:not(.c1-empty-h){font:400 16px/1.45 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .c1-empty .ag-go{margin-top:10px}
+
+/* ---------- C2 «Лента + мини-календарь» ---------- */
+.home .agenda .c2{display:grid;grid-template-columns:minmax(0,1fr) 352px;gap:clamp(24px,3vw,40px);align-items:start}
+.home .agenda .c2-fbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.home .agenda .c2-count{font:500 15px 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .c2-arrows{display:flex;gap:8px}
+.home .agenda .c2-track{list-style:none;margin:0;padding:0;display:grid;grid-auto-flow:column;grid-auto-columns:calc(100% / 3);
+  overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--cg-line2) transparent;
+  border-left:1px solid var(--cg-line);border-top:1px solid var(--cg-line);border-bottom:1px solid var(--cg-line)}
+.home .agenda .c2-track:focus-visible{outline:2px solid var(--cg-or);outline-offset:3px}
+.home .agenda .c2-card{scroll-snap-align:start;display:flex;flex-direction:column;min-width:0;min-height:460px;padding:20px 20px 22px;
+  border-right:1px solid var(--cg-line);position:relative}
+.home .agenda .c2-card.is-near{background:linear-gradient(180deg,rgba(254,108,31,.18),rgba(254,108,31,.03));box-shadow:inset 0 4px 0 var(--cg-or)}
+.home .agenda .c2-wd{font:600 13px/1 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cg-mute)}
+.home .agenda .c2-day{display:block;margin-top:10px;font:900 96px/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;color:var(--cg-ink)}
+.home .agenda .c2-card.is-near .c2-day{color:var(--cg-or)}
+.home .agenda .c2-mon{margin-top:8px;padding-bottom:16px;border-bottom:1px solid var(--cg-line);font:500 15px 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .c2-time{margin-top:16px;font:700 17px/1.1 'Golos Text',sans-serif;color:var(--cg-or);font-variant-numeric:tabular-nums}
+.home .agenda .c2-fmt{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;
+  font:600 12px/1.3 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--cg-mute)}
+.home .agenda .c2-card h3{margin-top:8px;font-size:24px;line-height:1.02;color:var(--cg-ink);text-wrap:balance}
+.home .agenda .c2-desc{margin-top:8px;font:400 14.5px/1.45 'Golos Text',sans-serif;color:var(--cg-soft)}
+.home .agenda .c2-foot{display:grid;gap:10px;margin-top:auto;padding-top:18px}
+.home .agenda .c2-card.is-past .c2-day{color:var(--cg-dim)}
+.home .agenda .c2-card.is-past :is(h3){color:#b3b5ba}
+.home .agenda .c2-card.is-past .c2-time{color:var(--cg-mute)}
+.home .agenda .c2-card.is-past .c2-desc{color:var(--cg-mute)}
+.home .agenda .c2-card.is-picked{animation:ag-pick 900ms var(--cg-ease)}
+@keyframes ag-pick{0%{box-shadow:inset 0 0 0 2px var(--cg-or)}100%{box-shadow:inset 0 0 0 2px rgba(254,108,31,0)}}
+.home .agenda .c2-card.is-near.is-picked{animation-name:ag-pick-near}
+@keyframes ag-pick-near{0%{box-shadow:inset 0 4px 0 var(--cg-or),inset 0 0 0 2px var(--cg-or)}100%{box-shadow:inset 0 4px 0 var(--cg-or),inset 0 0 0 2px rgba(254,108,31,0)}}
+
+.home .agenda .c2-mini{padding:18px;border:1px solid var(--cg-line2);background:rgba(255,255,255,.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 24px 60px rgba(0,0,0,.28)}
+.home .agenda .c2-mini .ag-title b{font-size:26px}
+.home .agenda .c2-grid{width:100%;border-collapse:collapse;table-layout:fixed}
+.home .agenda .c2-grid th{padding:0 0 8px;font:600 11px/1 'Golos Text',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--cg-mute);text-align:center}
+.home .agenda .c2-grid td{height:44px;padding:0;text-align:center;vertical-align:middle;font:500 14px 'Golos Text',sans-serif;color:var(--cg-soft);font-variant-numeric:tabular-nums}
+.home .agenda .c2-grid td.is-today{box-shadow:inset 0 0 0 1px var(--cg-line2)}
+.home .agenda .c2-dayb{position:relative;display:block;width:100%;height:44px;padding:0;border:0;cursor:pointer;
+  background:transparent;color:var(--cg-or);box-shadow:inset 0 0 0 2px var(--cg-or);font:800 15px 'Golos Text',sans-serif;
+  transition:transform 90ms var(--cg-ease),background-color .2s,color .2s}
+.home .agenda .c2-dayb::before{content:"";position:absolute;left:50%;top:50%;width:max(100%,44px);height:44px;transform:translate(-50%,-50%)}
+.home .agenda .c2-dayb.is-near{background:var(--cg-or);color:var(--cg-on-or)}
+.home .agenda .c2-dayb.is-past{background:#4a4d53;color:#d2d3d6;box-shadow:none;font-weight:600}
+.home .agenda .c2-dayb:hover{background:var(--cg-or);color:var(--cg-on-or)}
+.home .agenda .c2-dayb.is-past:hover{background:#5d6067;color:#fff}
+.home .agenda .c2-dayb:active{transform:scale(.92)}
+.home .agenda .c2-dayb[aria-pressed=true]{outline:2px solid var(--cg-ink);outline-offset:2px}
+.home .agenda .c2-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font:400 13px/1.3 'Golos Text',sans-serif;color:var(--cg-mute)}
+.home .agenda .c2-legend span{display:inline-flex;align-items:center;gap:6px}
+.home .agenda .c2-legend span::before{content:"";width:12px;height:12px}
+.home .agenda .c2-legend .lg-near::before{background:var(--cg-or)}
+.home .agenda .c2-legend .lg-up::before{box-shadow:inset 0 0 0 2px var(--cg-or)}
+.home .agenda .c2-legend .lg-past::before{background:#4a4d53}
+
+/* ---------- адаптив ---------- */
+@media (max-width:1100px){
+  .home .agenda .c2{grid-template-columns:minmax(0,1fr)}
+  .home .agenda .c2-mini{max-width:420px}
+}
+@media (max-width:760px){
+  .home .agenda .c2-track{grid-auto-columns:78%}
+  .home .agenda .c2-card{min-height:420px}
+  .home .agenda .c2-mini{max-width:none;padding:14px 12px}
+}
+@media (max-width:700px){
+  .home .agenda .c1{grid-template-columns:minmax(0,1fr);gap:8px}
+  .home .agenda .c1-list.is-sparse{grid-template-columns:minmax(0,1fr)}
+  .home .agenda .c1-month span{writing-mode:horizontal-tb;line-height:.86}
+  .home .agenda .c1-month::before{inset:-20% -10%}
+  .home .agenda .ag-title b{font-size:26px}
+  .home .agenda .c1-card{padding:14px 16px 18px}
+  .home .agenda .c1-desc{max-width:none}
+}
+@media (max-width:380px){
+  .home .agenda .c1-foot{display:grid;grid-template-columns:minmax(0,1fr)}
+  .home .agenda .c1-foot .ag-cta{width:100%}
+  .home .agenda .ag-title span{display:block;margin:4px 0 0}
+}
+@media (prefers-reduced-motion:reduce){
+  .home .agenda :is(.ag-cta,.ag-nav,.ag-go,.c2-dayb){transition:none}
+  .home .agenda .c2-card.is-picked{animation:none}
+  .home .agenda .c2-track{scroll-behavior:auto}
+}
+@media (prefers-reduced-transparency:reduce){
+  .home .agenda :is(.c1-card,.c2-mini){-webkit-backdrop-filter:none;backdrop-filter:none;background:#2e3035}
+}

@@ -89,24 +89,30 @@ if (near) {
   expect(hrefs.length === 7 && hrefs.every((h) => h.startsWith(want)), `кнопки мессенджеров: текст не на ${d} ${m} (${hrefs.length} ссылок)`);
 }
 
-// 3. Главная: статичный календарь на месяце ближайшего события + карточка.
+// 3. Главная: статичная афиша месяца ближайшего события (фолбэк без JS; с JS main.js перерисует из events.json).
 const all = data.events.filter((e) => new Date(e.end || e.start) >= cutoff);
 const next = all[0];
 if (next) {
-  const month = fmt(next.start, { month: 'long', year: 'numeric' }).replace(' г.', '');
+  const month = fmt(next.start, { month: 'long' });
   const title = month.charAt(0).toUpperCase() + month.slice(1);
+  const year = fmt(next.start, { year: 'numeric' }).replace(' г.', '');
   const [d, m] = fmt(next.start, { day: 'numeric', month: 'long' }).split(' ');
-  expect(home.includes(`<b>${title}</b>`), `главная: заголовок месяца не "${title}"`);
-  expect(home.includes(`<td class="has-ev is-day"><a href="${next.url}"`) && home.includes(`>${d}</a></td>`), `главная: выделенный день не ${d}`);
-  const cardHtml = home.slice(home.indexOf('<article class="event"'), home.indexOf('</article>', home.indexOf('<article class="event"')));
-  expect(cardHtml.includes(`<b>${d}</b><span>${m}</span>`), `главная: карточка не на ${d} ${m}`);
-  expect(cardHtml.includes(next.time), `главная: время карточки не "${next.time}"`);
-  expect(cardHtml.includes(`<b>${next.price}</b>`), `главная: цена карточки не "${next.price}"`);
+  expect(home.includes(`<p class="c1-month" aria-hidden="true"><span>${title}</span></p>`), `главная: слово месяца не "${title}"`);
+  expect(home.includes(`<p class="ag-title"><b>${title}</b> ${year} `), `главная: заголовок месяца не "${title} ${year}"`);
+  const at = home.indexOf(`<li class="c1-card is-near" id="ev-${next.id}">`);
+  expect(at !== -1, `главная: нет карточки ближайшей встречи ev-${next.id} с is-near`);
+  const cardHtml = at === -1 ? '' : home.slice(at, home.indexOf('</li>', at));
+  expect(cardHtml.includes(`<b class="c1-day">${d.padStart(2, '0')}</b>`), `главная: карточка не на ${d} ${m}`);
+  expect(cardHtml.includes(`<span class="c1-time">${next.time.replace(/\s*МСК$/, '')}</span>`), `главная: время карточки не "${next.time}"`);
+  expect(cardHtml.includes(`<span class="c1-wd">${fmt(next.start, { weekday: 'short' })}</span>`), 'главная: день недели карточки');
+  expect(cardHtml.includes(`<span class="ag-price">${next.price}</span>`), `главная: цена карточки не "${next.price}"`);
+  expect(cardHtml.includes(`<h3>${next.title}</h3>`), 'главная: название карточки');
   expect(cardHtml.includes(next.desc), 'главная: описание карточки');
+  expect(cardHtml.includes(`<a class="ag-cta" href="${next.url}">Записаться`), `главная: кнопка карточки не на "${next.url}"`);
 
   // Анонс на обложке (первый экран) — та же ближайшая дата, не сборка вручную.
+  // С новой обложки (bbd3a7c, 28.09) анонса на первом экране нет; если вернётся — обязан совпадать с данными.
   const heroStart = home.indexOf('<a class="hero-announcement"');
-  expect(heroStart !== -1, 'главная: нет анонса .hero-announcement');
   if (heroStart !== -1) {
     const heroHtml = home.slice(heroStart, home.indexOf('</a>', heroStart) + 4);
     expect(heroHtml.includes(`href="${next.url}"`), `анонс обложки: ссылка не "${next.url}"`);
