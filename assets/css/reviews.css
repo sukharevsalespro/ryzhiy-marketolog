@@ -73,11 +73,17 @@
 /* ============ Главная · карусель: 3D-предмет по формату и аватар на стыке ============ */
 .home .rv--r3{
   --rv-r:28px;--rv-r2:22px;--rv-top:232px;--rv-obj:150px;
-  background-color:#1c1d21;
+  background-color:var(--nb-graphite);
+  color:#ecebe8
+}
+/* сияния — отдельным слоем, гасим в прозрачное у нижней кромки (~120px), чтобы шов с «Календарём» не резало по линии */
+.home .rv--r3::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background-image:
     radial-gradient(40% 34% at 50% 0%,rgba(254,108,31,.30) 0%,rgba(254,108,31,0) 100%),
     radial-gradient(30% 30% at 100% 100%,rgba(168,51,12,.30) 0%,rgba(168,51,12,0) 100%);
-  color:#ecebe8
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 120px),transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 120px),transparent 100%)
 }
 .home .rv--r3 .rv-head .label{opacity:.62}
 .home .rv--r3 .rv-grid{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2 * 24px) / 3);gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:6px 0 10px}

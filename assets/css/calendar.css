@@ -1,15 +1,22 @@
 /* Календарь встреч C3 (выбор владельца 28.09): графит + рыжее сияние, постерный узкий шрифт, 0 радиус.
    Лента встреч + вертикальное слово месяца + мини-календарь от 1280. Разметка — main.js initAgenda. */
 .home{
-  --cg-bg:#26282d;--cg-ink:#ecebe8;--cg-soft:#c9cacd;--cg-mute:#a3a5ab;--cg-dim:#74777e;
+  --cg-bg:var(--nb-graphite);--cg-ink:#ecebe8;--cg-soft:#c9cacd;--cg-mute:#a3a5ab;--cg-dim:#74777e;
   --cg-line:rgba(255,255,255,.14);--cg-line2:rgba(255,255,255,.28);--cg-or:#fe6c1f;--cg-on-or:#141414;
   --cg-glass:rgba(255,255,255,.045);--cg-ease:cubic-bezier(.2,.7,.2,1)
 }
 .home .page-band.cal-band{
-  background:
+  position:relative;isolation:isolate;overflow:hidden;
+  background:var(--cg-bg)
+}
+/* сияния — отдельным слоем, гасим в прозрачное у верхней кромки (~120px), чтобы шов с «Отзывами» не резало по линии */
+.home .page-band.cal-band::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:
     radial-gradient(38% 55% at 4% 38%,rgba(254,108,31,.30) 0%,rgba(254,108,31,0) 100%),
-    radial-gradient(34% 50% at 100% 100%,rgba(168,51,12,.34) 0%,rgba(168,51,12,0) 100%),
-    var(--cg-bg)
+    radial-gradient(34% 50% at 100% 100%,rgba(168,51,12,.34) 0%,rgba(168,51,12,0) 100%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 120px,#000 100%);
+  mask-image:linear-gradient(to bottom,transparent 0,#000 120px,#000 100%)
 }
 .home .page-band.cal-band>.calendar-section.agenda{
   height:auto;min-height:0;background:transparent;color:var(--cg-ink);overflow:clip;

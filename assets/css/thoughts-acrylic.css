@@ -3,19 +3,21 @@
    Цвет пластин держит контраст белого текста ≥4.5:1 в зоне текста (низ пластины темнее). */
 
 .th-band{
-  --th-bg:#26282d;--th-bg-2:#1d1f23;--th-fg:#fff;
+  --th-bg:var(--nb-graphite);--th-bg-2:#1d1f23;--th-fg:#fff;
   --th-ease:cubic-bezier(.2,.7,.2,1);
   --th-r:28px;
   background:var(--th-bg);color:var(--th-fg);position:relative;overflow:hidden;isolation:isolate
 }
-@media (prefers-color-scheme:dark){.th-band{--th-bg:#1c1d21;--th-bg-2:#141518}}
-/* сияние за пластинами — то же рыжее, что на обложке; через него работает преломление стекла */
+/* общий графит с «Частыми вопросами» (было #26282d/#1c1d21 по теме vs. #26282d флэт у faq — резал шов);
+   сияние/тёмный градиент гасим в прозрачное у нижней кромки (~120px), чтобы стык с faq не резало по линии */
 .th-band::before{
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
     radial-gradient(38% 46% at 18% 72%,rgba(254,108,31,.34),transparent 70%),
     radial-gradient(34% 40% at 84% 30%,rgba(31,126,252,.24),transparent 70%),
-    linear-gradient(180deg,var(--th-bg),var(--th-bg-2))
+    linear-gradient(180deg,var(--th-bg),var(--th-bg-2));
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 120px),transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 120px),transparent 100%)
 }
 .th{padding:clamp(56px,7vw,112px) var(--gutter,24px) clamp(64px,8vw,128px);box-sizing:border-box}
 
