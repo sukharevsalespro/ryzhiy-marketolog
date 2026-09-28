@@ -1314,3 +1314,19 @@ html:has(.hdr-dialog[open]){overflow:hidden}
 .home .about-more{display:inline-flex;align-items:center;min-height:44px;margin-left:18px;vertical-align:bottom;font:600 15px/1.2 'Golos Text',sans-serif;text-decoration:underline;text-underline-offset:4px}
 @media (hover:hover){.home .about-more:hover{text-decoration-thickness:2px}}
 @media (max-width:700px){.home .about-more{display:flex;margin:8px 0 0}}
+
+/* Шапка на планшетах 700–1199 (правка владельца 28.09: «нет кнопок»): CTA ближайшего события видна всегда
+   (короткий месяц), пункты меню компактнее; 900–1023 — меню в строке, соцсети уходят в бургер. */
+:is(.home,.webinar) .hdr-cta .m-short{display:none}
+@media (min-width:700px) and (max-width:1199.98px){
+  :is(.home,.webinar) .hdr-cta{display:inline-flex;padding:0 12px;gap:8px;font-size:13px;white-space:nowrap}
+  :is(.home,.webinar) .hdr-cta .m-long{display:none}
+  :is(.home,.webinar) .hdr-cta .m-short{display:inline}
+  :is(.home,.webinar) .hdr-cta b{font-size:16px}
+  :is(.home,.webinar) .hdr-menu :is(a,.hdr-dd-btn){padding:0 9px;font-size:14px;white-space:nowrap}
+  :is(.home,.webinar) .hdr-menu a::after{left:9px;right:9px}
+}
+@media (min-width:900px) and (max-width:1023.98px){
+  :is(.home,.webinar) .hdr-menu{display:flex}
+  :is(.home,.webinar) .hdr-social{display:none}
+}

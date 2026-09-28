@@ -53,7 +53,9 @@
         Array.prototype.forEach.call(ctas, function (a) {
           a.href = next.url;
           a.setAttribute('aria-label', 'Ближайшее событие: ' + kind + ', ' + day);
-          a.querySelector('.hdr-cta-text').innerHTML = '<b>' + day + '</b> · ' + kind;
+          var parts = day.split(' '), shortDay = parts[0] + ' ' + (parts[1] || '').slice(0, 3);
+          /* на планшетах (700–1199) показывается короткий месяц: «8 окт · Нетворкинг» */
+          a.querySelector('.hdr-cta-text').innerHTML = '<b><span class="m-long">' + day + '</span><span class="m-short">' + shortDay + '</span></b> · ' + kind;
         });
       })
       .catch(function (err) { console.error('CTA ближайшего события остаётся статичной:', err); });

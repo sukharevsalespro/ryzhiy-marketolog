@@ -58,13 +58,16 @@
 /* ---------- планшет ---------- */
 @media (max-width:1100px){
   .phero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+}
+/* полоса цифр 2×2 только на узких телефонах; на планшетах 4 в ряд (правка владельца: 2×2 на ширине — пусто) */
+@media (max-width:600px){
   .phero-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .phero-stats li:nth-child(3){box-shadow:inset 0 1px 0 rgba(250,247,242,.28)}
   .phero-stats li:nth-child(4){box-shadow:inset 1px 0 0 rgba(250,247,242,.28),inset 0 1px 0 rgba(250,247,242,.28)}
 }
 
 /* ---------- телефон ---------- */
-@media (max-width:760px){
+@media (max-width:900px){
   .phero{grid-template-columns:minmax(0,1fr);grid-template-areas:"copy" "media" "stats"}
   .phero-copy{padding:24px var(--ph-pad) 28px}
   .phero h1{font-size:clamp(44px,16.6vw,96px)}
@@ -89,7 +92,7 @@
 .phero-cut--b{--ph-w:134%;--ph-x:-31%}
 /* B: исходник по плечи режется снизу, поэтому якорь сверху — макушка чуть выше плашки */
 .phero-cut--b img{bottom:auto;top:calc(var(--ph-top) - 12px)}
-@media (max-width:760px){.phero-cut--a img{translate:-50% 0}.phero-cut--b{--ph-w:112%;--ph-x:-6%}.phero-cut--b img{top:12px}}
+@media (max-width:900px){.phero-cut--a img{translate:-50% 0}.phero-cut--b{--ph-w:112%;--ph-x:-6%}.phero-cut--b img{top:12px}}
 
 /* рукописная «Больше, чем маркетинг» (тот же SVG и анимация пера, что на прежней обложке) — белым в левом нижнем углу плашки */
 /* десктоп: правый нижний угол плашки, на пиджаке (правка владельца 28.09) */
@@ -97,7 +100,7 @@
 .phero-note .hero-hand{display:block;width:100%;height:auto;aspect-ratio:1073 / 1281.94;margin:0;fill:currentColor}
 /* штамп поднят над надписью, остаётся на левом краю плашки */
 .phero-stamp{bottom:clamp(150px,15vw,216px)}
-@media (max-width:760px){
+@media (max-width:900px){
   .phero-place{display:none}
   .phero-note{left:14px;right:auto;bottom:14px;width:clamp(96px,30vw,124px)}
   .phero-stamp{bottom:12px}
@@ -127,7 +130,7 @@
 @keyframes ph-cut{from{transform:translateY(5%) scale(1.04)}}
 /* лёгкий параллакс портрета по скроллу — только десктоп и только где есть scroll-driven animations */
 @supports (animation-timeline:scroll()){
-  @media (min-width:761px) and (prefers-reduced-motion:no-preference){
+  @media (min-width:901px) and (prefers-reduced-motion:no-preference){
     .phero-cut img{animation:ph-cut .9s cubic-bezier(.2,.8,.2,1) .15s backwards,ph-par linear both;animation-timeline:auto,scroll(root);animation-range:normal,0 640px}
   }
 }

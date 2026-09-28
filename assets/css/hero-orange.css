@@ -41,7 +41,7 @@
   color:#ecebe8
 }
 :is(.ph-orange,.ph-graphite) .phero-stats li+li{box-shadow:inset 1px 0 0 rgba(255,255,255,.12)}
-@media (max-width:1100px){
+@media (max-width:600px){
   :is(.ph-orange,.ph-graphite) .phero-stats li:nth-child(3){box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
   :is(.ph-orange,.ph-graphite) .phero-stats li:nth-child(4){box-shadow:inset 1px 0 0 rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.12)}
 }
@@ -64,7 +64,7 @@
 
 /* ---------- планшет / телефон ---------- */
 @media (max-width:1100px){.ph-orange .phero-cut img{--ph-bw:176%;--ph-bx:-40%}}
-@media (max-width:760px){
+@media (max-width:900px){
   .ph-orange .phero-copy{margin:16px var(--ph-pad) 18px;padding:22px 18px}
   .ph-orange .phero h1{font-size:clamp(38px,14.2vw,88px)}
   .ph-orange .phero-media{margin:0 var(--ph-pad);--ph-glass-top:70px}
@@ -78,7 +78,7 @@
 .ph-orange .phero{overflow-x:visible}
 /* полоса цифр full-bleed до краёв экрана; ячейки остаются по сетке контейнера */
 .ph-orange .phero-stats{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-inline:calc(50vw - 50% + var(--ph-pad))}
-@media (max-width:760px){.ph-orange .phero-stats{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-inline:calc(50vw - 50% + var(--ph-pad))}}
+@media (max-width:900px){.ph-orange .phero-stats{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-inline:calc(50vw - 50% + var(--ph-pad))}}
 
 /* P1: панель за портретом — чистый матовый графит (как полоса цифр), без стекла и без бурых смесей */
 .ph-orange.ph-p1 .ph-glass{
@@ -89,20 +89,30 @@
 
 /* рукопись крупнее (~1.4×) и ниже-правее: правая часть пиджака над полосой цифр */
 .ph-orange .phero-note{width:clamp(120px,11.4vw,166px);right:calc(var(--ph-pad) + 2px);bottom:8px}
-@media (max-width:760px){.ph-orange .phero-note{width:clamp(130px,40vw,172px);left:8px;right:auto;bottom:8px}}
+@media (max-width:900px){.ph-orange .phero-note{width:clamp(130px,40vw,172px);left:8px;right:auto;bottom:8px}}
 
 /* заголовок по ширине карточки: «МАРКЕТОЛОГ» ≈ 5.3 кегля, справа внутренний отступ ≥ 32px */
 .ph-orange .phero-copy{container-type:inline-size;padding-right:max(32px,clamp(24px,3vw,44px))}
 .ph-orange .phero h1{font-size:min(124px,calc(100cqi / 5.75))}
 /* штамп ниже, у короткой строки кнопки — не перекрывает заголовок и подзаголовок */
 .ph-orange .phero-stamp{bottom:clamp(24px,3.4vw,56px)}
-@media (max-width:760px){.ph-orange .phero h1{font-size:min(88px,calc(100cqi / 5.75))}}
+@media (max-width:900px){.ph-orange .phero h1{font-size:min(112px,calc(100cqi / 5.75))}}
 /* рукопись не пересекает лицо (правка владельца 28.09): портрет левее, надпись правее лица на плече;
    проверено программно по bbox лица из face-parsing на 1024–1920 шаг 64 и 390/320 */
 .ph-v2 .phero-cut img{left:var(--ph-bx,-38%)}
 .ph-orange .phero-note{width:clamp(104px,9.4vw,150px);right:10px;bottom:10px}
 @media (max-width:1100px){.ph-orange .phero-cut img{--ph-bw:160%;--ph-bx:-44%}}
-@media (max-width:760px){
-  .ph-orange .phero-cut img{--ph-bw:130%;--ph-bx:-15%}
+@media (max-width:900px){
+  /* одна колонка до 900: портрет по центру, ширина не больше 560px, чтобы голова и плечи помещались в зону */
+  .ph-orange .phero-cut img{--ph-bw:min(130%,560px);--ph-bx:calc(50% - .52 * min(130%,560px))}
+  .ph-orange .phero-media{height:calc(min(109vw - 35px,488px) + 24px)}
   .ph-orange .phero-note{width:clamp(88px,27vw,106px);left:8px;right:auto;bottom:8px}
+}
+/* штамп не на лице (правка владельца): на ПК — на правом нижнем углу карточки текста, левее портрета */
+@media (min-width:901px){.ph-orange .phero-stamp{left:calc(-1 * clamp(56px,6vw,96px));bottom:clamp(20px,2.6vw,40px)}}
+/* 901–1100: портрет меньше, чтобы подбородок не уходил под полосу цифр */
+@media (min-width:901px) and (max-width:1100px){.ph-orange .phero-cut img{--ph-bw:134%;--ph-bx:-26%}}
+@media (max-width:900px){
+  .ph-orange .phero-cut img{--ph-bx:calc(50% - .48 * min(130%,560px))}
+  .ph-orange .phero-note{width:clamp(80px,24vw,106px)}
 }
