@@ -50,7 +50,7 @@
 /* навигация ленты (видна, только когда лента реально прокручивается — решает JS) */
 .home .rv-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:22px}
 .home .rv-nav[hidden]{display:none}
-.home .rv-arrow{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:0;background:var(--orange,#fe6c1f);color:#111;cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.home .rv-arrow{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:0;background:var(--orange,#fe6c1f);color:#111;cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1),opacity .2s}
 .home .rv-arrow svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
 .home .rv-arrow:hover{transform:scale(1.06)}.home .rv-arrow:active{transform:scale(.94)}
 .home .rv-arrow:disabled{opacity:.35;cursor:default;transform:none}
