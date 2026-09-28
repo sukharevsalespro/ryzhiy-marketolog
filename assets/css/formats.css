@@ -1,107 +1,72 @@
-/* «Форматы моих мероприятий» — макет двух вариантов (28.09.2026), выбор владельца.
-   .fmt-glass — графит с рыжим сиянием, стеклянные карточки, стеклянные иконки.
-   .fmt-3d    — светлый фон, белые карточки, 3D-иконки выходят за верх карточки.
+/* «Форматы моих мероприятий» — вариант 3D (выбор владельца 28.09.2026).
+   Светлый фон, белые карточки, 3D-иконки выходят за верх карточки.
    На главной html font-size ≈ 2px, поэтому только px / clamp. */
 
-.fmt-band{--fx-pad:clamp(16px,3.6vw,52px);--fx-orange:#fe6c1f;--fx-graphite:#26282d;position:relative;overflow:clip}
+.fmt-band{--fx-pad:clamp(16px,3.6vw,52px);--fx-orange:#fe6c1f;--fx-graphite:#26282d;--fx-ico:clamp(112px,11.6vw,168px);position:relative;overflow:clip}
+:is(.home,.webinar) .page-band.fmt-band{color:var(--fx-graphite);background-color:#f6f1ea;
+  background-image:radial-gradient(46% 60% at 50% 100%,rgba(254,108,31,.18) 0%,rgba(254,108,31,0) 100%)}
 .fmt{box-sizing:border-box;padding:clamp(56px,6.4vw,96px) var(--fx-pad) clamp(56px,7vw,104px)}
 .fmt *,.fmt *::before,.fmt *::after{box-sizing:border-box}
 .fmt-h{margin:0;max-width:16ch;font:900 clamp(38px,5vw,72px)/.96 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance}
-.fmt-grid{list-style:none;margin:clamp(32px,4vw,56px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,24px)}
+.fmt-grid{list-style:none;margin:clamp(64px,7vw,104px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(64px,7vw,88px) clamp(12px,1.6vw,24px)}
 .fmt-grid>li{display:flex;min-width:0}
 
-.fmt-card{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;border-radius:24px;padding:clamp(18px,1.8vw,28px);
-  transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s,border-color .32s,background-color .32s}
-.fmt-ico-wrap{width:clamp(96px,10vw,148px);aspect-ratio:1;margin:0 0 clamp(14px,1.6vw,22px)}
+.fmt-card{position:relative;display:flex;flex-direction:column;width:100%;min-width:0;border-radius:24px;
+  padding:0 clamp(18px,1.6vw,24px) clamp(18px,1.8vw,26px);background:#fff;border:1px solid rgba(38,40,45,.06);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 22px 44px -22px rgba(120,52,12,.28);
+  transition:transform .32s cubic-bezier(.2,.8,.2,1),box-shadow .32s}
+/* иконка выходит за верх карточки на ~42% своей высоты */
+.fmt-ico-wrap{width:var(--fx-ico);aspect-ratio:1;margin:calc(-.42 * var(--fx-ico)) 0 12px -6px;filter:drop-shadow(0 14px 16px rgba(120,52,12,.22))}
 .fmt-ico{display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 70%;transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
 .fmt-t{margin:0;font:900 clamp(22px,2vw,30px)/.95 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.005em;text-transform:uppercase;overflow-wrap:anywhere}
 .fmt-link,.fmt .fmt-card a:is(:hover,:focus-visible){color:inherit;text-decoration:none}
 .fmt-link::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
 .fmt-link:focus-visible{outline:none}
 .fmt-card:has(.fmt-link:focus-visible){outline:2.5px solid var(--fx-orange);outline-offset:4px}
-.fmt-d{margin:8px 0 0;font:400 15px/1.35 'Golos Text',sans-serif;text-wrap:pretty}
-.fmt-meta{margin:auto 0 0;padding-top:18px;font:600 12px/1.3 'Golos Text',sans-serif;letter-spacing:.08em;text-transform:uppercase}
-.fmt-meta span+span::before{content:"· "}
+.fmt-d{margin:8px 0 18px;color:#55575c;font:400 15px/1.35 'Golos Text',sans-serif;text-wrap:pretty}
+/* записи вебинаров — одна строка ссылок поверх растянутой ссылки карточки */
+.fmt-sub{position:relative;z-index:2;margin:-8px 0 18px;font:500 13px/1.35 'Golos Text',sans-serif}
 .fmt-sub a{white-space:nowrap}
-.fmt-sub{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
-.fmt-sub a{display:inline-flex;align-items:center;min-height:32px;padding:5px 10px;border-radius:999px;font:500 12.5px/1.1 'Golos Text',sans-serif;text-decoration:none;color:inherit;touch-action:manipulation;transition:background-color .2s,color .2s,border-color .2s}
-.fmt-sub a:focus-visible{outline:2px solid var(--fx-orange);outline-offset:2px}
-.fmt-arrow{position:absolute;top:clamp(16px,1.6vw,24px);right:clamp(16px,1.6vw,24px);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;transition:transform .32s cubic-bezier(.2,.8,.2,1),background-color .32s,color .32s}
+.fmt-sub a:not(:last-child)::after{content:"·";display:inline-block;margin:0 .1em 0 .45em;color:#8a8c90}
+.fmt .fmt-card .fmt-sub a{color:var(--fx-graphite);text-decoration:underline;text-decoration-color:rgba(38,40,45,.35);text-underline-offset:3px;touch-action:manipulation;transition:color .2s,text-decoration-color .2s}
+.fmt .fmt-card .fmt-sub a:is(:hover,:focus-visible){color:#c44a0c;text-decoration:underline;text-decoration-color:currentColor}
+.fmt-sub a:focus-visible{outline:2px solid var(--fx-orange);outline-offset:2px;border-radius:2px}
+.fmt-meta{align-self:flex-start;margin:auto 0 0;padding:7px 11px;border-radius:999px;background:var(--fx-orange);color:#111;font:600 12px/1.3 'Golos Text',sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.fmt-meta span+span::before{content:"· "}
+.fmt-arrow{position:absolute;top:clamp(16px,1.6vw,24px);right:clamp(16px,1.6vw,24px);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#f3eee8;color:var(--fx-graphite);transition:transform .32s cubic-bezier(.2,.8,.2,1),background-color .32s}
 .fmt-arrow svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* микровзаимодействие: подъём карточки, иконка чуть поворачивается и подрастает, стрелка уезжает вправо-вверх */
+/* микровзаимодействие: подъём карточки, иконка чуть поворачивается и подрастает, стрелка уходит вправо-вверх */
 @media (hover:hover){
-  .fmt-card:hover{transform:translateY(-6px)}
+  .fmt-card:hover{transform:translateY(-6px);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 34px 60px -24px rgba(120,52,12,.36)}
   .fmt-card:hover .fmt-ico{transform:rotate(-7deg) scale(1.06)}
-  .fmt-card:hover .fmt-arrow{transform:translate(2px,-2px) rotate(-45deg)}
+  .fmt-card:hover .fmt-arrow{transform:translate(2px,-2px) rotate(-45deg);background:var(--fx-orange);color:#111}
 }
 .fmt-card:has(.fmt-link:focus-visible) .fmt-ico{transform:rotate(-7deg) scale(1.06)}
 .fmt-card:active{transform:translateY(-2px) scale(.985);transition-duration:.12s}
 
-/* ---------- V-glass ---------- */
-:is(.home,.webinar) .page-band.fmt-glass,.fmt-glass{color:#f3f0ec;background-color:var(--fx-graphite);
-  background-image:
-    radial-gradient(40% 70% at 12% 100%,rgba(226,83,15,.55) 0%,rgba(226,83,15,0) 100%),
-    radial-gradient(34% 60% at 62% 108%,rgba(254,108,31,.5) 0%,rgba(254,108,31,0) 100%),
-    radial-gradient(30% 50% at 96% 0%,rgba(255,143,69,.28) 0%,rgba(255,143,69,0) 100%),
-    linear-gradient(180deg,#2b2d32,#1f2125)}
-.fmt-glass .fmt-ico--3d{display:none}
-.fmt-glass .fmt-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 24px 48px -24px rgba(0,0,0,.55)}
-@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .fmt-glass .fmt-card{background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%)}
-}
-.fmt-glass .fmt-d{color:rgba(243,240,236,.74)}
-.fmt-glass .fmt-meta{color:var(--fx-orange)}
-.fmt-glass .fmt-arrow{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
-.fmt-glass .fmt-sub a{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04)}
-.fmt-glass .fmt-sub a:hover{background:var(--fx-orange);border-color:var(--fx-orange);color:#111}
-@media (hover:hover){
-  .fmt-glass .fmt-card:hover{border-color:rgba(254,108,31,.55);background-color:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 30px 60px -24px rgba(226,83,15,.45)}
-  .fmt-glass .fmt-card:hover .fmt-arrow{background:var(--fx-orange);border-color:var(--fx-orange);color:#111}
-}
-@media (prefers-reduced-transparency:reduce){.fmt-glass .fmt-card{background:#34363c;-webkit-backdrop-filter:none;backdrop-filter:none}}
-
-/* ---------- V-3D ---------- */
-:is(.home,.webinar) .page-band.fmt-3d,.fmt-3d{color:var(--fx-graphite);background-color:#f6f1ea;
-  background-image:radial-gradient(46% 60% at 50% 100%,rgba(254,108,31,.18) 0%,rgba(254,108,31,0) 100%)}
-.fmt-3d .fmt-ico--glass{display:none}
-.fmt-3d .fmt-grid{margin-top:clamp(64px,7vw,104px);row-gap:clamp(64px,7vw,88px)}
-.fmt-3d .fmt-card{background:#fff;border:1px solid rgba(38,40,45,.06);padding-top:0;
-  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 22px 44px -22px rgba(120,52,12,.28)}
-/* иконка выходит за верх карточки на ~40% своей высоты */
-.fmt-3d .fmt-ico-wrap{width:clamp(112px,11.6vw,168px);margin:calc(-.42 * clamp(112px,11.6vw,168px)) 0 12px -6px;filter:drop-shadow(0 14px 16px rgba(120,52,12,.22))}
-.fmt-3d .fmt-d{color:#55575c;margin-bottom:18px}
-.fmt-3d .fmt-meta{align-self:flex-start;margin-top:auto;padding:7px 11px;border-radius:999px;background:var(--fx-orange);color:#111}
-.fmt-3d .fmt-arrow{background:#f3eee8;color:var(--fx-graphite)}
-.fmt-3d .fmt-sub a{border:1px solid rgba(38,40,45,.16);background:#faf7f2}
-.fmt-3d .fmt-sub a:hover{background:var(--fx-graphite);border-color:var(--fx-graphite);color:#fff}
-@media (hover:hover){
-  .fmt-3d .fmt-card:hover{box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 34px 60px -24px rgba(120,52,12,.36)}
-  .fmt-3d .fmt-card:hover .fmt-arrow{background:var(--fx-orange);color:#111}
-}
+/* 4 в ряд: ссылки записей помещаются в одну строку */
+@media (min-width:1025px){.fmt-sub{font-size:12.5px;letter-spacing:-.005em}}
 
 /* ---------- планшет и телефон: 2×2 ---------- */
 @media (max-width:1024px){
+  .fmt-band{--fx-ico:clamp(96px,17vw,150px)}
   .fmt-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .fmt-ico-wrap{width:clamp(88px,15vw,132px)}
-  .fmt-3d .fmt-ico-wrap{width:clamp(96px,17vw,150px);margin-top:calc(-.42 * clamp(96px,17vw,150px))}
 }
 @media (max-width:560px){
-  .fmt-card{border-radius:20px;padding:16px 14px}
-  .fmt-3d .fmt-card{padding:0 14px 16px}
+  .fmt-card{border-radius:20px;padding:0 14px 16px}
   .fmt-t{font-size:clamp(19px,5.4vw,22px)}
   .fmt-d{font-size:14px}
-  .fmt-meta{font-size:11px;letter-spacing:.05em}
+  .fmt-sub{font-size:13px}
+  .fmt-sub a{display:table}
+  .fmt-sub a+a{margin-top:4px}
+  .fmt-sub a:not(:last-child)::after{content:none}
+  .fmt-meta{font-size:11px;letter-spacing:.05em;padding:6px 9px;border-radius:14px}
   .fmt-meta span{display:block}
   .fmt-meta span+span::before{content:none}
-  .fmt-3d .fmt-meta{border-radius:14px}
-  .fmt-3d .fmt-meta{padding:6px 9px}
   .fmt-arrow{width:32px;height:32px;top:12px;right:12px}
   .fmt-arrow svg{width:15px;height:15px}
-  .fmt-sub{flex-direction:column;align-items:flex-start}
-  .fmt-sub a{font-size:12px;min-height:36px;padding:6px 9px}
-  .fmt-3d .fmt-grid{row-gap:64px}
+  .fmt-grid{row-gap:64px}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -110,4 +75,3 @@
   .fmt-card:hover .fmt-ico,.fmt-card:has(.fmt-link:focus-visible) .fmt-ico{transform:none}
   .fmt-card:hover .fmt-arrow{transform:none}
 }
-.fmt-3d .fmt-sub{margin-bottom:18px}

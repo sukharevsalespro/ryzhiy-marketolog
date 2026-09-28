@@ -17,9 +17,6 @@
   var card = document.getElementById('event');
   var hero = document.querySelector('.hero-announcement');
   var fmtCards = document.querySelectorAll('[data-fmt-type]');
-  /* Макет «Форматов» (28.09.2026): ?fmt=3d показывает второй вариант блока. Убрать после выбора владельца. */
-  var fmtBand = document.querySelector('.fmt-band');
-  if (fmtBand && /[?&]fmt=3d\b/.test(location.search)) { fmtBand.classList.remove('fmt-glass'); fmtBand.classList.add('fmt-3d'); }
   if ((calendar && card || hero || fmtCards.length) && window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
