@@ -258,12 +258,11 @@
   .th[data-th="t1"] .th-plate{--glow:transparent}
 }
 
-/* фото на оранжевой и красной (28.09): кадр держит лицо целиком на всех ширинах */
-.th-photo--content img{object-position:50% 45%}
-.th-photo--position img{object-position:62% 22%}
-/* рукопись поверх фото — в левом верхнем углу, лицо справа; под ней тёмная подложка-градиент */
-.th-photo--position::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;pointer-events:none;
-  background:radial-gradient(120% 90% at 0 0,rgba(0,0,0,.62),rgba(0,0,0,.28) 45%,transparent 70%)}
-.th-plate--red .th-hand{left:12px;right:auto;top:10px;z-index:2;width:clamp(76px,6.4vw,98px)}
-@media (max-width:599.98px){.th-photo--position img{object-position:100% 22%}}
-@media (max-width:599.98px){.th-plate--red .th-hand{width:clamp(56px,17vw,70px);left:10px;top:8px}}
+/* фото на пластинах (28.09, решение владельца: только в цвете). Лицо целиком на 1440/1024/768/390/320 */
+.th-photo--content img{object-position:50% 30%}
+.th-photo--position img{object-position:40% 30%}
+/* рукопись на красной — под фото, на цвете пластины справа от кнопки (на фото белый штрих читался 1.7–1.9:1) */
+.th-plate--red .th-hand{position:absolute;left:auto;top:auto;right:clamp(24px,2.4vw,36px);bottom:clamp(26px,2.4vw,36px);z-index:2;width:clamp(64px,5.6vw,86px);transform:none}
+@media (max-width:599.98px){.th-plate--red .th-hand{width:clamp(50px,14vw,60px);right:18px;bottom:22px}}
+/* планшет 600–899 (лента T1): фотозона была 150px при ширине ~400 (2.6:1) — лицо не помещалось; даём высоту под 1.8:1 */
+@media (min-width:600px) and (max-width:899.98px){.th[data-th="t1"] .th-vis{height:clamp(150px,29vw,240px)}}
