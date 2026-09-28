@@ -371,21 +371,21 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
   dialog.addEventListener('close', function () { shot.removeAttribute('src'); });
 })();
 
-/* Отзывы (МАКЕТ design-reviews): переключатель вариантов ?rev=, обрезка длинных переписок,
-   «переписка целиком» в модалке, стрелки и точки у ленты-карусели. */
+/* Отзывы: обрезка длинных переписок, «переписка целиком» в модалке, стрелки и точки у ленты,
+   на /otzyvy/ — раскладка листков по колонкам по высоте с ровным низом. */
 (function () {
   'use strict';
   var band = document.querySelector('.rv-band');
   if (!band) return;
-  var m = /[?&]rev=(r1|r2|r3)(c|s|q)?\b/.exec(location.search);
-  if (m) {
-    band.classList.remove('rv--r1');
-    band.classList.add('rv--' + m[1]);
-    if (m[2] === 'c') band.classList.add('rv--clean');
-    if (m[2] === 's') band.classList.add('rv--sharp');
-    if (m[2] === 'q') band.classList.add('rv--r3q');
-  }
-  var cards = band.querySelectorAll('.rv-card');
+  /* ВРЕМЕННО на показ владельцу: фон /otzyvy/ ?bg=a|b — удалить после выбора */
+  var bg = /[?&]bg=(a|b)\b/.exec(location.search);
+  if (bg && band.classList.contains('rv--r1')) { band.classList.remove('rv-bg-a', 'rv-bg-b'); band.classList.add('rv-bg-' + bg[1]); }
+
+  var grid = band.querySelector('.rv-grid');
+  var cards = [].slice.call(band.querySelectorAll('.rv-grid > .rv-card'));
+  var ctas = [].slice.call(band.querySelectorAll('.rv-cta'));
+  var ctaHome = ctas.length ? ctas[0].parentNode : null;
+
   function clamp() {
     cards.forEach(function (c) {
       var chat = c.querySelector('.rv-chat');
@@ -393,10 +393,41 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
       chat.style.maxHeight = '';
       var over = chat.scrollHeight - chat.clientHeight;
       /* обрезать ради одной-двух строк глупо — такую переписку показываем целиком */
-      if (over > 0 && over < 72 && !c.closest('.rv--r2')) chat.style.maxHeight = 'none';
+      if (over > 0 && over < 72) chat.style.maxHeight = 'none';
       else if (over > 4) c.classList.add('is-clamped');
     });
   }
+
+  /* Жадная раскладка: каждый листок — в самую короткую колонку. Разница низа ≤ 24px — оставляем;
+     больше — короткую колонку добирает листок-призыв (если хватает места) или разрядка промежутков. */
+  var GAP_OK = 24, CTA_MIN = 200;
+  function masonry() {
+    if (!band.classList.contains('rv--r1') || !ctaHome) return;
+    grid.classList.remove('is-masonry');
+    cards.forEach(function (c) { grid.appendChild(c); });
+    ctas.forEach(function (c) { c.hidden = true; ctaHome.appendChild(c); });
+    [].slice.call(grid.querySelectorAll('.rv-col')).forEach(function (col) { col.remove(); });
+    var w = grid.clientWidth, n = w >= 1000 ? 3 : w >= 600 ? 2 : 1;
+    if (n === 1) return;
+    grid.classList.add('is-masonry');
+    var cols = [];
+    for (var k = 0; k < n; k++) { var col = document.createElement('div'); col.className = 'rv-col'; grid.appendChild(col); cols.push(col); }
+    cards.forEach(function (c, i) { cols[i % n].appendChild(c); });
+    var hs = cards.map(function (c) { var s = getComputedStyle(c); return c.offsetHeight + parseFloat(s.marginTop) + parseFloat(s.marginBottom); });
+    var sums = cols.map(function () { return 0; });
+    cards.forEach(function (c, i) {
+      var j = sums.indexOf(Math.min.apply(null, sums));
+      cols[j].appendChild(c); sums[j] += hs[i];
+    });
+    var max = Math.max.apply(null, sums), free = ctas.slice();
+    cols.forEach(function (col, j) {
+      var diff = max - sums[j];
+      if (diff <= GAP_OK) return;
+      if (diff >= CTA_MIN && free.length) { var cta = free.shift(); cta.hidden = false; col.appendChild(cta); }
+      else col.classList.add('is-spread');
+    });
+  }
+
   var dlg = document.getElementById('rv-dlg');
   band.addEventListener('click', function (e) {
     var btn = e.target.closest('.rv-more');
@@ -410,6 +441,7 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
     body.textContent = '';
     var chat = c.querySelector('.rv-chat').cloneNode(true);
     chat.removeAttribute('id');
+    chat.style.maxHeight = '';
     body.appendChild(chat);
     body.appendChild(c.querySelector('.rv-orig').cloneNode(true));
     dlg.showModal();
@@ -418,16 +450,15 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
     if (e.target === dlg || e.target.closest('.rv-dlg-x')) dlg.close();
   });
 
-  var grid = band.querySelector('.rv-grid'), nav = band.querySelector('.rv-nav');
+  var nav = band.querySelector('.rv-nav');
   var dots = nav && nav.querySelector('.rv-dots');
   var prev = nav && nav.querySelector('.rv-prev'), next = nav && nav.querySelector('.rv-next');
-  function pages() { return Math.max(1, Math.round(grid.scrollWidth / grid.clientWidth)); }
   function syncNav() {
     if (!nav) return;
     var scrollable = getComputedStyle(grid).overflowX !== 'visible' && grid.scrollWidth > grid.clientWidth + 2;
     nav.hidden = !scrollable;
     if (!scrollable) return;
-    var n = pages(), max = grid.scrollWidth - grid.clientWidth;
+    var n = Math.max(1, Math.round(grid.scrollWidth / grid.clientWidth)), max = grid.scrollWidth - grid.clientWidth;
     var i = Math.round(grid.scrollLeft / max * (n - 1)) || 0;
     if (dots.children.length !== n) {
       dots.textContent = '';
@@ -439,17 +470,19 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
   }
   function step(dir) {
     var card = grid.querySelector('.rv-card');
-    var per = card ? Math.max(1, Math.round(grid.clientWidth / card.getBoundingClientRect().width)) : 1;
-    grid.scrollBy({ left: dir * (card ? card.getBoundingClientRect().width + 16 : grid.clientWidth) * per, behavior: 'smooth' });
+    var cw = card ? card.getBoundingClientRect().width : grid.clientWidth;
+    var per = Math.max(1, Math.round(grid.clientWidth / cw));
+    grid.scrollBy({ left: dir * (cw + 16) * per, behavior: 'smooth' });
   }
   if (nav) {
     prev.addEventListener('click', function () { step(-1); });
     next.addEventListener('click', function () { step(1); });
     grid.addEventListener('scroll', function () { requestAnimationFrame(syncNav); }, { passive: true });
   }
-  function all() { clamp(); syncNav(); }
+  var t;
+  function all() { clamp(); masonry(); syncNav(); }
   all();
-  addEventListener('resize', all);
+  addEventListener('resize', function () { clearTimeout(t); t = setTimeout(all, 120); });
   addEventListener('load', all);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
 })();
