@@ -16,13 +16,18 @@
   var calendar = document.querySelector('.cal');
   var card = document.getElementById('event');
   var hero = document.querySelector('.hero-announcement');
-  if ((calendar && card || hero) && window.fetch) {
+  var fmtCards = document.querySelectorAll('[data-fmt-type]');
+  /* Макет «Форматов» (28.09.2026): ?fmt=3d показывает второй вариант блока. Убрать после выбора владельца. */
+  var fmtBand = document.querySelector('.fmt-band');
+  if (fmtBand && /[?&]fmt=3d\b/.test(location.search)) { fmtBand.classList.remove('fmt-glass'); fmtBand.classList.add('fmt-3d'); }
+  if ((calendar && card || hero || fmtCards.length) && window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
       .then(function (data) {
         var events = data.events || [];
         if (calendar && card) initCalendar(events);
         if (hero) fillHero(events);
+        if (fmtCards.length) fillFormats(events);
       })
       .catch(function (err) { console.error('Календарь/анонс остаются статичными:', err); });
   }
@@ -38,6 +43,24 @@
     hero.querySelector('.strip-date small').textContent = ruMonthGen(next.start);
     hero.querySelector('.strip-text .label').textContent = next.label;
     hero.querySelector('.strip-text span:last-child').textContent = next.title;
+  }
+
+  /* Карточки «Форматов»: ближайшая непрошедшая дата своего типа и цена. Нет такой — остаётся текст из разметки. */
+  function fillFormats(events) {
+    var now = Date.now();
+    fmtCards.forEach(function (el) {
+      var next = events.filter(function (ev) { return ev.type === el.dataset.fmtType && !isPast(ev, now); })
+        .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
+      var meta = el.querySelector('.fmt-meta');
+      if (!next || !meta) return;
+      var day = new Date(next.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
+      meta.textContent = '';
+      [day, next.price].filter(Boolean).forEach(function (t, i) {
+        var sp = document.createElement('span'); sp.textContent = t;
+        if (i) meta.appendChild(document.createTextNode(' '));
+        meta.appendChild(sp);
+      });
+    });
   }
 
   function mskParts(iso) {
