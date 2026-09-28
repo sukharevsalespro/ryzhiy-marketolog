@@ -30,7 +30,7 @@
       var x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
       plate.style.setProperty('--gx', (x * 100).toFixed(1) + '%');
       plate.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
-      li.style.setProperty('--hx', ((x - .5) * 8).toFixed(2) + 'deg');
+      li.style.setProperty('--hx', ((x - .5) * 6).toFixed(2) + 'deg');
       li.style.setProperty('--hy', ((.5 - y) * 6).toFixed(2) + 'deg');
     }
     li.addEventListener('pointerenter', function (e) {
