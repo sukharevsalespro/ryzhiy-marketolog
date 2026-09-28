@@ -163,6 +163,20 @@
 .home .agenda .c2-legend .lg-up::before{box-shadow:inset 0 0 0 2px var(--cg-or)}
 .home .agenda .c2-legend .lg-past::before{background:#4a4d53}
 
+/* ---------- C3 = лента C2 + вертикальное слово месяца C1 (по умолчанию) ---------- */
+.home .agenda .c3{display:grid;grid-template-columns:150px minmax(0,1fr) 352px;gap:clamp(24px,3vw,40px);align-items:start;isolation:isolate}
+.home .agenda .c3 .c2-track{grid-auto-columns:calc(100% / 2.2)}
+@media (max-width:1100px){
+  .home .agenda .c3{grid-template-columns:150px minmax(0,1fr)}
+  .home .agenda .c3 .c2-mini{grid-column:2;width:100%;max-width:420px}
+  .home .agenda .c3 .c2-track{grid-auto-columns:max(260px,calc(100% / 2.5))}
+}
+@media (max-width:700px){
+  .home .agenda .c3{grid-template-columns:minmax(0,1fr);gap:16px}
+  .home .agenda .c3 .c2-mini{grid-column:auto;max-width:none}
+  .home .agenda .c3 .c2-track{grid-auto-columns:78%}
+}
+
 /* ---------- адаптив ---------- */
 @media (max-width:1100px){
   .home .agenda .c2{grid-template-columns:minmax(0,1fr)}

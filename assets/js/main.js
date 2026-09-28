@@ -53,7 +53,9 @@
   function initAgenda(events) {
     if (!events.length) return;
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var variant = /[?&]cal=c2\b/.test(location.search) ? 'c2' : 'c1';
+    /* C3 (по умолчанию) = лента C2 + вертикальное слово месяца из C1; C1 и C2 — через ?cal=c1 / ?cal=c2. */
+    var vm = /[?&]cal=(c1|c2|c3)\b/.exec(location.search);
+    var variant = vm ? vm[1] : 'c3';
     var now = Date.now();
     var FORMAT = { networking: 'Нетворкинг', webinar: 'Вебинар' };
     var MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
@@ -94,8 +96,15 @@
     }
     function state(it) { return (it === nearest ? ' is-near' : '') + (it.past ? ' is-past' : ''); }
     function monthTitle(k) { return '<b>' + MONTHS[k % 12] + '</b> ' + Math.floor(k / 12); }
-    function navBtn(step, k) {
-      var t = k + step, off = t < minKey || t > maxKey;
+    /* Куда ведёт стрелка месяца. В C3 — только по месяцам со встречами: слово, мини-календарь и лента
+       всегда показывают один месяц, а пустой месяц ленте показать нечем. */
+    function stepTarget(step) {
+      if (variant !== 'c3') { var t = cur + step; return t < minKey || t > maxKey ? null : t; }
+      var ks = items.map(function (e) { return key(e.y, e.m); }).filter(function (k) { return step > 0 ? k > cur : k < cur; });
+      return ks.length ? ks[step > 0 ? 0 : ks.length - 1] : null;
+    }
+    function navBtn(step) {
+      var t = stepTarget(step), off = t === null;
       return '<button type="button" class="ag-nav" data-step="' + step + '"' + (off ? ' disabled' : '') +
         ' aria-label="' + (step < 0 ? 'Предыдущий' : 'Следующий') + ' месяц' + (off ? '' : ': ' + MONTHS[t % 12]) + '">' + CHEV(step) + '</button>';
     }
@@ -127,7 +136,7 @@
           '<span class="c1-next-t">' + esc(nx.fmt) + ', ' + esc(nx.wd) + ' ' + ARROW + '</span></button></li>';
       }
       agenda.innerHTML = '<div class="c1"><p class="c1-month" aria-hidden="true"><span>' + MONTHS[cur % 12] + '</span></p><div class="c1-main">' +
-        '<div class="ag-bar">' + navBtn(-1, cur) + '<p class="ag-title" aria-live="polite">' + monthTitle(cur) + ' <span>' + (list.length ? plural(list.length) : 'встреч нет') + '</span></p>' + navBtn(1, cur) + '</div>' +
+        '<div class="ag-bar">' + navBtn(-1) + '<p class="ag-title" aria-live="polite">' + monthTitle(cur) + ' <span>' + (list.length ? plural(list.length) : 'встреч нет') + '</span></p>' + navBtn(1) + '</div>' +
         '<ol class="c1-list' + (list.length === 1 && nx ? ' is-sparse' : '') + '">' + html + '</ol></div></div>';
       fitMonth();
       animate(agenda.querySelectorAll('.c1-list>li'), dir);
@@ -139,10 +148,12 @@
       if (!word) return;
       var vertical = getComputedStyle(word).writingMode.indexOf('vertical') === 0;
       word.style.fontSize = '100px';
-      var main = agenda.querySelector('.c1-main');
+      var main = agenda.querySelector('.c1-main, .c2-feed');
       var room = vertical ? Math.max(main.offsetHeight, 420) : box.clientWidth;
       var size = vertical ? word.offsetHeight : word.offsetWidth;
       var fs = Math.max(56, Math.min(vertical ? 260 : 140, 97 * room / size));
+      /* C3: колонка слова фиксированной ширины — лента не прыгает при смене месяца. */
+      if (vertical && box.closest('.c3')) fs = Math.min(fs, 97 * box.clientWidth / word.offsetWidth);
       word.style.fontSize = fs.toFixed(1) + 'px';
     }
 
@@ -168,7 +179,7 @@
         else rows += '<td' + (isToday ? ' class="is-today" aria-current="date"' : '') + '>' + (valid ? day : '') + '</td>';
         if (i % 7 === 6) rows += '</tr>';
       }
-      return '<div class="ag-bar">' + navBtn(-1, cur) + '<p class="ag-title" aria-live="polite">' + monthTitle(cur) + '</p>' + navBtn(1, cur) + '</div>' +
+      return '<div class="ag-bar">' + navBtn(-1) + '<p class="ag-title" aria-live="polite">' + monthTitle(cur) + '</p>' + navBtn(1) + '</div>' +
         '<table class="c2-grid"><caption class="skip">' + MONTHS[m] + ' ' + y + ', ' + (list.length ? plural(list.length) : 'встреч нет') + '</caption>' +
         '<thead><tr><th scope="col">Пн</th><th scope="col">Вт</th><th scope="col">Ср</th><th scope="col">Чт</th><th scope="col">Пт</th><th scope="col">Сб</th><th scope="col">Вс</th></tr></thead>' +
         '<tbody>' + rows + '</tbody></table>' +
@@ -176,19 +187,58 @@
     }
     function renderC2(first) {
       if (first) {
-        agenda.innerHTML = '<div class="c2"><div class="c2-feed"><div class="c2-fbar"><p class="c2-count">' + plural(items.length) + '</p>' +
+        var feed = '<div class="c2-feed"><div class="c2-fbar"><p class="c2-count">' + plural(items.length) + '</p>' +
           '<span class="c2-arrows"><button type="button" class="ag-nav" data-scroll="-1" aria-label="Прокрутить к прошлым встречам">' + CHEV(-1) + '</button>' +
           '<button type="button" class="ag-nav" data-scroll="1" aria-label="Прокрутить к следующим встречам">' + CHEV(1) + '</button></span></div>' +
-          '<ol class="c2-track" tabindex="0" aria-label="Лента встреч, листается стрелками">' + items.map(c2Card).join('') + '</ol></div>' +
-          '<div class="c2-mini">' + miniMonth() + '</div></div>';
+          '<ol class="c2-track" tabindex="0" aria-label="Лента встреч, листается стрелками">' + items.map(c2Card).join('') + '</ol></div>';
+        agenda.innerHTML = variant === 'c3'
+          ? '<div class="c3"><p class="c1-month" aria-hidden="true"><span>' + MONTHS[cur % 12] + '</span></p>' + feed + '<div class="c2-mini">' + miniMonth() + '</div></div>'
+          : '<div class="c2">' + feed + '<div class="c2-mini">' + miniMonth() + '</div></div>';
         var track = agenda.querySelector('.c2-track');
         var near = document.getElementById('c2-' + anchor.ev.id);
         track.scrollLeft += near.getBoundingClientRect().left - track.getBoundingClientRect().left;
-        track.addEventListener('scroll', arrows, { passive: true });
+        track.addEventListener('scroll', function () {
+          arrows();
+          if (variant === 'c3') { clearTimeout(syncT); syncT = setTimeout(syncFocus, 140); }
+        }, { passive: true });
         arrows();
+        if (variant === 'c3') { fitMonth(); setPressed(); }
       } else {
         agenda.querySelector('.c2-mini').innerHTML = miniMonth();
       }
+    }
+    /* ---------- C3: месяц встречи в фокусе ленты ---------- */
+    var focusIt = anchor, syncT = null, progUntil = 0;
+    function setPressed() {
+      if (variant !== 'c3') return;
+      agenda.querySelectorAll('.c2-dayb').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.ev === focusIt.ev.id)); });
+    }
+    function setWord(dir) {
+      var w = agenda.querySelector('.c3 .c1-month span');
+      if (!w || w.textContent === MONTHS[cur % 12]) return;
+      w.textContent = MONTHS[cur % 12];
+      fitMonth();
+      animate([w], dir, true);
+    }
+    /* После ручной прокрутки: фокус остаётся на своей карточке, пока она целиком видна,
+       иначе переходит на крайнюю левую целиком видимую. Прокрутку от клика/стрелок месяца не трогаем. */
+    function syncFocus() {
+      if (Date.now() < progUntil) return;
+      var t = agenda.querySelector('.c2-track'), tr = t.getBoundingClientRect();
+      var seen = items.filter(function (it) {
+        var r = document.getElementById('c2-' + it.ev.id).getBoundingClientRect();
+        return r.left >= tr.left - 2 && r.right <= tr.right + 2;
+      });
+      if (!seen.length || seen.indexOf(focusIt) !== -1) return;
+      focusIt = seen[0];
+      var k = key(focusIt.y, focusIt.m);
+      if (k !== cur) { var dir = k > cur ? 1 : -1; cur = k; renderC2(false); setWord(dir); }
+      setPressed();
+    }
+    function toCard(card) {
+      var track = agenda.querySelector('.c2-track');
+      progUntil = Date.now() + 900;
+      track.scrollTo({ left: track.scrollLeft + card.getBoundingClientRect().left - track.getBoundingClientRect().left, behavior: reduce ? 'auto' : 'smooth' });
     }
     function arrows() {
       var t = agenda.querySelector('.c2-track');
@@ -197,8 +247,8 @@
       agenda.querySelector('[data-scroll="1"]').disabled = t.scrollLeft + t.clientWidth > t.scrollWidth - 4;
     }
     function reveal(card) {
-      var track = agenda.querySelector('.c2-track');
-      track.scrollTo({ left: track.scrollLeft + card.getBoundingClientRect().left - track.getBoundingClientRect().left, behavior: reduce ? 'auto' : 'smooth' });
+      if (variant === 'c3') focusIt = items.filter(function (it) { return card.id === 'c2-' + it.ev.id; })[0] || focusIt;
+      toCard(card);
       var r = card.getBoundingClientRect();
       if (r.top < 0 || r.bottom > innerHeight) card.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
       card.classList.remove('is-picked');
@@ -216,17 +266,23 @@
       });
     }
     function go(k) {
-      if (k < minKey || k > maxKey || k === cur) return;
+      if (k === null || k < minKey || k > maxKey || k === cur) return;
       var dir = k > cur ? 1 : -1;
       cur = k;
       if (variant === 'c1') renderC1(dir); else renderC2(false);
+      if (variant === 'c3' && inMonth(cur).length) {
+        focusIt = inMonth(cur)[0];
+        setWord(dir);
+        setPressed();
+        toCard(document.getElementById('c2-' + focusIt.ev.id));
+      }
       var focus = agenda.querySelector('.ag-nav[data-step="' + dir + '"]:not(:disabled)') || agenda.querySelector('.ag-nav[data-step]:not(:disabled)');
       if (focus) focus.focus();
     }
     agenda.addEventListener('click', function (e) {
       var b = e.target.closest('button');
       if (!b || !agenda.contains(b)) return;
-      if (b.dataset.step) go(cur + Number(b.dataset.step));
+      if (b.dataset.step) go(stepTarget(Number(b.dataset.step)));
       else if (b.dataset.go) go(Number(b.dataset.go));
       else if (b.dataset.scroll) {
         var t = agenda.querySelector('.c2-track');
@@ -241,17 +297,17 @@
         var all = Array.prototype.slice.call(agenda.querySelectorAll('.c2-dayb')), n = all[all.indexOf(t) + d];
         e.preventDefault();
         if (n) { n.focus(); return; }
-        go(cur + d);
+        go(stepTarget(d));
         var days = agenda.querySelectorAll('.c2-dayb');
         if (days.length) days[d > 0 ? 0 : days.length - 1].focus();
-      } else if (t.dataset && t.dataset.step) { e.preventDefault(); go(cur + d); }
+      } else if (t.dataset && t.dataset.step) { e.preventDefault(); go(stepTarget(d)); }
     });
     agenda.closest('.agenda').classList.add('is-' + variant);
-    if (variant === 'c1') {
-      renderC1(0);
+    if (variant === 'c1') renderC1(0); else renderC2(true);
+    if (variant !== 'c2') {
       if (window.ResizeObserver) new ResizeObserver(function () { fitMonth(); }).observe(agenda);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitMonth);
-    } else renderC2(true);
+    }
     /* Первое появление карточек — когда секция доходит до экрана. */
     if (!reduce && window.IntersectionObserver) {
       new IntersectionObserver(function (en, obs) {
