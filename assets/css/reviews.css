@@ -211,7 +211,9 @@
   .home .rv--r1 .rv-sheet{padding:28px 18px 18px 26px}
   .home .rv--r1 .rv-chat{max-height:400px}
   .home .rv--r1 .rv-note{height:32px;width:calc(var(--ar) * 32px)}
-  .home .rv--r1 .rv-heart{right:-4px;top:auto;bottom:-10px;width:62px}
+  .home .rv--r1 .rv-heart{right:0;top:-60px;bottom:auto;width:44px;rotate:10deg}
   .home .rv-all .btn{width:100%}
 }
 @media (prefers-reduced-motion:reduce){.home .rv-grid{scroll-behavior:auto}}
+/* ≤480: сердце маленькое, над заголовком справа, без парения — не заходит на текст */
+@media (max-width:480px){.home .rv--r1 .rv-heart{animation:none;translate:none}.home .rv-band.rv--r1 .reviews.rv{padding-top:76px}}
