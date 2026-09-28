@@ -82,7 +82,19 @@
     метки СТРАТЕГИЯ/КОНТЕНТ... к правому борту — дыра в пол-экрана (баг-репорт
     владельца). Текстовому блоку хватает читаемой меры, метки остаются рядом. */
  @media(min-width:701px){
-  .home .page-band>.about{max-width:640px;margin-left:0}
+  /* 28.09: под широкой обложкой блок в 640px слева выглядел провалом (пустая правая половина).
+     Теперь на всю ширину контейнера: 701–900 — текст сверху, «20+» и метки рядом под ним;
+     901–1279 — три колонки в строку (текст · 20+ · метки), как на десктопе. */
+  .home .page-band>.about{max-width:none;margin-left:0}
+  .home .about{display:flex;flex-wrap:wrap;align-items:flex-start;gap:var(--s3) clamp(40px,8vw,96px)}
+  .home .about-copy{flex:1 0 100%}
+  /* ссылки после кнопки при переносе строки не уезжают вправо: отступ справа, а не слева */
+  .home .about-cta{margin-right:18px}
+  .home .about-more{margin-left:0;margin-right:18px}
+ }
+ @media(min-width:901px){
+  .home .about{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;column-gap:clamp(24px,3vw,56px)}
+  .home .about-copy{flex:none;grid-column:auto}
  }
 
  /* ── Типографика: метки не мельче 11px, текст 16px, строка ≤60 знаков ── */
