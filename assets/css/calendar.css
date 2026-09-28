@@ -167,7 +167,7 @@
 .home .agenda .c3{display:grid;grid-template-columns:150px minmax(0,1fr) 352px;gap:clamp(24px,3vw,40px);align-items:start;isolation:isolate}
 /* колонки считаются от ширины без зоны затухания: две карточки целиком, третья выглядывает только в затухании */
 .home .agenda .c3 .c2-track{grid-auto-columns:max(236px,calc((100% - 56px) / 2))}
-/* ≥1180 лента листается свайпом/колесом/клавишами, стрелки месяцев — только у мини-календаря */
+/* ≥1280 лента листается свайпом/колесом/клавишами, стрелки месяцев — только у мини-календаря */
 .home .agenda .c3 .c2-arrows{display:none}
 .home .agenda .c3 .c2-fbar{min-height:48px}
 /* правый край ленты затухает, пока есть что листать: «есть ещё», а не обрезанные буквы */
@@ -175,7 +175,7 @@
   -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent);
   mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent)
 }
-@media (max-width:1179px){
+@media (max-width:1279px){
   .home .agenda .c3{grid-template-columns:150px minmax(0,1fr)}
   .home .agenda .c3 .c2-mini{display:none}
   .home .agenda .c3 .c2-arrows{display:flex}
