@@ -195,18 +195,6 @@ def test_telegram_response_must_confirm_delivery() -> None:
             assert success is expected
 
 
-def main() -> None:
-    tests = [obj for name, obj in globals().items() if name.startswith("test_") and callable(obj)]
-    for test in tests:
-        with patch("socket.create_connection", side_effect=AssertionError("Network forbidden in tests")), patch.object(index, "_gateway_authorized", return_value=True):
-            test()
-        print(f"{test.__name__}: OK")
-    print(f"\n{len(tests)} tests passed")
-
-
-if __name__ == "__main__":
-    main()
-
 
 def test_comment_reaches_both_messages_escaped_and_capped() -> None:
     event = {
@@ -223,3 +211,16 @@ def test_comment_reaches_both_messages_escaped_and_capped() -> None:
     assert "💬 <b>" in max_text
     comment_line = next(line for line in max_text.splitlines() if line.startswith("💬 "))
     assert len(comment_line) == len("💬 ") + index.COMMENT_MAX_LEN
+
+
+def main() -> None:
+    tests = [obj for name, obj in globals().items() if name.startswith("test_") and callable(obj)]
+    for test in tests:
+        with patch("socket.create_connection", side_effect=AssertionError("Network forbidden in tests")), patch.object(index, "_gateway_authorized", return_value=True):
+            test()
+        print(f"{test.__name__}: OK")
+    print(f"\n{len(tests)} tests passed")
+
+
+if __name__ == "__main__":
+    main()
