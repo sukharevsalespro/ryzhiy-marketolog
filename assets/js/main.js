@@ -377,9 +377,6 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
   'use strict';
   var band = document.querySelector('.rv-band');
   if (!band) return;
-  /* ВРЕМЕННО на показ владельцу: фон /otzyvy/ ?bg=a|b — удалить после выбора */
-  var bg = /[?&]bg=(a|b)\b/.exec(location.search);
-  if (bg && band.classList.contains('rv--r1')) { band.classList.remove('rv-bg-a', 'rv-bg-b'); band.classList.add('rv-bg-' + bg[1]); }
 
   var grid = band.querySelector('.rv-grid');
   var cards = [].slice.call(band.querySelectorAll('.rv-grid > .rv-card'));
