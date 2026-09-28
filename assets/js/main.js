@@ -371,6 +371,89 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
   dialog.addEventListener('close', function () { shot.removeAttribute('src'); });
 })();
 
+/* Отзывы (МАКЕТ design-reviews): переключатель вариантов ?rev=, обрезка длинных переписок,
+   «переписка целиком» в модалке, стрелки и точки у ленты-карусели. */
+(function () {
+  'use strict';
+  var band = document.querySelector('.rv-band');
+  if (!band) return;
+  var m = /[?&]rev=(r1|r2|r3)(c|s|q)?\b/.exec(location.search);
+  if (m) {
+    band.classList.remove('rv--r1');
+    band.classList.add('rv--' + m[1]);
+    if (m[2] === 'c') band.classList.add('rv--clean');
+    if (m[2] === 's') band.classList.add('rv--sharp');
+    if (m[2] === 'q') band.classList.add('rv--r3q');
+  }
+  var cards = band.querySelectorAll('.rv-card');
+  function clamp() {
+    cards.forEach(function (c) {
+      var chat = c.querySelector('.rv-chat');
+      c.classList.remove('is-clamped');
+      chat.style.maxHeight = '';
+      var over = chat.scrollHeight - chat.clientHeight;
+      /* обрезать ради одной-двух строк глупо — такую переписку показываем целиком */
+      if (over > 0 && over < 72 && !c.closest('.rv--r2')) chat.style.maxHeight = 'none';
+      else if (over > 4) c.classList.add('is-clamped');
+    });
+  }
+  var dlg = document.getElementById('rv-dlg');
+  band.addEventListener('click', function (e) {
+    var btn = e.target.closest('.rv-more');
+    if (!btn || !dlg || typeof dlg.showModal !== 'function') return;
+    var c = btn.closest('.rv-card');
+    var h = dlg.querySelector('.rv-dlg-h'), body = dlg.querySelector('.rv-dlg-body');
+    h.textContent = c.querySelector('.rv-sign b').textContent;
+    var tag = document.createElement('span');
+    tag.textContent = c.querySelector('.rv-tag').textContent;
+    h.appendChild(tag);
+    body.textContent = '';
+    var chat = c.querySelector('.rv-chat').cloneNode(true);
+    chat.removeAttribute('id');
+    body.appendChild(chat);
+    body.appendChild(c.querySelector('.rv-orig').cloneNode(true));
+    dlg.showModal();
+  });
+  if (dlg) dlg.addEventListener('click', function (e) {
+    if (e.target === dlg || e.target.closest('.rv-dlg-x')) dlg.close();
+  });
+
+  var grid = band.querySelector('.rv-grid'), nav = band.querySelector('.rv-nav');
+  var dots = nav && nav.querySelector('.rv-dots');
+  var prev = nav && nav.querySelector('.rv-prev'), next = nav && nav.querySelector('.rv-next');
+  function pages() { return Math.max(1, Math.round(grid.scrollWidth / grid.clientWidth)); }
+  function syncNav() {
+    if (!nav) return;
+    var scrollable = getComputedStyle(grid).overflowX !== 'visible' && grid.scrollWidth > grid.clientWidth + 2;
+    nav.hidden = !scrollable;
+    if (!scrollable) return;
+    var n = pages(), max = grid.scrollWidth - grid.clientWidth;
+    var i = Math.round(grid.scrollLeft / max * (n - 1)) || 0;
+    if (dots.children.length !== n) {
+      dots.textContent = '';
+      for (var k = 0; k < n; k++) dots.appendChild(document.createElement('i'));
+    }
+    [].forEach.call(dots.children, function (d, k) { d.classList.toggle('on', k === i); });
+    prev.disabled = grid.scrollLeft < 4;
+    next.disabled = grid.scrollLeft > max - 4;
+  }
+  function step(dir) {
+    var card = grid.querySelector('.rv-card');
+    var per = card ? Math.max(1, Math.round(grid.clientWidth / card.getBoundingClientRect().width)) : 1;
+    grid.scrollBy({ left: dir * (card ? card.getBoundingClientRect().width + 16 : grid.clientWidth) * per, behavior: 'smooth' });
+  }
+  if (nav) {
+    prev.addEventListener('click', function () { step(-1); });
+    next.addEventListener('click', function () { step(1); });
+    grid.addEventListener('scroll', function () { requestAnimationFrame(syncNav); }, { passive: true });
+  }
+  function all() { clamp(); syncNav(); }
+  all();
+  addEventListener('resize', all);
+  addEventListener('load', all);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(all);
+})();
+
 /* Обложка главной: «письмо пером» рукописи «Больше, чем маркетинг» (спека 002, 1.56 с — исключение
    из «вход ≤700 мс»: авторский момент). */
 (function () {
