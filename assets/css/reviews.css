@@ -1,0 +1,219 @@
+/* Отзывы «Своими словами» (ветка design-reviews, не прод).
+   Главная — карусель R3 (3D-предмет по формату, аватар на стыке); /otzyvy/ — листки R1 («бумага и скрепки»).
+   Переписки перерисованы вёрсткой слово в слово со скриншотов; оригинал — ссылкой «Оригинал переписки» в лайтбоксе.
+   Фон /otzyvy/ по теме сайта: светлая — «стол» (A), тёмная — «графит» (B).
+   Refero-lock: R1 — Symbolic.ai b49ec76c (листы, наклон, мягкая тень) + Craft Docs 285cc0ca (рваная бумага, многослойная тень);
+   фон A — Paper.design 948949c4 (тёплая бумажная основа, едва заметная фактура); фон B — Pipe c00d3961 (графит + один рыжий акцент);
+   R3 — референс владельца (карусель, 3D-объект, аватар на стыке) в палитре обложки. */
+
+.home .rv-band{--rv-pad:clamp(20px,3.6vw,52px);position:relative;overflow:hidden;isolation:isolate}
+.home .rv-band .reviews.rv{position:relative;padding:clamp(56px,7vw,104px) var(--rv-pad) clamp(56px,6vw,88px)}
+.home .rv-head{position:relative;display:grid;gap:14px;margin:0 0 clamp(28px,4vw,56px);max-width:900px}
+.home .rv-head :is(h1,h2){font:900 clamp(48px,7.4vw,112px)/.88 Poster,'Golos Text',sans-serif;font-stretch:condensed;letter-spacing:-.035em;margin:0}
+.home .rv-head .label{font:600 12px/1.55 'Golos Text',sans-serif;letter-spacing:.18em;margin:0}
+
+/* ---------- общие детали карточки и переписки ---------- */
+.home .rv-card{position:relative;min-width:0}
+.home .rv-sheet{position:relative;display:flex;flex-direction:column;gap:14px;height:100%}
+.home .rv-chat{display:flex;flex-direction:column;gap:6px;min-width:0;flex-shrink:0;overflow:hidden;padding:2px 2px 4px;margin:-2px -2px -4px}
+.home .is-clamped .rv-chat{-webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
+.home .rv-msg{display:flex;align-items:flex-end;gap:8px;min-width:0}
+.home .rv-msg--out{justify-content:flex-end}
+.home .rv-bub{position:relative;min-width:0;max-width:100%;padding:9px 13px 7px;border-radius:16px 16px 16px 4px;background:var(--rv-bub,#fff);color:var(--rv-bub-ink,#1c1c1e);font:400 15px/1.45 'Golos Text',sans-serif}
+.home .rv-msg--out .rv-bub{max-width:90%;border-radius:16px 16px 4px 16px;background:var(--rv-out,#ffe3cf);color:var(--rv-out-ink,#1c1c1e)}
+.home .rv-txt{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.home .rv-nick{display:block;margin:0 0 2px;font-weight:600;font-size:14px;line-height:1.3}
+.home .rv-nick--blue{color:#1f6fe0}.home .rv-nick--pink{color:#c43d78}
+.home .rv-time{display:flex;justify-content:flex-end;align-items:center;gap:3px;margin-top:2px;font-size:12px;line-height:1.2;color:var(--rv-time,#8a857c);font-variant-numeric:tabular-nums}
+.home .rv-ck{width:13px;height:10px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.home .rv-react{display:inline-block;margin-top:6px;padding:2px 9px;border-radius:999px;background:var(--rv-react,rgba(254,108,31,.14));font-size:13px;line-height:1.5}
+.home .rv-ava{flex:0 0 32px;width:32px;height:32px;border-radius:50%;object-fit:cover}
+.home .rv-emo{display:inline;height:1.3em;width:auto;vertical-align:-.3em}
+.home .rv-cut{opacity:.55}
+.home .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.home .rv-more{display:none;align-self:flex-start;align-items:center;gap:10px;min-height:44px;padding:0;border:0;background:none;color:inherit;font:600 15px/1.2 'Golos Text',sans-serif;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;cursor:pointer}
+.home .rv-more::after{content:"→";text-decoration:none;display:inline-block;transition:translate .2s cubic-bezier(.2,.7,.2,1)}
+.home .rv-more:hover::after{translate:4px 0}
+.home .rv-more:active{opacity:.7}
+.home .is-clamped .rv-more{display:inline-flex}
+.home .rv-sign{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:auto 0 0;padding-top:12px}
+.home .rv-sign b{font:700 17px/1.2 'Golos Text',sans-serif;letter-spacing:-.01em}
+.home .rv-tag{font:600 11px/1.4 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.home .rv-orig{flex-basis:100%;font:500 13px/1.3 'Golos Text',sans-serif;text-decoration:underline;text-underline-offset:3px;opacity:.72;min-height:24px;display:inline-flex;align-items:center;width:max-content}
+.home .rv-orig:hover{opacity:1;text-decoration-color:var(--orange,#fe6c1f)}
+.home .rv-note{display:block;height:34px;width:calc(var(--ar) * 34px);max-width:100%;background:currentColor;-webkit-mask:var(--note) no-repeat left center/contain;mask:var(--note) no-repeat left center/contain;pointer-events:none}
+.home .rv-card:focus-within{z-index:2}
+.home .rv-grid:focus-visible{outline:2px solid currentColor;outline-offset:6px}
+.home .rv-all{position:relative;margin-top:clamp(32px,4vw,56px)}
+.home .rv-rail{position:relative}
+
+/* навигация ленты (видна, только когда лента реально прокручивается — решает JS) */
+.home .rv-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:22px}
+.home .rv-nav[hidden]{display:none}
+.home .rv-arrow{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:0;background:var(--orange,#fe6c1f);color:#111;cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.home .rv-arrow svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.home .rv-arrow:hover{transform:scale(1.06)}.home .rv-arrow:active{transform:scale(.94)}
+.home .rv-arrow:disabled{opacity:.35;cursor:default;transform:none}
+.home .rv-arrow:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.home .rv-dots{display:flex;gap:6px}
+.home .rv-dots i{display:block;width:18px;height:4px;border-radius:2px;background:currentColor;opacity:.3;transition:width .25s,opacity .25s}
+.home .rv-dots i.on{width:34px;opacity:1;background:var(--orange,#fe6c1f)}
+
+/* модалка «переписка целиком» */
+.home .rv-dlg{border:0;padding:0;background:none;max-width:min(94vw,600px);width:100%;max-height:92vh;overflow:visible;color:#ecebe8}
+.home .rv-dlg:focus-visible{outline:none}
+.home .rv-dlg::backdrop{background:rgba(10,10,12,.82)}
+.home .rv-dlg-in{display:grid;gap:14px;max-height:88vh;overflow:auto;padding:18px 20px 22px;background:#26282d;border:1px solid rgba(255,255,255,.14);--rv-bub:#f6f3ee;--rv-bub-ink:#1c1c1e;--rv-out:#fe6c1f;--rv-out-ink:#111;--rv-time:#6f6a62}
+.home .rv-dlg-x{position:sticky;top:0;justify-self:end;margin-bottom:-58px;z-index:1}
+.home .rv-dlg-h{margin:6px 60px 4px 0;font:700 18px/1.3 'Golos Text',sans-serif}
+.home .rv-dlg-h span{display:block;margin-top:4px;font:600 11px/1.4 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ffb27a}
+.home .rv-band .rv-dlg .rv-chat{max-height:none!important;overflow:visible;padding:0;margin:0;-webkit-mask-image:none;mask-image:none;text-align:left}
+.home .rv-dlg .rv-orig{color:#ecebe8}
+
+/* ============ Главная · карусель: 3D-предмет по формату и аватар на стыке ============ */
+.home .rv--r3{
+  --rv-r:28px;--rv-r2:22px;--rv-top:232px;--rv-obj:150px;
+  background-color:#1c1d21;
+  background-image:
+    radial-gradient(40% 34% at 50% 0%,rgba(254,108,31,.30) 0%,rgba(254,108,31,0) 100%),
+    radial-gradient(30% 30% at 100% 100%,rgba(168,51,12,.30) 0%,rgba(168,51,12,0) 100%);
+  color:#ecebe8
+}
+.home .rv--r3 .rv-head .label{opacity:.62}
+.home .rv--r3 .rv-grid{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 2 * 24px) / 3);gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:6px 0 10px}
+.home .rv--r3 .rv-grid::-webkit-scrollbar{display:none}
+.home .rv--r3 .rv-card{scroll-snap-align:start}
+.home .rv--r3 .rv-sheet{--rv-bub:#33353b;--rv-bub-ink:#ecebe8;--rv-out:#fe6c1f;--rv-out-ink:#111;--rv-time:#9a968f;--rv-react:rgba(255,255,255,.1);
+  isolation:isolate;align-items:center;gap:10px;padding:0 12px 12px;border-radius:var(--rv-r);background:linear-gradient(160deg,#ff9a55 0%,#fe6c1f 38%,#d9500f 100%);text-align:center}
+/* тёмная панель под текстом; её «выпуклость» вокруг аватара рисует кольцо (box-shadow) самого аватара */
+.home .rv--r3 .rv-sheet::after{content:"";position:absolute;z-index:-1;left:12px;right:12px;top:var(--rv-top);bottom:12px;border-radius:var(--rv-r2);background:#1f2024}
+/* предмет прижат к верху площадки и отделён от аватара зазором ≥ 20px; аватар всегда поверх */
+.home .rv--r3 .rv-top{display:flex;justify-content:center;align-items:flex-start;height:var(--rv-top);width:100%;padding-top:16px;box-sizing:border-box}
+.home .rv--r3 .rv-obj{display:block;position:relative;z-index:1;width:var(--rv-obj);height:var(--rv-obj);object-fit:contain;filter:drop-shadow(0 14px 16px rgba(90,20,0,.35));transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.home .rv--r3 .rv-face{display:grid;place-items:center;position:relative;z-index:2;width:72px;height:72px;margin-top:-36px;border-radius:50%;object-fit:cover;object-position:50% 50%;background:#fe6c1f;color:#1f2024;font:900 28px/1 Poster,sans-serif;font-stretch:condensed;box-shadow:0 0 0 7px #1f2024}
+.home .rv--r3 .rv-face--ini{background:linear-gradient(160deg,#ffb27a,#fe6c1f)}
+.home .rv--r3 .rv-sign{flex-direction:column;align-items:center;gap:4px;margin:2px 0 4px;padding:0 16px}
+.home .rv--r3 .rv-sign b{color:#ffb27a;font-size:18px}
+.home .rv--r3 .rv-tag{opacity:.7}
+.home .rv--r3 .rv-orig{flex-basis:auto;margin-top:2px}
+.home .rv--r3 .rv-chat{width:100%;padding:0 14px;max-height:236px;text-align:left}
+.home .rv--r3 .rv-more{align-self:center;color:#fff}
+.home .rv--r3 :is(.rv-ava,.rv-nick){display:none}
+.home .rv--r3 .rv-msg{gap:0}
+.home .rv--r3 .rv-bub{border-radius:calc(var(--rv-r2) * .64) calc(var(--rv-r2) * .64) calc(var(--rv-r2) * .64) 4px}
+.home .rv--r3 .rv-msg--out .rv-bub{border-radius:calc(var(--rv-r2) * .64) calc(var(--rv-r2) * .64) 4px calc(var(--rv-r2) * .64)}
+.home .rv--r3 .rv-all .btn{border-color:rgba(255,255,255,.8);color:#fff;--plate:var(--orange,#fe6c1f)}
+.home .rv--r3 .rv-all .btn--ink{background:var(--orange,#fe6c1f);border-color:var(--orange,#fe6c1f);color:#111;--plate:#fff}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .home .rv--r3 .rv-card:hover .rv-obj{transform:translateY(-4px) rotate(-3deg) scale(1.03)}
+}
+/* стрелки по бокам ленты, как в референсе: на ПК вынесены на край, кольцо цвета фона — «вырез» */
+@media (min-width:1024px){
+  .home .rv--r3 .rv-rail{margin-inline:6px}
+  .home .rv--r3 .rv-nav{position:absolute;inset:0;margin:0;pointer-events:none;justify-content:space-between;align-items:center}
+  .home .rv--r3 .rv-arrow{pointer-events:auto;box-shadow:0 0 0 10px #1c1d21;margin-inline:-26px;z-index:3}
+  .home .rv--r3 .rv-dots{position:absolute;top:-34px;left:50%;translate:-50% 0}
+}
+@media (max-width:1023px){.home .rv--r3 .rv-grid{grid-auto-columns:calc((100% - 20px) / 2);gap:20px}}
+@media (max-width:699px){
+  .home .rv--r3{--rv-top:200px;--rv-obj:124px}
+  .home .rv--r3 .rv-grid{grid-auto-columns:88%;gap:14px;margin:0 -20px;padding:6px 20px 10px;scroll-padding-inline:20px}
+}
+
+/* ============ /otzyvy/ · листки: бумага, скрепки, рукописная пометка-вывод ============ */
+.home .rv--r1{color:#111}
+/* светлая тема — фон A «стол»: тёплая бумажная основа, тонкая фактура льна (SVG-шум, без мыла), рыжее сияние в двух углах */
+.home .rv--r1{
+  background-color:#f1ebe2;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9 .06' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .24  0 0 0 0 .14  0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.06 .9' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .24  0 0 0 0 .14  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    radial-gradient(38% 30% at 0% 0%,rgba(254,108,31,.26) 0%,rgba(254,108,31,0) 100%),
+    radial-gradient(34% 26% at 100% 100%,rgba(226,83,15,.20) 0%,rgba(226,83,15,0) 100%),
+    linear-gradient(180deg,#f4efe7,#ece4d8);
+  --rv-shadow:drop-shadow(0 1px 1px rgba(70,40,15,.18)) drop-shadow(0 10px 14px rgba(70,40,15,.16)) drop-shadow(0 26px 34px rgba(70,40,15,.10))
+}
+/* тёмная тема — фон B «графит», как «Календарь» и «Мысли». Тема — как у шапки: prefers-color-scheme;
+   явный data-theme на <html> (если появится) побеждает системную: light → фон A, dark → фон B. */
+:root[data-theme="dark"] .home .rv--r1{
+  background-color:#26282d;
+  background-image:
+    radial-gradient(44% 34% at 8% 0%,rgba(254,108,31,.40) 0%,rgba(254,108,31,0) 100%),
+    radial-gradient(36% 30% at 96% 62%,rgba(226,83,15,.24) 0%,rgba(226,83,15,0) 100%),
+    radial-gradient(40% 28% at 30% 100%,rgba(168,51,12,.28) 0%,rgba(168,51,12,0) 100%),
+    linear-gradient(180deg,#2b2d32,#222428);
+  color:#ecebe8;
+  --rv-shadow:drop-shadow(0 2px 2px rgba(0,0,0,.35)) drop-shadow(0 16px 26px rgba(0,0,0,.42))
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .home .rv--r1{
+  background-color:#26282d;
+  background-image:
+    radial-gradient(44% 34% at 8% 0%,rgba(254,108,31,.40) 0%,rgba(254,108,31,0) 100%),
+    radial-gradient(36% 30% at 96% 62%,rgba(226,83,15,.24) 0%,rgba(226,83,15,0) 100%),
+    radial-gradient(40% 28% at 30% 100%,rgba(168,51,12,.28) 0%,rgba(168,51,12,0) 100%),
+    linear-gradient(180deg,#2b2d32,#222428);
+  color:#ecebe8;
+  --rv-shadow:drop-shadow(0 2px 2px rgba(0,0,0,.35)) drop-shadow(0 16px 26px rgba(0,0,0,.42))
+}
+}
+.home .rv--r1 .rv-head .label{opacity:.72}
+.home .rv--r1 .rv-heart{display:block;position:absolute;right:max(0px,calc(100% - 900px - 40px));top:-18px;width:clamp(96px,11vw,160px);height:auto;rotate:12deg;filter:drop-shadow(0 18px 24px rgba(90,20,0,.30));pointer-events:none}
+.home .rv--r1 .rv-grid{columns:3 300px;column-gap:clamp(22px,2.6vw,40px)}
+.home .rv--r1 .rv-card{break-inside:avoid;margin:0 0 clamp(30px,3vw,44px);padding-top:18px;filter:var(--rv-shadow);color:#111}
+.home .rv--r1 .rv-sheet{--rv-bub:#fff;--rv-out:#ffe1cb;isolation:isolate;padding:30px 24px 22px 32px;rotate:var(--rot,-1deg);transition:rotate .35s cubic-bezier(.2,.7,.2,1),translate .35s cubic-bezier(.2,.7,.2,1)}
+.home .rv--r1 .rv-card:nth-child(3n+2) .rv-sheet{--rot:1.2deg}
+.home .rv--r1 .rv-card:nth-child(3n) .rv-sheet{--rot:-.5deg}
+.home .rv--r1 .rv-card:nth-child(4n) .rv-sheet{--rot:1.5deg}
+/* лист: бумага с рваным левым краем. Маска на ::before, а не на листе — иначе срежет скрепку. */
+.home .rv--r1 .rv-sheet::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:repeating-linear-gradient(180deg,transparent 0 31px,rgba(30,60,120,.07) 31px 32px),linear-gradient(170deg,#fffdf9,#f7f1e7);
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='260' viewBox='0 0 16 260'><path d='M16 0H5L2 5L3 11L6 15L8 18L9 23L6 29L5 33L2 39L3 43L6 48L3 52L6 55L4 60L1 66L3 71L4 76L5 80L6 83L5 86L2 89L1 94L4 97L6 104L3 108L2 111L3 117L5 120L6 125L4 130L1 134L4 141L7 147L6 154L3 158L1 163L3 166L4 170L3 176L5 179L8 184L9 190L7 195L5 202L6 206L9 210L6 213L7 219L5 226L2 232L5 238L6 243L4 250L5 260H16Z' fill='black'/></svg>") left top/16px 260px repeat-y,linear-gradient(#000,#000) 15px 0/calc(100% - 15px) 100% no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='260' viewBox='0 0 16 260'><path d='M16 0H5L2 5L3 11L6 15L8 18L9 23L6 29L5 33L2 39L3 43L6 48L3 52L6 55L4 60L1 66L3 71L4 76L5 80L6 83L5 86L2 89L1 94L4 97L6 104L3 108L2 111L3 117L5 120L6 125L4 130L1 134L4 141L7 147L6 154L3 158L1 163L3 166L4 170L3 176L5 179L8 184L9 190L7 195L5 202L6 206L9 210L6 213L7 219L5 226L2 232L5 238L6 243L4 250L5 260H16Z' fill='black'/></svg>") left top/16px 260px repeat-y,linear-gradient(#000,#000) 15px 0/calc(100% - 15px) 100% no-repeat}
+.home .rv--r1 .rv-clip{display:block;position:absolute;z-index:3;top:-26px;right:30px;width:26px;height:72px;rotate:6deg;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 72'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='%23f4f4f2'/><stop offset='.45' stop-color='%239a9a98'/><stop offset='1' stop-color='%23e2e2de'/></linearGradient></defs><path d='M6 22V56a7 7 0 0 0 14 0V10a5 5 0 0 0-10 0V50a2 2 0 0 0 4 0V22' fill='none' stroke='%23000' stroke-opacity='.28' stroke-width='3.4' stroke-linecap='round' transform='translate(.6 1)'/><path d='M6 22V56a7 7 0 0 0 14 0V10a5 5 0 0 0-10 0V50a2 2 0 0 0 4 0V22' fill='none' stroke='url(%23g)' stroke-width='2.6' stroke-linecap='round'/></svg>") center/contain no-repeat}
+/* у каждого второго — полоска скотча вместо скрепки */
+.home .rv--r1 .rv-card:nth-child(even) .rv-clip{top:-12px;right:auto;left:50%;width:96px;height:26px;translate:-50% 0;rotate:-3deg;background:linear-gradient(90deg,rgba(255,250,240,.72),rgba(255,244,228,.6));box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.home .rv--r1 .rv-note{order:-1;color:#c4490a;rotate:-3deg;transform-origin:left center;height:38px;width:calc(var(--ar) * 38px);margin:-6px 0 2px}
+.home .rv--r1 .rv-chat{max-height:460px}
+.home .rv--r1 .rv-bub{box-shadow:0 1px 0 rgba(0,0,0,.06),0 2px 6px rgba(60,30,10,.07)}
+.home .rv--r1 .rv-sign{border-top:1px dashed rgba(17,17,17,.22)}
+.home .rv--r1 .rv-sign b::before{content:"— "}
+.home .rv--r1 .rv-tag{color:#b8430b}
+/* раскладка по колонкам по высоте (JS): колонки тянутся до общего низа, короткую добирает листок-призыв */
+.home .rv--r1 .rv-grid.is-masonry{display:flex;align-items:stretch;gap:clamp(22px,2.6vw,40px);columns:auto}
+.home .rv--r1 .rv-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column}
+.home .rv--r1 .rv-col.is-spread{justify-content:space-between}
+.home .rv--r1 .rv-cta{flex:1 0 auto;display:flex}
+.home .rv--r1 .rv-cta[hidden]{display:none}
+.home .rv--r1 .rv-cta .rv-sheet{flex:1;justify-content:center;align-items:flex-start;gap:22px;min-height:180px}
+.home .rv--r1 .rv-cta .rv-note{order:0;height:52px;width:calc(var(--ar) * 52px);margin:0}
+.home .rv--r1 .rv-cta-btn{align-self:flex-start}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .home .rv--r1 .rv-card:hover .rv-sheet{rotate:0deg;translate:0 -4px}
+}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .home .rv--r1 .rv-clip{animation:rv-float linear both;animation-timeline:view()}
+    .home .rv--r1 .rv-heart{animation:rv-float2 linear both;animation-timeline:view()}
+  }
+}
+@keyframes rv-float{from{translate:0 6px}to{translate:0 -6px}}
+@keyframes rv-float2{from{translate:0 24px;rotate:18deg}to{translate:0 -24px;rotate:6deg}}
+
+/* ---------- телефон ---------- */
+@media (max-width:699px){
+  .home .rv-band .reviews.rv{padding:48px 20px 52px}
+  .home .rv-head{gap:10px;margin-bottom:28px}
+  .home .rv-head .label{font-size:11px}
+  .home .rv-sign b{font-size:16px}
+  .home .rv--r1 .rv-grid{columns:auto}
+  .home .rv--r1 .rv-sheet{padding:28px 18px 18px 26px}
+  .home .rv--r1 .rv-chat{max-height:400px}
+  .home .rv--r1 .rv-note{height:32px;width:calc(var(--ar) * 32px)}
+  .home .rv--r1 .rv-heart{right:0;top:-60px;bottom:auto;width:44px;rotate:10deg}
+  .home .rv-all .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.home .rv-grid{scroll-behavior:auto}}
+/* ≤480: сердце маленькое, над заголовком справа, без парения — не заходит на текст */
+@media (max-width:480px){.home .rv--r1 .rv-heart{animation:none;translate:none}.home .rv-band.rv--r1 .reviews.rv{padding-top:76px}}
