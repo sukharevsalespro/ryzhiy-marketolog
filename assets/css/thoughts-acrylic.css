@@ -71,9 +71,6 @@
 
 /* визуальная зона сверху (одинаковой высоты у всех трёх) */
 .th-vis{position:relative;height:clamp(150px,15vw,210px);margin-bottom:clamp(16px,1.6vw,24px);flex:none}
-.th-plant{position:absolute;right:-6px;bottom:-4px;width:min(62%,190px);height:auto;opacity:.9}
-.th-plant g:first-child{fill:rgba(255,255,255,.2);stroke:rgba(255,255,255,.75);stroke-width:.8}
-.th-plant g:last-child{stroke:rgba(255,255,255,.45)}
 .th-photo{position:absolute;inset:0;margin:0;border-radius:calc(var(--th-r) - 12px);overflow:hidden;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 10px 24px -12px rgba(0,0,0,.55)}
 .th-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;display:block}
@@ -260,3 +257,13 @@
   .th[data-th="t1"] .th-list{padding-bottom:52px;margin-bottom:-26px}
   .th[data-th="t1"] .th-plate{--glow:transparent}
 }
+
+/* фото на оранжевой и красной (28.09): кадр держит лицо целиком на всех ширинах */
+.th-photo--content img{object-position:50% 45%}
+.th-photo--position img{object-position:62% 22%}
+/* рукопись поверх фото — в левом верхнем углу, лицо справа; под ней тёмная подложка-градиент */
+.th-photo--position::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 90% at 0 0,rgba(0,0,0,.62),rgba(0,0,0,.28) 45%,transparent 70%)}
+.th-plate--red .th-hand{left:12px;right:auto;top:10px;z-index:2;width:clamp(76px,6.4vw,98px)}
+@media (max-width:599.98px){.th-photo--position img{object-position:100% 22%}}
+@media (max-width:599.98px){.th-plate--red .th-hand{width:clamp(56px,17vw,70px);left:10px;top:8px}}
