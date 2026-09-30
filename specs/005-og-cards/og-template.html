@@ -1,52 +1,73 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
+<!-- OG-карточки, дизайн B «графит» (выбор владельца 01.10.2026): фото на всю площадь,
+     графитовое стекло буквой «Г» (колонка + нижняя полоса), оранжевый только акцент.
+     Токены — из mastergruppa.css (.mg-hero-band, тёмная тема). Рендер: render.py <id> … -->
 <style>
 @font-face{font-family:Golos;src:url(../../assets/fonts/golos-cyrillic.woff2) format('woff2');font-weight:400 900;unicode-range:U+0400-045F,U+2116}
 @font-face{font-family:Golos;src:url(../../assets/fonts/golos-latin.woff2) format('woff2');font-weight:400 900;unicode-range:U+0000-00FF,U+2000-206F}
 @font-face{font-family:Poster;src:url(../../assets/fonts/roboto-var-cyrillic.woff2) format('woff2');font-weight:100 900;font-stretch:75% 100%;unicode-range:U+0400-045F}
 @font-face{font-family:Poster;src:url(../../assets/fonts/roboto-var-latin.woff2) format('woff2');font-weight:100 900;font-stretch:75% 100%;unicode-range:U+0000-00FF,U+2000-206F}
 /* Шрифты сайта не содержат ₽ — он рисуется DejaVu Sans (системный на NVR) */
-:root{--orange:#FE6C1F;--ink:#111;--cream:#FAF7F2}
+:root{--or:#fe6c1f;--ink:#faf7f2;--mute:#cfc8be;--glass:rgba(35,37,41,.72);--line:rgba(250,247,242,.2);--blur:blur(18px) saturate(1.1)}
 *{box-sizing:border-box;margin:0}
 html,body{width:1200px;height:630px;overflow:hidden}
-body{background:var(--orange);color:var(--ink);font-family:Golos,'DejaVu Sans',sans-serif;display:grid;grid-template-columns:470px 1fr}
-.ph{height:630px;background-repeat:no-repeat;border-right:3px solid var(--ink)}
-.tx{padding:50px 54px 40px 56px;display:flex;flex-direction:column;min-width:0}
-.k{font-weight:700;font-size:22px;letter-spacing:.1em;text-transform:uppercase;line-height:1.25}
-h1{font-family:Poster,'DejaVu Sans',sans-serif;font-stretch:75%;font-weight:900;text-transform:uppercase;letter-spacing:-.015em;line-height:1;margin-top:22px;text-wrap:balance}
-.s{font-size:30px;line-height:1.22;font-weight:500;margin-top:22px;letter-spacing:-.01em}
-.s b{font-weight:700}
-.row{margin-top:auto;display:flex;gap:12px;flex-wrap:wrap;align-items:stretch}
-.pl{font-family:Poster,'DejaVu Sans',sans-serif;font-stretch:75%;font-weight:800;font-size:36px;line-height:1;padding:11px 16px 10px;text-transform:uppercase;background:var(--ink);color:var(--cream);white-space:nowrap}
-.pl.c{background:var(--cream);color:var(--ink)}
-.rub{font-family:'DejaVu Sans',sans-serif;font-weight:700;font-size:.82em;font-stretch:normal}
-.f{margin-top:18px;padding-top:12px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;font-size:20px;font-weight:600}
+body{position:relative;font-family:Golos,'DejaVu Sans',sans-serif;color:var(--ink);background:#232529}
+/* .bg — то же фото, размытое, на всю карточку: подложка под стеклом, если резкое фото уже карточки (вертикальные кадры) */
+.bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(28px) brightness(.6)}
+.ph{position:absolute;inset:0;background-repeat:no-repeat}
+.pn{position:absolute;top:0;bottom:64px;padding:44px 40px 30px 52px;display:flex;flex-direction:column;
+  background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.L .pn{left:0;border-right:1px solid var(--line);box-shadow:20px 0 60px rgba(0,0,0,.18)}
+.R .pn{right:0;border-left:1px solid var(--line);box-shadow:-20px 0 60px rgba(0,0,0,.18)}
+.k{font-weight:600;font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);line-height:1.3}
+.k i,.st i{font-style:normal;color:var(--or);font-weight:800}
+h1{margin-top:20px;font:900 84px/.94 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.005em}
+.dt{margin-top:22px;font-size:24px;line-height:1.35;font-weight:500}
+.dt b{font-weight:700}
+.row{margin-top:auto;display:flex;align-items:center;gap:22px}
+.pr{background:var(--or);color:#111;font:900 56px/1 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;padding:10px 18px 9px;border-radius:4px;white-space:nowrap}
+.r{font-family:'DejaVu Sans',sans-serif;font-weight:700;font-size:.78em;font-stretch:normal}
+.st{font:800 34px/1.05 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;white-space:nowrap}
+.f{position:absolute;left:0;right:0;bottom:0;height:64px;padding:0 52px;display:flex;align-items:center;justify-content:space-between;
+  font-size:20px;font-weight:600;background:var(--glass);border-top:1px solid var(--line);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.f b{font-weight:600;color:var(--mute)}
 </style></head>
-<body><div class="ph" id="ph"></div><div class="tx">
-<p class="k" id="k"></p><h1 id="h"></h1><p class="s" id="s"></p>
-<div class="row" id="row"></div>
-<div class="f"><span>Валентина Сухарева</span><span>рыжий-маркетолог.рф</span></div>
-</div>
+<body><div class="bg" id="bg"></div><div class="ph" id="ph"></div>
+<div class="pn"><p class="k" id="k"></p><h1 id="h"></h1><p class="dt" id="dt"></p><div class="row" id="row"></div></div>
+<div class="f"><span id="fl"></span><span>рыжий-маркетолог.рф</span></div>
 <script>
-const R='<span class="rub">₽</span>';
-// crop: [x, y, h] в пикселях исходника; ширина = h * 470/630
+const R=' <span class="r">₽</span>', S='<i>*</i> ';
+// img — файл из assets/img; w — ширина фото на карточке (px, ≥1200); x,y — сдвиг фона; side — где стекло (L/R), pw — ширина колонки
 const C={
- 'master-gruppa':{img:'mg-evening-m-1200.webp',sw:1200,crop:[260,0,1100],k:'Мастер-группа · до 5 человек',h:'Личный бренд<br>за 4 недели',hs:88,s:'Позиционирование, смыслы и контент без выгорания. Онлайн, по всей России.',pl:[['Старт 5 октября'],['12 500 '+R,'c']]},
- 'otzyvy':{img:'portrait-newyear-1200.webp',sw:1200,crop:[330,0,1200],k:'Отзывы · 15 переписок',h:'Своими словами',hs:112,s:'Живые переписки с клиентками: мастермайнды, обучение, консультации. Без правок.',pl:[['Оригиналы переписок','c']]},
- 'raspakovka':{img:'portrait-yalta-wall-smile-1200.webp',sw:1200,crop:[240,40,1300],k:'Игра «Путь гениальности» · 2–4 часа',h:'Распаковка личности',hs:108,s:'Найдём вашу уникальность и соберём позиционирование в одно предложение.',pl:[['В группе 5 000 '+R],['Лично 10 000 '+R,'c']]},
- 'razvitie':{img:'event-selfie-1200.webp',sw:1200,crop:[250,540,1270],k:'Наставник · 20+ лет в маркетинге',h:'Развитие личного бренда',hs:92,s:'Смыслы, продукт, контент и путь клиента — вместе с наставником.',pl:[['Онлайн'],['от 10 000 '+R,'c']]},
- 'zapis-lichnyj-brend':{img:'portrait-mic-1200.webp',sw:1200,crop:[0,120,1600],k:'Вебинар в записи',h:'Как развить<br>личный бренд',hs:88,s:'Позиционирование, маркетинг доверия и контент без выгорания.',pl:[['Доступ сразу'],['800 '+R,'c']]},
- 'networking':{img:'portrait-phone-call-1200.webp',sw:1200,crop:[60,120,1500],k:'Онлайн-нетворкинг · 15–20 человек',h:'Полезные знакомства',hs:100,s:'<b>8 октября</b> — 10:00–12:00<br><b>10 ноября, 11 декабря</b> — 12:00–14:00 МСК',pl:[['Контур.Толк'],['от 990 '+R,'c']]},
- 'home':{img:'hero-cutout-big-c2-1600.webp',sw:1600,crop:[230,-110,1620],bg:'#FAF7F2',k:'Наставник по личному бренду',h:'Рыжий маркетолог',hs:108,s:'Личный бренд и маркетинг для экспертов. Онлайн по всей России, база\u00a0— Сочи.',pl:[['20+ лет в маркетинге'],['Онлайн','c']]},
- 'marketing-doveriya':{img:'portrait-selfie-red-1200.webp',sw:1200,crop:[230,0,1300],k:'Вебинар в записи',h:'Маркетинг доверия',hs:104,s:'Почему у вас не покупают, 9 факторов доверия и нейросети в контенте.',pl:[['Доступ после оплаты'],['888 '+R,'c']]},
+ 'master-gruppa':{img:'mg-evening-2400.webp',w:1200,x:0,y:-6,side:'L',
+   k:'Мастер-группа · до 5 человек',h:'Личный бренд за\u00a04\u00a0недели',hs:80,pr:'12\u00a0500'+R,st:S+'Старт<br>5 октября',fl:'Валентина Сухарева <b>· онлайн по всей России</b>'},
+ 'home':{img:'thoughts-position-1200.webp',w:1200,x:-20,y:-20,side:'R',
+   k:'Наставник по личному бренду',h:'Рыжий маркетолог',hs:80,pr:'20+ лет',st:S+'в маркетинге',fl:'Валентина Сухарева <b>· онлайн по всей России, база\u00a0— Сочи</b>'},
+ 'otzyvy':{img:'portrait-newyear-2400.webp',w:720,x:-40,y:-20,side:'R',
+   k:'Отзывы клиенток',h:'Своими словами',hs:92,pr:'15',st:S+'живых переписок<br>без правок',fl:'Валентина Сухарева <b>· оригинал под каждым отзывом</b>'},
+ 'raspakovka':{img:'portrait-yalta-wall-smile-2400.webp',w:720,x:520,y:-120,side:'L',
+   k:'Игра «Путь гениальности» · 2–4\u00a0часа',h:'Распаковка личности',hs:84,pr:'5\u00a0000'+R,st:S+'в группе<br>лично — 10\u00a0000\u00a0₽',ss:29,fl:'Валентина Сухарева <b>· онлайн по всей России</b>'},
+ 'razvitie':{img:'portrait-crimea-rock-2400.webp',w:720,x:-10,y:-160,side:'R',
+   k:'Наставник · 20+ лет в маркетинге',h:'Развитие личного бренда',hs:80,pr:'от 10\u00a0000'+R,st:S+'онлайн',fl:'Валентина Сухарева <b>· консультация, мастер-группа, сопровождение</b>'},
+ 'networking':{img:'portrait-phone-call-2400.webp',w:900,x:-20,y:-130,side:'R',pw:620,
+   k:'Онлайн-нетворкинг · 15–20 человек',h:'Полезные знакомства',hs:80,dt:'<b>8 октября</b> — 10:00–12:00<br><b>10 ноября, 11 декабря</b> — 12:00–14:00',pr:'от 990'+R,st:S+'Контур.Толк',fl:'Валентина Сухарева <b>· время московское</b>'},
+ 'zapis-lichnyj-brend':{img:'portrait-mic-2400.webp',w:720,x:-40,y:-60,side:'R',
+   k:'Вебинар в записи',h:'Как развить личный бренд',hs:80,pr:'800'+R,st:S+'доступ сразу<br>после оплаты',fl:'Валентина Сухарева <b>· практический вебинар</b>'},
+ 'marketing-doveriya':{img:'portrait-terrace-2400.webp',w:900,x:-150,y:-150,side:'R',
+   k:'Вебинар в записи',h:'Маркетинг доверия',hs:84,pr:'888'+R,st:S+'доступ<br>после оплаты',fl:'Валентина Сухарева <b>· практический эфир</b>'},
+ 'pozicionirovanie':{img:'portrait-bench-2400.webp',w:720,x:-120,y:-50,side:'R',pw:700,
+   k:'Статья',h:'Как найти своё позиционирование',hs:64,st:S+'Больше подписчиков<br>и клиентов',fl:'Валентина Сухарева <b>· вопросы и пример из практики</b>'},
 };
-const c=C[new URLSearchParams(location.search).get('id')];
-const [x,y,h]=c.crop, sc=630/h, ph=document.getElementById('ph');
-ph.style.backgroundImage=`url(../../assets/img/${c.img})`;
-ph.style.backgroundSize=`${c.sw*sc}px auto`;
-ph.style.backgroundPosition=`${-x*sc}px ${-y*sc}px`;
-if(c.bg) ph.style.backgroundColor=c.bg;
-k.textContent=c.k; document.getElementById('h').innerHTML=c.h; document.getElementById('h').style.fontSize=c.hs+'px';
-s.innerHTML=c.s;
-row.innerHTML=c.pl.map(([t,m])=>`<span class="pl ${m||''}">${t}</span>`).join('');
+const q=new URLSearchParams(location.search), c=C[q.get('id')];
+document.body.classList.add(c.side);
+const ph=document.getElementById('ph'), pn=document.querySelector('.pn');
+ph.style.backgroundImage=bg.style.backgroundImage=`url(../../assets/img/${c.img})`;
+ph.style.backgroundSize=`${c.w}px auto`;
+ph.style.backgroundPosition=`${c.x}px ${c.y}px`;
+pn.style.width=(c.pw||580)+'px';
+k.innerHTML=S+c.k; const h=document.getElementById('h'); h.textContent=c.h; if(c.hs) h.style.fontSize=c.hs+'px';
+dt.innerHTML=c.dt||''; if(!c.dt) dt.remove();
+row.innerHTML=(c.pr?`<span class="pr">${c.pr}</span>`:'')+(c.st?`<span class="st">${c.st}</span>`:'');
+fl.innerHTML=c.fl; if(c.ss) document.querySelector('.st').style.fontSize=c.ss+'px';
 </script></body></html>
