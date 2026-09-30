@@ -75,3 +75,15 @@
   .fmt-card:hover .fmt-ico,.fmt-card:has(.fmt-link:focus-visible) .fmt-ico{transform:none}
   .fmt-card:hover .fmt-arrow{transform:none}
 }
+
+/* Пятая карточка — мастер-группа (30.09.2026): во всю ширину сетки, иконка слева, текст в строку, плашка справа. */
+.fmt-grid>li.fmt-wide{grid-column:1/-1}
+@media (min-width:561px){
+  .fmt-card--wide{display:grid;grid-template-columns:var(--fx-ico) minmax(0,1fr) auto;grid-template-areas:"ico t meta" "ico d meta";
+    column-gap:clamp(16px,2.4vw,40px);align-items:center;padding-top:clamp(18px,1.8vw,26px);padding-right:calc(40px + clamp(28px,3vw,48px))}
+  .fmt-card--wide .fmt-ico-wrap{grid-area:ico;align-self:start;margin:calc(-.42 * var(--fx-ico)) 0 0 -6px}
+  .fmt-card--wide .fmt-t{grid-area:t;align-self:end}
+  .fmt-card--wide .fmt-d{grid-area:d;align-self:start;margin:8px 0 0}
+  .fmt-card--wide .fmt-meta{grid-area:meta;margin:0;align-self:center}
+  .fmt-card--wide .fmt-arrow{top:50%;margin-top:-20px}
+}
