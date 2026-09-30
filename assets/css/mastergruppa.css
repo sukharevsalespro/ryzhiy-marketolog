@@ -45,9 +45,15 @@
    файла достраивает та же фотография, развёрнутая фоном и размытая; левый край самого чёткого
    фото смягчён маской, чтобы переход был без шва. */
 @media (min-aspect-ratio: 2/1){
+  /* Доработка (владелец, после первой версии): background-size:cover на очень широком боксе
+     почти не кропает по горизонтали (бокс шире фото) — почти весь кадр, включая Валентину,
+     просвечивал в размытом фоне слева «призраком». Фикс: фон больше НЕ покрывает весь бокс —
+     берём фиксированный (не зависящий от ширины бокса) зум на левую четверть кадра — окно и
+     огни города, куда человек заведомо не попадает (лицо/тело в кадре с ~55% ширины и правее) —
+     и отражаем по горизонтали, чтобы окно визуально продолжалось влево, а не смотрелось обрезком. */
   .mg-hero::before{content:"";position:absolute;inset:-6%;z-index:-2;pointer-events:none;
-    background-image:url("/assets/img/mg-evening-1600.webp?v=5");background-size:cover;background-position:62% 28%;
-    filter:blur(56px) saturate(1.05) brightness(.8)}
+    background-image:url("/assets/img/mg-evening-1600.webp?v=5");background-size:400% auto;background-position:0% 28%;
+    transform:scaleX(-1);filter:blur(56px) saturate(1.05) brightness(.8)}
   .mg-ph{left:auto;width:auto;height:100%;aspect-ratio:3/2;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%);mask-image:linear-gradient(90deg,transparent 0,#000 8%)}
 }
