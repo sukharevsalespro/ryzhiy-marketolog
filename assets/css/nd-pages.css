@@ -43,73 +43,127 @@
 @media (prefers-reduced-motion:no-preference){.nd-pay-c svg{transition:translate .2s var(--md-ease)}
   .nd-pay:is(:hover,:focus-visible) .nd-pay-c svg{translate:0 3px}}
 
-/* ---------- /networking/: первый экран «билеты на встречу» ---------- */
-.nwh{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);grid-template-rows:1fr auto;column-gap:clamp(28px,4vw,72px);
-  min-height:min(860px,calc(100svh - 64px));padding:clamp(20px,2.4vw,36px) var(--nd-pad) clamp(40px,4.4vw,64px);box-sizing:border-box;
-  font-family:'Golos Text',sans-serif;isolation:isolate}
-.nwh *{box-sizing:border-box}
-.nwh-copy{grid-column:1;grid-row:1;align-self:end;padding-bottom:clamp(28px,3.4vw,52px)}
-.nwh-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:clamp(22px,2.4vw,34px)}
-.nwh-note{margin:0;font:500 14px/1.35 'Golos Text',sans-serif;color:var(--nd-mute)}
+/* ---------- /networking/: первый экран — фото во весь экран, заголовок на фото, полоса стеклянных билетов ---------- */
+/* Фото: portrait-phone-call с дорисованным фоном до 32:9 (nw-wide-*.webp); человек в исходном кадре на 60% ширины файла.
+   object-position 50% держит человека правее центра на всех ширинах 1.3…3.6:1 (расчёт в specs/006/design-system.md). */
+.nd .page-band>.nwx{max-width:none}
+.nwx{--tix-h:124px;--ov:24px;--h1fs:clamp(60px,6.8vw,120px);position:relative;isolation:isolate;min-height:max(620px,calc(100svh - 64px));display:grid;
+  grid-template-rows:1fr auto;box-sizing:border-box;font-family:'Golos Text',sans-serif;color:#faf7f2}
+.nwx *{box-sizing:border-box}
+.nwx-ph{position:absolute;display:block;inset:0;z-index:-1;overflow:hidden;background:#0b1428}
+/* object-position подобран расчётом (spec 006, design-system.md §6): человек правее текстовой колонки, целиком в кадре */
+.nwx-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:46% 30%}
+@media (min-aspect-ratio:16/9){.nwx-ph img{object-position:40% 30%}}
+@media (min-aspect-ratio:2/1){.nwx-ph img{object-position:40% 30%}}
+@media (min-aspect-ratio:3/1){.nwx-ph img{object-position:30% 75%}}
+/* затемнение слева под текст + низ фото уходит в фон страницы (крем / графит), чтобы билеты стояли на «полу» */
+.nwx-ph::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(8,12,26,.62) 0%,rgba(8,12,26,.38) 32%,rgba(8,12,26,0) 58%),
+    linear-gradient(180deg,rgba(8,12,26,.35) 0%,rgba(8,12,26,0) 22%)}
+.nwx-in{grid-row:1;width:100%;max-width:var(--page-max,1320px);margin-inline:auto;padding:clamp(12px,2vw,28px) var(--nd-pad) clamp(24px,3vw,44px);
+  display:flex;flex-direction:column;justify-content:center}
+.nwx-in>*{align-self:flex-start}
+.nwx .nd-lead b{white-space:nowrap}
+.nwx .nd-back{color:#faf7f2;text-decoration-color:rgba(250,247,242,.45);align-self:flex-start}
+.nwx .nd-kick{color:rgba(250,247,242,.82)}
+.nwx .nd-h1{color:#faf7f2;font-size:var(--h1fs);line-height:.86;max-width:6.4em;text-wrap:initial}
+.nwx .nd-lead{color:rgba(250,247,242,.92);max-width:25em}
+.nwx .nd-lead b{color:#fff}
+.nwx-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:clamp(22px,2.6vw,36px)}
+.nwx-note{margin:0;font:500 14px/1.35 'Golos Text',sans-serif;color:rgba(250,247,242,.8)}
+/* кнопка на фото: оранжевая в обеих темах (на тёмном фото чёрная плашка теряется) */
+.nwx .nd-pay{--plate:#faf7f2;background:#fe6c1f;color:#111}
+.nwx .nd-pay-c{background:#111;color:#faf7f2}
+.nwx .nd-pay:focus-visible{outline-color:#faf7f2}
+/* билеты: стеклянная полоса на фото под текстовой колонкой (60% контейнера) — не заходит на человека:
+   при object-position 32%/22% человек на всех ширинах ≥1024 начинается правее 62% контейнера (замер zones.json) */
+.nwx-tixband{grid-row:2;width:100%;max-width:var(--page-max,1320px);margin-inline:auto;padding:0 var(--nd-pad) clamp(28px,3.4vw,48px)}
+.nwx .nd-tix{width:calc(var(--h1fs) * 6.4);grid-column:auto;grid-row:auto;gap:10px;grid-template-columns:1.15fr 1fr 1fr;grid-template-rows:auto auto}  /* ширина = ширине «ЗНАКОМСТВА» */
+/* в первом экране билет вертикальный: число и месяц сверху, корешок с днём недели и временем снизу; перфорация общая (subgrid) */
+.nwx .nd-tix li{display:grid;grid-row:span 2;grid-template-rows:subgrid}
+.nwx .nd-tix a{grid-row:span 2;grid-template-columns:1fr;grid-template-rows:subgrid;min-height:0}
+.nwx .nd-t-main{flex-direction:column;align-items:flex-start;gap:4px;padding:14px 14px 10px;border-right:0;border-bottom:1.5px dashed color-mix(in srgb,var(--nd-ink) 40%,transparent)}
+.nwx .nd-tix .is-next .nd-t-main{border-bottom-color:rgba(17,17,17,.5)}
+.nwx .nd-t-day{font-size:calc(var(--h1fs) * .56)}
+.nwx .nd-t-mon{font-size:15px;gap:8px}
+.nwx .nd-t-stub{padding:10px 14px 12px;font-size:13.5px;gap:2px}
+.nwx .nd-t-stub b{white-space:nowrap}
+/* светлая тема: стекло плотнее — на тёмном фото полупрозрачный крем выглядит серым */
+.nwx{--nd-glass:rgba(250,247,242,.88)}
+@media (prefers-color-scheme:dark){.nwx{--nd-glass:rgba(35,37,41,.72)}}
+@media (prefers-reduced-transparency:reduce){.nwx{--nd-glass:var(--nd-bg)}}
 
-/* фото на оранжевой «плите», сдвинутой вправо-вниз: тот же жест, что у кнопок --md-off, только крупно */
-.nwh-media{grid-column:2;grid-row:1 / 3;position:relative;margin:0 18px 18px 0;min-height:420px}
-.nwh-media::before{content:"";position:absolute;inset:18px -18px -18px 18px;z-index:-1;background:var(--nd-glow)}
-.nwh-media img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+@media (prefers-reduced-motion:no-preference){
+  .nwx-in>*{animation:nd-rise .6s var(--md-ease) both}
+  .nwx-in>:nth-child(2){animation-delay:.06s}.nwx-in>:nth-child(3){animation-delay:.12s}
+  .nwx-in>:nth-child(4){animation-delay:.18s}.nwx-in>:nth-child(5){animation-delay:.24s}
+  .nwx-ph img{animation:nwx-in 1.2s var(--md-ease) both}
+}
+@keyframes nwx-in{from{opacity:.001;scale:1.04}to{opacity:1;scale:1}}
 
-/* билеты: стеклянные, крайний заходит на фото; корешок отделён пунктиром-перфорацией */
-.nd-tix{--cut:60%;grid-column:1 / 3;grid-row:2;position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
-  width:min(100%,960px);margin:0;padding:0;list-style:none}
+/* билеты (общий компонент) */
+.nd-tix{--cut:60%;position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none}
 .nd-tix li{display:flex}
-.nd-tix a{flex:1;position:relative;display:grid;grid-template-columns:var(--cut) 1fr;min-height:124px;border:1.5px solid var(--nd-line);border-radius:4px;
-  background:var(--nd-glass);color:var(--nd-ink);text-decoration:none;}
+.nd-tix a{flex:1;position:relative;display:grid;grid-template-columns:var(--cut) 1fr;min-height:124px;border:1px solid var(--nd-edge);border-radius:4px;
+  background:var(--nd-glass);color:var(--nd-ink);text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 18px 40px rgba(8,12,26,.18)}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .nd-tix a{-webkit-backdrop-filter:blur(16px) saturate(1.1);backdrop-filter:blur(16px) saturate(1.1)}}
-.nd-t-main{display:flex;align-items:flex-end;gap:12px;padding:18px 14px 16px 20px;border-right:1.5px dashed color-mix(in srgb,var(--nd-ink) 45%,transparent)}
+  .nd-tix a{-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}
+.nd-t-main{display:flex;align-items:flex-end;gap:12px;padding:18px 14px 16px 20px;border-right:1.5px dashed color-mix(in srgb,var(--nd-ink) 40%,transparent)}
 .nd-t-day{font:900 clamp(56px,5vw,76px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;font-variant-numeric:tabular-nums}
 .nd-t-mon{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding-bottom:2px;font:700 17px/1.1 'Golos Text',sans-serif}
 .nd-t-stub{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:14px 12px 14px 16px;font:500 14px/1.3 'Golos Text',sans-serif}
 .nd-t-stub b{font-weight:700;font-variant-numeric:tabular-nums}
 .nd-t-tag{padding:3px 7px;border-radius:3px;background:var(--nd-ink);color:var(--nd-bg);
   font:700 11px/1.2 'Golos Text',sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-.nd-tix .is-next a{background:var(--nd-or);border-color:#111;color:#111}
-.nd-tix .is-next .nd-t-main{border-right-color:rgba(17,17,17,.55)}
+.nd-tix .is-next a{background:#fe6c1f;border-color:#fe6c1f;color:#111}
+.nd-tix .is-next .nd-t-main{border-right-color:rgba(17,17,17,.5)}
 .nd-tix .is-next .nd-t-tag{background:#111;color:#faf7f2}
 @media (prefers-reduced-motion:no-preference){
   .nd-tix a{transition:translate var(--md-t-state) var(--md-ease),border-color .2s}
   .nd-tix a:is(:hover,:focus-visible){translate:0 -4px;border-color:var(--nd-or)}
   .nd-tix .is-next a:is(:hover,:focus-visible){border-color:#111}
   .nd-tix a:active{translate:0 -1px;transition-duration:var(--md-t-tap)}
-  .nwh-copy>*{animation:nd-rise .6s var(--md-ease) both}
-  .nwh-copy>:nth-child(2){animation-delay:.06s}.nwh-copy>:nth-child(3){animation-delay:.12s}
-  .nwh-copy>:nth-child(4){animation-delay:.18s}.nwh-copy>:nth-child(5){animation-delay:.24s}
   .nd-tix li{animation:nd-rise .55s var(--md-ease) both;animation-delay:calc(.3s + var(--i,0) * 80ms)}
 }
 @keyframes nd-rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
 
-/* ≤1000: столбик — текст, билеты, кнопка, фото. Выбор даты важнее портрета, поэтому билеты в первом экране */
-@media (max-width:1000px){
-  .nwh{grid-template-columns:1fr;grid-template-rows:none;min-height:0;padding-top:12px}
-  .nwh-copy,.nd-tix,.nwh-media{grid-column:1;grid-row:auto}
-  .nwh-copy{padding-bottom:0}
-  .nd-tix{order:2;margin-top:22px;width:100%}
-  .nwh-media{order:4;margin:34px 18px 18px 0;min-height:0;aspect-ratio:4 / 5;max-height:640px}
-}
-@media (max-width:700px){
+/* ≤700: фото-портрет сверху (без пояса и руки в кармане), низ фото уходит в фон, заголовок на этом переходе,
+   дальше билеты и кнопка. Цвет текста — по теме, потому что под ним уже фон страницы, а не фото. */
+@media (max-width:1100px),(max-aspect-ratio:5/4){
+  .nwx .nd-tix{width:100%}
+  .nwx .nd-tix a{min-height:0}
+  .nwx{display:block;min-height:0;color:var(--nd-ink)}
+  .nwx-ph{position:relative;inset:auto;height:min(118vw,66svh);z-index:0}
+  .nwx-ph img{object-position:50% 16%}
+  .nwx-ph::after{background:linear-gradient(180deg,rgba(8,12,26,.3) 0%,rgba(8,12,26,0) 20%),
+    linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 18%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 58%)}
+  .nwx-in{position:relative;z-index:1;margin-top:-132px;padding:0 var(--nd-pad) 0}
+  .nwx .nd-back{position:absolute;top:calc(-1 * min(118vw,66svh) + 132px + 8px);left:var(--nd-pad);color:#faf7f2}
+  .nwx .nd-kick{color:var(--nd-mute)}
+  .nwx .nd-h1{color:var(--nd-ink);font-size:clamp(46px,14.6vw,64px)}
+  .nwx .nd-lead{color:var(--nd-ink);font-size:16px;margin-top:12px}
+  .nwx .nd-lead b{color:inherit}
+  .nwx-note{color:var(--nd-mute)}
+  .nwx .nd-pay{width:100%;min-height:54px;font-size:16px}.nwx .nd-pay-t{flex:1;justify-content:center;padding-right:52px}
+  .nwx .nd-pay:focus-visible{outline-color:var(--nd-ink)}
+  .nwx-tixband{padding:20px var(--nd-pad) 28px}
   .nd-kick{font-size:11px;letter-spacing:.1em;margin-bottom:10px}
-  .nd-h1{font-size:clamp(44px,13.4vw,60px)}
-  .nd-lead{font-size:16px;margin-top:12px}
   .nd-tix{--cut:64%;gap:8px;grid-template-columns:1.2fr 1fr 1fr}
   /* перфорация на одной высоте у всех трёх билетов: строки корешка общие (subgrid) */
   .nd-tix{grid-template-rows:auto auto}
   .nd-tix li{display:grid;grid-row:span 2;grid-template-rows:subgrid}
   .nd-tix a{grid-row:span 2;grid-template-columns:1fr;grid-template-rows:subgrid;min-height:0}
-  .nd-t-main{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 10px 8px 12px;border-right:0;border-bottom:1.5px dashed color-mix(in srgb,var(--nd-ink) 45%,transparent)}
-  .nd-tix .is-next .nd-t-main{border-bottom-color:rgba(17,17,17,.55)}
-  .nd-t-day{font-size:44px}.nd-t-mon{font-size:14px;gap:6px}
-  .nd-t-stub{padding:8px 10px 10px 12px;font-size:12.5px;gap:2px}
+  .nwx .nd-t-main,.nd-t-main{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 10px 8px 12px;border-right:0;border-bottom:1.5px dashed color-mix(in srgb,var(--nd-ink) 40%,transparent)}
+  .nd-tix .is-next .nd-t-main{border-bottom-color:rgba(17,17,17,.5)}
+  .nwx .nd-t-day,.nd-t-day{font-size:44px}.nd-t-mon{font-size:14px;gap:6px}
+  .nwx .nd-t-stub,.nd-t-stub{padding:8px 10px 10px 12px;font-size:12.5px;gap:2px}
   .nd-t-tag{font-size:9.5px;padding:2px 5px;letter-spacing:.04em}
-  .nd-pay{width:100%;min-height:54px;font-size:16px}.nd-pay-t{flex:1;justify-content:center;padding-right:52px}
-  .nwh-media{aspect-ratio:4 / 5;margin:28px 12px 12px 0}
-  .nwh-media::before{inset:12px -12px -12px 12px}
 }
+/* планшеты (701–1100 или портрет): фото-портрет не шире 560px по центру — иначе кадр режется по высоте и заголовок ложится на лицо */
+@media (min-width:701px) and (max-width:1100px),(min-width:701px) and (max-aspect-ratio:5/4){
+  .nwx-ph{width:min(100%,560px);margin-inline:auto;height:min(66svh,640px)}
+  .nwx .nd-back{top:calc(-1 * min(66svh,640px) + 140px)}
+}
+/* широкие мониторы: текстовая колонка шире сетки шапки, чтобы текст и человек стояли группой по центру экрана */
+@media (min-aspect-ratio:2/1) and (min-width:1101px){.nwx-in,.nwx-tixband{max-width:1600px}}
+@media (min-aspect-ratio:3/1) and (min-width:1101px){.nwx-in,.nwx-tixband{max-width:1700px}}
