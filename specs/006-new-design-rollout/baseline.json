@@ -1,0 +1,1112 @@
+{
+ "index.html": {
+  "title": "Рыжий маркетолог — наставник по личному бренду Валентина Сухарева",
+  "description": "Валентина Сухарева, «Рыжий маркетолог» — наставник по личному бренду и продвижению экспертов. Работает онлайн по всей России, база — Сочи. Опыт 20+ лет.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/",
+  "lang": "ru",
+  "h1": [
+   "Рыжий * маркетолог"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/",
+   "og:title": "Рыжий маркетолог — Валентина Сухарева",
+   "og:description": "Наставник по личному бренду и продвижению экспертов. Работает онлайн по всей России, база — Сочи. Опыт в маркетинге более 20 лет.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Рыжий маркетолог — Валентина Сухарева",
+   "twitter:description": "Наставник по личному бренду и продвижению экспертов. Работает онлайн по всей России, база — Сочи. Опыт в маркетинге более 20 лет.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "twitter:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "ldTypes": [
+   "AdministrativeArea",
+   "Answer",
+   "City",
+   "Country",
+   "FAQPage",
+   "Person",
+   "PostalAddress",
+   "ProfessionalService",
+   "PropertyValue",
+   "Question",
+   "WebPage",
+   "WebSite"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {
+   "https://payform.ru/e0cjdjM": 1
+  },
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 4,
+   "https://t.me/valentina_promarketing": 1,
+   "https://t.me/valentina_promarketing?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D0%B2%D0%B0%D1%82%D1%8C%20%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D0%B1%D1%80%D0%B5%D0%BD%D0%B4%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 2
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D0%B2%D0%B0%D1%82%D1%8C%20%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D0%B1%D1%80%D0%B5%D0%BD%D0%B4%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 1
+  },
+  "msgText": [
+   "Здравствуйте! Хочу развивать личный бренд, пишу с сайта"
+  ],
+  "goals": {
+   "home_faq_msg": 1,
+   "home_cta_msg": 2
+  },
+  "metrika": true,
+  "prices": [
+   "10 000 ₽",
+   "12 500 ₽",
+   "30 000 ₽",
+   "5 000 ₽",
+   "800 ₽",
+   "990 ₽"
+  ],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/assets/img/reviews/review-01-olga-psiholog.jpg",
+   "/assets/img/reviews/review-02-tanya-mastermaind.jpg",
+   "/assets/img/reviews/review-03-larisa-marafon.jpg",
+   "/assets/img/reviews/review-05-nadezhda-igra.jpg",
+   "/assets/img/reviews/review-06-prosecco-design.jpg",
+   "/assets/img/reviews/review-07-obuchenie-raspakovka.jpg",
+   "/assets/img/reviews/review-08-obuchenie-produkt.jpg",
+   "/assets/img/reviews/review-10-konsultaciya-pitanie.jpg",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/legal/soglasie/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/otzyvy/",
+   "/pozicionirovanie/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "master-gruppa-lichnyj-brend/index.html": {
+  "title": "Мастер-группа по личному бренду онлайн | Рыжий маркетолог",
+  "description": "Мастер-группа по личному бренду: 4 недели, до 5 человек, старт 5 октября. Позиционирование, смыслы, контент без выгорания. Онлайн по всей России.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/master-gruppa-lichnyj-brend/",
+  "lang": "ru",
+  "h1": [
+   "* Мастер-группа по личному бренду : Личный бренд за 4 недели"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/master-gruppa-lichnyj-brend/",
+   "og:title": "Личный бренд за 4 недели — мастер-группа",
+   "og:description": "Мастер-группа до 5 человек, старт 5 октября. Позиционирование, смыслы и контент без выгорания. Онлайн, 12 500 ₽, можно оплатить долями.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-master-gruppa.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-master-gruppa.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Личный бренд за 4 недели. Мастер-группа до 5 человек, старт 5 октября, 12 500 ₽. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Личный бренд за 4 недели — мастер-группа",
+   "twitter:description": "Мастер-группа до 5 человек, старт 5 октября. Позиционирование, смыслы и контент без выгорания. Онлайн, 12 500 ₽, можно оплатить долями.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-master-gruppa.jpg?v=20260930",
+   "twitter:image:alt": "Личный бренд за 4 недели. Мастер-группа до 5 человек, старт 5 октября, 12 500 ₽. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "Answer",
+   "BreadcrumbList",
+   "Course",
+   "CourseInstance",
+   "EducationEvent",
+   "FAQPage",
+   "ListItem",
+   "Offer",
+   "Question",
+   "VirtualLocation",
+   "WebPage"
+  ],
+  "ldPrices": [
+   "12500 RUB"
+  ],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3,
+   "https://t.me/valentina_promarketing": 1,
+   "https://t.me/valentina_promarketing?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%91%D0%A0%D0%95%D0%9D%D0%94.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B2%20%D0%BC%D0%B0%D1%81%D1%82%D0%B5%D1%80-%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%83%20%D0%BF%D0%BE%20%D0%BB%D0%B8%D1%87%D0%BD%D0%BE%D0%BC%D1%83%20%D0%B1%D1%80%D0%B5%D0%BD%D0%B4%D1%83%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 4
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%91%D0%A0%D0%95%D0%9D%D0%94.%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B2%20%D0%BC%D0%B0%D1%81%D1%82%D0%B5%D1%80-%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%83%20%D0%BF%D0%BE%20%D0%BB%D0%B8%D1%87%D0%BD%D0%BE%D0%BC%D1%83%20%D0%B1%D1%80%D0%B5%D0%BD%D0%B4%D1%83%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 2
+  },
+  "msgText": [
+   "Здравствуйте! БРЕНД. Хочу в мастер-группу по личному бренду, пишу с сайта"
+  ],
+  "goals": {
+   "mastergruppa_msg": 6
+  },
+  "metrika": true,
+  "prices": [
+   "12 500 ₽",
+   "3 125 ₽"
+  ],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/assets/img/reviews/review-01-olga-psiholog.jpg",
+   "/assets/img/reviews/review-02-tanya-mastermaind.jpg",
+   "/assets/img/reviews/review-06-prosecco-design.jpg",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/otzyvy/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "networking/index.html": {
+  "title": "Онлайн-нетворкинг «Полезные знакомства» | Рыжий маркетолог",
+  "description": "Онлайн-нетворкинг Валентины Сухаревой: 15–20 участников из разных ниш, регионов и даже стран. Ближайшие даты: 8 октября (10:00–12:00), 10 ноября и 11 декабря (12:00–14:00 МСК), Контур.Толк. Тарифы от 990 ₽.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/networking/",
+  "lang": "ru",
+  "h1": [
+   "ПОЛЕЗНЫЕ ЗНАКОМСТВА"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/networking/",
+   "og:title": "Онлайн-нетворкинг «Полезные знакомства»",
+   "og:description": "15–20 участников из разных ниш и регионов. 8 октября 10:00–12:00, 10 ноября и 11 декабря 12:00–14:00 МСК, Контур.Толк. Тарифы от 990 ₽.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-networking.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-networking.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Онлайн-нетворкинг «Полезные знакомства»: 8 октября, 10 ноября, 11 декабря, от 990 ₽. Валентина Сухарева говорит по телефону."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Онлайн-нетворкинг «Полезные знакомства»",
+   "twitter:description": "15–20 участников из разных ниш и регионов. 8 октября 10:00–12:00, 10 ноября и 11 декабря 12:00–14:00 МСК, Контур.Толк. Тарифы от 990 ₽.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-networking.jpg?v=20260930",
+   "twitter:image:alt": "Онлайн-нетворкинг «Полезные знакомства»: 8 октября, 10 ноября, 11 декабря, от 990 ₽. Валентина Сухарева говорит по телефону."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "Event",
+   "ListItem",
+   "Offer",
+   "VirtualLocation"
+  ],
+  "ldPrices": [
+   "1500 RUB",
+   "2500 RUB",
+   "3500 RUB",
+   "5500 RUB",
+   "990 RUB"
+  ],
+  "ldEvents": [
+   "Онлайн-нетворкинг «Полезные знакомства», 10 ноября @ 2026-11-10T12:00:00+03:00",
+   "Онлайн-нетворкинг «Полезные знакомства», 11 декабря @ 2026-12-11T12:00:00+03:00",
+   "Онлайн-нетворкинг «Полезные знакомства», 8 октября @ 2026-10-08T10:00:00+03:00"
+  ],
+  "ldErrors": [],
+  "payLinks": {
+   "https://payform.ru/6ccEnWO/": 1
+  },
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3,
+   "https://t.me/valentina_promarketing?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F%2C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB%D0%A1%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%C2%BB": 1,
+   "https://t.me/valentina_promarketing?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F%2C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB%D0%A1%D0%BF%D0%B8%D0%BA%D0%B5%D1%80%C2%BB": 1,
+   "https://t.me/valentina_promarketing?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F%2C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB%D0%9F%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0%20%D1%81%20%D0%BD%D1%83%D0%BB%D1%8F%C2%BB": 1,
+   "https://t.me/valentina_promarketing?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F": 1
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F%2C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB%D0%A1%D0%BF%D0%B8%D0%BA%D0%B5%D1%80%C2%BB": 1,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F%2C%20%D1%82%D0%B0%D1%80%D0%B8%D1%84%20%C2%AB%D0%9F%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0%20%D1%81%20%D0%BD%D1%83%D0%BB%D1%8F%C2%BB": 1,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D0%BD%D0%B5%D1%82%D0%B2%D0%BE%D1%80%D0%BA%D0%B8%D0%BD%D0%B3%208%20%D0%BE%D0%BA%D1%82%D1%8F%D0%B1%D1%80%D1%8F": 1
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [
+   "1 500 ₽",
+   "2 500 ₽",
+   "3 500 ₽",
+   "5 500 ₽",
+   "990 ₽"
+  ],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "raspakovka-lichnosti/index.html": {
+  "title": "Распаковка личности эксперта | Рыжий маркетолог",
+  "description": "Распаковка личности для эксперта: найти уникальность и собрать позиционирование. Игра «Путь гениальности». Валентина Сухарева, 20+ лет в маркетинге.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/raspakovka-lichnosti/",
+  "lang": "ru",
+  "h1": [
+   "РАСПАКОВКА ЛИЧНОСТИ"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/raspakovka-lichnosti/",
+   "og:title": "Распаковка личности эксперта",
+   "og:description": "Игра «Путь гениальности»: за 2–4 часа находим вашу уникальность и собираем позиционирование в одно предложение. В группе 5 000 ₽, лично 10 000 ₽.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-raspakovka.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-raspakovka.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Распаковка личности. Игра «Путь гениальности», в группе 5 000 ₽, лично 10 000 ₽. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Распаковка личности эксперта",
+   "twitter:description": "Игра «Путь гениальности»: за 2–4 часа находим вашу уникальность и собираем позиционирование в одно предложение. В группе 5 000 ₽, лично 10 000 ₽.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-raspakovka.jpg?v=20260930",
+   "twitter:image:alt": "Распаковка личности. Игра «Путь гениальности», в группе 5 000 ₽, лично 10 000 ₽. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "Answer",
+   "BreadcrumbList",
+   "Country",
+   "FAQPage",
+   "ListItem",
+   "Offer",
+   "Question",
+   "Service",
+   "ServiceChannel",
+   "WebPage"
+  ],
+  "ldPrices": [
+   "10000 RUB",
+   "5000 RUB"
+  ],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3,
+   "https://t.me/valentina_promarketing?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%BA%D0%BE%D0%B2%D0%BA%D1%83%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 2
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%20%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%BA%D0%BE%D0%B2%D0%BA%D1%83%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 1
+  },
+  "msgText": [
+   "Здравствуйте! Хочу на распаковку, пишу с сайта"
+  ],
+  "goals": {
+   "raspakovka_msg": 3
+  },
+  "metrika": true,
+  "prices": [
+   "10 000 ₽",
+   "5 000 ₽"
+  ],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/assets/img/reviews/review-01-olga-psiholog.jpg",
+   "/assets/img/reviews/review-05-nadezhda-igra.jpg",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/otzyvy/",
+   "/pozicionirovanie/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "razvitie-lichnogo-brenda/index.html": {
+  "title": "Развитие личного бренда эксперта | Рыжий маркетолог",
+  "description": "Развитие личного бренда с наставником: смыслы, продукт, контент и путь клиента. Консультация, мастер-группа, сопровождение. Онлайн по всей России.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/razvitie-lichnogo-brenda/",
+  "lang": "ru",
+  "h1": [
+   "РАЗВИТИЕ ЛИЧНОГО БРЕНДА"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/razvitie-lichnogo-brenda/",
+   "og:title": "Развитие личного бренда с наставником",
+   "og:description": "Смыслы, продукт, контент и путь клиента. Консультация 10 000 ₽, мастер-группа 12 500 ₽, сопровождение 30 000 ₽. Онлайн по всей России.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-razvitie.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-razvitie.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Развитие личного бренда с наставником, онлайн, от 10 000 ₽. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Развитие личного бренда с наставником",
+   "twitter:description": "Смыслы, продукт, контент и путь клиента. Консультация 10 000 ₽, мастер-группа 12 500 ₽, сопровождение 30 000 ₽. Онлайн по всей России.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-razvitie.jpg?v=20260930",
+   "twitter:image:alt": "Развитие личного бренда с наставником, онлайн, от 10 000 ₽. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "Answer",
+   "BreadcrumbList",
+   "City",
+   "Country",
+   "FAQPage",
+   "ListItem",
+   "Offer",
+   "Question",
+   "Service",
+   "ServiceChannel",
+   "WebPage"
+  ],
+  "ldPrices": [
+   "10000 RUB",
+   "12500 RUB",
+   "30000 RUB"
+  ],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3,
+   "https://t.me/valentina_promarketing?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D0%B2%D0%B0%D1%82%D1%8C%20%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D0%B1%D1%80%D0%B5%D0%BD%D0%B4%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 5
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D0%B2%D0%B0%D1%82%D1%8C%20%D0%BB%D0%B8%D1%87%D0%BD%D1%8B%D0%B9%20%D0%B1%D1%80%D0%B5%D0%BD%D0%B4%2C%20%D0%BF%D0%B8%D1%88%D1%83%20%D1%81%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0": 1
+  },
+  "msgText": [
+   "Здравствуйте! Хочу развивать личный бренд, пишу с сайта"
+  ],
+  "goals": {
+   "razvitie_msg": 6
+  },
+  "metrika": true,
+  "prices": [
+   "10 000 ₽",
+   "12 500 ₽",
+   "30 000 ₽"
+  ],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/assets/img/reviews/review-02-tanya-mastermaind.jpg",
+   "/assets/img/reviews/review-03-larisa-marafon.jpg",
+   "/assets/img/reviews/review-04-larisa-zapusk.jpg",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/otzyvy/",
+   "/pozicionirovanie/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "zapis-lichnyj-brend/index.html": {
+  "title": "Личный бренд — вебинар в записи | Рыжий маркетолог",
+  "description": "Практический вебинар Валентины Сухаревой: позиционирование, маркетинг доверия и контент без выгорания. Вебинар в записи, доступ сразу после оплаты, 800 ₽.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/zapis-lichnyj-brend/",
+  "lang": "ru",
+  "h1": [
+   "КАК РАЗВИТЬ И УСОВЕРШЕНСТВОВАТЬ ВАШ ЛИЧНЫЙ БРЕНД"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/zapis-lichnyj-brend/",
+   "og:title": "Как развить личный бренд — вебинар в записи",
+   "og:description": "Практический вебинар Валентины Сухаревой: позиционирование, маркетинг доверия и контент без выгорания. Доступ сразу после оплаты, 800 ₽.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-zapis-lichnyj-brend.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-zapis-lichnyj-brend.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Как развить личный бренд. Вебинар в записи, доступ сразу, 800 ₽. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Как развить личный бренд — вебинар в записи",
+   "twitter:description": "Практический вебинар Валентины Сухаревой: позиционирование, маркетинг доверия и контент без выгорания. Доступ сразу после оплаты, 800 ₽.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-zapis-lichnyj-brend.jpg?v=20260930",
+   "twitter:image:alt": "Как развить личный бренд. Вебинар в записи, доступ сразу, 800 ₽. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "CreativeWork",
+   "ListItem",
+   "Person",
+   "ProfessionalService"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {
+   "https://payform.ru/g9cC0N3/": 3
+  },
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [
+   "800 ₽"
+  ],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/pozicionirovanie/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "zapis-marketing-doveriya/index.html": {
+  "title": "Маркетинг доверия — вебинар в записи | Рыжий маркетолог",
+  "description": "Запись практического эфира «Маркетинг доверия» Валентины Сухаревой: почему у вас не покупают, 9 факторов доверия, деньги в базе и нейросети в контенте. Доступ после оплаты.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/zapis-marketing-doveriya/",
+  "lang": "ru",
+  "h1": [
+   "Маркетинг Доверия: как привлекать клиентов в новых реалиях"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/zapis-marketing-doveriya/",
+   "og:title": "Маркетинг доверия — вебинар в записи",
+   "og:description": "Почему у вас не покупают, 9 факторов доверия, деньги в вашей базе и нейросети в контенте. Запись эфира Валентины Сухаревой, доступ после оплаты, 888 ₽.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-marketing-doveriya.jpg?v=20260930b",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-marketing-doveriya.jpg?v=20260930b",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Маркетинг доверия. Вебинар в записи, доступ после оплаты, 888 ₽. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Маркетинг доверия — вебинар в записи",
+   "twitter:description": "Почему у вас не покупают, 9 факторов доверия, деньги в вашей базе и нейросети в контенте. Запись эфира Валентины Сухаревой, доступ после оплаты, 888 ₽.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-marketing-doveriya.jpg?v=20260930b",
+   "twitter:image:alt": "Маркетинг доверия. Вебинар в записи, доступ после оплаты, 888 ₽. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "CreativeWork",
+   "ListItem",
+   "Person",
+   "ProfessionalService"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {
+   "https://payform.ru/e0cjdjM": 2
+  },
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/assets/img/poster-doveriya-1200.webp",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/pozicionirovanie/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "pozicionirovanie/index.html": {
+  "title": "Как найти своё позиционирование — Рыжий маркетолог",
+  "description": "Больше подписчиков и клиентов: статья Валентины Сухаревой о позиционировании, уникальности и отличиях от конкурентов. Вопросы и пример из практики.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/pozicionirovanie/",
+  "lang": "ru",
+  "h1": [
+   "Как найти своё позиционирование"
+  ],
+  "og": {
+   "og:type": "article",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/pozicionirovanie/",
+   "og:title": "Как найти своё позиционирование",
+   "og:description": "Больше подписчиков и клиентов: статья Валентины Сухаревой о позиционировании, уникальности и отличиях от конкурентов. Вопросы и пример из практики.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-pozicionirovanie.jpg",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-pozicionirovanie.jpg",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Как найти своё позиционирование. Больше подписчиков и клиентов. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Как найти своё позиционирование",
+   "twitter:description": "Больше подписчиков и клиентов: статья Валентины Сухаревой о позиционировании, уникальности и отличиях от конкурентов. Вопросы и пример из практики.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-pozicionirovanie.jpg",
+   "twitter:image:alt": "Как найти своё позиционирование. Больше подписчиков и клиентов. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "Article",
+   "BreadcrumbList",
+   "ListItem",
+   "Person",
+   "ProfessionalService",
+   "WebPage"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 4
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/#zayavka",
+   "/assets/img/pozicionirovanie/definition.jpg",
+   "/assets/img/pozicionirovanie/example.jpg",
+   "/assets/img/pozicionirovanie/questions.jpg",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "otzyvy/index.html": {
+  "title": "Отзывы о работе с Валентиной Сухаревой — Рыжий маркетолог",
+  "description": "15 отзывов клиенток Валентины Сухаревой: мастермайнды, обучение, консультации, игра «Путь гениальности». Оригиналы переписок без правок.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/otzyvy/",
+  "lang": "ru",
+  "h1": [
+   "Своими словами"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/otzyvy/",
+   "og:title": "Отзывы о работе с Валентиной Сухаревой",
+   "og:description": "15 живых переписок с клиентками: мастермайнды, обучение, консультации, игра «Путь гениальности». Оригинал — под каждым отзывом, без правок.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-otzyvy.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-otzyvy.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Отзывы своими словами: 15 переписок с клиентками. Валентина Сухарева."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Отзывы о работе с Валентиной Сухаревой",
+   "twitter:description": "15 живых переписок с клиентками: мастермайнды, обучение, консультации, игра «Путь гениальности». Оригинал — под каждым отзывом, без правок.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-otzyvy.jpg?v=20260930",
+   "twitter:image:alt": "Отзывы своими словами: 15 переписок с клиентками. Валентина Сухарева."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "ListItem",
+   "Person",
+   "Review",
+   "WebPage"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/#zayavka",
+   "/assets/img/reviews/review-01-olga-psiholog.jpg",
+   "/assets/img/reviews/review-02-tanya-mastermaind.jpg",
+   "/assets/img/reviews/review-03-larisa-marafon.jpg",
+   "/assets/img/reviews/review-04-larisa-zapusk.jpg",
+   "/assets/img/reviews/review-05-nadezhda-igra.jpg",
+   "/assets/img/reviews/review-06-prosecco-design.jpg",
+   "/assets/img/reviews/review-07-obuchenie-raspakovka.jpg",
+   "/assets/img/reviews/review-08-obuchenie-produkt.jpg",
+   "/assets/img/reviews/review-09-praktikum.jpg",
+   "/assets/img/reviews/review-10-konsultaciya-pitanie.jpg",
+   "/assets/img/reviews/review-11-uverennost.jpg",
+   "/assets/img/reviews/review-12-razbor-zaprosa.jpg",
+   "/assets/img/reviews/review-13-gruppa-polza.jpg",
+   "/assets/img/reviews/review-14-gruppa-znakomstvo.jpg",
+   "/assets/img/reviews/review-15-nahodka.jpg",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "rekvizity/index.html": {
+  "title": "Реквизиты — Рыжий маркетолог",
+  "description": "Реквизиты ИП Сухаревой Валентины Александровны: ИНН 421204839449, ОГРНИП 325420500045757.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/rekvizity/",
+  "lang": "ru",
+  "h1": [
+   "РЕКВИЗИТЫ"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/rekvizity/",
+   "og:title": "Реквизиты — Рыжий маркетолог",
+   "og:description": "Реквизиты ИП Сухаревой Валентины Александровны: ИНН 421204839449, ОГРНИП 325420500045757.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Реквизиты — Рыжий маркетолог",
+   "twitter:description": "Реквизиты ИП Сухаревой Валентины Александровны: ИНН 421204839449, ОГРНИП 325420500045757.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "twitter:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "ListItem"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "legal/oferta/index.html": {
+  "title": "Публичная оферта — Рыжий маркетолог",
+  "description": "Публичная оферта ИП Сухаревой Валентины Александровны. Полный текст действующей редакции от 11 сентября 2026 года.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/legal/oferta/",
+  "lang": "ru",
+  "h1": [
+   "ПУБЛИЧНАЯ ОФЕРТА"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/legal/oferta/",
+   "og:title": "Публичная оферта — Рыжий маркетолог",
+   "og:description": "Публичная оферта ИП Сухаревой Валентины Александровны. Полный текст действующей редакции от 11 сентября 2026 года.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Публичная оферта — Рыжий маркетолог",
+   "twitter:description": "Публичная оферта ИП Сухаревой Валентины Александровны. Полный текст действующей редакции от 11 сентября 2026 года.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "twitter:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "ListItem"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "legal/privacy/index.html": {
+  "title": "Политика обработки персональных данных — Рыжий маркетолог",
+  "description": "Политика в отношении обработки персональных данных сайта Рыжий маркетолог. Оператор — ИП Сухарева Валентина Александровна.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/legal/privacy/",
+  "lang": "ru",
+  "h1": [
+   "ПОЛИТИКА ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/legal/privacy/",
+   "og:title": "Политика обработки персональных данных",
+   "og:description": "Политика в отношении обработки персональных данных сайта Рыжий маркетолог. Оператор — ИП Сухарева Валентина Александровна.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Политика обработки персональных данных",
+   "twitter:description": "Политика в отношении обработки персональных данных сайта Рыжий маркетолог. Оператор — ИП Сухарева Валентина Александровна.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "twitter:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "ListItem"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3,
+   "https://t.me/valentina_promarketing": 1
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM": 1
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "legal/soglasie/index.html": {
+  "title": "Согласие на обработку персональных данных — Рыжий маркетолог",
+  "description": "Согласие на обработку персональных данных при отправке обращения на сайте Рыжий маркетолог.",
+  "robots": "",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/legal/soglasie/",
+  "lang": "ru",
+  "h1": [
+   "СОГЛАСИЕ НА ОБРАБОТКУ ПЕРСОНАЛЬНЫХ ДАННЫХ"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/legal/soglasie/",
+   "og:title": "Согласие на обработку персональных данных",
+   "og:description": "Согласие на обработку персональных данных при отправке обращения на сайте Рыжий маркетолог.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Согласие на обработку персональных данных",
+   "twitter:description": "Согласие на обработку персональных данных при отправке обращения на сайте Рыжий маркетолог.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "twitter:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "ldTypes": [
+   "BreadcrumbList",
+   "ListItem"
+  ],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3,
+   "https://t.me/valentina_promarketing": 1
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3,
+   "https://max.ru/u/f9LHodD0cOLe_Rx8NCD20hhX-p_W0g--QV5Ddt3j63XjNVtJFr9qaV7CrmM": 1
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ },
+ "404.html": {
+  "title": "Страница не найдена — Рыжий маркетолог",
+  "description": "Вернитесь на главную сайта Рыжий маркетолог или откройте страницу вебинара.",
+  "robots": "noindex",
+  "canonical": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/404.html",
+  "lang": "ru",
+  "h1": [
+   "СТРАНИЦА НЕ НАЙДЕНА"
+  ],
+  "og": {
+   "og:type": "website",
+   "og:site_name": "Рыжий маркетолог",
+   "og:locale": "ru_RU",
+   "og:url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/404.html",
+   "og:title": "Страница не найдена — Рыжий маркетолог",
+   "og:description": "Вернитесь на главную сайта Рыжий маркетолог или откройте страницу вебинара.",
+   "og:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:secure_url": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "og:image:type": "image/jpeg",
+   "og:image:width": "1200",
+   "og:image:height": "630",
+   "og:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "twitter": {
+   "twitter:card": "summary_large_image",
+   "twitter:title": "Страница не найдена — Рыжий маркетолог",
+   "twitter:description": "Вернитесь на главную сайта Рыжий маркетолог или откройте страницу вебинара.",
+   "twitter:image": "https://xn----8sbjhcmhkkgzbpg6a9j.xn--p1ai/assets/img/og-home.jpg?v=20260930",
+   "twitter:image:alt": "Рыжий маркетолог. Валентина Сухарева — наставник по личному бренду, 20+ лет в маркетинге, онлайн."
+  },
+  "ldTypes": [],
+  "ldPrices": [],
+  "ldEvents": [],
+  "ldErrors": [],
+  "payLinks": {},
+  "tgLinks": {
+   "https://t.me/valentina_pro_marketing": 3
+  },
+  "maxLinks": {
+   "https://max.ru/id421204839449_biz": 3
+  },
+  "msgText": [],
+  "goals": {},
+  "metrika": true,
+  "prices": [],
+  "internalLinks": [
+   "/",
+   "/#about",
+   "/#calendar",
+   "/#formats",
+   "/#thoughts",
+   "/legal/oferta/",
+   "/legal/privacy/",
+   "/master-gruppa-lichnyj-brend/",
+   "/networking/",
+   "/raspakovka-lichnosti/",
+   "/razvitie-lichnogo-brenda/",
+   "/rekvizity/",
+   "/zapis-lichnyj-brend/",
+   "/zapis-marketing-doveriya/"
+  ],
+  "imgNoAlt": 0
+ }
+}

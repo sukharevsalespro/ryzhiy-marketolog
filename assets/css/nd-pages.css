@@ -1,0 +1,115 @@
+/* Второстепенные страницы в новом дизайне (spec 006). Значения — из паспорта specs/006-new-design-rollout/design-system.md:
+   крем/графит/оранжевый главной, стекло и кнопка-ячейка мастер-группы, тайминги --md-* из style.css.
+   Подключается после style.css, mobile.css, footer.css, home-blocks.css (оттуда --nb-graphite и --nb-noise).
+   Две темы только через prefers-color-scheme (как шапка и мастер-группа), ручного переключателя нет. */
+
+/* ---------- токены: роль → значение ---------- */
+.nd{--nd-bg:#faf7f2;--nd-ink:#111;--nd-mute:#5e5750;--nd-or:#fe6c1f;--nd-acc:#9e3a0a;
+  --nd-glass:rgba(250,247,242,.72);--nd-edge:rgba(255,255,255,.75);--nd-line:rgba(17,17,17,.9);
+  --nd-btn-bg:#111;--nd-btn-fg:#faf7f2;--nd-cell:#faf7f2;--nd-cell-fg:#111;--nd-sec:#111;
+  --nd-glow:radial-gradient(120% 90% at 78% 12%,#ff9a57 0%,#fe6c1f 42%,#c4490a 100%);
+  --nd-pad:clamp(16px,4.4vw,64px);background:var(--nd-bg)}
+@media (prefers-color-scheme:dark){
+  .nd{--nd-bg:var(--nb-graphite,#26282d);--nd-ink:#faf7f2;--nd-mute:#cfc8be;--nd-acc:#ff8a4c;
+    --nd-glass:rgba(35,37,41,.72);--nd-edge:rgba(250,247,242,.2);--nd-line:rgba(250,247,242,.85);
+    --nd-btn-bg:#fe6c1f;--nd-btn-fg:#111;--nd-cell:#111;--nd-cell-fg:#faf7f2;--nd-sec:#faf7f2}
+}
+@media (prefers-reduced-transparency:reduce){.nd{--nd-glass:var(--nd-bg)}}
+
+/* полоса страницы: крем в светлой, графит с зерном (как .nb-band--graphite главной) в тёмной */
+.nd .page-band.nd-band{background:var(--nd-bg);color:var(--nd-ink)}
+@media (prefers-color-scheme:dark){
+  .nd .page-band.nd-band{background-color:var(--nd-bg);background-image:var(--nb-noise,none),linear-gradient(180deg,#2b2d32,#232529)}
+}
+
+/* ---------- общие элементы ---------- */
+.nd-kick{margin:0 0 16px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
+.nd-kick i{font-style:normal;color:var(--nd-or)}
+.nd-back{display:inline-flex;align-items:center;min-height:44px;margin:0 0 clamp(10px,1.8vw,24px);font:500 15px/1.3 'Golos Text',sans-serif;color:var(--nd-ink);
+  text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--nd-ink) 35%,transparent);text-underline-offset:3px}
+.nd-back:hover{text-decoration-color:var(--nd-or)}
+.nd-h1{margin:0;font:900 clamp(52px,6.6vw,96px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;
+  letter-spacing:-.005em;text-transform:uppercase;text-wrap:balance;color:var(--nd-ink)}
+.nd-lead{max-width:30em;margin:clamp(16px,1.8vw,26px) 0 0;font:500 clamp(17px,1.35vw,21px)/1.45 'Golos Text',sans-serif;text-wrap:pretty}
+.nd-lead b{font-weight:800}
+
+/* основная кнопка: плашка с ячейкой-стрелкой (как .mg-pay мастер-группы) + сдвиг-«плита» --md-* на hover */
+.nd-pay{--plate:var(--nd-or);display:inline-flex;align-items:stretch;min-height:58px;border-radius:4px;background:var(--nd-btn-bg);color:var(--nd-btn-fg);
+  text-decoration:none;font:600 18px/1.2 'Golos Text',sans-serif}
+.nd-pay-c{flex:none;display:grid;place-items:center;width:46px;margin:6px;border-radius:3px;background:var(--nd-cell);color:var(--nd-cell-fg)}
+.nd-pay-c svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+.nd-pay-t{display:flex;align-items:center;padding:0 22px 0 12px;white-space:nowrap}
+.nd-pay:focus-visible,.nd-tix a:focus-visible,.nd-back:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){.nd-pay-c svg{transition:translate .2s var(--md-ease)}
+  .nd-pay:is(:hover,:focus-visible) .nd-pay-c svg{translate:0 3px}}
+
+/* ---------- /networking/: первый экран «билеты на встречу» ---------- */
+.nwh{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);grid-template-rows:1fr auto;column-gap:clamp(28px,4vw,72px);
+  min-height:min(860px,calc(100svh - 64px));padding:clamp(20px,2.4vw,36px) var(--nd-pad) clamp(40px,4.4vw,64px);box-sizing:border-box;
+  font-family:'Golos Text',sans-serif;isolation:isolate}
+.nwh *{box-sizing:border-box}
+.nwh-copy{grid-column:1;grid-row:1;align-self:end;padding-bottom:clamp(28px,3.4vw,52px)}
+.nwh-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:clamp(22px,2.4vw,34px)}
+.nwh-note{margin:0;font:500 14px/1.35 'Golos Text',sans-serif;color:var(--nd-mute)}
+
+/* фото на оранжевой «плите», сдвинутой вправо-вниз: тот же жест, что у кнопок --md-off, только крупно */
+.nwh-media{grid-column:2;grid-row:1 / 3;position:relative;margin:0 18px 18px 0;min-height:420px}
+.nwh-media::before{content:"";position:absolute;inset:18px -18px -18px 18px;z-index:-1;background:var(--nd-glow)}
+.nwh-media img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+
+/* билеты: стеклянные, крайний заходит на фото; корешок отделён пунктиром-перфорацией */
+.nd-tix{--cut:60%;grid-column:1 / 3;grid-row:2;position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;
+  width:min(100%,960px);margin:0;padding:0;list-style:none}
+.nd-tix li{display:flex}
+.nd-tix a{flex:1;position:relative;display:grid;grid-template-columns:var(--cut) 1fr;min-height:124px;border:1.5px solid var(--nd-line);border-radius:4px;
+  background:var(--nd-glass);color:var(--nd-ink);text-decoration:none;}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .nd-tix a{-webkit-backdrop-filter:blur(16px) saturate(1.1);backdrop-filter:blur(16px) saturate(1.1)}}
+.nd-t-main{display:flex;align-items:flex-end;gap:12px;padding:18px 14px 16px 20px;border-right:1.5px dashed color-mix(in srgb,var(--nd-ink) 45%,transparent)}
+.nd-t-day{font:900 clamp(56px,5vw,76px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;font-variant-numeric:tabular-nums}
+.nd-t-mon{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding-bottom:2px;font:700 17px/1.1 'Golos Text',sans-serif}
+.nd-t-stub{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:14px 12px 14px 16px;font:500 14px/1.3 'Golos Text',sans-serif}
+.nd-t-stub b{font-weight:700;font-variant-numeric:tabular-nums}
+.nd-t-tag{padding:3px 7px;border-radius:3px;background:var(--nd-ink);color:var(--nd-bg);
+  font:700 11px/1.2 'Golos Text',sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.nd-tix .is-next a{background:var(--nd-or);border-color:#111;color:#111}
+.nd-tix .is-next .nd-t-main{border-right-color:rgba(17,17,17,.55)}
+.nd-tix .is-next .nd-t-tag{background:#111;color:#faf7f2}
+@media (prefers-reduced-motion:no-preference){
+  .nd-tix a{transition:translate var(--md-t-state) var(--md-ease),border-color .2s}
+  .nd-tix a:is(:hover,:focus-visible){translate:0 -4px;border-color:var(--nd-or)}
+  .nd-tix .is-next a:is(:hover,:focus-visible){border-color:#111}
+  .nd-tix a:active{translate:0 -1px;transition-duration:var(--md-t-tap)}
+  .nwh-copy>*{animation:nd-rise .6s var(--md-ease) both}
+  .nwh-copy>:nth-child(2){animation-delay:.06s}.nwh-copy>:nth-child(3){animation-delay:.12s}
+  .nwh-copy>:nth-child(4){animation-delay:.18s}.nwh-copy>:nth-child(5){animation-delay:.24s}
+  .nd-tix li{animation:nd-rise .55s var(--md-ease) both;animation-delay:calc(.3s + var(--i,0) * 80ms)}
+}
+@keyframes nd-rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+
+/* ≤1000: столбик — текст, билеты, кнопка, фото. Выбор даты важнее портрета, поэтому билеты в первом экране */
+@media (max-width:1000px){
+  .nwh{grid-template-columns:1fr;grid-template-rows:none;min-height:0;padding-top:12px}
+  .nwh-copy,.nd-tix,.nwh-media{grid-column:1;grid-row:auto}
+  .nwh-copy{padding-bottom:0}
+  .nd-tix{order:2;margin-top:22px;width:100%}
+  .nwh-media{order:4;margin:34px 18px 18px 0;min-height:0;aspect-ratio:4 / 5;max-height:640px}
+}
+@media (max-width:700px){
+  .nd-kick{font-size:11px;letter-spacing:.1em;margin-bottom:10px}
+  .nd-h1{font-size:clamp(44px,13.4vw,60px)}
+  .nd-lead{font-size:16px;margin-top:12px}
+  .nd-tix{--cut:64%;gap:8px;grid-template-columns:1.2fr 1fr 1fr}
+  /* перфорация на одной высоте у всех трёх билетов: строки корешка общие (subgrid) */
+  .nd-tix{grid-template-rows:auto auto}
+  .nd-tix li{display:grid;grid-row:span 2;grid-template-rows:subgrid}
+  .nd-tix a{grid-row:span 2;grid-template-columns:1fr;grid-template-rows:subgrid;min-height:0}
+  .nd-t-main{flex-direction:column;align-items:flex-start;gap:2px;padding:12px 10px 8px 12px;border-right:0;border-bottom:1.5px dashed color-mix(in srgb,var(--nd-ink) 45%,transparent)}
+  .nd-tix .is-next .nd-t-main{border-bottom-color:rgba(17,17,17,.55)}
+  .nd-t-day{font-size:44px}.nd-t-mon{font-size:14px;gap:6px}
+  .nd-t-stub{padding:8px 10px 10px 12px;font-size:12.5px;gap:2px}
+  .nd-t-tag{font-size:9.5px;padding:2px 5px;letter-spacing:.04em}
+  .nd-pay{width:100%;min-height:54px;font-size:16px}.nd-pay-t{flex:1;justify-content:center;padding-right:52px}
+  .nwh-media{aspect-ratio:4 / 5;margin:28px 12px 12px 0}
+  .nwh-media::before{inset:12px -12px -12px 12px}
+}
