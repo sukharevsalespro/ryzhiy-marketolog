@@ -36,27 +36,20 @@
 .mg-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 28%}
 /* лёгкая растушёвка слева — подложка под стекло, лица не касается (лицо на ~66% ширины) */
 .mg-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--mg-bg) 55%,transparent) 0%,transparent 40%)}
-/* ===== Широкий монитор (≥2:1 — 21:9/32:9 ultrawide): при растяжении фото на всю ширину cover
-   не может показать одновременно лицо (4–35% высоты кадра) и кружку с мемом (70–92% высоты) —
-   любой object-position режет одно из двух. 1440×900 (16:10=1.6) и 1920×1080 (16:9=1.778) ниже
-   порога 2:1 — не задеты, ведут себя как раньше. От 2:1 и шире фото перестаёт тянуться на всю
-   ширину: встаёт справа на всю высоту блока с собственной пропорцией 3:2 (родная пропорция файла
-   3072×2048 — cover без обрезки вообще, гарантированно весь кадр в рамке). Левую часть без нового
-   файла достраивает та же фотография, развёрнутая фоном и размытая; левый край самого чёткого
-   фото смягчён маской, чтобы переход был без шва. */
+/* ===== Широкий монитор (≥2:1 — 21:9/32:9 ultrawide). Кадр 3:2 растянутый cover не может показать
+   одновременно лицо и кружку. Решение v3 (владелец забраковал размытую подложку — «столько пустоты»):
+   отдельный широкий кадр mg-evening-wide (7296×2048, ~32:9) — слева дорисована та же комната с окном
+   на ночной Сочи, справа ОРИГИНАЛЬНЫЕ пиксели 3072×2048 без изменений. Правый край — якорь: голова и
+   кружка целиком всегда, на 21:9 слева просто обрезается часть дорисовки. 1440×900 и 1920×1080 ниже
+   порога 2:1 — не задеты. Карточка и плашка растут с высотой экрана ступенями zoom (на 1080 — как на
+   1920×1080: ~55% высоты первого экрана). */
 @media (min-aspect-ratio: 2/1){
-  /* Доработка (владелец, после первой версии): background-size:cover на очень широком боксе
-     почти не кропает по горизонтали (бокс шире фото) — почти весь кадр, включая Валентину,
-     просвечивал в размытом фоне слева «призраком». Фикс: фон больше НЕ покрывает весь бокс —
-     берём фиксированный (не зависящий от ширины бокса) зум на левую четверть кадра — окно и
-     огни города, куда человек заведомо не попадает (лицо/тело в кадре с ~55% ширины и правее) —
-     и отражаем по горизонтали, чтобы окно визуально продолжалось влево, а не смотрелось обрезком. */
-  .mg-hero::before{content:"";position:absolute;inset:-6%;z-index:-2;pointer-events:none;
-    background-image:url("/assets/img/mg-evening-1600.webp?v=5");background-size:400% auto;background-position:0% 28%;
-    transform:scaleX(-1);filter:blur(56px) saturate(1.05) brightness(.8)}
-  .mg-ph{left:auto;width:auto;height:100%;aspect-ratio:3/2;
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%);mask-image:linear-gradient(90deg,transparent 0,#000 8%)}
+  .mg-ph img{object-position:100% 35%}
 }
+@media (min-aspect-ratio: 2/1) and (min-height:1180px){.mg-hcard,.mg-chip{zoom:1.12}}
+@media (min-aspect-ratio: 2/1) and (min-height:1320px){.mg-hcard,.mg-chip{zoom:1.3}}
+@media (min-aspect-ratio: 2/1) and (min-height:1500px){.mg-hcard,.mg-chip{zoom:1.45}}
+@media (min-aspect-ratio: 2/1) and (min-height:1700px){.mg-hcard,.mg-chip{zoom:1.65}}
 .mg-glass{background:var(--mg-glass);border:1px solid var(--mg-line)}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .mg-hcard,.mg-chip{-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}
