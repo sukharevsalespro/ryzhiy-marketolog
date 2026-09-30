@@ -32,8 +32,12 @@
     radial-gradient(60% 55% at 0% 0%,rgba(254,108,31,.30) 0%,rgba(254,108,31,0) 100%),
     radial-gradient(55% 50% at 100% 100%,rgba(168,51,12,.36) 0%,rgba(168,51,12,0) 100%),
     var(--xp-g);color:var(--xp-g-ink)}
+/* closest-side гас точно на кромке увеличенного (-30%) бокса, а не панели — на реальной кромке
+   .xp-panel (overflow:hidden) альфа ещё не доходила до 0, давая резкий рыжий срез (тот же баг
+   класса, что у месяца в календаре). Ending-shape — явный маленький процент с запасом на translate
+   в обоих состояниях (покой −18%/−22%, hover −6%/−12%), чтобы гасло до 0 раньше края при любом сдвиге. */
 .home .xp-panel::before{content:"";position:absolute;inset:-30%;z-index:-1;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(254,108,31,.16),rgba(254,108,31,0));translate:-18% -22%;transition:translate 1.2s var(--xp-ease)}
+  background:radial-gradient(20% 14% at 50% 50%,rgba(254,108,31,.16) 0%,rgba(254,108,31,0) 100%);translate:-18% -22%;transition:translate 1.2s var(--xp-ease)}
 @media (hover:hover) and (prefers-reduced-motion:no-preference){.home .xp-panel:hover::before{translate:-6% -12%}}
 .home .xp-years{grid-column:1/-1;display:flex;flex-direction:column;align-items:flex-start;align-self:start;margin:0;padding:0;border:0;height:auto;text-align:left}
 .home .xp-years b{display:block;font:900 clamp(120px,13vw,208px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.04em;

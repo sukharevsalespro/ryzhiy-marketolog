@@ -36,6 +36,21 @@
 .mg-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 28%}
 /* лёгкая растушёвка слева — подложка под стекло, лица не касается (лицо на ~66% ширины) */
 .mg-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--mg-bg) 55%,transparent) 0%,transparent 40%)}
+/* ===== Широкий монитор (≥2:1 — 21:9/32:9 ultrawide): при растяжении фото на всю ширину cover
+   не может показать одновременно лицо (4–35% высоты кадра) и кружку с мемом (70–92% высоты) —
+   любой object-position режет одно из двух. 1440×900 (16:10=1.6) и 1920×1080 (16:9=1.778) ниже
+   порога 2:1 — не задеты, ведут себя как раньше. От 2:1 и шире фото перестаёт тянуться на всю
+   ширину: встаёт справа на всю высоту блока с собственной пропорцией 3:2 (родная пропорция файла
+   3072×2048 — cover без обрезки вообще, гарантированно весь кадр в рамке). Левую часть без нового
+   файла достраивает та же фотография, развёрнутая фоном и размытая; левый край самого чёткого
+   фото смягчён маской, чтобы переход был без шва. */
+@media (min-aspect-ratio: 2/1){
+  .mg-hero::before{content:"";position:absolute;inset:-6%;z-index:-2;pointer-events:none;
+    background-image:url("/assets/img/mg-evening-1600.webp?v=5");background-size:cover;background-position:62% 28%;
+    filter:blur(56px) saturate(1.05) brightness(.8)}
+  .mg-ph{left:auto;width:auto;height:100%;aspect-ratio:3/2;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%);mask-image:linear-gradient(90deg,transparent 0,#000 8%)}
+}
 .mg-glass{background:var(--mg-glass);border:1px solid var(--mg-line)}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .mg-hcard,.mg-chip{-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}

@@ -1111,7 +1111,7 @@ html:not(.js) [data-motion]{opacity:1}
 :is(.home,.webinar) .hdr a{color:inherit;text-decoration:none}
 :is(.home,.webinar) .hdr-name{margin-right:auto;display:inline-flex;align-items:center;gap:.28em;min-height:44px;font:700 23px/1 Poster,sans-serif;font-stretch:92.3%;letter-spacing:-.035em;white-space:nowrap}
 :is(.home,.webinar) .hdr-menu{display:flex;gap:0;padding:0}
-:is(.home,.webinar) .hdr-menu a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 13px;transition:color .15s}
+:is(.home,.webinar) .hdr-menu a{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 13px;white-space:nowrap;transition:color .15s}
 :is(.home,.webinar) .hdr-menu a::after{content:"";position:absolute;left:13px;right:13px;bottom:9px;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--md-t-state) var(--md-ease)}
 :is(.home,.webinar) .hdr-menu a[aria-current="true"]::after{transform:scaleX(1)}
 @media (hover:hover){:is(.home,.webinar) .hdr .hdr-menu a:hover{color:var(--hdr-hover);text-decoration:none}:is(.home,.webinar) .hdr-menu a:hover::after{transform:scaleX(1)}}
@@ -1124,12 +1124,13 @@ html:not(.js) [data-motion]{opacity:1}
 :is(.home,.webinar) .hdr-dd-panel{position:absolute;top:100%;left:0;z-index:70;display:none;flex-direction:column;min-width:252px;max-width:calc(100vw - 40px);margin-top:6px;padding:6px;background:var(--hdr-bg);color:var(--hdr-fg);border:1.5px solid var(--hdr-fg);box-shadow:5px 5px 0 0 var(--hdr-fg)}
 @media (hover:hover){:is(.home,.webinar) .hdr-dd:hover .hdr-dd-panel{display:flex}}
 :is(.home,.webinar) .hdr-dd:focus-within .hdr-dd-panel,:is(.home,.webinar) .hdr-dd-btn[aria-expanded="true"] ~ .hdr-dd-panel{display:flex}
-:is(.home,.webinar) .hdr-dd-panel a,:is(.home,.webinar) .hdr-dd-acc-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;margin:0;padding:0 10px;border:0;background:none;font:inherit;color:inherit;text-align:left;text-decoration:none;cursor:pointer}
+:is(.home,.webinar) .hdr-dd-panel a,:is(.home,.webinar) .hdr-dd-acc-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;margin:0;padding:0 10px;border:0;background:none;font:inherit;color:inherit;text-align:left;text-decoration:none;cursor:pointer;white-space:nowrap}
+/* пункты дропдауна не должны переноситься на 2 строки — иначе абсолютная ::after-линия .hdr-menu (line 1115) с фиксированным bottom:9px перечёркивает вторую строку */
 @media (hover:hover){:is(.home,.webinar) .hdr-dd-panel a:hover,:is(.home,.webinar) .hdr-dd-acc-btn:hover{color:var(--hdr-hover)}}
 :is(.home,.webinar) .hdr-dd-acc-panel{display:none;flex-direction:column;padding-left:14px;border-left:1.5px solid var(--hdr-line)}
 :is(.home,.webinar) .hdr-dd-acc-btn[aria-expanded="true"] ~ .hdr-dd-acc-panel{display:flex}
 :is(.home,.webinar) .hdr-dd-acc-btn[aria-expanded="true"] .hdr-dd-caret{transform:rotate(180deg)}
-:is(.home,.webinar) .hdr-dd-acc-panel a{min-height:40px;padding:0 8px}
+:is(.home,.webinar) .hdr-dd-acc-panel a{min-height:40px;padding:0 8px;white-space:nowrap}
 :is(.home,.webinar) .hdr-dd-all{margin-top:4px;padding-top:10px;border-top:1.5px solid var(--hdr-line);font-weight:600}
 :is(.home,.webinar) .hdr-social{display:flex;gap:0;padding:0 6px 0 10px;margin-left:6px;border-left:1px solid var(--hdr-line)}
 :is(.home,.webinar) .hdr-social a,:is(.home,.webinar) .hdr-dialog-social a{display:grid;place-items:center;width:44px;height:44px;transition:color .15s,translate var(--md-t-state) var(--md-ease)}
