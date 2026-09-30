@@ -36,20 +36,26 @@
 .mg-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 28%}
 /* лёгкая растушёвка слева — подложка под стекло, лица не касается (лицо на ~66% ширины) */
 .mg-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--mg-bg) 55%,transparent) 0%,transparent 40%)}
-/* ===== Широкий монитор (≥2:1 — 21:9/32:9 ultrawide). Кадр 3:2 растянутый cover не может показать
-   одновременно лицо и кружку. Решение v3 (владелец забраковал размытую подложку — «столько пустоты»):
-   отдельный широкий кадр mg-evening-wide (7296×2048, ~32:9) — слева дорисована та же комната с окном
-   на ночной Сочи, справа ОРИГИНАЛЬНЫЕ пиксели 3072×2048 без изменений. Правый край — якорь: голова и
-   кружка целиком всегда, на 21:9 слева просто обрезается часть дорисовки. 1440×900 и 1920×1080 ниже
-   порога 2:1 — не задеты. Карточка и плашка растут с высотой экрана ступенями zoom (на 1080 — как на
-   1920×1080: ~55% высоты первого экрана). */
+/* ===== Широкий монитор (≥2:1 — 21:9/32:9 ultrawide). Решение владельца 01.10: «собери в центре композицию,
+   а бока оставь под фон». Кадр mg-evening-wide (8192×2048, 4:1) симметричен: в центре ОРИГИНАЛЬНЫЕ пиксели
+   3072×2048 (Валентина, кружка, окно — как на 1920), слева дорисовано продолжение окна и набережной, справа —
+   продолжение комнаты (лампа, полки, стена). object-position 50% — оригинальный кадр 3:2 всегда по центру
+   экрана высотой в первый экран (ширина 1.5 × высота блока); карточка — у левого края этого кадра, плашка — у правого,
+   т. е. композиция «карточка + Валентина» как на 1920, бока — фон. Карточка и плашка растут ступенями zoom
+   по высоте экрана; px-часть отступов делится на --z, потому что zoom масштабирует и её. Ниже 2:1 ничего не меняется. */
 @media (min-aspect-ratio: 2/1){
-  .mg-ph img{object-position:100% 35%}
+  .mg-hero{--hh:max(680px,calc(100svh - var(--mg-hdr,64px)));--cl:calc(50% - .75 * var(--hh))}
+  .mg-ph img{object-position:50% 35%}
+  .mg-ph::after{background:linear-gradient(90deg,transparent calc(var(--cl) - .45 * var(--hh)),
+    color-mix(in srgb,var(--mg-bg) 55%,transparent) calc(var(--cl) + .08 * var(--hh)),transparent calc(var(--cl) + .6 * var(--hh)))}
+  /* под zoom проценты берутся от родителя как есть, а px-часть масштабируется — поэтому делим только её */
+  .mg-hero .mg-hcard{left:calc(50% + (var(--mg-pad) - .75 * var(--hh)) / var(--z,1))}
+  .mg-hero .mg-chip{right:calc(50% + (var(--mg-pad) - .75 * var(--hh)) / var(--z,1))}
 }
-@media (min-aspect-ratio: 2/1) and (min-height:1180px){.mg-hcard,.mg-chip{zoom:1.12}}
-@media (min-aspect-ratio: 2/1) and (min-height:1320px){.mg-hcard,.mg-chip{zoom:1.3}}
-@media (min-aspect-ratio: 2/1) and (min-height:1500px){.mg-hcard,.mg-chip{zoom:1.45}}
-@media (min-aspect-ratio: 2/1) and (min-height:1700px){.mg-hcard,.mg-chip{zoom:1.65}}
+@media (min-aspect-ratio: 2/1) and (min-height:1180px){.mg-hero{--z:1.12}.mg-hcard,.mg-chip{zoom:1.12}}
+@media (min-aspect-ratio: 2/1) and (min-height:1320px){.mg-hero{--z:1.3}.mg-hcard,.mg-chip{zoom:1.3}}
+@media (min-aspect-ratio: 2/1) and (min-height:1500px){.mg-hero{--z:1.45}.mg-hcard,.mg-chip{zoom:1.45}}
+@media (min-aspect-ratio: 2/1) and (min-height:1700px){.mg-hero{--z:1.65}.mg-hcard,.mg-chip{zoom:1.65}}
 .mg-glass{background:var(--mg-glass);border:1px solid var(--mg-line)}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .mg-hcard,.mg-chip{-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}
