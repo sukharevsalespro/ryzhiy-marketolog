@@ -27,14 +27,13 @@
   linear-gradient(180deg,#2b2d32,#232529)}
 .mg-hero{--mg-pad:clamp(16px,3.6vw,52px);--mg-or:#fe6c1f;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
   grid-template-areas:"copy photo" "track track";gap:clamp(28px,3.4vw,56px) clamp(24px,3.6vw,64px);
-  padding:clamp(28px,3.4vw,56px) var(--mg-pad) 0;font-family:'Golos Text',sans-serif}
+  padding:clamp(40px,5vw,80px) var(--mg-pad) 0;font-family:'Golos Text',sans-serif}
 .mg-hero *{box-sizing:border-box}
 .mg-hero-copy{grid-area:copy;align-self:center;min-width:0}
-.mg-crumbs{display:flex;flex-wrap:wrap;gap:4px 8px;margin:0 0 clamp(18px,2vw,28px);font:500 14px/1.4 'Golos Text',sans-serif;color:#c9cacd}
+.mg-crumbs{display:flex;flex-wrap:wrap;gap:0 8px;margin:0 0 clamp(24px,2.8vw,40px);font:500 14px/1.4 'Golos Text',sans-serif;color:#c9cacd}
 .mg-crumbs a{display:inline-block;padding-block:4px;color:#ecebe8;text-decoration:underline;text-decoration-color:rgba(236,235,232,.4);text-underline-offset:3px}
 .mg-crumbs a:hover{text-decoration-color:var(--mg-or)}
-.mg-kicker{margin:0;font:600 12px/1.4 'Golos Text',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--mg-or)}
-.mg-hero h1{margin:clamp(12px,1.4vw,18px) 0 0;font:900 clamp(46px,6.4vw,104px)/.86 Poster,'Golos Text',sans-serif;font-stretch:75%;
+.mg-hero h1{margin:0;font:900 clamp(46px,6.4vw,104px)/.86 Poster,'Golos Text',sans-serif;font-stretch:75%;
   letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-wrap:balance}
 .mg-hero h1>span{display:block}
 .mg-hero h1 em{font-style:normal;color:var(--mg-or)}
@@ -81,7 +80,7 @@
 
 @media (max-width:1100px){.mg-track span{font-size:13px}.mg-track li{flex-direction:column;align-items:flex-start;gap:8px}}
 @media (max-width:760px){
-  .mg-hero{grid-template-columns:1fr;grid-template-areas:"copy" "photo" "track";padding-top:20px}
+  .mg-hero{grid-template-columns:1fr;grid-template-areas:"copy" "photo" "track";padding-top:32px}
   .mg-hero h1{font-size:clamp(40px,12.4vw,64px)}
   .mg-facts{gap:6px}
   .mg-facts>div{padding:10px 10px 12px}
