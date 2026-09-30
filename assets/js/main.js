@@ -67,7 +67,7 @@
     var next = events.filter(function (ev) { return !isPast(ev, now); })
       .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
     if (!next) { ticket.hidden = true; return; }
-    var kinds = { networking: 'Нетворкинг', webinar: 'Вебинар' };
+    var kinds = { networking: 'Нетворкинг', webinar: 'Вебинар', mastergroup: 'Мастер-группа' };
     ticket.href = next.url;
     ticket.firstElementChild.textContent = mskParts(next.start).d + ' ' + ruMonthGen(next.start) + ' · ' + (kinds[next.type] || next.label.toLowerCase());
   }
@@ -87,7 +87,7 @@
     if (!events.length) return;
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var now = Date.now();
-    var FORMAT = { networking: 'Нетворкинг', webinar: 'Вебинар' };
+    var FORMAT = { networking: 'Нетворкинг', webinar: 'Вебинар', mastergroup: 'Мастер-группа' };
     var MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
     var ARROW = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
     var CHEV = function (d) { return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="' + (d < 0 ? 'm15 6-6 6 6 6' : 'm9 6 6 6-6 6') + '"/></svg>'; };

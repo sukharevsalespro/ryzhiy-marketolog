@@ -49,7 +49,7 @@
           .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
         if (!next) return;
         var day = new Date(next.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
-        var kind = next.type === 'networking' ? 'Нетворкинг' : next.type === 'webinar' ? 'Вебинар' : 'Встреча';
+        var kind = next.type === 'networking' ? 'Нетворкинг' : next.type === 'webinar' ? 'Вебинар' : next.type === 'mastergroup' ? 'Мастер-группа' : 'Встреча';
         Array.prototype.forEach.call(ctas, function (a) {
           a.href = next.url;
           a.setAttribute('aria-label', 'Ближайшее событие: ' + kind + ', ' + day);

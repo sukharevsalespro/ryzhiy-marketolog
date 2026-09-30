@@ -17,7 +17,10 @@ const rub = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₽';
 const text = (html) => html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 
 // 1. События: время в поле time совпадает со start/end.
+// allDay (мастер-группа и подобные многодневные программы без фиксированного часа) — из правила исключены,
+// у них time — свободный текст про длительность/формат, а не часы.
 for (const ev of data.events) {
+  if (ev.allDay) continue;
   const t = ev.end ? `${hm(ev.start)}–${hm(ev.end)} МСК` : `${hm(ev.start)} МСК`;
   expect(ev.time === t, `${ev.id}: time "${ev.time}" ≠ ${t} из start/end`);
 }
