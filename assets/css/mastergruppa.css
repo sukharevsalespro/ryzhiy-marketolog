@@ -64,11 +64,10 @@
 .mg-pay-c{flex:none;display:grid;place-items:center;width:46px;margin:6px;border-radius:3px;background:var(--mg-cell);color:var(--mg-cellfg)}
 .mg-pay-c svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
 .mg-pay-t{flex:1;display:flex;align-items:center;padding:0 14px;white-space:nowrap}
-.mg-pay-s{display:flex;align-items:center;padding:0 16px;border-left:1px solid color-mix(in srgb,var(--mg-pfg) 30%,transparent);font-size:14px;letter-spacing:.06em}
 .mg-pay:focus-visible,.mg-sec a:focus-visible{outline:2px solid var(--mg-ink);outline-offset:3px}
 @media (prefers-reduced-motion:no-preference){.mg-pay-c svg{transition:translate .2s cubic-bezier(.4,0,.2,1)}
   .mg-pay:is(:hover,:focus-visible) .mg-pay-c svg{translate:3px 0}}
-.mg-sec{display:grid;grid-template-columns:1.3fr 1fr;gap:10px;margin:10px 0 14px}
+.mg-sec{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 14px}
 .mg-sec a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 10px;white-space:nowrap;border:1.5px solid var(--mg-sec);
   border-radius:4px;color:var(--mg-ink);text-decoration:none;font:500 15px/1.2 'Golos Text',sans-serif;transition:background-color .2s,color .2s}
 .mg-sec a:hover{background:var(--mg-sec);color:var(--mg-bg)}
@@ -117,16 +116,14 @@
   .mg-h{font-size:clamp(36px,11.2vw,46px)}
   .mg-facts{font-size:14.5px;gap:4px 14px;margin-bottom:16px}
   .mg-price{margin-bottom:14px}.mg-price b{font-size:40px}
-  .mg-pay{min-height:54px;font-size:16px}.mg-pay-c{width:42px}.mg-pay-t{padding:0 12px}.mg-pay-s{padding:0 12px}
-  .mg-sec{grid-template-columns:1.75fr 1fr;gap:8px}.mg-sec a{font-size:13.5px;gap:6px;padding:0 6px}.mg-sec svg{width:18px;height:18px}
+  .mg-pay{min-height:54px;font-size:16px}.mg-pay-c{width:42px}.mg-pay-t{padding:0 12px}  .mg-sec{gap:8px}.mg-sec a{font-size:13.5px;gap:6px;padding:0 6px}.mg-sec svg{width:18px;height:18px}
   .mg-track ol{gap:6px}
   .mg-track li{flex-direction:column;align-items:stretch;gap:6px}
   .mg-track b{width:100%;height:46px}
   .mg-track span{font-size:12px;text-align:center}
 }
 @media (max-width:360px){
-  .mg-pay-c{display:none}.mg-pay-t{padding:0 14px}
-  .mg-sec{grid-template-columns:1fr}
+  .mg-pay{font-size:15px}.mg-pay-t{padding:0 10px}
 }
 @media (max-width:480px){.mg-track span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
 
