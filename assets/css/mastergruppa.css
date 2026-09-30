@@ -17,90 +17,118 @@
 .mg .mg-offer .xp-lead a{color:inherit;text-decoration:underline;text-underline-offset:4px}
 .mg .mg-offer .xp-lead a:hover{text-decoration-color:#fe6c1f}
 
-/* ===== Первый экран (своя композиция, токены главной).
-   Графит #26282d с рыжим сиянием — рецепт плашки «Маркетинг с опытом» (about.css); Poster 900 wdth 75 капсом;
-   стеклянные плашки фактов — рецепт стекла обложки главной; кнопка — .phero-cta.md-plate главной.
-   Подпись — дорожка 5 встреч (0 + 4 недели): это настоящая последовательность, поэтому нумерация уместна. */
-.home .page-band.mg-hero-band{color:#ecebe8;background:
-  radial-gradient(48% 60% at 0% 0%,rgba(254,108,31,.34) 0%,rgba(254,108,31,0) 100%),
-  radial-gradient(44% 56% at 100% 100%,rgba(168,51,12,.42) 0%,rgba(168,51,12,0) 100%),
-  linear-gradient(180deg,#2b2d32,#232529)}
-.mg-hero{--mg-pad:clamp(16px,3.6vw,52px);--mg-or:#fe6c1f;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);
-  grid-template-areas:"copy photo" "track track";gap:clamp(28px,3.4vw,56px) clamp(24px,3.6vw,64px);
-  padding:clamp(40px,5vw,80px) var(--mg-pad) 0;font-family:'Golos Text',sans-serif}
-.mg-hero *{box-sizing:border-box}
-.mg-hero-copy{grid-area:copy;align-self:center;min-width:0}
-.mg-crumbs{display:flex;flex-wrap:wrap;gap:0 8px;margin:0 0 clamp(24px,2.8vw,40px);font:500 14px/1.4 'Golos Text',sans-serif;color:#c9cacd}
-.mg-crumbs a{display:inline-block;padding-block:4px;color:#ecebe8;text-decoration:underline;text-decoration-color:rgba(236,235,232,.4);text-underline-offset:3px}
-.mg-crumbs a:hover{text-decoration-color:var(--mg-or)}
-.mg-hero h1{margin:0;font:900 clamp(46px,6.4vw,104px)/.86 Poster,'Golos Text',sans-serif;font-stretch:75%;
-  letter-spacing:-.02em;text-transform:uppercase;color:#fff;text-wrap:balance}
-.mg-hero h1>span{display:block}
-.mg-hero h1 em{font-style:normal;color:var(--mg-or)}
-.mg-lead{margin:clamp(18px,2vw,28px) 0 0;max-width:34em;text-wrap:pretty;font:400 clamp(17px,1.4vw,20px)/1.45 'Golos Text',sans-serif;color:#c9cacd}
-.mg-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:700px;margin:clamp(22px,2.4vw,32px) 0 0}
-.mg-facts>div{padding:14px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+/* ===== Первый экран v2 (макет C, выбор владельца 30.09): фото на весь экран, стеклянная карточка слева, плашка «Старт» справа.
+   Тёмная тема — вечерний кадр и графитовое стекло, светлая — дневной кадр и кремовое стекло. Переключение только
+   prefers-color-scheme: ручного переключателя темы на сайте нет (шапка тоже только на media-запросе). */
+.mg-hero-band{--mg-bg:#faf7f2;--mg-ink:#111;--mg-mute:#5e5750;--mg-or:#fe6c1f;--mg-acc:#9e3a0a;
+  --mg-glass:rgba(250,247,242,.84);--mg-line:rgba(255,255,255,.75);--mg-pbg:#111;--mg-pfg:#faf7f2;--mg-cell:#faf7f2;--mg-cellfg:#111;
+  --mg-plate:var(--mg-or);--mg-sec:#111;--mg-tband:#efe9df;--mg-tline:rgba(17,17,17,.12);--mg-num:#111;--mg-numfg:#faf7f2;
+  color:var(--mg-ink)}
+.home .page-band.mg-hero-band{background:var(--mg-bg)}
+.home .page-band>.mg-hero{max-width:none}
+@media (prefers-color-scheme:dark){.mg-hero-band{--mg-bg:#232529;--mg-ink:#faf7f2;--mg-mute:#cfc8be;--mg-acc:#ff8a4c;
+  --mg-glass:rgba(35,37,41,.72);--mg-line:rgba(250,247,242,.2);--mg-pbg:var(--mg-or);--mg-pfg:#111;--mg-cell:#111;--mg-cellfg:#faf7f2;
+  --mg-plate:#faf7f2;--mg-sec:#faf7f2;--mg-tband:#1c1e21;--mg-tline:rgba(255,255,255,.12);--mg-num:#faf7f2;--mg-numfg:#111}}
+.mg-hero{--mg-pad:clamp(16px,4.4vw,64px);position:relative;box-sizing:border-box;min-height:max(680px,calc(100svh - var(--mg-hdr,64px)));
+  overflow:hidden;font-family:'Golos Text',sans-serif;isolation:isolate}
+.mg-hero *,.mg-trackband *{box-sizing:border-box}
+.mg-ph{position:absolute;inset:0;z-index:-1}
+.mg-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 28%}
+/* лёгкая растушёвка слева — подложка под стекло, лица не касается (лицо на ~66% ширины) */
+.mg-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--mg-bg) 55%,transparent) 0%,transparent 40%)}
+.mg-glass{background:var(--mg-glass);border:1px solid var(--mg-line)}
 @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .mg-facts>div{-webkit-backdrop-filter:blur(12px) saturate(140%);backdrop-filter:blur(12px) saturate(140%)}}
-@media (prefers-reduced-transparency:reduce){.mg-facts>div{background:#34363b;-webkit-backdrop-filter:none;backdrop-filter:none}}
-.mg-facts dt{font:500 11px/1.3 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c9cacd}
-.mg-facts dd{margin:6px 0 0;font-variant-numeric:tabular-nums;font:900 clamp(22px,1.9vw,30px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.01em;
-  text-transform:uppercase;color:#fff;white-space:nowrap}
-.mg-parts{margin:10px 0 0;font:500 14px/1.4 'Golos Text',sans-serif;color:#c9cacd}
-.mg-hero-act{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:clamp(22px,2.4vw,32px)}
-.mg-hero .mg-cta{margin:0;background:#faf7f2;color:#111;--plate:var(--mg-or)}
-.mg-hero .mg-cta .ph-arrow{background:var(--mg-or);color:#111}
-.mg-hero .mg-cta:focus-visible{outline-color:#fff}
-.mg-alt{display:inline-flex;align-items:center;min-height:44px;color:#ecebe8;font:600 15px/1.2 'Golos Text',sans-serif;
-  text-decoration:underline;text-decoration-color:rgba(236,235,232,.4);text-underline-offset:5px}
-.mg-alt:hover{text-decoration-color:var(--mg-or)}
-.mg-alt:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .mg-hcard,.mg-chip{-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}
+@media (prefers-reduced-transparency:reduce){.mg-hero-band{--mg-glass:var(--mg-bg)}}
 
-/* фото: прямой кадр со смещённой рыжей плашкой (язык md-plate); кадр увеличен — справа в исходнике чужой человек */
-.mg-hero-photo{grid-area:photo;position:relative;align-self:end;margin:0 8px 8px 0;aspect-ratio:4/5;overflow:hidden;
-  box-shadow:8px 8px 0 0 var(--mg-or)}
-.mg-hero-photo::after{content:"";position:absolute;inset:0;outline:1px solid rgba(255,255,255,.1);outline-offset:-1px;pointer-events:none}
-.mg-hero-photo img{position:absolute;left:0;top:-50%;width:165%;max-width:none;height:auto}
+.mg-chip{position:absolute;top:clamp(20px,3vw,40px);right:var(--mg-pad);display:flex;align-items:center;gap:10px;margin:0;padding:12px 18px;
+  border-radius:6px;background:var(--mg-glass);border:1px solid var(--mg-line);
+  font:800 20px/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:.02em;text-transform:uppercase}
+.mg-chip span{color:var(--mg-or);font-size:26px;line-height:.6}
 
-/* дорожка встреч */
-.mg-track{grid-area:track;margin:0 calc(-1 * var(--mg-pad));padding:clamp(20px,2.2vw,30px) var(--mg-pad) clamp(24px,2.6vw,36px);
-  border-top:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.18)}
-.mg-track-cap{margin:0 0 16px;font:600 12px/1.4 'Golos Text',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#c9cacd}
-.mg-track ol{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
-.mg-track li{position:relative;display:flex;align-items:baseline;gap:12px;min-width:0}
-.mg-track b{flex:none;display:grid;place-items:center;width:clamp(44px,4.4vw,72px);height:clamp(44px,4.4vw,72px);background:var(--mg-or);color:#111;
-  font:900 clamp(28px,3vw,48px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%}
-.mg-track li:first-child b{background:#faf7f2}
-.mg-track span{align-self:center;font:500 15px/1.3 'Golos Text',sans-serif;color:#ecebe8}
+.mg-hcard{position:absolute;left:var(--mg-pad);bottom:clamp(28px,5vh,56px);width:min(500px,calc(100% - 2 * var(--mg-pad)));padding:34px 36px 28px;
+  border-radius:8px;background:var(--mg-glass);border:1px solid var(--mg-line);box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.mg-hcard h1{margin:0 0 18px;font:inherit;color:inherit}
+.mg-kick{display:block;margin:0 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mg-mute)}
+.mg-kick i{font-style:normal;color:var(--mg-or)}
+.mg-h{display:block;font:900 60px/.92 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;
+  letter-spacing:-.005em;text-wrap:balance}
+.mg-facts{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 22px;padding:0;list-style:none;font:500 16px/1.35 'Golos Text',sans-serif}
+.mg-facts li::before{content:"* ";color:var(--mg-or);font-weight:800}
+.mg-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:0 0 18px}
+.mg-price b{font:900 52px/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;white-space:nowrap}
+.mg-price span{font:500 15px/1.3 'Golos Text',sans-serif;color:var(--mg-mute)}
+
+.mg-pay{--plate:var(--mg-plate);display:flex;align-items:stretch;min-height:58px;border-radius:4px;background:var(--mg-pbg);color:var(--mg-pfg);
+  text-decoration:none;font:600 18px/1.2 'Golos Text',sans-serif}
+.mg-pay-c{flex:none;display:grid;place-items:center;width:46px;margin:6px;border-radius:3px;background:var(--mg-cell);color:var(--mg-cellfg)}
+.mg-pay-c svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+.mg-pay-t{flex:1;display:flex;align-items:center;padding:0 14px;white-space:nowrap}
+.mg-pay-s{display:flex;align-items:center;padding:0 16px;border-left:1px solid color-mix(in srgb,var(--mg-pfg) 30%,transparent);font-size:14px;letter-spacing:.06em}
+.mg-pay:focus-visible,.mg-sec a:focus-visible{outline:2px solid var(--mg-ink);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){.mg-pay-c svg{transition:translate .2s cubic-bezier(.4,0,.2,1)}
+  .mg-pay:is(:hover,:focus-visible) .mg-pay-c svg{translate:3px 0}}
+.mg-sec{display:grid;grid-template-columns:1.3fr 1fr;gap:10px;margin:10px 0 14px}
+.mg-sec a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 10px;white-space:nowrap;border:1.5px solid var(--mg-sec);
+  border-radius:4px;color:var(--mg-ink);text-decoration:none;font:500 15px/1.2 'Golos Text',sans-serif;transition:background-color .2s,color .2s}
+.mg-sec a:hover{background:var(--mg-sec);color:var(--mg-bg)}
+.mg-sec a:active{translate:1px 1px}
+.mg-sec svg{width:20px;height:20px;flex:none;fill:currentColor}
+.mg-code{margin:0;font:500 14px/1.3 'Golos Text',sans-serif;color:var(--mg-mute)}
+.mg-code b{color:var(--mg-acc);letter-spacing:.08em}
+
+/* появление: карточка поднимается, плашка следом; без движения — сразу на месте */
 @media (prefers-reduced-motion:no-preference){
-  .mg-track li{animation:mg-node .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.25s + var(--i) * 110ms)}
+  .mg-hcard{animation:mg-rise .7s cubic-bezier(.2,.7,.2,1) .1s both}
+  .mg-chip{animation:mg-rise .6s cubic-bezier(.2,.7,.2,1) .35s both}
 }
-@keyframes mg-node{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+@keyframes mg-rise{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
 
-@media (max-width:1100px){.mg-track span{font-size:13px}.mg-track li{flex-direction:column;align-items:flex-start;gap:8px}}
-@media (max-width:760px){
-  .mg-hero{grid-template-columns:1fr;grid-template-areas:"copy" "photo" "track";padding-top:32px}
-  .mg-hero h1{font-size:clamp(40px,12.4vw,64px)}
-  .mg-facts{gap:6px}
-  .mg-facts>div{padding:10px 10px 12px}
-  .mg-facts dd{font-size:clamp(19px,5.6vw,24px)}
-  .mg-facts dt{font-size:11px;letter-spacing:.08em}
-  .mg-hero .mg-cta{width:100%}
-  .mg-hero-photo{aspect-ratio:auto;height:420px;margin-right:8px}
-  .mg-hero-photo img{width:150%;top:-32%}
-  .mg-track ol{gap:6px}
-  .mg-track b{width:100%;height:48px}
-  .mg-track span{font-size:12px;overflow-wrap:anywhere;hyphens:auto}
+/* дорожка встреч + крошки — полоса под первым экраном */
+.mg-trackband{padding:clamp(18px,2vw,26px) max(var(--mg-pad),calc((100% - var(--page-max,1320px)) / 2 + var(--mg-pad))) clamp(24px,2.6vw,36px);background:var(--mg-tband);
+  border-top:1px solid var(--mg-tline);color:var(--mg-ink);font-family:'Golos Text',sans-serif;--mg-pad:clamp(16px,4.4vw,64px)}
+.mg-crumbs{display:flex;flex-wrap:wrap;gap:0 8px;margin:0 0 14px;font:500 14px/1.4 'Golos Text',sans-serif;color:var(--mg-mute)}
+.mg-crumbs a{display:inline-block;padding-block:4px;color:var(--mg-ink);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--mg-ink) 35%,transparent);text-underline-offset:3px}
+.mg-crumbs a:hover{text-decoration-color:var(--mg-or)}
+.mg-track-cap{margin:0 0 16px;font:600 12px/1.4 'Golos Text',sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--mg-mute)}
+.mg-track ol{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.mg-track li{position:relative;display:flex;align-items:center;gap:12px;min-width:0}
+.mg-track b{flex:none;display:grid;place-items:center;width:clamp(44px,4.4vw,64px);height:clamp(44px,4.4vw,64px);border-radius:4px;background:var(--mg-or);color:#111;
+  font:900 clamp(28px,3vw,44px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%}
+.mg-track li:first-child b{background:var(--mg-num);color:var(--mg-numfg)}
+.mg-track span{font:500 15px/1.3 'Golos Text',sans-serif}
+@media (prefers-reduced-motion:no-preference){
+  .mg-track li{animation:mg-rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(.45s + var(--i) * 90ms)}}
+
+/* ≤1000: фото сверху во всю ширину, карточка ниже с заходом на фото, плашка над карточкой справа */
+@media (max-width:1000px){
+  .mg-hero{min-height:0;overflow:visible;padding:0 0 var(--mg-pad)}
+  .mg-ph{position:relative;inset:auto;display:block;height:var(--mg-phh,66.6vw);z-index:0}
+  .mg-ph::after{background:linear-gradient(0deg,var(--mg-bg) 0%,transparent 26%)}
+  .mg-hcard{position:relative;left:auto;bottom:auto;z-index:1;width:auto;max-width:600px;margin:-64px var(--mg-pad) 0}
+  .mg-chip{top:calc(var(--mg-phh,66.6vw) - 64px - 58px);right:var(--mg-pad);z-index:2}
 }
+@media (max-width:700px){
+  .mg-hero{--mg-phh:min(125vw,600px)}
+  .mg-ph img{object-position:50% 20%}
+  .mg-chip{top:calc(var(--mg-phh) - 64px - 50px);padding:9px 12px;font-size:16px;gap:8px}.mg-chip span{font-size:21px}
+  .mg-hcard{padding:22px 18px 18px}
+  .mg-kick{font-size:11px;letter-spacing:.1em;margin-bottom:10px}
+  .mg-h{font-size:clamp(36px,11.2vw,46px)}
+  .mg-facts{font-size:14.5px;gap:4px 14px;margin-bottom:16px}
+  .mg-price{margin-bottom:14px}.mg-price b{font-size:40px}
+  .mg-pay{min-height:54px;font-size:16px}.mg-pay-c{width:42px}.mg-pay-t{padding:0 12px}.mg-pay-s{padding:0 12px}
+  .mg-sec{grid-template-columns:1.75fr 1fr;gap:8px}.mg-sec a{font-size:13.5px;gap:6px;padding:0 6px}.mg-sec svg{width:18px;height:18px}
+  .mg-track ol{gap:6px}
+  .mg-track li{flex-direction:column;align-items:stretch;gap:6px}
+  .mg-track b{width:100%;height:46px}
+  .mg-track span{font-size:12px;text-align:center}
+}
+@media (max-width:360px){
+  .mg-pay-c{display:none}.mg-pay-t{padding:0 14px}
+  .mg-sec{grid-template-columns:1fr}
+}
+@media (max-width:480px){.mg-track span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
 
 /* подпись к цене длиннее, чем «лет в маркетинге» на главной — переносим */
 .mg .mg-offer .xp-years span{white-space:normal;max-width:24em}
-/* факты на узком экране — строками «подпись — значение»: «до 5 человек» не влезает в треть ширины */
-@media (max-width:480px){
-  .mg-facts{grid-template-columns:1fr}
-  .mg-facts>div{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:10px 14px}
-  .mg-facts dd{margin:0}
-}
-/* на телефоне подписи под номерами переносились по слогам («знаком-ство») — их смысл уже в заголовке дорожки */
-@media (max-width:480px){.mg-track span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
