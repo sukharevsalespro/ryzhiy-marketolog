@@ -44,6 +44,8 @@ def check_page(path, base):
     err += [f'дубль {k}' for k in p.dup]
     if m.get('og:locale') != 'ru_RU': err.append('og:locale не ru_RU')
     if m.get('twitter:card') != 'summary_large_image': err.append('twitter:card не summary_large_image')
+    for k in ('og:description', 'twitter:description', 'og:image:alt', 'twitter:image:alt'):
+        if re.search(r'\d [\d₽]', m.get(k, '')): err.append(f'{k}: обычный пробел в сумме (нужен nbsp: «10 000 ₽»)')
     if len(m.get('og:description', '')) > 160: err.append(f"og:description {len(m['og:description'])} > 160")
     for k in ('og:url', 'og:image', 'og:image:secure_url', 'twitter:image'):
         if not m.get(k, '').startswith(SITE + '/'): err.append(f'{k} не абсолютный https-URL сайта')
@@ -65,7 +67,8 @@ def check_page(path, base):
 
 
 def main():
-    pages = sorted(f for f in subprocess.check_output(['git', 'ls-files', '*.html'], text=True).split())
+    pages = sorted(f for f in subprocess.check_output(['git', 'ls-files', '*.html'], text=True).split()
+                   if not f.startswith('specs/'))  # шаблоны карточек — не страницы сайта
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self, *a): pass
     handler = functools.partial(Quiet, directory='.')

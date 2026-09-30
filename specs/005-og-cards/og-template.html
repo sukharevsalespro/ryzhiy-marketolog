@@ -37,12 +37,15 @@ const C={
  'razvitie':{img:'event-selfie-1200.webp',sw:1200,crop:[250,540,1270],k:'Наставник · 20+ лет в маркетинге',h:'Развитие личного бренда',hs:92,s:'Смыслы, продукт, контент и путь клиента — вместе с наставником.',pl:[['Онлайн'],['от 10 000 '+R,'c']]},
  'zapis-lichnyj-brend':{img:'portrait-mic-1200.webp',sw:1200,crop:[0,120,1600],k:'Вебинар в записи',h:'Как развить<br>личный бренд',hs:88,s:'Позиционирование, маркетинг доверия и контент без выгорания.',pl:[['Доступ сразу'],['800 '+R,'c']]},
  'networking':{img:'portrait-phone-call-1200.webp',sw:1200,crop:[60,120,1500],k:'Онлайн-нетворкинг · 15–20 человек',h:'Полезные знакомства',hs:100,s:'<b>8 октября</b> — 10:00–12:00<br><b>10 ноября, 11 декабря</b> — 12:00–14:00 МСК',pl:[['Контур.Толк'],['от 990 '+R,'c']]},
+ 'home':{img:'hero-cutout-big-c2-1600.webp',sw:1600,crop:[230,-110,1620],bg:'#FAF7F2',k:'Наставник по личному бренду',h:'Рыжий маркетолог',hs:108,s:'Личный бренд и маркетинг для экспертов. Онлайн по всей России, база\u00a0— Сочи.',pl:[['20+ лет в маркетинге'],['Онлайн','c']]},
+ 'marketing-doveriya':{img:'portrait-selfie-red-1200.webp',sw:1200,crop:[230,0,1300],k:'Вебинар в записи',h:'Маркетинг доверия',hs:104,s:'Почему у вас не покупают, 9 факторов доверия и нейросети в контенте.',pl:[['Доступ после оплаты']]},
 };
 const c=C[new URLSearchParams(location.search).get('id')];
 const [x,y,h]=c.crop, sc=630/h, ph=document.getElementById('ph');
 ph.style.backgroundImage=`url(../../assets/img/${c.img})`;
 ph.style.backgroundSize=`${c.sw*sc}px auto`;
 ph.style.backgroundPosition=`${-x*sc}px ${-y*sc}px`;
+if(c.bg) ph.style.backgroundColor=c.bg;
 k.textContent=c.k; document.getElementById('h').innerHTML=c.h; document.getElementById('h').style.fontSize=c.hs+'px';
 s.innerHTML=c.s;
 row.innerHTML=c.pl.map(([t,m])=>`<span class="pl ${m||''}">${t}</span>`).join('');
