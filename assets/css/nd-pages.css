@@ -287,3 +287,122 @@
   .rpx--a .lpx-ph img{object-position:60% 18%}
   .rvx .lpx-ph img{object-position:0% 30%}   /* логотип мероприятия (x≥.68 кадра) остаётся за краем */
 }
+
+/* ===================== посадочные целиком (волна 2): блоки ниже первого экрана =====================
+   Каркас полос и общие блоки — из /networking/nw-nd.css (.nw2, .nw-head, .nw2-format, .nw-big, .nw-facts, .nw-plans, .nw-cta-panel, .nw-btn):
+   файл подключается и на посадочных, один источник. Здесь — только то, чего у нетворкинга нет. body: home nd nw-page lpd. */
+
+/* хлебные крошки на месте «← На главную» первого экрана */
+.lpx .lp-crumbs{display:inline-flex;align-items:center;gap:8px;min-height:44px;font:500 15px/1.3 'Golos Text',sans-serif;color:var(--lp-ink);text-decoration:none}
+.lpx .lp-crumbs a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 45%,transparent);text-underline-offset:3px}
+.lpx .lp-crumbs a:hover{text-decoration-color:var(--nd-or)}
+.lpx .lp-crumbs [aria-current]{opacity:.78}
+.lpx .lp-crumbs a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* заголовки секций, как у нетворкинга, — на всех h2 в .nw-head (у нетворкинга правило висит на .nw-head h2 — работает и здесь) */
+.lpd .nw-head>p{margin:0;flex-basis:100%;font:500 16px/1.4 'Golos Text',sans-serif;color:var(--nd-mute)}
+
+/* «что это»: слева 20+ (как «15–20» нетворкинга), справа лид и текст */
+.lpd-author{display:grid;gap:22px;align-content:start}
+.lpd-author .nw-big span{display:grid;gap:6px;font:500 clamp(16px,1.25vw,19px)/1.4 'Golos Text',sans-serif}
+.lpd-author .nw-big .lpd-author-cap{font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
+.lpd-author-ph{margin:0;width:min(100%,300px);aspect-ratio:3/4;border-radius:8px;overflow:hidden;box-shadow:var(--nd-shadow);order:2}
+.lpd-author-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+.lpd-lead{margin:0 0 clamp(18px,2vw,28px);max-width:30em;font:700 clamp(21px,1.9vw,30px)/1.3 'Golos Text',sans-serif;text-wrap:balance}
+.lpd-what .nw-format-text{margin-bottom:clamp(20px,2.2vw,30px)}
+.lpd .lpd-list{margin:0 0 clamp(20px,2.2vw,30px);font-size:clamp(17px,1.35vw,20px)}   /* nw-nd.css грузится позже — специфичность выше */
+.lpd .lpd-list li{padding-left:22px}
+.lpd-punch{margin:0;padding:clamp(18px,2vw,26px) clamp(20px,2.2vw,30px);border-left:4px solid var(--nd-or);border-radius:0 8px 8px 0;background:var(--nd-surface);
+  font:900 clamp(26px,2.4vw,38px)/1.05 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;text-wrap:balance;box-shadow:var(--nd-shadow)}
+
+/* «для кого / как проходит»: две колонки; шаги — крупные номера Poster; доска игры — тот же компонент, что в первом экране */
+.lpd-two{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,96px);align-items:start}
+.lpd-steps{margin:0;padding:0;list-style:none;display:grid;gap:18px}
+.lpd-steps li{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;padding-bottom:18px;border-bottom:1.5px dashed var(--nd-soft)}
+.lpd-steps b{font:900 clamp(44px,3.6vw,60px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:var(--nd-or);font-variant-numeric:tabular-nums}
+.lpd-steps p{margin:0;font:500 clamp(17px,1.3vw,19px)/1.45 'Golos Text',sans-serif;text-wrap:pretty}
+.lpd-board{margin-top:clamp(22px,2.4vw,32px);--nd-glass:var(--nd-surface);background:var(--nd-surface);border-color:var(--nd-soft);box-shadow:var(--nd-shadow);-webkit-backdrop-filter:none;backdrop-filter:none}
+.lpd-board .rpx-game-head{margin:0;font:inherit}
+.lpd-board .rpx-game-head b{font-size:clamp(20px,1.6vw,26px)}
+
+/* «начните сами»: графитовая полоса главной (в обеих темах), вопросы — крупные оранжевые номера */
+.nd .page-band.nd-band--graphite{background-color:var(--nb-graphite,#26282d);background-image:var(--nb-noise,none),linear-gradient(180deg,#2b2d32,#232529);color:#faf7f2;
+  --nd-ink:#faf7f2;--nd-mute:#cfc8be;--nd-soft:rgba(250,247,242,.16);--nd-surface:#2c2e33}
+.lpd-self{color:#faf7f2}
+.lpd-qs{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,28px)}
+.lpd-qs--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.lpd-qs li{display:flex;flex-direction:column;gap:18px;padding:clamp(22px,2.4vw,32px);border-radius:8px;background:rgba(250,247,242,.05);border:1px solid rgba(250,247,242,.14)}
+.lpd-qs b{font:900 clamp(56px,4.6vw,80px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:#fe6c1f}
+.lpd-qs p{margin:0;font:500 clamp(17px,1.35vw,20px)/1.45 'Golos Text',sans-serif;text-wrap:pretty}
+.lpd-note{margin:clamp(24px,2.6vw,36px) 0 0;max-width:46em;font:500 clamp(16px,1.2vw,18px)/1.5 'Golos Text',sans-serif;color:#dcd9d3}
+.lpd-note a,.lpd-link a,.lpd-more a{color:inherit;text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:4px;text-decoration-thickness:1.5px}
+.lpd-note a:hover,.lpd-link a:hover,.lpd-more a:hover{color:var(--nd-or)}
+
+/* форматы (развитие): карточки тарифов нетворкинга; ссылка на мастер-группу и «на главной» */
+.lpd-link{margin:clamp(18px,2vw,26px) 0 0;font:500 16px/1.45 'Golos Text',sans-serif}
+.nw-plan .lpd-link{margin:4px 0 12px;font-weight:600}
+.nw-plan .lpd-link a{display:inline-flex;align-items:center;min-height:44px}
+
+/* отзывы: скрины переписок на бумажных карточках (как .rv-card), стикер-пометка — та же SVG-маска */
+.lpd-rev .rev-lead{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,28px);align-items:start;columns:auto}
+.lpd-rev .rev-lead--stack{grid-template-columns:repeat(3,minmax(0,1fr))}
+.lpd .lpd-rev .rev-lead>*{grid-area:auto;align-self:start;margin:0}   /* выше специфичностью, чем .rev-lead>:nth-child() в @scope(.home) style.css */
+.lpd-rev .rev-card{display:block;margin:0;padding:clamp(12px,1.2vw,18px);border-radius:10px;background:var(--nd-surface);border:1px solid var(--nd-soft);color:var(--nd-ink);
+  text-decoration:none;box-shadow:var(--nd-shadow);break-inside:avoid}
+.lpd-rev .rev-stage{display:block;position:relative;padding:18px 14px 58px;border-radius:6px;background:var(--nd-bg-2)}
+.lpd-rev .rev-card img{display:block;width:100%;height:auto;border-radius:4px}
+.lpd-rev .rev-note{position:absolute;right:14px;bottom:12px;height:34px;width:calc(var(--ar) * 34px);max-width:70%;background:var(--nd-ink);pointer-events:none;
+  rotate:var(--tilt);-webkit-mask:var(--note) center/contain no-repeat;mask:var(--note) center/contain no-repeat}
+.lpd-rev .rev-note--rust{background:var(--nd-acc)}
+.lpd-rev .rev-cap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:14px}
+.lpd-rev .rev-cap b{font:700 17px/1.2 'Golos Text',sans-serif}
+.lpd-rev .rev-tag{padding:3px 8px;border-radius:3px;background:#fe6c1f;color:#111;font:600 12px/1.4 'Golos Text',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.lpd-rev .rev-card:focus-visible{outline:2px solid var(--nd-ink);outline-offset:4px}
+@media (prefers-reduced-motion:no-preference) and (hover:hover){
+  .lpd-rev .rev-card{transition:translate var(--md-t-state) var(--md-ease),border-color .2s}
+  .lpd-rev .rev-card:hover{translate:0 -4px;border-color:var(--nd-or)}}
+.lpd-more{margin:clamp(20px,2.2vw,30px) 0 0;font:600 17px/1.4 'Golos Text',sans-serif}
+.lpd-more a{display:inline-flex;align-items:center;min-height:44px}
+
+/* вопросы: аккордеон графитового FAQ главной (.fq) в px и токенах */
+.lpd-qlist{border-bottom:1px solid var(--nd-soft)}
+.lpd-qlist .lp-q{border-top:1px solid var(--nd-soft)}
+.lpd-qlist summary{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:56px;padding:16px 0;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
+.lpd-qlist summary::-webkit-details-marker{display:none}
+.lpd-qlist summary h3{margin:0;font:900 clamp(22px,1.8vw,30px)/1.05 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;transition:color .2s}
+.lpd-qlist summary:hover h3,.lpd-qlist .lp-q[open] summary h3{color:var(--nd-acc)}
+.lpd-qlist summary:focus-visible{outline:2px solid var(--nd-ink);outline-offset:4px}
+.lpd-qlist .lp-plus{position:relative;flex:none;width:32px;height:32px;border-radius:4px;border:1.5px solid color-mix(in srgb,var(--nd-ink) 45%,transparent);transition:background-color .2s,border-color .2s}
+.lpd-qlist .lp-plus::before,.lpd-qlist .lp-plus::after{content:"";position:absolute;left:50%;top:50%;width:13px;height:2px;background:currentColor;translate:-50% -50%;transition:rotate .3s var(--md-ease)}
+.lpd-qlist .lp-plus::after{rotate:90deg}
+.lpd-qlist .lp-q[open] .lp-plus{background:#fe6c1f;border-color:#fe6c1f;color:#111}
+.lpd-qlist .lp-q[open] .lp-plus::before{rotate:45deg}.lpd-qlist .lp-q[open] .lp-plus::after{rotate:135deg}
+.lpd-qlist .lp-q>p{margin:0;padding:0 56px 22px 0;max-width:62ch;font:500 clamp(16px,1.2vw,18px)/1.55 'Golos Text',sans-serif;color:var(--nd-mute)}
+.lpd-qlist .lp-q>p a{color:var(--nd-ink);text-decoration-color:var(--nd-or)}
+
+/* ещё на сайте */
+.lpd-next{padding-top:0}
+.lpd-next nav{display:flex;flex-wrap:wrap;gap:10px;padding-top:24px;border-top:1px solid var(--nd-soft)}
+.lpd-next a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--nd-soft);color:var(--nd-ink);text-decoration:none;
+  font:600 15px/1.2 'Golos Text',sans-serif;transition:border-color .2s,background-color .2s}
+.lpd-next a:hover{border-color:var(--nd-or)}
+.lpd-next a:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px}
+
+@media (max-width:1100px){
+  .lpd-two{grid-template-columns:1fr}
+  .lpd-qs--3{grid-template-columns:1fr 1fr}
+  .lpd-rev .rev-lead--stack{grid-template-columns:1fr 1fr}
+}
+@media (max-width:700px){
+  .lpd-qs,.lpd-qs--3{grid-template-columns:1fr}
+  .lpd-rev .rev-lead,.lpd-rev .rev-lead--stack{grid-template-columns:1fr}
+  .lpd-rev .rev-stage{padding:14px 10px 52px}
+  .lpd-author{grid-template-columns:auto 1fr;align-items:center;gap:16px}
+  .lpd-author-ph{order:0;width:120px}
+  .lpd-qlist .lp-q>p{padding-right:0}
+  .lpd-punch{font-size:26px}
+}
+/* у секции отзывов остаётся класс .reviews (на него завязан лайтбокс в main.js) — поля возвращаем к .nw2 */
+.lpd .nw2.lpd-rev{padding:clamp(64px,7.4vw,120px) var(--nd-pad);max-width:var(--page-max,1320px)}
+.lpd-faq-band+.nw2-band .nw-cta{padding-top:0}
+@media (max-width:700px){.lpd .nw2.lpd-rev{padding:56px var(--nd-pad)}}
