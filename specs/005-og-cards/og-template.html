@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<!-- OG-карточки, дизайн B «графит» (выбор владельца 01.10.2026): фото на всю площадь,
+     графитовое стекло буквой «Г» (колонка + нижняя полоса), оранжевый только акцент.
+     Токены — из mastergruppa.css (.mg-hero-band, тёмная тема). Рендер: render.py <id> … -->
+<style>
+@font-face{font-family:Golos;src:url(../../assets/fonts/golos-cyrillic.woff2) format('woff2');font-weight:400 900;unicode-range:U+0400-045F,U+2116}
+@font-face{font-family:Golos;src:url(../../assets/fonts/golos-latin.woff2) format('woff2');font-weight:400 900;unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:Poster;src:url(../../assets/fonts/roboto-var-cyrillic.woff2) format('woff2');font-weight:100 900;font-stretch:75% 100%;unicode-range:U+0400-045F}
+@font-face{font-family:Poster;src:url(../../assets/fonts/roboto-var-latin.woff2) format('woff2');font-weight:100 900;font-stretch:75% 100%;unicode-range:U+0000-00FF,U+2000-206F}
+/* Шрифты сайта не содержат ₽ — он рисуется DejaVu Sans (системный на NVR) */
+:root{--or:#fe6c1f;--ink:#faf7f2;--mute:#cfc8be;--glass:rgba(35,37,41,.72);--line:rgba(250,247,242,.2);--blur:blur(18px) saturate(1.1)}
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{position:relative;font-family:Golos,'DejaVu Sans',sans-serif;color:var(--ink);background:#232529}
+/* .bg — то же фото, размытое, на всю карточку: подложка под стеклом, если резкое фото уже карточки (вертикальные кадры) */
+.bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(28px) brightness(.6)}
+.ph{position:absolute;inset:0;background-repeat:no-repeat}
+.pn{position:absolute;top:0;bottom:64px;padding:44px 40px 30px 52px;display:flex;flex-direction:column;
+  background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.L .pn{left:0;border-right:1px solid var(--line);box-shadow:20px 0 60px rgba(0,0,0,.18)}
+.R .pn{right:0;border-left:1px solid var(--line);box-shadow:-20px 0 60px rgba(0,0,0,.18)}
+.k{font-weight:600;font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);line-height:1.3}
+.k i,.st i{font-style:normal;color:var(--or);font-weight:800}
+h1{margin-top:20px;font:900 84px/.94 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.005em}
+.dt{margin-top:22px;font-size:24px;line-height:1.35;font-weight:500}
+.dt b{font-weight:700}
+.row{margin-top:auto;display:flex;align-items:center;gap:22px}
+.pr{background:var(--or);color:#111;font:900 56px/1 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;padding:10px 18px 9px;border-radius:4px;white-space:nowrap}
+.r{font-family:'DejaVu Sans',sans-serif;font-weight:700;font-size:.78em;font-stretch:normal}
+.st{font:800 34px/1.05 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;white-space:nowrap}
+.f{position:absolute;left:0;right:0;bottom:0;height:64px;padding:0 52px;display:flex;align-items:center;justify-content:space-between;
+  font-size:20px;font-weight:600;background:var(--glass);border-top:1px solid var(--line);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.f b{font-weight:600;color:var(--mute)}
+</style></head>
+<body><div class="bg" id="bg"></div><div class="ph" id="ph"></div>
+<div class="pn"><p class="k" id="k"></p><h1 id="h"></h1><p class="dt" id="dt"></p><div class="row" id="row"></div></div>
+<div class="f"><span id="fl"></span><span>рыжий-маркетолог.рф</span></div>
+<script>
+const R=' <span class="r">₽</span>', S='<i>*</i> ';
+// img — файл из assets/img; w — ширина фото на карточке (px, ≥1200); x,y — сдвиг фона; side — где стекло (L/R), pw — ширина колонки
+const C={
+ 'master-gruppa':{img:'mg-evening-2400.webp',w:1200,x:0,y:-6,side:'L',
+   k:'Мастер-группа · до 5 человек',h:'Личный бренд за\u00a04\u00a0недели',hs:80,pr:'12\u00a0500'+R,st:S+'Старт<br>5 октября',fl:'Валентина Сухарева <b>· онлайн по всей России</b>'},
+ 'home':{img:'thoughts-position-1200.webp',w:1200,x:-20,y:-20,side:'R',
+   k:'Наставник по личному бренду',h:'Рыжий маркетолог',hs:80,pr:'20+ лет',st:S+'в маркетинге',fl:'Валентина Сухарева <b>· онлайн по всей России, база\u00a0— Сочи</b>'},
+ 'otzyvy':{img:'portrait-newyear-2400.webp',w:720,x:-40,y:-20,side:'R',
+   k:'Отзывы клиенток',h:'Своими словами',hs:92,pr:'15',st:S+'живых переписок<br>без правок',fl:'Валентина Сухарева <b>· оригинал под каждым отзывом</b>'},
+ 'raspakovka':{img:'portrait-yalta-wall-smile-2400.webp',w:720,x:520,y:-120,side:'L',
+   k:'Игра «Путь гениальности» · 2–4\u00a0часа',h:'Распаковка личности',hs:84,pr:'5\u00a0000'+R,st:S+'в группе<br>лично — 10\u00a0000\u00a0₽',ss:29,fl:'Валентина Сухарева <b>· онлайн по всей России</b>'},
+ 'razvitie':{img:'portrait-crimea-rock-2400.webp',w:720,x:-10,y:-160,side:'R',
+   k:'Наставник · 20+ лет в маркетинге',h:'Развитие личного бренда',hs:80,pr:'от 10\u00a0000'+R,st:S+'онлайн',fl:'Валентина Сухарева <b>· консультация, мастер-группа, сопровождение</b>'},
+ 'networking':{img:'portrait-phone-call-2400.webp',w:900,x:-20,y:-130,side:'R',pw:620,
+   k:'Онлайн-нетворкинг · 15–20 человек',h:'Полезные знакомства',hs:80,dt:'<b>8 октября</b> — 10:00–12:00<br><b>10 ноября, 11 декабря</b> — 12:00–14:00',pr:'от 990'+R,st:S+'Контур.Толк',fl:'Валентина Сухарева <b>· время московское</b>'},
+ 'zapis-lichnyj-brend':{img:'portrait-mic-2400.webp',w:720,x:-40,y:-60,side:'R',
+   k:'Вебинар в записи',h:'Как развить личный бренд',hs:80,pr:'800'+R,st:S+'доступ сразу<br>после оплаты',fl:'Валентина Сухарева <b>· практический вебинар</b>'},
+ 'marketing-doveriya':{img:'portrait-terrace-2400.webp',w:900,x:-150,y:-150,side:'R',
+   k:'Вебинар в записи',h:'Маркетинг доверия',hs:84,pr:'888'+R,st:S+'доступ<br>после оплаты',fl:'Валентина Сухарева <b>· практический эфир</b>'},
+ 'pozicionirovanie':{img:'portrait-bench-2400.webp',w:720,x:-120,y:-50,side:'R',pw:700,
+   k:'Статья',h:'Как найти своё позиционирование',hs:64,st:S+'Больше подписчиков<br>и клиентов',fl:'Валентина Сухарева <b>· вопросы и пример из практики</b>'},
+};
+const q=new URLSearchParams(location.search), c=C[q.get('id')];
+document.body.classList.add(c.side);
+const ph=document.getElementById('ph'), pn=document.querySelector('.pn');
+ph.style.backgroundImage=bg.style.backgroundImage=`url(../../assets/img/${c.img})`;
+ph.style.backgroundSize=`${c.w}px auto`;
+ph.style.backgroundPosition=`${c.x}px ${c.y}px`;
+pn.style.width=(c.pw||580)+'px';
+k.innerHTML=S+c.k; const h=document.getElementById('h'); h.textContent=c.h; if(c.hs) h.style.fontSize=c.hs+'px';
+dt.innerHTML=c.dt||''; if(!c.dt) dt.remove();
+row.innerHTML=(c.pr?`<span class="pr">${c.pr}</span>`:'')+(c.st?`<span class="st">${c.st}</span>`:'');
+fl.innerHTML=c.fl; if(c.ss) document.querySelector('.st').style.fontSize=c.ss+'px';
+</script></body></html>
