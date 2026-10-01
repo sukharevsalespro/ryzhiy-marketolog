@@ -71,7 +71,7 @@
   background:radial-gradient(40% 60% at 18% 12%,rgba(255,214,160,.9),rgba(255,214,160,0)),radial-gradient(34% 50% at 92% 20%,rgba(255,176,96,.85),rgba(255,176,96,0)),radial-gradient(40% 60% at 70% 110%,rgba(150,34,6,.55),rgba(150,34,6,0)),linear-gradient(135deg,#e2530f 0%,#fe6c1f 55%,#ff8f45 100%)}
 /* перфорация: пунктир по шву + вырезы сверху/снизу шва и по бокам билета */
 .tk-main::before{content:"";position:absolute;left:0;top:var(--tk-cut);bottom:var(--tk-cut);border-left:2px dashed rgba(0,0,0,.55)}
-.tk-main h2{max-width:22ch;font:900 condensed 34rem/.92 Poster,sans-serif;letter-spacing:-.03em;text-transform:uppercase;text-wrap:balance}
+.tk-main h2{max-width:22ch;font:900 condensed 34rem/.98 Poster,sans-serif;letter-spacing:-.03em;text-transform:uppercase;text-wrap:balance}
 .tk-main h2 s{white-space:nowrap;color:rgba(0,0,0,.5);text-decoration:line-through;text-decoration-color:#000;text-decoration-thickness:.09em}
 .tk-sub{margin-top:8rem;max-width:44ch;font-size:9rem;line-height:1.4}
 .tk-fields{display:grid;grid-template-columns:1fr 1fr;gap:10rem 18rem;margin-top:14rem}

@@ -58,7 +58,8 @@
     if (dlg) {
       var copy = full.cloneNode(true);
       copy.classList.remove('dl--dark'); copy.classList.add('dl--auto');
-      dlg.querySelector('.dl-dlg-body').appendChild(copy);
+      var body = dlg.querySelector('.dl-dlg-body');
+      body.insertBefore(copy, body.querySelector('.dl-cta')); /* кнопка записи — под виджетом */
       setup(copy);
     }
   }

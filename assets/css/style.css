@@ -1330,3 +1330,8 @@ html:has(.hdr-dialog[open]){overflow:hidden}
 @keyframes vb-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes vb-wiggle{0%,86%,100%{transform:rotate(0)}90%{transform:rotate(-6deg)}94%{transform:rotate(6deg)}97%{transform:rotate(-2deg)}}
 @keyframes vb-shine{0%,84%{translate:0 0}96%,100%{translate:34px 0}}
+
+/* Подпись под кнопками мессенджеров с предзаполненным текстом (главная, мастер-группа, нетворкинг) */
+.msg-hint{margin:8px 0 0;max-width:46ch;font:500 13px/1.4 'Golos Text',sans-serif;color:color-mix(in srgb,currentColor 74%,transparent)}
+.xp-act .msg-hint{grid-column:1/-1}
+.mg-hcard .msg-hint{margin:-4px 0 10px}

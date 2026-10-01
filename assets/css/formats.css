@@ -7,7 +7,7 @@
   background-image:radial-gradient(46% 60% at 50% 100%,rgba(254,108,31,.18) 0%,rgba(254,108,31,0) 100%)}
 .fmt{box-sizing:border-box;padding:clamp(56px,6.4vw,96px) var(--fx-pad) clamp(56px,7vw,104px)}
 .fmt *,.fmt *::before,.fmt *::after{box-sizing:border-box}
-.fmt-h{margin:0;max-width:16ch;font:900 clamp(38px,5vw,72px)/.96 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance}
+.fmt-h{margin:0;max-width:16ch;font:900 clamp(38px,5vw,72px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;text-transform:uppercase;text-wrap:balance}
 .fmt-grid{list-style:none;margin:clamp(64px,7vw,104px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(64px,7vw,88px) clamp(12px,1.6vw,24px)}
 .fmt-grid>li{display:flex;min-width:0}
 

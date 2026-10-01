@@ -13,5 +13,12 @@ with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={'width': 1200, 'height': 630})
     for i in sys.argv[1:]:
         pg.goto((here / 'og-template.html').as_uri() + f'?id={i}'); pg.evaluate('document.fonts.ready'); pg.wait_for_timeout(300)
+        # контроль: текст не вылезает из стеклянной колонки, фото закрывает всю карточку
+        bad = pg.evaluate('''() => { const p=document.querySelector('.pn').getBoundingClientRect(), cs=getComputedStyle(document.querySelector('.pn'));
+          const L=p.left+parseFloat(cs.paddingLeft)-1, Rr=p.right-parseFloat(cs.paddingRight)+1;
+          const out=[...document.querySelectorAll('.pn > *, .pn .row > *')].filter(e=>{const r=e.getBoundingClientRect();
+            const rg=document.createRange(); rg.selectNodeContents(e); const t=rg.getBoundingClientRect(); return t.right>Rr||t.left<L||t.bottom>p.bottom}).map(e=>e.className||e.tagName);
+          const ph=document.getElementById('ph'), st=getComputedStyle(ph), img=new Image(); return out; }''')
+        print(i, 'вылезает:', bad or 'нет')
         pg.screenshot(path=str(here / 'out' / f'{i}.png'))
     b.close()
