@@ -80,6 +80,9 @@ export function extract(html) {
     prices: uniqSorted(all(/\d[\d   ]*\s?₽/g, text).map((m) => norm(m[0]))),
     internalLinks: uniqSorted(hrefs.filter((h) => h.startsWith('/') && !h.startsWith('//'))),
     imgNoAlt: all(/<img\b[^>]*>/g, html).filter(([t]) => attr(t, 'alt') === undefined).length,
+    // набор фото по базовому имени файла (без -600/-1200/… и расширения): потеря фото = FAIL, новое фото — только сообщение
+    images: uniqSorted(all(/<(?:img|source)\b[^>]*>/g, html).flatMap(([t]) => [attr(t, 'src'), ...(attr(t, 'srcset') || '').split(',').map((x) => x.trim().split(/\s+/)[0])])
+      .filter(Boolean).map((u) => u.split('?')[0].split('/').pop().replace(/\.(webp|avif|jpe?g|png|svg|gif)$/i, '').replace(/-\d{2,5}$/, ''))),
   };
 }
 
@@ -96,6 +99,12 @@ export function compare(before, after, allow = ALLOW) {
     const ok = allow[page] || {};
     for (const key of Object.keys(a)) {
       const x = a[key], y = b[key];
+      if (key === 'images') {
+        const gone = (x || []).filter((v) => !(y || []).includes(v) && !(ok.images || []).includes('-' + v));
+        gone.forEach((v) => problems.push(`${page}: images -${v} (фото пропало)`));
+        (y || []).filter((v) => !(x || []).includes(v)).forEach((v) => console.log(`инфо: ${page}: новое фото ${v}`));
+        continue;
+      }
       const isSet = Array.isArray(x) && ['prices', 'internalLinks', 'msgText', 'ldTypes', 'ldPrices', 'ldEvents'].includes(key);
       const isMap = x && typeof x === 'object' && !Array.isArray(x) && !['og', 'twitter'].includes(key);
       if (isSet || isMap) {
@@ -124,6 +133,7 @@ function selftest(root) {
     ['zapis-lichnyj-brend/index.html', (h) => h.replace(/<h1\b([^>]*)>/, '<h1$1>Другой '), /h1/],
     ['otzyvy/index.html', (h) => h.replace('application/ld+json">', 'application/ld+json">{'), /JSON-LD/],
     ['networking/index.html', (h) => h.replaceAll('990', '999'), /: prices -990 ₽/],
+    ['networking/index.html', (h) => h.replace(/<figure class="nw-cta-photo">[\s\S]*?<\/figure>/, ''), /images -portrait-pink-coat-phone/],
   ];
   let failed = 0;
   for (const [page, mutate, expect] of cases) {

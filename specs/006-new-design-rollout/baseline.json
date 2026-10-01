@@ -101,7 +101,29 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "3d-gruppa",
+   "3d-igra",
+   "3d-konsult",
+   "3d-live",
+   "3d-marathon",
+   "3d-mastermind",
+   "3d-networking",
+   "3d-obuchenie",
+   "3d-soprovozhdenie",
+   "3d-webinar",
+   "ava-larisa",
+   "ava-olga",
+   "ava-prosecco",
+   "emo-rocket",
+   "hero-cutout-big-c2",
+   "thoughts-content",
+   "thoughts-position",
+   "thoughts-webinar",
+   "ticket-newyear"
+  ]
  },
  "master-gruppa-lichnyj-brend/index.html": {
   "title": "Мастер-группа по личному бренду онлайн | Рыжий маркетолог",
@@ -192,7 +214,21 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "3d-gruppa",
+   "3d-live",
+   "3d-mastermind",
+   "3d-webinar",
+   "ava-olga",
+   "ava-prosecco",
+   "dolyami-logo-black",
+   "dolyami-logo-white",
+   "emo-rocket",
+   "mg-evening",
+   "mg-evening-m"
+  ]
  },
  "networking/index.html": {
   "title": "Онлайн-нетворкинг «Полезные знакомства» | Рыжий маркетолог",
@@ -286,7 +322,12 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "portrait-phone-call",
+   "portrait-pink-coat-phone"
+  ]
  },
  "raspakovka-lichnosti/index.html": {
   "title": "Распаковка личности эксперта | Рыжий маркетолог",
@@ -376,7 +417,14 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "bub-03-olga-psiholog",
+   "bub-04-nadezhda-igra",
+   "portrait-armchair-laugh",
+   "portrait-yalta-wall-smile"
+  ]
  },
  "razvitie-lichnogo-brenda/index.html": {
   "title": "Развитие личного бренда эксперта | Рыжий маркетолог",
@@ -470,7 +518,15 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "bub-01-larisa-marafon",
+   "bub-02-tanya-mastermaind",
+   "bub-09-larisa-zapusk",
+   "event-selfie",
+   "portrait-binoculars-sea"
+  ]
  },
  "zapis-lichnyj-brend/index.html": {
   "title": "Личный бренд — вебинар в записи | Рыжий маркетолог",
@@ -544,7 +600,12 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "portrait-bench",
+   "portrait-mic"
+  ]
  },
  "zapis-marketing-doveriya/index.html": {
   "title": "Маркетинг доверия — вебинар в записи | Рыжий маркетолог",
@@ -617,7 +678,12 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "portrait-selfie-red",
+   "poster-doveriya"
+  ]
  },
  "pozicionirovanie/index.html": {
   "title": "Как найти своё позиционирование — Рыжий маркетолог",
@@ -691,7 +757,14 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "definition",
+   "example",
+   "portrait-bench",
+   "questions"
+  ]
  },
  "otzyvy/index.html": {
   "title": "Отзывы о работе с Валентиной Сухаревой — Рыжий маркетолог",
@@ -776,7 +849,17 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322",
+   "3d-heart",
+   "ava-larisa",
+   "ava-olga",
+   "ava-praktikum",
+   "ava-prosecco",
+   "emo-hearts",
+   "emo-rocket"
+  ]
  },
  "rekvizity/index.html": {
   "title": "Реквизиты — Рыжий маркетолог",
@@ -842,7 +925,10 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322"
+  ]
  },
  "legal/oferta/index.html": {
   "title": "Публичная оферта — Рыжий маркетолог",
@@ -908,7 +994,10 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322"
+  ]
  },
  "legal/privacy/index.html": {
   "title": "Политика обработки персональных данных — Рыжий маркетолог",
@@ -976,7 +1065,10 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322"
+  ]
  },
  "legal/soglasie/index.html": {
   "title": "Согласие на обработку персональных данных — Рыжий маркетолог",
@@ -1044,7 +1136,10 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322"
+  ]
  },
  "404.html": {
   "title": "Страница не найдена — Рыжий маркетолог",
@@ -1107,6 +1202,9 @@
    "/zapis-lichnyj-brend/",
    "/zapis-marketing-doveriya/"
   ],
-  "imgNoAlt": 0
+  "imgNoAlt": 0,
+  "images": [
+   "112475322"
+  ]
  }
 }
