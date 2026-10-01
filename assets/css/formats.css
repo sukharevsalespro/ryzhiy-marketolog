@@ -87,3 +87,21 @@
   .fmt-card--wide .fmt-meta{grid-area:meta;margin:0;align-self:center}
   .fmt-card--wide .fmt-arrow{top:50%;margin-top:-20px}
 }
+
+/* ---------- тёмная тема (спека 006, волна 0б): главная и мастер-группа ----------
+   Полоса — графит с зерном и тем же рыжим сиянием снизу; белые карточки становятся поверхностью на ступень светлее
+   поля (#303237) с волосяной кромкой, тёплая тень — нейтральной. 3D-иконки и оранжевые плашки не меняются. */
+@media (prefers-color-scheme:dark){
+  :is(.home,.webinar) .page-band.fmt-band{color:#faf7f2;background-color:var(--nb-graphite,#26282d);
+    background-image:radial-gradient(46% 60% at 50% 100%,rgba(254,108,31,.2) 0%,rgba(254,108,31,0) 100%),var(--nb-noise,none),linear-gradient(180deg,#2b2d32,#232529)}
+  .fmt-card{background:#303237;border-color:rgba(250,247,242,.1);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 22px 44px -22px rgba(0,0,0,.6)}
+  .fmt-ico-wrap{filter:drop-shadow(0 14px 16px rgba(0,0,0,.35))}
+  .fmt-d{color:#cfc8be}
+  .fmt-sub a:not(:last-child)::after{color:#a3a5ab}
+  .fmt .fmt-card .fmt-sub a{color:#faf7f2;text-decoration-color:rgba(250,247,242,.4)}
+  .fmt .fmt-card .fmt-sub a:is(:hover,:focus-visible){color:#ff8a4c}
+  .fmt-arrow{background:rgba(250,247,242,.1);color:#faf7f2}
+}
+@media (prefers-color-scheme:dark) and (hover:hover){
+  .fmt-card:hover{box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 34px 60px -24px rgba(0,0,0,.7)}
+}

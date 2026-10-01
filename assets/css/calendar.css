@@ -176,3 +176,14 @@ html:not(.js) .home .agenda .ag-nav{display:none}
 @media (prefers-reduced-transparency:reduce){
   .home .agenda .c2-mini{-webkit-backdrop-filter:none;backdrop-filter:none;background:#2e3035}
 }
+
+/* ---------- тёмная тема (спека 006, волна 0б) ----------
+   Полоса графитовая в обеих темах; в тёмной подтягиваем мелкий текст до контраста 4.5:1 на графите:
+   оранжевая строка времени — акцент-текстом тёмной темы #ff8a4c (паспорт §1), число прошедшей встречи —
+   светлее, но по-прежнему заметно тише обычного (решение владельца 27.09: прошедшее — приглушённым). */
+@media (prefers-color-scheme:dark){
+  .home{--cg-mute:#b8babf}
+  .home .agenda .c2-time{color:#ff8a4c}
+  .home .agenda .c2-card.is-past .c2-time{color:var(--cg-mute)}
+  .home .agenda .c2-card.is-past .c2-day{color:#8b8e95}
+}

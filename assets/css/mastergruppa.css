@@ -221,3 +221,13 @@
 .dl-dlg .mg-pay-t{white-space:normal;padding-block:8px} /* узкий экран: подпись в две строки, не обрезается */
 .dl-note{margin:6px 0 0;font:400 12px/1.4 'Golos Text',sans-serif;color:var(--dl-mute)}
 @media (prefers-color-scheme:dark){.dl-dlg{--mg-pbg:#fe6c1f;--mg-pfg:#111;--mg-cell:#111;--mg-cellfg:#faf7f2;--mg-plate:#faf7f2;--mg-ink:#faf7f2}}
+
+/* ---------- тёмная тема (спека 006, волна 0б) ----------
+   Полосы мастер-группы темнеют общими правилами главной (home-blocks.css, formats.css, about.css); здесь — только отличия.
+   Окно «Долями» в теме страницы: графит вместо чёрного, кромка как у поверхностей. Логотип — белый официальный, как и был. */
+@media (prefers-color-scheme:dark){
+  .mg .mg-plus{color:#cfc8be}
+  .mg .mg-card:hover,.mg .mg-card:active{box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 22px 44px -22px rgba(0,0,0,.6)}
+  .dl-dlg{--dl-bg:#26282d;--dl-fg:#faf7f2;--dl-mute:#cfc8be;--dl-track:rgba(250,247,242,.2);border:1px solid rgba(250,247,242,.12)}
+  .dl-dlg::backdrop{background:rgba(0,0,0,.6)}
+}

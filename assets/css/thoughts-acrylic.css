@@ -14,7 +14,7 @@
   content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
   background:
     radial-gradient(38% 44% at 18% 58%,rgba(254,108,31,.34),transparent 62%),
-    radial-gradient(34% 38% at 84% 22%,rgba(31,126,252,.24),transparent 62%),
+    radial-gradient(34% 38% at 84% 22%,rgba(168,51,12,.26),transparent 62%), /* было синее сияние — снято вместе с синей пластиной (В3) */
     linear-gradient(180deg,var(--th-bg) 0%,var(--th-bg-2) 55%,var(--nb-graphite) 100%)
 }
 .th{padding:clamp(56px,7vw,112px) var(--gutter,24px) clamp(64px,8vw,128px);box-sizing:border-box}
@@ -62,7 +62,8 @@
     linear-gradient(115deg,transparent 6%,rgba(255,255,255,.13) 12%,transparent 20%);
   mix-blend-mode:screen;transition:opacity .4s
 }
-.th-plate--blue{--c1:#3f8cff;--c2:#1b57d6;--c3:#1444a8;--edge:#0d2f7a;--glow:rgba(31,98,230,.55)}
+/* синяя пластина снята (решение В3 «синий убрать», 01.10.2026) — графит в стиле страницы, сияние рыжее */
+.th-plate--graphite{--c1:#575a62;--c2:#3e4148;--c3:#2f3136;--edge:#18191c;--glow:rgba(254,108,31,.38)}
 .th-plate--red{--c1:#ff5e4b;--c2:#c92217;--c3:#9c150e;--edge:#6d0e08;--glow:rgba(216,43,31,.5)}
 @supports not (background:color-mix(in srgb,red 50%,transparent)){
   .th-plate{background:linear-gradient(165deg,var(--c1),var(--c2) 42%,var(--c3))}

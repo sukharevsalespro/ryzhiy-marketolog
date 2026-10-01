@@ -73,3 +73,14 @@
   .home .xp-years b{font-size:clamp(112px,36vw,150px)}
 }
 @media (prefers-reduced-motion:reduce){.home .xp-cta .i,.home .xp-panel::before{transition:none}}
+
+/* ---------- тёмная тема (спека 006, волна 0б): главная и «Предложение» мастер-группы ----------
+   Полоса — графит с зерном; графитовая плашка с сиянием поднимается на ступень (#303237) и получает волосяную кромку,
+   чтобы не слиться с полем. Кнопка — оранжевая плашка с тёмным текстом, как основные кнопки в тёмной теме. */
+@media (prefers-color-scheme:dark){
+  .home .page-band.xp-band{background-color:var(--nb-graphite,#26282d);background-image:var(--nb-noise,none),linear-gradient(180deg,#2b2d32,#232529)}
+  .home .xp-band{--xp-ink:#faf7f2;--xp-soft:#cfc8be;--xp-line:rgba(250,247,242,.16);--xp-g:#303237}
+  .home .xp-panel{outline:1px solid rgba(250,247,242,.1);outline-offset:-1px}
+  .home .xp-band .xp-cta{--plate:#faf7f2;background:#fe6c1f;color:#111;border-color:#fe6c1f}
+  .home .xp-band .xp-cta:is(:hover,:focus-visible){background:#faf7f2;color:#111;border-color:#faf7f2}
+}

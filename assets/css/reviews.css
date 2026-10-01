@@ -223,3 +223,10 @@
 @media (prefers-reduced-motion:reduce){.home .rv-grid{scroll-behavior:auto}}
 /* ≤480: сердце маленькое, над заголовком справа, без парения — не заходит на текст */
 @media (max-width:480px){.home .rv--r1 .rv-heart{animation:none;translate:none}.home .rv-band.rv--r1 .reviews.rv{padding-top:76px}}
+
+/* ---------- тёмная тема r3 (спека 006, волна 0б) ----------
+   Полоса r3 графитовая в обеих темах (правило выше, :154, относится к варианту r1 и на r3 не действует).
+   В тёмной подтягиваем время сообщения до 4.5:1 на пузыре #33353b. */
+@media (prefers-color-scheme:dark){
+  .home .rv--r3 .rv-sheet{--rv-time:#aca8a1}
+}
