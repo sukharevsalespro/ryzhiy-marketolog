@@ -76,6 +76,9 @@
 .nw-paydate{margin:10px 0 0;color:var(--nd-mute)}
 .nw-paydate b{color:var(--nd-ink);font-weight:700;white-space:nowrap}
 .nw-paydate+.nw-quiet{margin-top:0}
+/* тариф «Стандарт»: переключение «Оплатить» / предварительная запись по выбранной дате (networking.js).
+   display:flex у .nw-btn выше по specificity, чем атрибут [hidden] — без этого правила кнопка не скрывалась. */
+[data-pay-el][hidden],[data-prereg-el][hidden]{display:none!important}
 /* кнопки страницы: сплошная — плашка темы (тёмная в светлой, оранжевая в тёмной) с «плитой» md-plate; контурная — как .mg-sec */
 .nw-page .nw-btn{--plate:var(--nd-or);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 18px 0 20px;border-radius:4px;
   border:1.5px solid var(--nd-sec);color:var(--nd-ink);background:transparent;text-decoration:none;font:600 17px/1.2 'Golos Text',sans-serif;transition:background-color .2s,color .2s,translate var(--md-t-state) var(--md-ease),box-shadow var(--md-t-state) var(--md-ease)}

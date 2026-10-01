@@ -7,20 +7,29 @@
 
   function bind(name) { return document.querySelector('[data-bind="' + name + '"]'); }
   function checked() { return document.querySelector('input[name="nw-date"]:checked'); }
-  function message(tariff) {
+  function message(tariff, suffix) {
     var input = checked();
     var head = 'Хочу на нетворкинг' + (input ? ' ' + input.value : '');
-    return head + (tariff ? ', тариф «' + tariff + '»' : '');
+    var body = head + (tariff ? ', тариф «' + tariff + '»' : '');
+    return body + (suffix ? '. ' + suffix : '');
   }
 
   function sync() {
     var input = checked();
     if (input) bind('picked').textContent = input.value + ', ' + input.dataset.weekday;
-    /* одна ссылка оплаты на все даты: Продамус не принимает примечание из ссылки (проверено 01.10), поэтому дату просим вписать вручную */
-    if (bind('paydate')) bind('paydate').textContent = input ? input.value : 'выбранную в блоке «Даты»';
+    /* ссылка оплаты — своя у каждой даты (data-pay на input «Даты»). Нет ссылки → тариф «Стандарт»
+       переключается на предварительную запись в Telegram/MAX вместо кнопки оплаты. */
+    var hasPay = !!(input && input.dataset.pay);
+    if (hasPay) {
+      var payBtn = document.querySelector('[data-pay-btn]');
+      if (payBtn) payBtn.href = input.dataset.pay;
+      if (bind('paydate')) bind('paydate').textContent = input.value;
+    }
+    document.querySelectorAll('[data-pay-el]').forEach(function (el) { el.hidden = !hasPay; });
+    document.querySelectorAll('[data-prereg-el]').forEach(function (el) { el.hidden = hasPay; });
     links.forEach(function (a) {
       var base = a.href.split('?')[0];
-      a.href = base + '?text=' + encodeURIComponent(message(a.dataset.tariff));
+      a.href = base + '?text=' + encodeURIComponent(message(a.dataset.tariff, a.dataset.prereg));
     });
   }
 
@@ -49,7 +58,7 @@
      копируем в буфер и говорим об этом тостом. Переход по ссылке не блокируем. */
   links.forEach(function (a) {
     a.addEventListener('click', function () {
-      var text = message(a.dataset.tariff);
+      var text = message(a.dataset.tariff, a.dataset.prereg);
       var isMax = a.dataset.msg === 'max';
       copy(text).then(function () {
         say(isMax ? 'Текст скопирован — вставьте в чат MAX.'
