@@ -1334,5 +1334,4 @@ html:has(.hdr-dialog[open]){overflow:hidden}
 /* Подпись под кнопками мессенджеров с предзаполненным текстом (главная, мастер-группа, нетворкинг) */
 .msg-hint{margin:8px 0 0;max-width:46ch;font:500 13px/1.4 'Golos Text',sans-serif;color:color-mix(in srgb,currentColor 74%,transparent)}
 .xp-act .msg-hint{grid-column:1/-1}
-.nw-acts .msg-hint{flex:none;width:100%}
 .mg-hcard .msg-hint{margin:-4px 0 10px}
