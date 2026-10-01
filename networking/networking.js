@@ -63,6 +63,25 @@
     if (e.target.name === 'nw-date') sync();
   });
 
+  /* билет первого экрана выбирает ту же дату в блоке «Даты» и ведёт к тарифам */
+  document.querySelectorAll('[data-pick]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var input = document.querySelector('input[name="nw-date"][value="' + a.dataset.pick + '"]');
+      if (input && !input.disabled) { input.checked = true; sync(); }
+    });
+  });
+
+  /* появление блоков при прокрутке; без поддержки IntersectionObserver или при reduced-motion блоки сразу видны */
+  var reveal = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reveal.length && 'IntersectionObserver' in window && !calm) {
+    document.documentElement.classList.add('nw-reveal');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+    reveal.forEach(function (el) { io.observe(el); });
+  }
+
   function applyEvents(events) {
     var now = Date.now();
     var ended = {};
@@ -82,7 +101,7 @@
     if (!visible.length) {
       document.querySelector('.nw-tickets').hidden = true;
       document.querySelector('.nw-empty').hidden = false;
-      document.querySelector('[data-next]').hidden = true;
+      var nx = document.querySelector('[data-next]'); if (nx) nx.hidden = true;
       bind('picked').textContent = 'новые даты скоро';
       sync();
       return;
@@ -94,9 +113,18 @@
     visible[0].querySelector('.nw-t-stub').insertBefore(tag, visible[0].querySelector('.nw-t-pick'));
     if (!checked()) first.checked = true;
     var parts = first.value.split(' ');
-    bind('day').textContent = parts[0];
-    bind('mon').textContent = parts[1];
-    bind('wd').textContent = first.dataset.weekday.charAt(0).toUpperCase() + first.dataset.weekday.slice(1);
+    /* первый экран (новый дизайн): билеты прошедших встреч скрываются, «Ближайший» — на первом оставшемся */
+    var hero = Array.prototype.slice.call(document.querySelectorAll('[data-hero-ev]'));
+    var heroLeft = hero.filter(function (li) { var gone = ended[li.dataset.heroEv]; li.hidden = !!gone; return !gone; });
+    hero.forEach(function (li) { li.classList.remove('is-next'); var t = li.querySelector('.nd-t-tag'); if (t) t.remove(); });
+    if (heroLeft.length) {
+      heroLeft[0].classList.add('is-next');
+      var ht = document.createElement('span'); ht.className = 'nd-t-tag'; ht.textContent = 'Ближайший';
+      heroLeft[0].querySelector('.nd-t-mon').appendChild(ht);
+    }
+    if (bind('day')) bind('day').textContent = parts[0];
+    if (bind('mon')) bind('mon').textContent = parts[1];
+    if (bind('wd')) bind('wd').textContent = first.dataset.weekday.charAt(0).toUpperCase() + first.dataset.weekday.slice(1);
     var ev = events.filter(function (e) { return e.id === visible[0].dataset.ev; })[0];
     /* Время в фактах: список по датам (из того же events.json), одна строка на встречу. */
     var timesEl = bind('times');

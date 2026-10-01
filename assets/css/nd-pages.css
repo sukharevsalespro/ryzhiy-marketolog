@@ -8,11 +8,13 @@
   --nd-glass:rgba(250,247,242,.72);--nd-edge:rgba(255,255,255,.75);--nd-line:rgba(17,17,17,.9);
   --nd-btn-bg:#111;--nd-btn-fg:#faf7f2;--nd-cell:#faf7f2;--nd-cell-fg:#111;--nd-sec:#111;
   --nd-glow:radial-gradient(120% 90% at 78% 12%,#ff9a57 0%,#fe6c1f 42%,#c4490a 100%);
+  --nd-bg-2:#f2ece3;--nd-surface:#fffdf9;--nd-soft:rgba(17,17,17,.12);--nd-shadow:0 22px 44px -26px rgba(120,52,12,.32);
   --nd-pad:clamp(16px,4.4vw,64px);background:var(--nd-bg)}
 @media (prefers-color-scheme:dark){
   .nd{--nd-bg:var(--nb-graphite,#26282d);--nd-ink:#faf7f2;--nd-mute:#cfc8be;--nd-acc:#ff8a4c;
     --nd-glass:rgba(35,37,41,.72);--nd-edge:rgba(250,247,242,.2);--nd-line:rgba(250,247,242,.85);
-    --nd-btn-bg:#fe6c1f;--nd-btn-fg:#111;--nd-cell:#111;--nd-cell-fg:#faf7f2;--nd-sec:#faf7f2}
+    --nd-btn-bg:#fe6c1f;--nd-btn-fg:#111;--nd-cell:#111;--nd-cell-fg:#faf7f2;--nd-sec:#faf7f2;
+    --nd-bg-2:#1e2024;--nd-surface:#2c2e33;--nd-soft:rgba(250,247,242,.12);--nd-shadow:0 22px 44px -26px rgba(0,0,0,.6)}
 }
 @media (prefers-reduced-transparency:reduce){.nd{--nd-glass:var(--nd-bg)}}
 
@@ -167,3 +169,4 @@
 /* широкие мониторы: текстовая колонка шире сетки шапки, чтобы текст и человек стояли группой по центру экрана */
 @media (min-aspect-ratio:2/1) and (min-width:1101px){.nwx-in,.nwx-tixband{max-width:1600px}}
 @media (min-aspect-ratio:3/1) and (min-width:1101px){.nwx-in,.nwx-tixband{max-width:1700px}}
+@media (max-width:380px){.nwx .nd-t-stub b{white-space:normal}.nwx .nd-tix{gap:6px}}
