@@ -178,3 +178,17 @@
   .tk-alt-more{grid-column:1/-1;margin-left:0;justify-self:start}
 
 }
+
+/* ---------- тёмная тема «Что вы получите» (спека 006, волна 0б, макет T031) ----------
+   Полоса — графит с зерном, как FAQ и тёмные полосы /networking/. Карточки-доказательства в светлой — графит на креме;
+   в тёмной они не сливаются с полосой: поверхность на ступень светлее и волосяная кромка (outline, чтобы не спорить
+   с оранжевой «плитой» на hover). Мастер-группа (.mg) использует те же классы и держит свою тему — её не трогаем. */
+@media (prefers-color-scheme:dark){
+  .home:not(.mg) .page-band:has(>.nb-benefits){background-color:var(--nb-graphite);background-image:var(--nb-noise),linear-gradient(180deg,#2b2d32,#232529);color:var(--nb-cream)}
+  .home:not(.mg) .nb-benefits{color:var(--nb-cream)}
+  .home:not(.mg) .nb-benefits .rule{background:rgba(250,247,242,.3);opacity:1}
+  .home:not(.mg) .nb-benefits .sec-head .label{color:#cfc8be}
+  .home:not(.mg) .nb-benefits .bn-item{border-top-color:var(--nb-cream)}
+  .home:not(.mg) .nb-benefits .bn-line{color:#cfc8be}
+  .home:not(.mg) .nb-benefits .bn-proof{background-color:#303237;outline:1px solid rgba(250,247,242,.1);outline-offset:-1px}
+}
