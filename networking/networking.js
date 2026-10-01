@@ -16,6 +16,8 @@
   function sync() {
     var input = checked();
     if (input) bind('picked').textContent = input.value + ', ' + input.dataset.weekday;
+    /* одна ссылка оплаты на все даты: Продамус не принимает примечание из ссылки (проверено 01.10), поэтому дату просим вписать вручную */
+    if (bind('paydate')) bind('paydate').textContent = input ? input.value : 'выбранную в блоке «Даты»';
     links.forEach(function (a) {
       var base = a.href.split('?')[0];
       a.href = base + '?text=' + encodeURIComponent(message(a.dataset.tariff));
