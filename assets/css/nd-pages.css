@@ -181,8 +181,9 @@
 .lpx *{box-sizing:border-box}
 .lpx-ph{position:absolute;inset:0;z-index:-1;display:block;overflow:hidden;background:var(--nd-bg)}
 /* --iw: ширина картинки; на экранах шире мастера картинка растягивается по ширине и режется снизу, без полос по бокам */
-.lpx-ph img{--iw:max(calc(var(--hh) * var(--sc,1) * var(--ar)),100%);position:absolute;bottom:0;width:var(--iw);height:auto;min-height:calc(100% * var(--sc,1));max-width:none;
-  left:clamp(calc(100% - var(--iw)),calc(var(--fx-at) - var(--iw) * var(--fx)),0px)}
+/* --iw/--il считаются на секции (не на картинке), чтобы элементы могли встать в точку кадра (у развития — кнопка у ладони) */
+.lpx{--iw:max(calc(var(--hh) * var(--sc,1) * var(--ar)),100vw);--il:clamp(calc(100vw - var(--iw)),calc(var(--fx-at) - var(--iw) * var(--fx)),0px)}
+.lpx-ph img{position:absolute;bottom:0;width:var(--iw);height:auto;min-height:calc(100% * var(--sc,1));max-width:none;left:var(--il)}
 .lpx-ph::after{content:"";position:absolute;inset:0;pointer-events:none}
 .lpx-in{position:relative;height:100%;width:100%;max-width:var(--page-max,1320px);margin-inline:auto;padding:clamp(12px,1.6vw,28px) var(--nd-pad) clamp(28px,3.4vw,52px)}
 .lpx .nd-back{color:var(--lp-ink)}
@@ -196,16 +197,17 @@
 }
 
 /* ===== распаковка: «игра на солнце» — тёплый светлый кадр, человек слева, справа колонка: заголовок → доска игры с ценами → кнопка ===== */
-.rpx{--fx-at:calc(50% - min(26vw,520px))}
+.rpx{--fx-at:calc(50vw - min(26vw,520px))}
 .rpx--a{--ar:4.0605;--fx:.4348}   /* rp-wide-a: 8316×2048, центр лица x=3616 */
-.rpx--b{--ar:3.627;--fx:.429;--fx-at:calc(50% - min(20vw,440px))}   /* rp-wide-b: 7428×2048, центр лица x=3185; лицо правее, чем в A, — иначе ноги уходят за край */
-/* подложка под текст — вертикальная полоса за колонкой (крем / графит), гаснет к краям за 220px; дальше снова фото —
-   на ultrawide справа от колонки остаётся стена и мостовая, а не пустой фон */
+/* подложка под текст — мягкое пятно только за колонкой (крем / графит), гаснет к краям: вокруг колонки и под ней
+   читается фото (камень, стена); плотность подобрана по контрасту текста, не на глаз (замер в отчёте) */
 .rpx-col{position:relative}
-.rpx-col::before{content:"";position:absolute;z-index:-1;top:-100vh;bottom:-100vh;left:-240px;right:-360px;pointer-events:none;
-  background:linear-gradient(90deg,transparent 0,var(--rp-veil) 240px,var(--rp-veil) calc(100% - 360px),transparent 100%)}
-.rpx{--rp-veil:rgba(250,247,242,.88)}
-@media (prefers-color-scheme:dark){.rpx{--rp-veil:rgba(35,37,41,.88)}.rpx .lpx-ph::after{background:rgba(20,21,24,.22)}}
+.rpx-col::before{content:"";position:absolute;z-index:-1;inset:-14% -22% -14% -18%;pointer-events:none;
+  background:radial-gradient(closest-side,var(--rp-veil) 0,var(--rp-veil) 62%,color-mix(in srgb,var(--rp-veil) 0%,transparent) 100%)}
+.rpx{--rp-veil:rgba(250,247,242,.8)}
+/* тёмная: пятно графита на светлом камне читается как клякса — вместо него весь кадр приглушён, справа под колонкой ровное затемнение */
+@media (prefers-color-scheme:dark){.rpx{--rp-veil:transparent}
+  .rpx .lpx-ph::after{background:linear-gradient(270deg,rgba(28,29,33,.82) 0%,rgba(28,29,33,.7) 30%,rgba(28,29,33,.3) 50%,rgba(28,29,33,0) 62%),rgba(20,21,24,.38)}}
 .rpx .lpx-in{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;isolation:isolate}
 .rpx-col{width:min(600px,46%);display:flex;flex-direction:column;align-items:flex-start}
 .rpx .nd-h1{font-size:clamp(64px,6.6vw,132px);line-height:.86}
@@ -227,48 +229,61 @@
 .rpx-price b{display:block;font:900 clamp(40px,3.3vw,56px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;white-space:nowrap;font-variant-numeric:tabular-nums}
 .rpx .nd-pay{margin-top:clamp(18px,2vw,28px)}
 
-/* ===== развитие: «наставник в центре» — заголовок одной строкой над головой, по бокам от лица: слева что выстраиваем, справа цена и кнопка ===== */
-.rvx{--ar:3.8516;--fx:.5;--fx-at:50%;--sc:.88}   /* rv-wide: 7888×2048, лицо ровно по центру мастера */
-/* верх кадра (зал) уходит в фон страницы под заголовок; бока зала приглушены, лицо и плечи — как в исходнике */
-.rvx .lpx-ph::after{background:
-  linear-gradient(180deg,var(--nd-bg) 0%,color-mix(in srgb,var(--nd-bg) 86%,transparent) 30%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 54%),
-  radial-gradient(min(36vw,640px) 78% at 50% 86%,transparent 0 46%,color-mix(in srgb,var(--nd-bg) 84%,transparent) 100%)}
-.rvx .lpx-in{display:grid;grid-template-columns:minmax(0,1fr) max(300px,30%,13vw,calc(var(--hh) * var(--sc) * var(--ar) * .13)) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:24px}
-.rvx-top{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}
-.rvx .nd-back{align-self:flex-start;margin-bottom:0}
-.rvx .nd-kick{margin-bottom:10px}
-.rvx .nd-h1{font-size:min(6.5vw,118px);line-height:.9;white-space:nowrap}
-.rvx-l{grid-column:1;grid-row:2;align-self:center;max-width:27em}
-.rvx .nd-lead{margin:0;font-size:clamp(16px,1.15vw,19px)}
-.rvx-r{grid-column:3;grid-row:2;align-self:center;justify-self:end;display:flex;flex-direction:column;align-items:flex-start}
-.rvx-from{margin:0 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;color:var(--lp-mute)}
-.rvx-from b{display:block;margin-top:6px;font:900 clamp(48px,4.4vw,84px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:var(--lp-ink);white-space:nowrap}
-/* маршрут: четыре остановки, соединённые линией — то, что выстраиваем в наставничестве (из лида страницы) */
-.rvx-path{position:relative;display:flex;flex-direction:column;gap:10px;margin:clamp(20px,2vw,30px) 0 0;padding:0 0 0 2px;list-style:none;counter-reset:st}
-.rvx-path::before{content:"";position:absolute;left:15px;top:14px;bottom:14px;border-left:2px dashed color-mix(in srgb,var(--lp-ink) 30%,transparent)}
-.rvx-path li{position:relative;display:flex;align-items:center;gap:12px;font:700 17px/1.2 'Golos Text',sans-serif;color:var(--lp-ink)}
-.rvx-path li::before{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--nd-surface);border:2px solid var(--lp-ink)}
-.rvx-path li:last-child::before{background:#fe6c1f;border-color:#fe6c1f}
+/* ===== развитие: «разговор с наставником» — кадр консультации (Валентина за столом, жест открытой ладонью),
+   тёмный кадр, текст белым прямо на фото справа от жеста; заголовок крупнее, чем у распаковки, без подложки-стекла ===== */
+.rvx{--ar:4.3359;--fx:.3777;--fx-at:calc(50vw - min(26vw,600px))}   /* rv-wide: 8880×2048, центр лица x=3354; правый край ладони x=5078 (.5719) */
+.rvx .lpx-ph{background:#1d1714}
+/* логотип мероприятия на спинке дивана (в исходном кадре) уходит в тень: пятно привязано к координатам кадра, а не экрана */
+.rvx .lpx-ph::before{content:"";position:absolute;z-index:1;pointer-events:none;left:calc(var(--il) + var(--iw) * .45);width:calc(var(--iw) * .16);
+  top:0;height:calc(var(--hh) * .46);background:radial-gradient(closest-side,rgba(18,13,10,.92),rgba(18,13,10,.8) 50%,rgba(18,13,10,0))}
+/* затемнение справа под текст + пятно за заголовком (гасит логотип на диване), ладонь и стакан остаются светлыми */
+.rvx .lpx-ph::after{background:radial-gradient(46% 44% at 70% 30%,rgba(18,13,10,.78),rgba(18,13,10,0) 100%),
+  linear-gradient(270deg,rgba(18,13,10,.78) 0%,rgba(18,13,10,.6) 28%,rgba(18,13,10,.12) 50%,rgba(18,13,10,0) 60%),
+  linear-gradient(0deg,rgba(18,13,10,.3) 0%,rgba(18,13,10,0) 22%)}
+@media (prefers-color-scheme:dark){.rvx .lpx-ph::after{background:radial-gradient(46% 44% at 70% 30%,rgba(24,25,28,.8),rgba(24,25,28,0) 100%),
+  linear-gradient(270deg,rgba(24,25,28,.84) 0%,rgba(24,25,28,.68) 28%,rgba(24,25,28,.2) 50%,rgba(24,25,28,.08) 60%),
+  linear-gradient(0deg,rgba(24,25,28,.42) 0%,rgba(24,25,28,0) 22%)}}
+.rvx{--lp-ink:#faf7f2;--lp-mute:rgba(250,247,242,.82)}
+/* колонка прижата низом к линии над открытой ладонью (66% высоты кадра): цена и кнопка всегда над жестом, при любой высоте экрана */
+.rvx .lpx-in{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;padding-bottom:calc(var(--hh) * .34)}
+.rvx-col{width:min(700px,50%);display:flex;flex-direction:column;align-items:flex-start}
+.rvx .nd-back{position:absolute;top:clamp(12px,1.6vw,28px);right:var(--nd-pad);margin:0;text-decoration-color:rgba(250,247,242,.45)}
+.rvx .nd-h1{font-size:clamp(60px,min(5.6vw,9.6vh),132px);line-height:.86}
+.rvx .nd-lead{font-size:clamp(16px,1.15vw,19px);max-width:34em;margin-top:clamp(12px,1.2vw,20px)}
+.rvx-lab{margin:clamp(16px,1.8vw,26px) 0 0;font:600 13px/1.25 'Golos Text',sans-serif;color:var(--lp-mute)}
+.rvx-from{margin:0}
+.rvx-from b{display:block;font:900 clamp(44px,min(3.2vw,6vh),68px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:var(--lp-ink);white-space:nowrap}
+/* цена и кнопка одной строкой — строка заканчивается над открытой ладонью (жест «вот») */
+.rvx-buy{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:8px}
+.rvx-buy .rvx-from{margin:0}
+.rvx .nd-pay{--plate:#faf7f2;background:#fe6c1f;color:#111}
+.rvx .nd-pay-c{background:#111;color:#faf7f2}
+.rvx .nd-pay:focus-visible{outline-color:#faf7f2}
 
 /* ---------- ≤1100 и портрет: фото-портрет сверху (исходник страницы), текст ниже на фоне страницы ---------- */
 @media (max-width:1100px),(max-aspect-ratio:5/4){
   .lpx{height:auto;overflow:visible}
   .lpx-ph{position:relative;inset:auto;height:min(112vw,62svh);width:min(100%,560px);margin-inline:auto;z-index:0;background:none}
   .lpx-ph img{position:static;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
-  .lpx-ph::after{background:linear-gradient(180deg,rgba(20,14,10,.28) 0%,rgba(20,14,10,0) 22%),
+  .lpx-ph::after{background:linear-gradient(180deg,rgba(20,14,10,.55) 0%,rgba(20,14,10,.3) 12%,rgba(20,14,10,0) 26%),
     linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 12%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 48%)!important}
   .lpx-in{height:auto;margin-top:-104px;padding:0 var(--nd-pad) 36px;display:block}
-  .lpx .nd-back,.rpx .nd-back{position:absolute;top:calc(-1 * min(112vw,62svh) + 112px);left:var(--nd-pad);right:auto;color:#faf7f2;text-decoration-color:rgba(250,247,242,.5)}
+  .lpx .nd-back,.rpx .nd-back{position:absolute;top:calc(-1 * min(112vw,62svh) + 112px);left:var(--nd-pad);right:auto;color:#faf7f2;text-decoration-color:rgba(250,247,242,.5);text-shadow:0 1px 2px rgba(0,0,0,.55),0 0 12px rgba(0,0,0,.35)}
+  .rvx{--lp-ink:var(--nd-ink);--lp-mute:var(--nd-mute)}
+  .rvx-col{width:100%}
+  .rvx .lpx-ph::after{background:linear-gradient(180deg,rgba(20,14,10,.55) 0%,rgba(20,14,10,.3) 12%,rgba(20,14,10,0) 26%),
+    linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 12%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 48%)!important}
+  .rvx .nd-pay{background:var(--nd-btn-bg);color:var(--nd-btn-fg)}.rvx .nd-pay-c{background:var(--nd-cell);color:var(--nd-cell-fg)}
+  .rvx-buy{flex-direction:column;align-items:stretch;gap:18px;align-self:stretch}
+  .rvx .lpx-ph::before{display:none}
+  .rvx .lpx-in{padding-bottom:36px}
+  .rvx .nd-back{left:auto;right:var(--nd-pad);top:calc(-1 * min(112vw,62svh) + 112px)}   /* лицо в кадре слева — ссылка справа, на диване */
+  .rvx{--iw:auto;--il:auto}
   .rpx-col{width:100%;position:static}.rpx-col::before{display:none}
-  .rpx .nd-h1,.rvx .nd-h1{font-size:clamp(44px,12.6vw,64px);white-space:normal}
+  .rpx .nd-h1,.rvx .nd-h1{font-size:clamp(44px,12.6vw,64px)}
   .lpx .nd-lead{font-size:16px}
   .rpx-game-head{padding:12px 14px}.rpx-price{padding:12px 14px 14px}.rpx-price b{font-size:36px}
   .lpx .nd-pay{width:100%;min-height:54px;font-size:16px}.lpx .nd-pay-t{flex:1;justify-content:center;padding-right:52px}
-  .rvx .lpx-in{display:block}
-  .rvx-top{align-items:flex-start;text-align:left}
-  .rvx-l{margin-top:16px;max-width:none}.rvx-r{margin-top:24px;align-items:stretch;justify-self:auto}
-  .rvx-path{flex-direction:row;flex-wrap:wrap;gap:8px 14px}.rvx-path::before{display:none}
-  .rvx-path li{font-size:15px;gap:8px}.rvx-path li::before{width:18px;height:18px}
   .rpx--a .lpx-ph img{object-position:60% 18%}
-  .rvx .lpx-ph img{object-position:50% 52%}
+  .rvx .lpx-ph img{object-position:0% 30%}   /* логотип мероприятия (x≥.68 кадра) остаётся за краем */
 }
