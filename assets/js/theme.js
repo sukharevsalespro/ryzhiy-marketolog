@@ -69,7 +69,7 @@
   function sync(pref, announce) {
     var btns = document.querySelectorAll('[data-theme-set]');
     for (var i = 0; i < btns.length; i++) btns[i].setAttribute('aria-pressed', String(btns[i].getAttribute('data-theme-set') === pref));
-    var opener = document.querySelectorAll('[data-theme-open],[data-theme-cycle]');
+    var opener = document.querySelectorAll('[data-theme-open]');
     for (var j = 0; j < opener.length; j++) opener[j].setAttribute('aria-label', 'Тема оформления: ' + NAMES[pref]);
     if (!announce) return;
     var live = document.querySelectorAll('[data-theme-status]');
@@ -88,17 +88,12 @@
   document.addEventListener('DOMContentLoaded', function () { sync(root.getAttribute('data-theme'), false); });
 
   document.addEventListener('click', function (e) {
-    var t = e.target.closest && e.target.closest('[data-theme-set],[data-theme-cycle],[data-theme-open]');
+    var t = e.target.closest && e.target.closest('[data-theme-set],[data-theme-open]');
     if (!t) { closeMenus(); return; }
     if (t.hasAttribute('data-theme-open')) {
       var open = t.getAttribute('aria-expanded') === 'true';
       closeMenus(t);
       t.setAttribute('aria-expanded', String(!open));
-      return;
-    }
-    if (t.hasAttribute('data-theme-cycle')) { /* вариант-прототип «иконка-цикл»: авто → тёмная → светлая → авто */
-      var order = ['auto', 'dark', 'light'];
-      set(order[(order.indexOf(root.getAttribute('data-theme')) + 1) % order.length]);
       return;
     }
     set(t.getAttribute('data-theme-set'));

@@ -1228,6 +1228,10 @@ html:has(.hdr-dialog[open]){overflow:hidden}
 :is(.home,.webinar) .tt-seg [aria-pressed="true"]{background:var(--md-ink);color:var(--md-cream)}
 :is(.home,.webinar) .tt-seg button:active:not([aria-pressed="true"]){background:rgba(0,0,0,.14)}
 :is(.home,.webinar) .tt-seg button{min-width:0}
+/* Нативный чекбокс согласия на оранжевой полосе — светлый в обеих темах, как до color-scheme. */
+.tk-consent input{color-scheme:light}
+/* CTA мобильного меню: header.js кладёт и длинную, и короткую дату — в меню нужна только длинная. */
+:is(.home,.webinar) .hdr-dialog-cta .m-short{display:none}
 @media (max-width:359.98px){:is(.home,.webinar) .tt-seg svg{display:none}}
 
 /* ---------- Плитки «Форматов»: оттиск карточки ---------- */
