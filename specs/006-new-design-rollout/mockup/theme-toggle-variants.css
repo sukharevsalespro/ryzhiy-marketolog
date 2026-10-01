@@ -1,0 +1,9 @@
+/* Стенд вариантов переключателя темы (не подключается к сайту; подмешивается Playwright при съёмке).
+   Вариант «Цикл» использует стили .hdr-theme-btn из style.css, здесь — только «Сегмент в шапке». */
+:is(.home,.webinar) .ttv-seg{display:flex;border:1.5px solid currentColor}
+:is(.home,.webinar) .ttv-seg button{display:grid;place-items:center;width:44px;height:44px;margin:0;padding:0;border:0;border-left:1.5px solid currentColor;background:none;color:inherit;cursor:pointer;transition:background-color .15s,color .15s}
+:is(.home,.webinar) .ttv-seg button:first-child{border-left:0}
+:is(.home,.webinar) .ttv-seg svg{width:19px;height:19px;fill:currentColor}
+:is(.home,.webinar) .ttv-seg [aria-pressed="true"]{background:var(--hdr-fg);color:var(--hdr-bg)}
+@media (hover:hover){:is(.home,.webinar) .ttv-seg button:not([aria-pressed="true"]):hover{color:var(--hdr-hover)}}
+:is(.home,.webinar) .hdr-theme:has(.ttv-seg){padding-left:10px}
