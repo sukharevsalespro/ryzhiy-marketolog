@@ -171,88 +171,104 @@
 @media (min-aspect-ratio:3/1) and (min-width:1101px){.nwx-in,.nwx-tixband{max-width:1700px}}
 @media (max-width:380px){.nwx .nd-t-stub b{white-space:normal}.nwx .nd-tix{gap:6px}}
 
-/* ---------- посадочные (волна 2): общий каркас первого экрана с фото во весь экран ---------- */
-.lpx{--h1fs:clamp(56px,6.2vw,112px);position:relative;isolation:isolate;min-height:max(620px,calc(100svh - 64px));display:flex;box-sizing:border-box;
-  font-family:'Golos Text',sans-serif;color:#faf7f2}
+/* ---------- посадочные (волна 2): первый экран — фото во весь экран, у каждой страницы своя композиция ----------
+   Фото — исходник страницы с дорисованным фоном (SDXL inpaint + Real-ESRGAN на NVR, пиксели человека из исходника 1:1),
+   мастер ≈4:1. Кадр ставится по лицу, а не object-position: ширина картинки = высота экрана × --ar, левый край считается так,
+   чтобы лицо (доля --fx ширины мастера) встало в точку --fx-at; clamp не даёт картинке отойти от краёв экрана. */
 .nd .page-band>.lpx{max-width:none}
+.lpx{--hh:max(640px,calc(100svh - 64px));--lp-ink:var(--nd-ink);--lp-mute:var(--nd-mute);position:relative;isolation:isolate;height:var(--hh);
+  overflow:hidden;box-sizing:border-box;font-family:'Golos Text',sans-serif;color:var(--lp-ink)}
 .lpx *{box-sizing:border-box}
-.lpx-ph{position:absolute;inset:0;z-index:-1;display:block;overflow:hidden;background:#2b2520}
-.lpx-ph img{display:block;width:100%;height:100%;object-fit:cover}
-.lpx-in{width:100%;max-width:var(--page-max,1320px);margin-inline:auto;padding:clamp(12px,2vw,28px) var(--nd-pad) clamp(32px,4vw,56px);display:flex;flex-direction:column}
-.lpx-in>*{align-self:flex-start}
-.lpx .nd-back{color:#faf7f2;text-decoration-color:rgba(250,247,242,.45)}
-.lpx .nd-kick{color:rgba(250,247,242,.82)}
-.lpx .nd-h1{color:#faf7f2;font-size:var(--h1fs);line-height:.86}
-.lpx .nd-lead{color:rgba(250,247,242,.92);max-width:26em}
-.lpx .nd-pay{--plate:#faf7f2;background:#fe6c1f;color:#111}
-.lpx .nd-pay-c{background:#111;color:#faf7f2}
-.lpx .nd-pay:focus-visible{outline-color:#faf7f2}
-.lpx-hint{margin:10px 0 0;max-width:30em;font:500 13px/1.4 'Golos Text',sans-serif;color:rgba(250,247,242,.74)}
+.lpx-ph{position:absolute;inset:0;z-index:-1;display:block;overflow:hidden;background:var(--nd-bg)}
+/* --iw: ширина картинки; на экранах шире мастера картинка растягивается по ширине и режется снизу, без полос по бокам */
+.lpx-ph img{--iw:max(calc(var(--hh) * var(--sc,1) * var(--ar)),100%);position:absolute;bottom:0;width:var(--iw);height:auto;min-height:calc(100% * var(--sc,1));max-width:none;
+  left:clamp(calc(100% - var(--iw)),calc(var(--fx-at) - var(--iw) * var(--fx)),0px)}
+.lpx-ph::after{content:"";position:absolute;inset:0;pointer-events:none}
+.lpx-in{position:relative;height:100%;width:100%;max-width:var(--page-max,1320px);margin-inline:auto;padding:clamp(12px,1.6vw,28px) var(--nd-pad) clamp(28px,3.4vw,52px)}
+.lpx .nd-back{color:var(--lp-ink)}
+.lpx .nd-kick{color:var(--lp-mute)}
+.lpx .nd-h1{color:var(--lp-ink);text-wrap:initial}
+.lpx .nd-lead{color:var(--lp-ink)}
+@media (min-aspect-ratio:2/1) and (min-width:1101px){.lpx-in{max-width:1600px}}
 @media (prefers-reduced-motion:no-preference){
-  .lpx-in>*{animation:nd-rise .6s var(--md-ease) both}
-  .lpx-in>:nth-child(2){animation-delay:.06s}.lpx-in>:nth-child(3){animation-delay:.12s}.lpx-in>:nth-child(4){animation-delay:.18s}
-  .lpx-in>:nth-child(5){animation-delay:.24s}.lpx-in>:nth-child(6){animation-delay:.3s}
   .lpx-ph img{animation:nwx-in 1.2s var(--md-ease) both}
+  .lpx [data-rise]{animation:nd-rise .6s var(--md-ease) both;animation-delay:calc(var(--d,0) * 70ms)}
 }
 
-/* распаковка: «доска игры» — стеклянная карточка-поле справа от заголовка с ходом игры, ценой в группе и лично */
-.rpx .lpx-ph img{object-position:100% 32%}
-.rpx .lpx-ph::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(28,20,14,.66) 0%,rgba(28,20,14,.4) 38%,rgba(28,20,14,0) 66%),linear-gradient(180deg,rgba(28,20,14,.35) 0%,rgba(28,20,14,0) 24%)}
-.rpx .lpx-in{justify-content:center}
-.rpx-game{margin-top:clamp(24px,2.8vw,40px);display:grid;grid-template-columns:auto auto;gap:0;border-radius:8px;overflow:hidden;
-  background:rgba(250,247,242,.88);border:1px solid rgba(255,255,255,.75);color:#111;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 20px 60px rgba(28,20,14,.25)}
-@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.rpx-game{background:rgba(250,247,242,.78);-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}
-@media (prefers-color-scheme:dark){.rpx-game{background:rgba(35,37,41,.78);border-color:rgba(250,247,242,.2);color:#faf7f2}}
-@media (prefers-reduced-transparency:reduce){.rpx-game{background:var(--nd-bg)}}
-.rpx-game-head{grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:16px 22px;border-bottom:1.5px dashed color-mix(in srgb,currentColor 30%,transparent)}
-.rpx-game-head img{width:52px;height:52px;flex:none}
-.rpx-game-head b{display:block;font:900 26px/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase}
-.rpx-game-head span{font:500 14px/1.3 'Golos Text',sans-serif;opacity:.78}
-.rpx-price{padding:16px 22px 18px}
-.rpx-price+.rpx-price{border-left:1.5px dashed color-mix(in srgb,currentColor 30%,transparent);background:#fe6c1f;color:#111}
-.rpx-price small{display:block;margin:0 0 6px;font:600 12px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;opacity:.78}
-.rpx-price b{font:900 clamp(38px,3.2vw,52px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;white-space:nowrap;font-variant-numeric:tabular-nums}
-.rpx .nwx-cta,.rvx .nwx-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:clamp(22px,2.4vw,32px)}
+/* ===== распаковка: «игра на солнце» — тёплый светлый кадр, человек слева, справа колонка: заголовок → доска игры с ценами → кнопка ===== */
+.rpx{--fx-at:calc(50% - min(26vw,520px))}
+.rpx--a{--ar:4.0605;--fx:.4348}   /* rp-wide-a: 8316×2048, центр лица x=3616 */
+.rpx--b{--ar:3.627;--fx:.429;--fx-at:calc(50% - min(20vw,440px))}   /* rp-wide-b: 7428×2048, центр лица x=3185; лицо правее, чем в A, — иначе ноги уходят за край */
+/* подложка под текст — вертикальная полоса за колонкой (крем / графит), гаснет к краям за 220px; дальше снова фото —
+   на ultrawide справа от колонки остаётся стена и мостовая, а не пустой фон */
+.rpx-col{position:relative}
+.rpx-col::before{content:"";position:absolute;z-index:-1;top:-100vh;bottom:-100vh;left:-240px;right:-360px;pointer-events:none;
+  background:linear-gradient(90deg,transparent 0,var(--rp-veil) 240px,var(--rp-veil) calc(100% - 360px),transparent 100%)}
+.rpx{--rp-veil:rgba(250,247,242,.88)}
+@media (prefers-color-scheme:dark){.rpx{--rp-veil:rgba(35,37,41,.88)}.rpx .lpx-ph::after{background:rgba(20,21,24,.22)}}
+.rpx .lpx-in{display:flex;flex-direction:column;justify-content:center;align-items:flex-end;isolation:isolate}
+.rpx-col{width:min(600px,46%);display:flex;flex-direction:column;align-items:flex-start}
+.rpx .nd-h1{font-size:clamp(64px,6.6vw,132px);line-height:.86}
+.rpx .nd-lead{font-size:clamp(16px,1.2vw,19px);max-width:31em;margin-top:clamp(14px,1.4vw,22px)}
+/* доска игры: стекло мастер-группы; клетки цен разделены перфорацией, как корешок билета нетворкинга */
+.rpx-game{width:100%;margin-top:clamp(20px,2.2vw,32px);display:grid;grid-template-columns:1fr 1fr;border-radius:8px;overflow:hidden;
+  background:var(--nd-glass);border:1px solid var(--nd-edge);color:var(--nd-ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 20px 60px rgba(0,0,0,.14)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.rpx-game{-webkit-backdrop-filter:blur(18px) saturate(1.1);backdrop-filter:blur(18px) saturate(1.1)}}
+.rpx{--nd-glass:rgba(255,253,249,.78)}
+@media (prefers-color-scheme:dark){.rpx{--nd-glass:rgba(35,37,41,.78)}.rpx-game{box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 20px 60px rgba(0,0,0,.35)}}
+@media (prefers-reduced-transparency:reduce){.rpx{--nd-glass:var(--nd-surface)}}
+.rpx-game-head{grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1.5px dashed color-mix(in srgb,currentColor 32%,transparent)}
+.rpx-game-head img{width:56px;height:56px;flex:none;margin:-6px 0}
+.rpx-game-head b{display:block;font:900 clamp(22px,1.7vw,28px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase}
+.rpx-game-head span{display:block;margin-top:4px;font:500 14px/1.3 'Golos Text',sans-serif;color:var(--nd-mute)}
+.rpx-price{margin:0;padding:14px 20px 16px}
+.rpx-price+.rpx-price{border-left:1.5px dashed color-mix(in srgb,currentColor 32%,transparent)}
+.rpx-price small{display:block;margin:0 0 6px;font:600 13px/1.25 'Golos Text',sans-serif;color:var(--nd-mute)}
+.rpx-price b{display:block;font:900 clamp(40px,3.3vw,56px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rpx .nd-pay{margin-top:clamp(18px,2vw,28px)}
 
-/* развитие: «маршрут наставничества» — путь из трёх шагов внизу экрана, цена «от 10 000 ₽» у кнопки */
-.rvx .lpx-ph img{object-position:50% 30%}
-.rvx .lpx-ph::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(40,14,12,.7) 0%,rgba(40,14,12,.42) 40%,rgba(40,14,12,0) 64%),linear-gradient(0deg,rgba(20,10,8,.55) 0%,rgba(20,10,8,0) 30%)}
-.rvx .lpx-in{justify-content:flex-end}
-.rvx-from{margin:0;font:500 15px/1.3 'Golos Text',sans-serif;color:rgba(250,247,242,.8)}
-.rvx-from b{display:block;font:900 40px/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:#faf7f2;white-space:nowrap}
-.rvx-path{display:flex;flex-wrap:wrap;gap:8px;margin:clamp(26px,3vw,44px) 0 0;padding:0;list-style:none}
-.rvx-path li{display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:999px;background:rgba(250,247,242,.14);border:1px solid rgba(250,247,242,.28);
-  font:600 15px/1.2 'Golos Text',sans-serif;color:#faf7f2}
-@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.rvx-path li{-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}}
-.rvx-path li::before{content:"*";display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#fe6c1f;color:#111;font:900 18px/1 Poster,sans-serif;padding-top:5px;box-sizing:border-box}
+/* ===== развитие: «наставник в центре» — заголовок одной строкой над головой, по бокам от лица: слева что выстраиваем, справа цена и кнопка ===== */
+.rvx{--ar:3.8516;--fx:.5;--fx-at:50%;--sc:.88}   /* rv-wide: 7888×2048, лицо ровно по центру мастера */
+/* верх кадра (зал) уходит в фон страницы под заголовок; бока зала приглушены, лицо и плечи — как в исходнике */
+.rvx .lpx-ph::after{background:
+  linear-gradient(180deg,var(--nd-bg) 0%,color-mix(in srgb,var(--nd-bg) 86%,transparent) 30%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 54%),
+  radial-gradient(min(36vw,640px) 78% at 50% 86%,transparent 0 46%,color-mix(in srgb,var(--nd-bg) 84%,transparent) 100%)}
+.rvx .lpx-in{display:grid;grid-template-columns:minmax(0,1fr) max(300px,30%,13vw,calc(var(--hh) * var(--sc) * var(--ar) * .13)) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:24px}
+.rvx-top{grid-column:1 / -1;display:flex;flex-direction:column;align-items:center;text-align:center}
+.rvx .nd-back{align-self:flex-start;margin-bottom:0}
+.rvx .nd-kick{margin-bottom:10px}
+.rvx .nd-h1{font-size:min(6.5vw,118px);line-height:.9;white-space:nowrap}
+.rvx-l{grid-column:1;grid-row:2;align-self:center;max-width:27em}
+.rvx .nd-lead{margin:0;font-size:clamp(16px,1.15vw,19px)}
+.rvx-r{grid-column:3;grid-row:2;align-self:center;justify-self:end;display:flex;flex-direction:column;align-items:flex-start}
+.rvx-from{margin:0 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;color:var(--lp-mute)}
+.rvx-from b{display:block;margin-top:6px;font:900 clamp(48px,4.4vw,84px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:var(--lp-ink);white-space:nowrap}
+/* маршрут: четыре остановки, соединённые линией — то, что выстраиваем в наставничестве (из лида страницы) */
+.rvx-path{position:relative;display:flex;flex-direction:column;gap:10px;margin:clamp(20px,2vw,30px) 0 0;padding:0 0 0 2px;list-style:none;counter-reset:st}
+.rvx-path::before{content:"";position:absolute;left:15px;top:14px;bottom:14px;border-left:2px dashed color-mix(in srgb,var(--lp-ink) 30%,transparent)}
+.rvx-path li{position:relative;display:flex;align-items:center;gap:12px;font:700 17px/1.2 'Golos Text',sans-serif;color:var(--lp-ink)}
+.rvx-path li::before{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--nd-surface);border:2px solid var(--lp-ink)}
+.rvx-path li:last-child::before{background:#fe6c1f;border-color:#fe6c1f}
 
+/* ---------- ≤1100 и портрет: фото-портрет сверху (исходник страницы), текст ниже на фоне страницы ---------- */
 @media (max-width:1100px),(max-aspect-ratio:5/4){
-  .lpx{display:block;min-height:0;color:var(--nd-ink)}
-  .lpx-ph{position:relative;inset:auto;height:min(112vw,62svh);width:min(100%,560px);margin-inline:auto;z-index:0}
-  .lpx-ph::after{background:linear-gradient(180deg,rgba(20,14,10,.3) 0%,rgba(20,14,10,0) 22%),
-    linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 14%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 52%)!important}
-  .lpx-in{position:relative;z-index:1;margin-top:-120px;padding:0 var(--nd-pad) 36px}
-  .lpx .nd-back{position:absolute;top:calc(-1 * min(112vw,62svh) + 128px);left:var(--nd-pad);color:#faf7f2}
-  .lpx .nd-kick{color:var(--nd-mute)}
-  .lpx .nd-h1{color:var(--nd-ink);font-size:clamp(44px,12.6vw,64px)}
-  .lpx .nd-lead{color:var(--nd-ink);font-size:16px}
-  .lpx-hint{color:var(--nd-mute)}
+  .lpx{height:auto;overflow:visible}
+  .lpx-ph{position:relative;inset:auto;height:min(112vw,62svh);width:min(100%,560px);margin-inline:auto;z-index:0;background:none}
+  .lpx-ph img{position:static;width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+  .lpx-ph::after{background:linear-gradient(180deg,rgba(20,14,10,.28) 0%,rgba(20,14,10,0) 22%),
+    linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 12%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 48%)!important}
+  .lpx-in{height:auto;margin-top:-104px;padding:0 var(--nd-pad) 36px;display:block}
+  .lpx .nd-back,.rpx .nd-back{position:absolute;top:calc(-1 * min(112vw,62svh) + 112px);left:var(--nd-pad);right:auto;color:#faf7f2;text-decoration-color:rgba(250,247,242,.5)}
+  .rpx-col{width:100%;position:static}.rpx-col::before{display:none}
+  .rpx .nd-h1,.rvx .nd-h1{font-size:clamp(44px,12.6vw,64px);white-space:normal}
+  .lpx .nd-lead{font-size:16px}
+  .rpx-game-head{padding:12px 14px}.rpx-price{padding:12px 14px 14px}.rpx-price b{font-size:36px}
   .lpx .nd-pay{width:100%;min-height:54px;font-size:16px}.lpx .nd-pay-t{flex:1;justify-content:center;padding-right:52px}
-  .lpx .nd-pay:focus-visible{outline-color:var(--nd-ink)}
-  .rpx-game{width:100%;color:var(--nd-ink)}
-  .rpx-price b{font-size:36px}
-  .rvx-from{color:var(--nd-mute)}.rvx-from b{color:var(--nd-ink)}
-  .rvx-path li{background:var(--nd-surface);border-color:var(--nd-soft);color:var(--nd-ink);font-size:14px}
-  .rpx .lpx-ph img,.rvx .lpx-ph img{object-position:50% 18%}
+  .rvx .lpx-in{display:block}
+  .rvx-top{align-items:flex-start;text-align:left}
+  .rvx-l{margin-top:16px;max-width:none}.rvx-r{margin-top:24px;align-items:stretch;justify-self:auto}
+  .rvx-path{flex-direction:row;flex-wrap:wrap;gap:8px 14px}.rvx-path::before{display:none}
+  .rvx-path li{font-size:15px;gap:8px}.rvx-path li::before{width:18px;height:18px}
+  .rpx--a .lpx-ph img{object-position:60% 18%}
+  .rvx .lpx-ph img{object-position:50% 52%}
 }
-
-/* распаковка, вариант B (кресло, без очков): кадр без дорисовки 16:10 — шире 16:10 фото стоит по центру, бока уходят в фон страницы */
-.rpx--b .lpx-ph{background:var(--nd-bg)}
-.rpx--b .lpx-ph img{object-position:50% 40%}
-@media (min-aspect-ratio:16/10) and (min-width:1101px){
-  .rpx--b .lpx-ph img{width:min(100%,calc((100svh - 64px) * 1.6));margin-inline:auto;
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
-}
-@media (prefers-color-scheme:dark){.rpx--b .lpx-ph{background:var(--nb-graphite,#26282d)}}
