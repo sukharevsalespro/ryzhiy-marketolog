@@ -50,6 +50,10 @@
 @media (hover:hover){.nw-ticket:hover{translate:0 -3px;border-color:var(--nd-or)}.nw-ticket:has(input:checked):hover{border-color:#111}}
 .nw-ticket:active{translate:0 0;transition-duration:var(--md-t-tap)}
 .nw-empty{margin:0;font:500 18px/1.45 'Golos Text',sans-serif}
+/* прошедшие даты (networking.js, applyEvents): .nw-ticket/.nw-tickets тут и .nd-tix/li[data-hero-ev] первого
+   экрана (nd-pages.css) заданы через display:grid/flex — специфичнее атрибута [hidden], без этого правила
+   скрытые JS-ом элементы оставались видимыми (тот же баг, что у кнопок «Оплатить»/«Предзапись» выше). */
+.nw-tickets[hidden],.nw-ticket[hidden],.nd-tix[hidden],[data-hero-ev][hidden]{display:none!important}
 
 /* ---------- тарифы: три карточки, у «Подготовки» — графит/оранжевая рамка ---------- */
 .nw-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
