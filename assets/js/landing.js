@@ -22,12 +22,13 @@
   document.querySelectorAll('[data-msg]').forEach(function (a) {
     a.addEventListener('click', function () {
       var isMax = a.dataset.msg === 'max';
-      copy(TEXT).then(function () {
+      var text = a.dataset.msgText || TEXT; /* у ссылки может быть свой текст (окно «Долями») */
+      copy(text).then(function () {
         say(isMax ? 'Текст скопирован — вставьте в чат MAX.'
                   : 'Открываю Telegram. Текст подставится в чат, копия в буфере обмена.', 'ok');
       }, function (err) {
         console.error('Не удалось скопировать текст:', err);
-        say('Не получилось скопировать. Напишите в чате: «' + TEXT + '»', 'err');
+        say('Не получилось скопировать. Напишите в чате: «' + text + '»', 'err');
       });
     });
   });
