@@ -406,3 +406,15 @@
 .lpd .nw2.lpd-rev{padding:clamp(64px,7.4vw,120px) var(--nd-pad);max-width:var(--page-max,1320px)}
 .lpd-faq-band+.nw2-band .nw-cta{padding-top:0}
 @media (max-width:700px){.lpd .nw2.lpd-rev{padding:56px var(--nd-pad)}}
+/* CTA-плита и «Ещё на сайте» — в одной полосе: без шва фона, отступ — шаг заголовка секции нетворкинга */
+.lpd .nw-cta{padding-bottom:0}
+.lpd .lpd-next{padding-top:clamp(28px,3.2vw,48px)}
+/* мобилка: хлебные крошки поверх фото — тёмная стеклянная пилюля (контраст не зависит от светлоты кадра) */
+@media (max-width:1100px),(max-aspect-ratio:5/4){
+  .lpx .lp-crumbs{padding:0 14px;border-radius:999px;background:rgba(20,16,13,.62);color:#faf7f2;text-shadow:none;
+    box-shadow:inset 0 0 0 1px rgba(250,247,242,.18);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .lpx .lp-crumbs a{text-decoration-color:rgba(250,247,242,.6)}
+  .lpx .lp-crumbs [aria-current]{opacity:.9}
+}
+/* тёмная тема посадочных: у полос графита свой вертикальный градиент — на стыке двух одинаковых полос (вопросы → CTA) был шов; оставляем ровный тон + зерно */
+@media (prefers-color-scheme:dark){.lpd .page-band.nd-band:not(.nd-band--graphite){background-image:var(--nb-noise,none)}}
