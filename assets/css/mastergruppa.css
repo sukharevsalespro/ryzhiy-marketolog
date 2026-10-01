@@ -218,5 +218,6 @@
    Токены кнопки задаём на окне — оно вне .mg-hero-band. Светлая: чёрная плашка, тёмная: оранжевая. */
 .dl-dlg{--mg-pbg:#111;--mg-pfg:#faf7f2;--mg-cell:#faf7f2;--mg-cellfg:#111;--mg-plate:#fe6c1f;--mg-ink:#111}
 .dl-dlg .dl-cta{margin-top:20px}
+.dl-dlg .mg-pay-t{white-space:normal;padding-block:8px} /* узкий экран: подпись в две строки, не обрезается */
 .dl-note{margin:6px 0 0;font:400 12px/1.4 'Golos Text',sans-serif;color:var(--dl-mute)}
 @media (prefers-color-scheme:dark){.dl-dlg{--mg-pbg:#fe6c1f;--mg-pfg:#111;--mg-cell:#111;--mg-cellfg:#faf7f2;--mg-plate:#faf7f2;--mg-ink:#faf7f2}}
