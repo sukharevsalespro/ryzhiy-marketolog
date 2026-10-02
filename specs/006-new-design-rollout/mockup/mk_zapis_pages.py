@@ -130,6 +130,7 @@ def md():
     fin_acc = one(r'</h2><p>(.*?)</p>', fin)
     fin_a = one(r'(<a class="pay".*?</a>)', fin); fin_lab = one(r'<a class="pay"[^>]*>(.*?) <span aria-hidden="true" class="arrow">', fin)
     oferta = one(r'(<a class="record-terms" href="/legal/oferta/">.*?</a>)', fin).replace(' class="record-terms"', '')
+    hero_lead = one(r'<div class="record-access"><p>(.*?)</p>', s)   # строка первого экрана исходника, дословно
 
     cards = ''.join(f'<li><b class="rcd-n" aria-hidden="true">{n}</b><p>{p}</p></li>' for n, p in items)
     main = f'''<main id="main">
@@ -157,13 +158,13 @@ def md():
 <div class="page-band nd-band nw2-band">
 <section class="nw2 nw-cta rcd-final" aria-labelledby="final-title">
 <div class="nw-cta-panel">
-<div class="nw-cta-copy"><p class="rcd-kick"><i>*</i> {fin_kick}</p><h2 id="final-title">{fin_h2}</h2>
+<div class="nw-cta-copy"><p class="rcd-kick"><i>*</i> {fin_kick}</p><h2 id="final-title">{fin_h2}</h2><p class="nw-cta-text">{hero_lead}</p>
 <div class="rcx-tk">
 <div class="rcx-tk-top"><p class="rcx-tk-what"><b><i class="rcx-rec" aria-hidden="true"></i>{fin_acc}</b></p><p class="rcx-price">888 ₽</p></div>
 {pay(fin_a, fin_lab)}
 <p class="rcx-tk-note">{oferta}</p>
 </div></div>
-<figure class="nw-cta-photo rcd-ph--ny"><img src="/assets/img/portrait-newyear-600.webp" srcset="/assets/img/portrait-newyear-600.webp 600w, /assets/img/portrait-newyear-1200.webp 1200w" sizes="(max-width:1100px) 100vw, 40vw" width="600" height="600" loading="lazy" alt="Валентина Сухарева в чёрном жакете, портрет крупным планом"></figure>
+<figure class="nw-cta-photo rcd-ph--wp"><img src="/assets/img/webinar-portrait-600.webp" srcset="/assets/img/webinar-portrait-600.webp 600w, /assets/img/webinar-portrait-1200.webp 1200w" sizes="(max-width:1100px) 100vw, 40vw" width="600" height="909" loading="lazy" alt="Валентина Сухарева в бордовом жилете улыбается на встрече"></figure>
 </div>
 </section></div>
 </main>'''
