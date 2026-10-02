@@ -105,3 +105,32 @@
 @media (prefers-color-scheme:dark) and (hover:hover){
   .fmt-card:hover{box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 34px 60px -24px rgba(0,0,0,.7)}
 }
+
+/* Индивидуальные форматы (007): консультация и сопровождение — по половине ширины сетки под мастер-группой.
+   Ссылки на отдельную страницу нет, поэтому карточка не «кнопка целиком»: не поднимается на hover,
+   действие — две кнопки в мессенджеры (Telegram залит, MAX контуром), как пара Telegram/MAX в заявке. */
+.fmt-grid>li.fmt-half{grid-column:span 2}
+@media (max-width:1024px){.fmt-grid>li.fmt-half{grid-column:span 1}}
+@media (max-width:700px){.fmt-grid>li.fmt-half{grid-column:1/-1}}
+.fmt-card--msg .fmt-d{max-width:46ch}
+.fmt-foot{margin-top:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 16px}
+.fmt-card--msg .fmt-meta{margin:0}
+.fmt-acts{flex:1 1 300px;display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.fmt-btn{--plate:var(--fx-graphite);display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:1.5px solid var(--fx-graphite);
+  color:var(--fx-graphite);font:700 15px/1.2 'Golos Text',sans-serif;text-decoration:none;touch-action:manipulation;white-space:nowrap;flex:1 1 auto;justify-content:space-between}
+.fmt .fmt-card .fmt-btn:is(:hover,:focus-visible){text-decoration:none}
+.fmt-btn .i{width:16px;height:16px;flex:none}
+.fmt-btn--fill{background:var(--fx-graphite);color:#faf7f2}
+.fmt .fmt-card .fmt-btn:not(.fmt-btn--fill):is(:hover,:focus-visible){background:var(--fx-graphite);color:#faf7f2}
+.fmt-btn:focus-visible{outline:2.5px solid var(--fx-orange);outline-offset:3px}
+.fmt-card--msg:hover,.fmt-card--msg:active{transform:none}
+@media (hover:hover){.fmt-card--msg:hover{box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 22px 44px -22px rgba(120,52,12,.28)}}
+@media (max-width:560px){.fmt-btn{padding:0 14px;font-size:14px}}
+@media (prefers-color-scheme:dark){
+  .fmt-btn{--plate:var(--fx-orange);border-color:#faf7f2;color:#faf7f2}
+  .fmt-btn--fill{background:var(--fx-orange);border-color:var(--fx-orange);color:#111}
+  .fmt .fmt-card .fmt-btn:not(.fmt-btn--fill):is(:hover,:focus-visible){background:#faf7f2;color:#111}
+}
+@media (prefers-color-scheme:dark) and (hover:hover){
+  .fmt-card--msg:hover{box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 22px 44px -22px rgba(0,0,0,.6)}
+}
