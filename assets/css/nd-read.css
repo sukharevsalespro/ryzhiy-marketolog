@@ -86,7 +86,7 @@
   .ndr-rail{grid-column:1;grid-row:auto;margin-bottom:32px}
   .ndr-by{position:static;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:14px}
   .ndr-by b{font-size:26px}.ndr-by span{margin-top:0}
-  .ndr-by br{display:none}
+
   .ndr-body{grid-column:1;grid-template-columns:minmax(0,1fr)}
   .ndr-body>*{max-width:680px}
   .ndr-body .ndr-callout,.ndr-fig{max-width:none}
@@ -177,3 +177,55 @@
   .svx-code{font-size:620px}
   .svx-note{font-size:24px}
 }
+
+/* автор статьи (T020): кадр в кресле — лицо в левой верхней четверти кадра; приближение к лицу, чтобы оно не было мелким */
+.rca-ph--chair{overflow:hidden;border-radius:8px}
+.rca-ph--chair img{object-position:22% 18%;transform:scale(1.32);transform-origin:20% 16%}
+
+/* ====================== юридические документы (T024): служебный шаблон, читальная колонка ~760px ======================
+   Разметка документа — исходная (.document-section, .offer-document, .offer-toc), стили только через обёртку .svx--legal. */
+.nd .page-band>.svx--legal{max-width:calc(760px + 2 * var(--nd-pad));margin-inline:auto}
+.nd .page-band>.svx--toc{max-width:calc(260px + 56px + 760px + 2 * var(--nd-pad))}
+.svx--legal{display:block;padding-bottom:clamp(56px,6vw,96px)}
+.svx--toc{display:grid;grid-template-columns:260px minmax(0,760px);column-gap:56px;align-items:start}
+.svx-main{min-width:0}
+.svx--legal :is(h1){margin:0;font:900 clamp(34px,4.2vw,60px)/.94 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;
+  text-transform:uppercase;text-wrap:balance;overflow-wrap:break-word;color:var(--nd-ink)}
+.svx--legal .legal-date,.svx--legal .offer-revision{margin:16px 0 0;font:500 15px/1.5 'Golos Text',sans-serif;color:var(--nd-mute)}
+.svx--legal .svx-head{margin-bottom:clamp(28px,3vw,44px)}
+.svx--legal :is(.document-section,.offer-document) p{margin:0 0 1em;font:400 17px/1.65 'Golos Text',sans-serif;color:var(--nd-ink);overflow-wrap:anywhere}
+.svx--legal :is(.document-section,.offer-document) h2{margin:1.8em 0 .7em;font:700 clamp(20px,1.7vw,24px)/1.25 'Golos Text',sans-serif;color:var(--nd-ink);
+  overflow-wrap:anywhere;scroll-margin-top:96px}
+.svx--legal .document-section:first-of-type h2{margin-top:0}
+.svx--legal :is(.document-section,.offer-document) a{color:inherit;text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:3px;text-decoration-thickness:1.5px}
+.svx--legal :is(.document-section,.offer-document) a:hover{color:var(--nd-acc)}
+.svx--legal a:focus-visible,.svx-toc summary:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px}
+/* оферта: «Договор оферты» над заголовком — кикер; редакция — под «На главную» */
+.offer-document>p:first-child{margin:clamp(14px,1.6vw,22px) 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
+.offer-document>h1{margin-bottom:clamp(28px,3vw,44px)}
+/* оглавление: десктоп — sticky слева, всегда открыто; ≤1100 — свёрнутый список над текстом */
+.svx-tocwrap{position:sticky;top:96px;max-height:calc(100vh - 120px);overflow:auto;padding:4px 4px 4px 0}
+.svx-toc summary{display:none}
+.svx-toc .offer-toc{display:flex;flex-direction:column;gap:0;padding-top:14px;border-top:3px solid var(--nd-or)} /* gap:0 — style.css задаёт всем nav gap:27rem */
+.svx-toc .offer-toc a{display:block;padding:9px 0;font:500 14px/1.4 'Golos Text',sans-serif;color:var(--nd-mute);text-decoration:none;overflow-wrap:anywhere}
+.svx-toc .offer-toc a:hover{color:var(--nd-ink);text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:3px}
+@media (max-width:1100px){
+  .nd .page-band>.svx--toc{max-width:calc(760px + 2 * var(--nd-pad))}
+  /* порядок на узких: «На главную» → редакция → оглавление → документ */
+  .svx--toc{display:flex;flex-direction:column}
+  .svx--toc .svx-main{display:contents}
+  .svx--toc .nd-back,.svx--toc .offer-revision{order:0}
+  .svx-tocwrap{order:1;align-self:stretch;position:static;max-height:none;overflow:visible;padding:0;margin:20px 0 0}
+  .svx-toc{width:100%}
+  .svx--toc .offer-document{order:2}
+  .svx-toc{border:1px solid var(--nd-soft);border-radius:8px;background:var(--nd-surface)}
+  .svx-toc summary{display:flex;align-items:center;justify-content:space-between;min-height:52px;padding:0 18px;cursor:pointer;list-style:none;
+    font:600 16px/1.2 'Golos Text',sans-serif;color:var(--nd-ink)}
+  .svx-toc summary::-webkit-details-marker{display:none}
+  .svx-toc summary::after{content:"";width:10px;height:10px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;rotate:45deg;translate:0 -3px}
+  .svx-toc[open] summary::after{rotate:-135deg;translate:0 3px}
+  .svx-toc .offer-toc{margin:0 18px;padding:6px 0 10px;border-top:1px solid var(--nd-soft)}
+  .svx-toc .offer-toc a{padding:11px 0;font-size:15px}
+  .svx-main>.nd-back{margin-top:4px}
+}
+@media (max-width:700px){.svx--legal :is(.document-section,.offer-document) p{font-size:16px}}

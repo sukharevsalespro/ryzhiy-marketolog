@@ -36,14 +36,18 @@ def build(src, out, main, body, title, drop_css, live=False):
         h = re.sub(r'<noscript>.*?</noscript>', '', h, flags=re.S)
     if '<!--copy-->' in h:  # «Копировать» на реквизитах: внешний скрипт (CSP script-src 'self')
         h = h.replace('<!--copy-->', '').replace('</body>', '<script src="/assets/js/copy.js?v=1" defer></script>\n</body>', 1)
+    if '<!--legal-->' in h:  # оглавление оферты: свернуть на мобилке (внешний скрипт, CSP script-src 'self')
+        h = h.replace('<!--legal-->', '').replace('</body>', '<script src="/assets/js/legal.js?v=1" defer></script>\n</body>', 1)
     assert h.count('<h1') == 1 and 'nd-read.css' in h and 'theme.js' in h
     (R / M / out).write_text(h)
     print(out, len(h))
 
 
 # фото финала — кадр вебинара, на который ведёт CTA; alt — как у этого кадра на /zapis-lichnyj-brend/
-# ---------- T019: статья ----------
-s = (R / 'pozicionirovanie/index.html').read_text()
+# ---------- T019 (макет) / T020 (рабочая страница): статья ----------
+# Исходник — версия страницы в старом дизайне из git (рабочую /pozicionirovanie/ этот же скрипт переводит, см. ниже).
+import subprocess
+s = subprocess.run(['git', 'show', '26ec547:pozicionirovanie/index.html'], capture_output=True, text=True, check=True).stdout
 head = one(r'<header class="article-heading">(.*?)</header>', s)
 back = one(r'<a class="article-back"[^>]*>.*?</a>', head)
 kick = one(r'<p class="article-kicker">(.*?)</p>', head)
@@ -75,10 +79,16 @@ def restyle(b):
 
 # макет: первый экран + разворот до первой схемы и позиционирующего утверждения (блоки 0–12), мем — в обложке
 spread = [restyle(b) for i, b in enumerate(blocks) if 0 < i <= 12 and i != 3]
+full = [restyle(b) for i, b in enumerate(blocks) if i not in (0, 3)]  # T020: всё тело, кроме лида и мема (они в обложке)
 lede = blocks[0].replace('<p>', '<p class="arx-lede">', 1)  # первый абзац («На связи…») — лид обложки
 author = one(r'<section id="article-author" class="article-author"[^>]*>(.*?)</section>', s)
-a_img = one(r'<img src="/assets/img/portrait-bench-600\.webp"[^>]*>', author)
-a_alt = one(r'alt="([^"]*)"', a_img)
+one(r'<img src="/assets/img/portrait-bench-600\.webp"[^>]*>', author)
+# фото автора (T020, координатор 03.10): кадр с видимыми глазами вместо portrait-bench (тёмные очки, реестр 28.09);
+# portrait-armchair-smile на сайте больше нигде не стоит, на странице кадр не повторяется; alt новый — по кадру
+A_IMG = ('<img src="/assets/img/portrait-armchair-smile-1200.webp" srcset="/assets/img/portrait-armchair-smile-600.webp 600w, '
+         '/assets/img/portrait-armchair-smile-1200.webp 1200w, /assets/img/portrait-armchair-smile-2400.webp 2400w" '
+         'sizes="(max-width:760px) 90vw, (max-width:1500px) 41vw, 535px" width="1200" height="2133" loading="lazy" '
+         'alt="Валентина Сухарева улыбается, сидя в кресле">')
 a_kick = one(r'<p class="article-kicker">(.*?)</p>', author)
 a_name = one(r'<h2 id="author-title">(.*?)</h2>', author)
 a_bio = one(r'</h2><p>(.*?)</p>', author)
@@ -112,14 +122,14 @@ POZ = f'''<main id="main">
 <div class="ndr">
 <aside class="ndr-rail"><p class="ndr-by">{byline.replace('<p>', '<b>', 1).replace('</p>', '</b>', 1)}</p></aside>
 <div class="ndr-body">
-{chr(10).join(spread)}
+@@BODY@@
 </div>
 </div>
 </div>
 </article>
 <div class="page-band nd-band nw2-band">
 <section class="nw2 rca rca--md" id="article-author" aria-labelledby="author-title">
-<figure class="rca-ph"><img src="/assets/img/portrait-bench-1200.webp" srcset="/assets/img/portrait-bench-600.webp 600w, /assets/img/portrait-bench-1200.webp 1200w, /assets/img/portrait-bench-2400.webp 2400w" sizes="(max-width:760px) 90vw, (max-width:1500px) 41vw, 535px" width="1200" height="1801" loading="lazy" alt="{a_alt}"></figure>
+<figure class="rca-ph rca-ph--chair">{A_IMG}</figure>
 <div class="rca-copy">
 <p class="rcd-kick"><i>*</i> {a_kick}</p>
 <h2 id="author-title" class="rca-name">{a_name}</h2>
@@ -137,8 +147,10 @@ POZ = f'''<main id="main">
 </div>
 </section></div>
 </main>'''
-build('pozicionirovanie/index.html', 'pozicionirovanie-hero.html', POZ, 'home nd nw-page ar-page',
+build(s, 'pozicionirovanie-hero.html', POZ.replace('@@BODY@@', chr(10).join(spread)), 'home nd nw-page ar-page',
       'Макет T019: /pozicionirovanie/ — обложка и читальный шаблон (spec 006)', ['/pozicionirovanie/style.css'])
+build(s, '../../../pozicionirovanie/index.html', POZ.replace('@@BODY@@', chr(10).join(full)), 'home nd nw-page ar-page', None,
+      ['/pozicionirovanie/style.css'], live=True)
 
 # ---------- T023: реквизиты ----------
 # Исходник — старая версия страницы из git (рабочую /rekvizity/ этот же скрипт переводит на новый шаблон, см. ниже).
@@ -198,7 +210,7 @@ build(s, 'rekvizity-svc.html', REK, 'home nd nw-page sv-page',
 build(s, '../../../rekvizity/index.html', REK, 'home nd nw-page sv-page', None, ['/webinar/webinar.css', '/assets/css/utility.css'], live=True)
 
 # ---------- T023: 404 (В6: «На главную» и «Календарь встреч» → /#calendar) ----------
-s = (R / '404.html').read_text()
+s = subprocess.run(['git', 'show', '26ec547:404.html'], capture_output=True, text=True, check=True).stdout
 m = one(r'<main id="main" class="utility-main">(.*?)</main>', s)
 e_code = one(r'<p class="error-code">(.*?)</p>', m)
 e_h1 = one(r'<h1>(.*?)</h1>', m)
@@ -218,5 +230,65 @@ E404 = f'''<main id="main">
 </section>
 </div>
 </main>'''
-build('404.html', '404-svc.html', E404, 'home nd nw-page sv-page sv-404',
+build(s, '404-svc.html', E404, 'home nd nw-page sv-page sv-404',
       'Макет T023: 404 — служебный шаблон (spec 006)', ['/webinar/webinar.css', '/assets/css/utility.css'])
+# T025: рабочая 404 — тот же <main>, noindex и мета исходника сохраняются
+build(s, '../../../404.html', E404, 'home nd nw-page sv-page sv-404', None, ['/webinar/webinar.css', '/assets/css/utility.css'], live=True)
+
+# ---------- T024: юридические документы на служебном шаблоне .svx ----------
+# Тексты документов не трогаются: <section class="document-section"> и <article class="offer-document"> переносятся
+# как есть (проверка ниже — побайтно), меняется только обёртка. Оглавление оферты — тот же <nav>, обёрнутый в <details>
+# (десктоп: всегда открыт, sticky слева; мобилка: свёрнут, раскрывается — assets/js/legal.js).
+def legal(path):
+    s = subprocess.run(['git', 'show', '26ec547:' + path], capture_output=True, text=True, check=True).stdout
+    m = one(r'<main id="main" class="utility-main">(.*?)</main>', s)
+    back = one(r'<a class="utility-back" href="/">(.*?)</a>', m)
+    if 'offer-toc' in m:
+        rev = one(r'(<p class="offer-revision">.*?</p>)', m)
+        nav = one(r'(<nav class="offer-toc".*?</nav>)', m)
+        art = one(r'(<article id="offer-document".*?</article>)', m)
+        assert m == f'<a class="utility-back" href="/">{back}</a>' + rev + nav + art
+        main = f'''<main id="main">
+<div class="page-band nd-band">
+<div class="svx svx--doc svx--legal svx--toc">
+<aside class="svx-tocwrap"><details class="svx-toc" open><summary>Оглавление</summary>{nav}</details></aside>
+<div class="svx-main">
+<a class="nd-back" href="/">{back}</a>
+{rev}
+{art}
+</div>
+</div>
+</div>
+</main>'''
+        keep = [nav, art, rev]
+    else:
+        lab = one(r'<p class="utility-label">(.*?)</p>', m)
+        h1 = one(r'<h1>(.*?)</h1>', m)
+        date = one(r'(<p class="legal-date">.*?</p>)', m)
+        secs = m.split(date, 1)[1]
+        assert m == f'<a class="utility-back" href="/">{back}</a><p class="utility-label">{lab}</p><h1>{h1}</h1>' + date + secs
+        main = f'''<main id="main">
+<div class="page-band nd-band">
+<div class="svx svx--doc svx--legal">
+<div class="svx-main">
+<div class="svx-head">
+<a class="nd-back" href="/">{back}</a>
+<p class="nd-kick"><i>*</i> {lab}</p>
+<h1>{h1}</h1>
+{date}
+</div>
+{secs}
+</div>
+</div>
+</div>
+</main>'''
+        keep = [secs, date]
+    for k in keep:  # тексты документа перенесены побайтно
+        assert k in main
+    if 'offer-toc' in m:
+        main += '<!--legal-->'
+    build(s, '../../../' + path, main, 'home nd nw-page sv-page lg-page', None, ['/webinar/webinar.css', '/assets/css/utility.css'], live=True)
+
+
+for path in ('legal/oferta/index.html', 'legal/privacy/index.html', 'legal/soglasie/index.html'):
+    legal(path)
