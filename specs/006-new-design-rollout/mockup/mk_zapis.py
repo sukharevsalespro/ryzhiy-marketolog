@@ -52,8 +52,8 @@ MD = f'''<main id="main">
 </div>
 </div>
 <figure class="rcx-poster"><a aria-label="Открыть афишу вебинара крупно" href="/assets/img/poster-doveriya-1200.webp" rel="noopener noreferrer" target="_blank"><img alt="Афиша прошедшего вебинара «Маркетинг доверия» с двумя ведущими" fetchpriority="high" height="2133" width="1200" sizes="(max-width:1100px) 34vw, 760px" src="/assets/img/poster-doveriya-1200.webp" srcset="/assets/img/poster-doveriya-600.webp 600w, /assets/img/poster-doveriya-1200.webp 1200w"></a><figcaption>Афиша прошедшего эфира <a href="/assets/img/poster-doveriya-1200.webp" rel="noopener noreferrer" target="_blank">Открыть крупно →</a></figcaption></figure>
-<div class="rcx-bar" role="img" aria-label="Что внутри: четыре блока записи">{DISK}
-<div><p class="rcx-cap">Что внутри</p><ol class="rcx-track" aria-hidden="true"><li><span>01</span></li><li><span>02</span></li><li><span>03</span></li><li><span>04</span></li></ol></div>
+<div class="rcx-bar" role="img" aria-label="Что внутри: две главные причины, скрытая золотая жила, 9 факторов доверия, ИИ в помощь">{DISK}
+<div><p class="rcx-cap">Что внутри</p><ol class="rcx-track" aria-hidden="true"><li><span>Две главные причины</span></li><li><span>Скрытая золотая жила</span></li><li><span>9 факторов доверия</span></li><li><span>ИИ в помощь</span></li></ol></div>
 </div>
 </div>
 </section>

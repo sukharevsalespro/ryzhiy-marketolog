@@ -476,7 +476,9 @@
 .rcx--lb .lpx-ph{background:#e9eee9}
 @media (prefers-color-scheme:dark){
   .rcx--lb .lpx-ph{background:#1c1d20}
-  .rcx--lb .lpx-ph::after{background:linear-gradient(90deg,rgba(28,29,33,.9) 0%,rgba(28,29,33,.78) calc(50vw - 160px),rgba(28,29,33,.2) calc(50vw + 40px),rgba(28,29,33,.1) 100%),rgba(20,21,24,.42)}
+  /* без общей вуали: фото почти как в светлой (−8%), графит только слева под колонкой и гаснет к середине, до человека */
+  .rcx--lb .lpx-ph img{filter:brightness(.92)}
+  .rcx--lb .lpx-ph::after{background:linear-gradient(90deg,rgba(28,29,33,.92) 0,rgba(28,29,33,.86) calc(50vw - 150px),rgba(28,29,33,.5) calc(50vw - 70px),rgba(28,29,33,.14) calc(50vw + 20px),rgba(28,29,33,0) calc(50vw + 100px))}
 }
 
 /* «Маркетинг доверия»: полоса страницы (крем / графит), афиша — вертикальное видео справа, за ней тлеющее сияние */
