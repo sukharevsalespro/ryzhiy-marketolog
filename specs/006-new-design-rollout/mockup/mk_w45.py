@@ -6,7 +6,7 @@ import re, pathlib
 R = pathlib.Path('.')
 M = 'specs/006-new-design-rollout/mockup/'
 CSS = ('<link rel="stylesheet" href="/assets/css/home-blocks.css?v=3">'
-       '<link rel="stylesheet" href="/assets/css/nd-pages.css?v=7">'
+       '<link rel="stylesheet" href="/assets/css/nd-pages.css?v=8">'
        '<link rel="stylesheet" href="/networking/nw-nd.css?v=1">'
        '<link rel="stylesheet" href="/assets/css/nd-read.css?v=1">')
 ARROW = '<span class="nd-pay-c"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>'
@@ -19,19 +19,21 @@ def one(pat, s, flags=re.S):
     return m[0]
 
 
-def build(src, out, main, body, title, drop_css):
-    h = (R / src).read_text()
+def build(src, out, main, body, title, drop_css, live=False):
+    h = src if src.lstrip().startswith('<!doctype') else (R / src).read_text()
     for c in drop_css:
         h, n = re.subn(r'<link[^>]*' + re.escape(c) + r'[^>]*>\n?', '', h)
         assert n == 1, c
     h = h.replace('<script src="/assets/js/theme.js?v=1"></script>', CSS + '<script src="/assets/js/theme.js?v=1"></script>', 1)
-    h = re.sub(r'<title>[^<]*</title>', f'<title>{title}</title>', h, 1)
-    h = re.sub(r'<meta name="robots"[^>]*>', '', h)
-    h = h.replace('</head>', '<meta name="robots" content="noindex, nofollow"></head>', 1)
+    if not live:
+        h = re.sub(r'<title>[^<]*</title>', f'<title>{title}</title>', h, 1)
+        h = re.sub(r'<meta name="robots"[^>]*>', '', h)
+        h = h.replace('</head>', '<meta name="robots" content="noindex, nofollow"></head>', 1)
     h = re.sub(r'<body[^>]*>', f'<body class="{body}">', h, 1)
     h = re.sub(r'<main id="main"[^>]*>.*?</main>', lambda m: main, h, 1, flags=re.S)
-    h = re.sub(r'<script src="/(assets/js/main\.js|webinar/motion\.js|assets/js/metrika\.js)[^"]*" defer></script>', '', h)
-    h = re.sub(r'<noscript>.*?</noscript>', '', h, flags=re.S)
+    if not live:
+        h = re.sub(r'<script src="/(assets/js/main\.js|webinar/motion\.js|assets/js/metrika\.js)[^"]*" defer></script>', '', h)
+        h = re.sub(r'<noscript>.*?</noscript>', '', h, flags=re.S)
     if '<!--copy-->' in h:  # «Копировать» на реквизитах: внешний скрипт (CSP script-src 'self')
         h = h.replace('<!--copy-->', '').replace('</body>', '<script src="/assets/js/copy.js?v=1" defer></script>\n</body>', 1)
     assert h.count('<h1') == 1 and 'nd-read.css' in h and 'theme.js' in h
@@ -139,17 +141,43 @@ build('pozicionirovanie/index.html', 'pozicionirovanie-hero.html', POZ, 'home nd
       'Макет T019: /pozicionirovanie/ — обложка и читальный шаблон (spec 006)', ['/pozicionirovanie/style.css'])
 
 # ---------- T023: реквизиты ----------
-s = (R / 'rekvizity/index.html').read_text()
+# Исходник — старая версия страницы из git (рабочую /rekvizity/ этот же скрипт переводит на новый шаблон, см. ниже).
+# Поля и значения — полный набор, присланный владельцем 03.10.2026 (дословно, регистр и пунктуация сохранены);
+# подзаголовки «Организация» / «Банк» и «Скопировать все реквизиты» — по постановке координатора.
+import subprocess
+s = subprocess.run(['git', 'show', '12fdc13:rekvizity/index.html'], capture_output=True, text=True, check=True).stdout
 m = one(r'<main id="main" class="utility-main">(.*?)</main>', s)
 r_back = one(r'<a class="utility-back"[^>]*>(.*?)</a>', m)
 r_lab = one(r'<p class="utility-label">(.*?)</p>', m)
 r_h1 = one(r'<h1>(.*?)</h1>', m)
-rows = re.findall(r'<div class="legal-row"><dt>(.*?)</dt><dd>(.*?)</dd></div>', m)
-assert len(rows) == 4
+CAPTION = 'Реквизиты счета'
+GROUPS = [('Организация', [
+    ('Название организации', 'ИНДИВИДУАЛЬНЫЙ ПРЕДПРИНИМАТЕЛЬ СУХАРЕВА ВАЛЕНТИНА АЛЕКСАНДРОВНА'),
+    ('Юридический адрес организации', '650056, РОССИЯ, КЕМЕРОВСКАЯ ОБЛАСТЬ - КУЗБАСС, Г КЕМЕРОВО, УЛ ВОРОШИЛОВА, Д 5А, КВ 58'),
+    ('ИНН', '421204839449'),
+    ('ОГРН/ОГРНИП', '325420500045757')]),
+  ('Банк', [
+    ('Расчетный счет', '40802810600008254497'),
+    ('Банк', 'АО «ТБанк»'),
+    ('ИНН банка', '7710140679'),
+    ('БИК банка', '044525974'),
+    ('Корреспондентский счет банка', '30101810145250000974'),
+    ('Юридический адрес банка', '127287, г. Москва, ул. Хуторская 2-я, д. 38А, стр. 26')])]
+# старые 4 значения страницы обязаны совпасть с присланными (иначе — вопрос владельцу, а не молчаливая замена)
+old = dict(re.findall(r'<div class="legal-row"><dt>(.*?)</dt><dd>(.*?)</dd></div>', m))
+new = dict(GROUPS[0][1])
+assert old['Название организации'] == new['Название организации'] and old['ИНН'] == new['ИНН'] and old['ОГРНИП'] == new['ОГРН/ОГРНИП']
+assert old['Юридический адрес'] == new['Юридический адрес организации']
 COPY = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>'
-dl = ''.join(f'<div><dt>{t}</dt><dd><span class="svx-val" id="rq-{i}">{d}</span>'
-             f'<button class="svx-copy" type="button" data-copy="rq-{i}" aria-label="Копировать: {t}" hidden>{COPY}</button></dd></div>'
-             for i, (t, d) in enumerate(rows, 1))
+n = 0
+sheet = ''
+for g, rows in GROUPS:
+    sheet += f'<h2 class="svx-sub">{g}</h2><dl>'
+    for t, d in rows:
+        n += 1
+        sheet += (f'<div><dt>{t}</dt><dd><span class="svx-val" id="rq-{n}">{d}</span>'
+                  f'<button class="svx-copy" type="button" data-copy="rq-{n}" aria-label="Копировать: {t}" hidden>{COPY}</button></dd></div>')
+    sheet += '</dl>'
 REK = f'''<main id="main">
 <div class="page-band nd-band">
 <section class="svx svx--doc" aria-labelledby="sv-title">
@@ -158,13 +186,16 @@ REK = f'''<main id="main">
 <p class="nd-kick"><i>*</i> {r_lab}</p>
 <h1 id="sv-title" class="svx-h1">{r_h1}</h1>
 </div>
-<dl class="svx-doc">{dl}</dl>
+<div class="svx-bar"><p class="svx-cap">{CAPTION}</p><button class="svx-all" type="button" data-copy-all hidden>{COPY}<span>Скопировать все реквизиты</span></button></div>
+<div class="svx-doc">{sheet}</div>
 </section>
 </div>
 </main>'''
 REK += '<!--copy-->'  # маркер: build() ставит copy.js перед </body>
-build('rekvizity/index.html', 'rekvizity-svc.html', REK, 'home nd nw-page sv-page',
+build(s, 'rekvizity-svc.html', REK, 'home nd nw-page sv-page',
       'Макет T023: /rekvizity/ — служебный шаблон (spec 006)', ['/webinar/webinar.css', '/assets/css/utility.css'])
+# рабочая страница: тот же <main>, мета/JSON-LD/хлебные крошки/скрипты исходника не трогаются (live=True)
+build(s, '../../../rekvizity/index.html', REK, 'home nd nw-page sv-page', None, ['/webinar/webinar.css', '/assets/css/utility.css'], live=True)
 
 # ---------- T023: 404 (В6: «На главную» и «Календарь встреч» → /#calendar) ----------
 s = (R / '404.html').read_text()

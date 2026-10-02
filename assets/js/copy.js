@@ -3,7 +3,8 @@
 (function () {
   'use strict';
   var buttons = document.querySelectorAll('.svx-copy[data-copy]');
-  if (!buttons.length) return;
+  var all = document.querySelector('[data-copy-all]');
+  if (!buttons.length && !all) return;
   var host = null;
   function toast(message, kind) {
     if (!host) {
@@ -33,18 +34,30 @@
       if (ok) resolve(); else reject(new Error('execCommand copy failed'));
     });
   }
+  function run(btn, text) {
+    copy(text).then(function () {
+      btn.classList.add('is-done');
+      setTimeout(function () { btn.classList.remove('is-done'); }, 1600);
+      toast('Скопировано', 'ok');
+    }, function (err) {
+      console.error('copy.js:', err);
+      toast('Не получилось скопировать — выделите текст и скопируйте вручную.', 'err');
+    });
+  }
   Array.prototype.forEach.call(buttons, function (btn) {
     btn.hidden = false;
     btn.addEventListener('click', function () {
-      var val = document.getElementById(btn.dataset.copy);
-      copy(val.textContent.trim()).then(function () {
-        btn.classList.add('is-done');
-        setTimeout(function () { btn.classList.remove('is-done'); }, 1600);
-        toast('Скопировано', 'ok');
-      }, function (err) {
-        console.error('copy.js:', err);
-        toast('Не получилось скопировать — выделите текст и скопируйте вручную.', 'err');
-      });
+      run(btn, document.getElementById(btn.dataset.copy).textContent.trim());
     });
   });
+  /* «Скопировать все реквизиты»: строки «Поле: значение» в порядке листа */
+  if (all) {
+    all.hidden = false;
+    all.addEventListener('click', function () {
+      var lines = Array.prototype.map.call(document.querySelectorAll('.svx-doc dl > div'), function (row) {
+        return row.querySelector('dt').textContent.trim() + ': ' + row.querySelector('.svx-val').textContent.trim();
+      });
+      run(all, lines.join('\n'));
+    });
+  }
 })();
