@@ -119,18 +119,29 @@
 .svx-h1{margin:0;font:900 min(15cqi,200px)/.88 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.005em;
   text-transform:uppercase}
 .svx-note{margin:clamp(16px,1.8vw,24px) 0 0;max-width:24em;font:500 clamp(17px,1.35vw,20px)/1.45 'Golos Text',sans-serif;color:var(--nd-mute);text-wrap:pretty}
-/* документ: лист на поверхности страницы, строки «поле — значение» */
-.svx-doc{margin:0;padding:clamp(8px,1vw,12px) clamp(24px,3vw,44px);border-radius:8px;background:var(--nd-surface);
-  box-shadow:var(--nd-shadow),0 0 0 1px var(--nd-soft)}
-.svx-doc>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:12px 28px;padding:clamp(20px,2vw,28px) 0}
+/* документ (реквизиты, позже legal): справочная страница — спокойно и компактно. Колонка по ширине читального текста,
+   заголовок размером заголовка секции посадочных, значения обычным Golos в регистре исходника, у каждого — «Копировать» */
+.nd .page-band>.svx--doc{max-width:calc(880px + 2 * var(--nd-pad));margin-inline:auto}
+.svx--doc{gap:clamp(20px,2.4vw,32px);padding-bottom:clamp(56px,6vw,96px)}
+.svx--doc .svx-h1{font-size:clamp(40px,4.2vw,64px);line-height:.92}
+.svx-doc{margin:0;padding:4px clamp(20px,2.6vw,36px);border-radius:8px;background:var(--nd-surface);box-shadow:var(--nd-shadow),0 0 0 1px var(--nd-soft)}
+.svx-doc>div{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr) 44px;gap:6px 24px;align-items:center;padding:16px 0}
 .svx-doc>div+div{border-top:1px solid var(--nd-soft)}
-.svx-doc dt{font:600 13px/1.35 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute);padding-top:4px}
-.svx-doc dd{margin:0;font:600 clamp(17px,1.4vw,20px)/1.45 'Golos Text',sans-serif;overflow-wrap:anywhere}
-/* номера — цифрой Poster, как цены мастер-группы */
-.svx-doc dd.svx-num{font:900 clamp(34px,3vw,48px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.svx-doc dt{font:500 15px/1.4 'Golos Text',sans-serif;color:var(--nd-mute)}
+.svx-doc dd{margin:0;grid-column:2 / -1;display:grid;grid-template-columns:subgrid;align-items:center}
+.svx-val{font:400 clamp(17px,1.35vw,19px)/1.5 'Golos Text',sans-serif;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;text-wrap:pretty;color:var(--nd-ink)}
+/* кнопка «Копировать»: иконка 44×44, без JS скрыта (атрибут hidden снимает copy.js) */
+.svx-copy{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1.5px solid var(--nd-soft);border-radius:4px;background:none;color:var(--nd-ink);cursor:pointer}
+.svx-copy[hidden]{display:none}
+.svx-copy svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
+.svx-copy:hover{border-color:var(--nd-ink)}
+.svx-copy:active{translate:1px 1px}
+.svx-copy:focus-visible{outline:2px solid var(--nd-ink);outline-offset:2px}
+.svx-copy.is-done{border-color:#3FA45B;color:#3FA45B}
 @media (max-width:700px){
-  .svx-doc{padding:4px 20px}
-  .svx-doc>div{grid-template-columns:minmax(0,1fr);gap:6px;padding:18px 0}
+  .svx-doc>div{grid-template-columns:minmax(0,1fr) 44px;gap:4px 12px;padding:14px 0}
+  .svx-doc dt{grid-column:1 / -1}
+  .svx-doc dd{grid-column:1 / -1}
 }
 
 /* 404: та же сетка; справа — «404» цифрой Poster с рыжим градиентом плиты, слева — заголовок, текст и две кнопки */
@@ -144,8 +155,8 @@
 @media (max-width:700px){.svx-acts>a{flex:1 1 100%}.svx-acts .nd-pay{width:100%}}
 /* широкие мониторы (≥2000): служебная сетка шире, как у статьи, — без «маленькой страницы» посреди пустого экрана */
 @media (min-width:2000px){
-  .nd .page-band>.svx{max-width:1760px}
-  .svx-h1{font-size:min(15cqi,260px)}
+  .nd .page-band>.svx--404{max-width:1760px}
+  .nd .page-band>.svx--doc{max-width:calc(880px + 2 * var(--nd-pad))}
   .svx--404 .svx-h1{font-size:min(19cqi,220px)}
   .svx-code{font-size:620px}
   .svx-note{font-size:24px}

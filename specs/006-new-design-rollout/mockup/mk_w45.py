@@ -32,6 +32,8 @@ def build(src, out, main, body, title, drop_css):
     h = re.sub(r'<main id="main"[^>]*>.*?</main>', lambda m: main, h, 1, flags=re.S)
     h = re.sub(r'<script src="/(assets/js/main\.js|webinar/motion\.js|assets/js/metrika\.js)[^"]*" defer></script>', '', h)
     h = re.sub(r'<noscript>.*?</noscript>', '', h, flags=re.S)
+    if '<!--copy-->' in h:  # «Копировать» на реквизитах: внешний скрипт (CSP script-src 'self')
+        h = h.replace('<!--copy-->', '').replace('</body>', '<script src="/assets/js/copy.js?v=1" defer></script>\n</body>', 1)
     assert h.count('<h1') == 1 and 'nd-read.css' in h and 'theme.js' in h
     (R / M / out).write_text(h)
     print(out, len(h))
@@ -144,10 +146,13 @@ r_lab = one(r'<p class="utility-label">(.*?)</p>', m)
 r_h1 = one(r'<h1>(.*?)</h1>', m)
 rows = re.findall(r'<div class="legal-row"><dt>(.*?)</dt><dd>(.*?)</dd></div>', m)
 assert len(rows) == 4
-dl = ''.join(f'<div><dt>{t}</dt><dd{" class=\"svx-num\"" if re.fullmatch(r"\d+", d) else ""}>{d}</dd></div>' for t, d in rows)
+COPY = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>'
+dl = ''.join(f'<div><dt>{t}</dt><dd><span class="svx-val" id="rq-{i}">{d}</span>'
+             f'<button class="svx-copy" type="button" data-copy="rq-{i}" aria-label="Копировать: {t}" hidden>{COPY}</button></dd></div>'
+             for i, (t, d) in enumerate(rows, 1))
 REK = f'''<main id="main">
 <div class="page-band nd-band">
-<section class="svx" aria-labelledby="sv-title">
+<section class="svx svx--doc" aria-labelledby="sv-title">
 <div class="svx-head">
 <a class="nd-back" href="/">{r_back}</a>
 <p class="nd-kick"><i>*</i> {r_lab}</p>
@@ -157,6 +162,7 @@ REK = f'''<main id="main">
 </section>
 </div>
 </main>'''
+REK += '<!--copy-->'  # маркер: build() ставит copy.js перед </body>
 build('rekvizity/index.html', 'rekvizity-svc.html', REK, 'home nd nw-page sv-page',
       'Макет T023: /rekvizity/ — служебный шаблон (spec 006)', ['/webinar/webinar.css', '/assets/css/utility.css'])
 
