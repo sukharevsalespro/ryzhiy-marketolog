@@ -49,10 +49,10 @@
 .nw-ticket:has(input:checked) .nw-tag{background:#111;color:#faf7f2}
 @media (hover:hover){.nw-ticket:hover{translate:0 -3px;border-color:var(--nd-or)}.nw-ticket:has(input:checked):hover{border-color:#111}}
 .nw-ticket:active{translate:0 0;transition-duration:var(--md-t-tap)}
-/* 701–1240: три билета в ряд уже ~220–360px — корешок (день недели + «10:00–12:00 МСК») в 56% не помещался
+/* ≥701 (с 03.10 — на всех ширинах, раньше только 701–1240): три билета в ряд уже ~220–390px — корешок (день недели + «10:00–12:00 МСК») в 56% не помещался
    и вылезал за край страницы (809px на 768). Здесь билет «стоячий»: дата сверху, отрывной корешок снизу,
    перфорация горизонтальная. ≤700 — одна колонка, там билет лежачий, как был. */
-@media (min-width:701px) and (max-width:1240px){
+@media (min-width:701px){
   .nw-ticket{grid-template-columns:1fr;grid-template-rows:auto 1fr}  /* верх — по содержимому (у всех одинаковый), корешок забирает остаток: билеты в ряду равной высоты → перфорация на одной линии */
   .nw-t-main{border-right:0;border-bottom:1.5px dashed color-mix(in srgb,var(--nd-ink) 32%,transparent)}
   .nw-ticket:has(input:checked) .nw-t-main{border-bottom-color:rgba(17,17,17,.45)}
