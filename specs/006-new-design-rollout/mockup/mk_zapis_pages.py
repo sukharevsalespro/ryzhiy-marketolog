@@ -86,23 +86,28 @@ def lb():
 </section></div>
 
 <div class="page-band nd-band nw2-band">
-<section class="nw2 lpd-what" aria-labelledby="author-title">
-<div class="nw-head"><h2 id="author-title">{au_h2}</h2><span class="nw-rule" aria-hidden="true"></span></div>
-<div class="nw2-format">
-<div class="lpd-author rcd-author"><figure class="lpd-author-ph">{au_img}</figure><p class="nw-big"><b>{au_exp_n}</b><span><span class="lpd-author-cap">{au_exp_t}</span></span></p></div>
-<div class="nw2-format-copy"><p class="rcd-kick"><i>*</i> {au_kick}</p><p class="rcd-brand">{au_brand}</p><p class="rcd-sub">{au_p}</p><p class="rcd-sub">{au_paths[0]}</p><p class="rcd-links">{au_paths[1]}</p></div>
+<section class="nw2 rca" aria-labelledby="author-title">
+<figure class="rca-ph">{au_img}</figure>
+<div class="rca-copy">
+<p class="rcd-kick"><i>*</i> {au_kick}</p>
+<h2 id="author-title" class="rca-name">{au_h2}</h2>
+<p class="rca-brand">{au_brand}</p>
+<div class="rca-plate"><p class="rca-years"><b>{au_exp_n}</b><span>{au_exp_t}</span></p><p class="rca-bio">{au_p}</p></div>
+<p class="rca-path">{au_paths[0]}</p>
+<p class="rcd-links">{au_paths[1]}</p>
 </div>
 </section></div>
 
 <div class="page-band nd-band nw2-band">
 <section class="nw2 nw-cta rcd-final" id="registration" aria-labelledby="final-title">
 <div class="nw-cta-panel">
-<div class="nw-cta-copy"><h2 id="final-title">{fin_h2}</h2><p class="nw-cta-text">{fin_p}</p></div>
-<div class="rcd-tkcol"><div class="rcx-tk">
+<div class="nw-cta-copy"><h2 id="final-title">{fin_h2}</h2><p class="nw-cta-text">{fin_p}</p>
+<div class="rcx-tk">
 <div class="rcx-tk-top"><p class="rcx-tk-what"><span class="rcd-tk-kick">{fin_kick}</span><b><i class="rcx-rec" aria-hidden="true"></i>{fin_date}</b><span>{fin_acc}</span></p><p class="rcx-price">{fin_price}</p></div>
 {pay(fin_a, fin_lab)}
 <p class="rcx-tk-note">{oferta}<span>{pnote}</span></p>
 </div></div>
+<figure class="nw-cta-photo rcd-ph--chin"><img src="/assets/img/portrait-cafe-chin-600.webp" srcset="/assets/img/portrait-cafe-chin-600.webp 600w, /assets/img/portrait-cafe-chin-1200.webp 1200w" sizes="(max-width:1100px) 100vw, 40vw" width="600" height="1067" loading="lazy" alt="Валентина Сухарева улыбается за столиком в кафе, подперев подбородок руками"></figure>
 </div>
 </section></div>
 </main>'''
@@ -130,34 +135,35 @@ def md():
     main = f'''<main id="main">
 {hero('zapis-md-hero.html')}
 
-<div class="page-band nd-band nw2-band">
-<section class="nw2" aria-label="О записи"><p class="rcd-lead">{intro}</p></section></div>
-
 <div class="page-band nd-band nw2-band nw2-band--alt">
 <section class="nw2" id="program" aria-labelledby="program-title">
+<p class="rcd-lead rcd-intro">{intro}</p>
 <div class="nw-head"><h2 id="program-title">{prog_h2}</h2><span class="nw-rule" aria-hidden="true"></span></div>
 <ol class="rcd-prog rcd-prog--num">{cards}</ol>
 <p class="lpd-punch rcd-bonus">{bonus}</p>
 </section></div>
 
 <div class="page-band nd-band nw2-band">
-<section class="nw2 lpd-what" aria-labelledby="author-title">
-<div class="nw-head"><h2 id="author-title">{au_h2}</h2><span class="nw-rule" aria-hidden="true"></span></div>
-<div class="nw2-format">
-<div class="lpd-author rcd-author"><figure class="lpd-author-ph">{au_img}<figcaption>{au_cap}</figcaption></figure></div>
-<div class="nw2-format-copy"><p class="rcd-kick"><i>*</i> {au_kick}</p><p class="rcd-sub">{au_ps[0]}</p><p class="rcd-links">{au_ps[1]}</p></div>
+<section class="nw2 rca rca--md" aria-labelledby="author-title">
+<figure class="rca-ph">{au_img}<figcaption>{au_cap}</figcaption></figure>
+<div class="rca-copy">
+<p class="rcd-kick"><i>*</i> {au_kick}</p>
+<h2 id="author-title" class="rca-name">{au_h2}</h2>
+<div class="rca-plate"><p class="rca-bio">{au_ps[0]}</p></div>
+<p class="rcd-links">{au_ps[1]}</p>
 </div>
 </section></div>
 
 <div class="page-band nd-band nw2-band">
 <section class="nw2 nw-cta rcd-final" aria-labelledby="final-title">
 <div class="nw-cta-panel">
-<div class="nw-cta-copy"><p class="rcd-kick"><i>*</i> {fin_kick}</p><h2 id="final-title">{fin_h2}</h2></div>
-<div class="rcd-tkcol"><div class="rcx-tk">
+<div class="nw-cta-copy"><p class="rcd-kick"><i>*</i> {fin_kick}</p><h2 id="final-title">{fin_h2}</h2>
+<div class="rcx-tk">
 <div class="rcx-tk-top"><p class="rcx-tk-what"><b><i class="rcx-rec" aria-hidden="true"></i>{fin_acc}</b></p><p class="rcx-price">888 ₽</p></div>
 {pay(fin_a, fin_lab)}
 <p class="rcx-tk-note">{oferta}</p>
 </div></div>
+<figure class="nw-cta-photo rcd-ph--ny"><img src="/assets/img/portrait-newyear-600.webp" srcset="/assets/img/portrait-newyear-600.webp 600w, /assets/img/portrait-newyear-1200.webp 1200w" sizes="(max-width:1100px) 100vw, 40vw" width="600" height="600" loading="lazy" alt="Валентина Сухарева в чёрном жакете, портрет крупным планом"></figure>
 </div>
 </section></div>
 </main>'''
