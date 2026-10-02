@@ -662,3 +662,8 @@
 .nw-big.rcd-big span{max-width:18em;font-size:clamp(18px,1.6vw,24px)}
 .rcd-intro{margin-bottom:clamp(40px,5vw,72px)}
 @media (max-width:700px){.rcx-tk .nd-pay-t{padding-right:14px;white-space:normal}}
+
+/* ===================== /otzyvy/ (волна 4, T021): кнопка «Написать Валентине» — в конце полосы отзывов, кнопка паспорта .nd-pay
+   (была отдельная кремовая полоса с .btn — в тёмной теме светлое пятно между графитом отзывов и подвалом) ===================== */
+.otzyvy .rv-write{position:relative;margin:clamp(40px,4.6vw,72px) 0 0}
+@media (max-width:700px){.otzyvy .rv-write .nd-pay{display:flex;width:100%}}

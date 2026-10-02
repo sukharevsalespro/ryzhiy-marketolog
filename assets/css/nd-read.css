@@ -1,0 +1,152 @@
+/* Читальный и служебный шаблоны второстепенных страниц (spec 006, волны 4–5, макеты T019/T023).
+   Токены --nd-* и компоненты (.nd-kick, .nd-pay, .nw2, .nw-btn, .nw-cta-panel, .rca) — из nd-pages.css и /networking/nw-nd.css.
+   Подключается после них. Body: «home nd nw-page ar-page» (статья) / «home nd nw-page sv-page» (служебные).
+   Refero: Adcker 2fbe6cdf (монолитный заголовок с врезкой картинки), Medium 4784cf2e (тёплая «бумага», одна читальная колонка). */
+
+/* ====================== статья: обложка ====================== */
+.nd .page-band>.arx{max-width:var(--page-max,1320px)}
+.arx{box-sizing:border-box;padding:clamp(8px,1.4vw,24px) var(--nd-pad) clamp(48px,5.6vw,88px);color:var(--nd-ink);font-family:'Golos Text',sans-serif}
+.arx *{box-sizing:border-box}
+.arx-top{container-type:inline-size}
+.arx-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.76fr);gap:clamp(32px,5vw,96px);align-items:center;margin-top:clamp(28px,3.4vw,52px)}
+.arx-copy{min-width:0}
+/* кегль от ширины контейнера: самое длинное слово «ПОЗИЦИОНИРОВАНИЕ» (16 знаков ≈ 9.5em Poster 75%) — на всю ширину (cqi), не больше 160px */
+.arx-h1{margin:0;font:900 min(10cqi,160px)/.86 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;
+  letter-spacing:-.01em;text-transform:uppercase;color:var(--nd-ink)}
+.arx-sub{margin:0;text-wrap:balance;font:900 clamp(24px,3.4vw,56px)/.96 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;
+  text-transform:uppercase;color:var(--nd-acc)}
+.arx-lede{margin:clamp(16px,1.8vw,24px) 0 0;max-width:30em;font:500 clamp(18px,1.5vw,22px)/1.5 'Golos Text',sans-serif;text-wrap:pretty}
+.arx-origin{margin:clamp(22px,2.6vw,36px) 0 0;padding-top:16px;border-top:1px solid var(--nd-soft);font:500 15px/1.5 'Golos Text',sans-serif;color:var(--nd-mute)}
+.arx-origin a{display:inline-block;padding-block:11px;margin-block:-11px;color:var(--nd-ink);text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:3px;text-decoration-thickness:1.5px}
+/* мем: фото на «бумаге» (бумажная карточка отзывов) и рыжей «плитой» автора записей; лицо целиком — картинка не режется */
+.arx-meme{position:relative;justify-self:end;width:min(calc(100% - 18px),760px);margin:0 18px 18px 0;padding:clamp(10px,1vw,14px);border-radius:8px;background:#fffdf9;
+  box-shadow:18px 18px 0 0 var(--nd-or),var(--nd-shadow);rotate:-1.6deg}
+.arx-meme a{display:block;border-radius:4px;overflow:hidden}
+.arx-meme img{display:block;width:100%;height:auto;aspect-ratio:607/480}
+.arx-meme a:focus-visible,.arx a:focus-visible,.ndr a:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){
+  .arx-meme{transition:rotate .5s var(--md-ease)}
+  .arx-meme:hover{rotate:0deg}
+}
+@media (min-width:2000px){.nd .page-band>.arx{max-width:1760px}.arx-h1{font-size:min(10cqi,232px)}.arx-lede{font-size:24px}}
+@media (max-width:900px){
+  .arx-grid{grid-template-columns:minmax(0,1fr);gap:clamp(28px,6vw,44px)}
+  .arx-meme{justify-self:start;width:calc(100% - 14px);max-width:560px;margin:14px 14px 14px 0;box-shadow:14px 14px 0 0 var(--nd-or),var(--nd-shadow);rotate:-1deg}
+  .arx-meme{order:-1}
+}
+
+/* ====================== статья: тело — одна читальная колонка ~65 знаков, рельс автора слева, схемы шире колонки ====================== */
+.nd .page-band>.ndr{max-width:var(--page-max,1320px);margin-inline:auto}
+.ndr{box-sizing:border-box;display:grid;grid-template-columns:200px minmax(0,680px) minmax(0,1fr);column-gap:clamp(40px,4.4vw,64px);
+  padding:clamp(48px,5.6vw,88px) var(--nd-pad) clamp(56px,6vw,96px);color:var(--nd-ink);font-family:'Golos Text',sans-serif}
+.ndr *{box-sizing:border-box}
+.ndr-rail{grid-column:1;grid-row:1 / span 99}
+.ndr-by{position:sticky;top:96px;margin:0;padding-top:14px;border-top:3px solid var(--nd-or);font:500 15px/1.4 'Golos Text',sans-serif;color:var(--nd-mute)}
+.ndr-by b{display:block;font:900 30px/.92 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;color:var(--nd-ink)}
+.ndr-by span{display:block;margin-top:8px}
+.ndr-by a{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--nd-ink);text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:3px}
+.ndr-body{grid-column:2 / -1;display:grid;grid-template-columns:minmax(0,680px) minmax(0,1fr);min-width:0;overflow-wrap:break-word}
+.ndr-body>*{grid-column:1}
+.ndr-body p,.ndr-body ul{margin:0 0 1.15em;font:400 20px/1.62 'Golos Text',sans-serif}
+.ndr-body b{font-weight:700}
+.ndr-body a{color:inherit;text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:3px;text-decoration-thickness:1.5px}
+.ndr-body a:hover{color:var(--nd-acc)}
+.ndr-body ul{list-style:none;padding:0}
+.ndr-body li{position:relative;padding-left:30px}
+.ndr-body li+li{margin-top:.8em}
+.ndr-body li::before{content:"";position:absolute;left:2px;top:.62em;width:10px;height:10px;background:var(--nd-or)}
+/* первый абзац — лид */
+.ndr-body>p:first-child{font-size:24px;line-height:1.5;font-weight:500}
+/* пример «рынок» (курсив исходника) — цитата на второй поверхности */
+.ndr-body .ndr-quote{margin:1.6em 0;padding:clamp(20px,2.2vw,30px) clamp(22px,2.6vw,36px);border-left:4px solid var(--nd-or);border-radius:0 8px 8px 0;background:var(--nd-bg-2)}
+/* главная мысль (жирный абзац исходника) — врезка-плашка: графит с рыжим сиянием, как плашка автора (.rca-plate) */
+.ndr-body .ndr-callout{grid-column:1 / -1;max-width:860px;margin:1.6em 0 1.8em;padding:clamp(26px,3vw,44px);border-radius:8px;color:#ecebe8;
+  font:500 clamp(22px,1.9vw,28px)/1.42 'Golos Text',sans-serif;text-wrap:pretty;
+  background:radial-gradient(60% 80% at 0% 0%,rgba(254,108,31,.34) 0%,rgba(254,108,31,0) 100%),radial-gradient(55% 70% at 100% 100%,rgba(168,51,12,.38) 0%,rgba(168,51,12,0) 100%),#26282d}
+.ndr-body .ndr-callout b{font-weight:600}
+@media (prefers-color-scheme:dark){.ndr-body .ndr-callout{background-color:#1c1d21;box-shadow:inset 0 0 0 1px rgba(250,247,242,.1)}}
+/* схема: лист бумаги шире колонки (картинки на белом — «лист» и в тёмной теме, как бумажные отзывы) */
+.ndr-fig{grid-column:1 / -1;max-width:780px;margin:1.4em 0 2em;position:relative}
+.ndr-fig a{position:relative;display:block;padding:clamp(8px,1vw,14px);border-radius:8px;background:#fff;box-shadow:var(--nd-shadow),0 0 0 1px var(--nd-soft)}
+.ndr-fig img{display:block;width:100%;height:auto}
+.ndr-zoom{position:absolute;right:14px;bottom:14px;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#111;color:#faf7f2}
+.ndr-zoom svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}
+@media (prefers-reduced-motion:no-preference){
+  .ndr-fig a{transition:translate .2s var(--md-ease),box-shadow .2s var(--md-ease)}
+  .ndr-fig a:hover{translate:0 -3px;box-shadow:var(--nd-shadow),0 0 0 1px var(--nd-soft),6px 6px 0 0 var(--nd-or)}
+}
+/* канал в телеграме — вторичная кнопка (контур, как .nw-btn) */
+.ndr-body .ndr-tg a{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:1.5px solid var(--nd-ink);border-radius:4px;font:600 17px/1.2 'Golos Text',sans-serif;text-decoration:none}
+.ndr-body .ndr-tg a:hover{background:var(--nd-ink);color:var(--nd-bg)}
+.ndr-body .ndr-orig{margin-top:2em;padding-top:18px;border-top:1px solid var(--nd-soft);font-size:16px}
+.ndr-body .ndr-orig a{display:inline-flex;align-items:center;min-height:44px}
+@media (min-width:2000px){.nd .page-band>.ndr{max-width:1760px}}
+@media (max-width:1100px){
+  .ndr{grid-template-columns:minmax(0,1fr)}
+  .ndr-rail{grid-column:1;grid-row:auto;margin-bottom:32px}
+  .ndr-by{position:static;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:14px}
+  .ndr-by b{font-size:26px}.ndr-by span{margin-top:0}
+  .ndr-by br{display:none}
+  .ndr-body{grid-column:1;grid-template-columns:minmax(0,1fr)}
+  .ndr-body>*{max-width:680px}
+  .ndr-body .ndr-callout,.ndr-fig{max-width:none}
+}
+@media (max-width:700px){
+  .ndr-body p,.ndr-body ul{font-size:17px;line-height:1.6}
+  .ndr-body>p:first-child{font-size:19px}
+  .ndr-body .ndr-quote{margin-inline:calc(var(--nd-pad) * -1) 0;border-radius:0}
+  .ndr-fig{margin-inline:calc(var(--nd-pad) * -.5)}
+  .ndr-zoom{right:6px;bottom:6px;width:40px;height:40px}
+  .ndr-body .ndr-callout{font-size:19px}
+}
+
+/* финал статьи: оранжевая плита с фото (как CTA посадочных) — ссылки на записи под кнопкой */
+.ar-page .ar-final{padding-top:0}
+.ar-final .nw-cta-copy{container-type:inline-size}
+.ar-final .nw-cta h2,.ar-final .nw-cta-copy h2{font-size:min(9.6cqi,84px)}
+.ar-final .nw-cta-copy .nd-pay{margin-top:clamp(22px,2.4vw,32px)}
+.ar-final .rcd-links a{text-decoration-color:#111}
+.ar-final .rcd-kick{color:#3b1d0c}.ar-final .rcd-kick i{color:#111}
+.ar-final .nw-cta-photo img{object-position:50% 12%}
+
+/* ====================== служебные: реквизиты, документы, 404 ====================== */
+.nd .page-band>.svx{max-width:var(--page-max,1320px)}
+.svx{box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,3.4vw,52px);align-items:start;
+  padding:clamp(16px,2vw,32px) var(--nd-pad) clamp(64px,7vw,112px);color:var(--nd-ink);font-family:'Golos Text',sans-serif}
+.svx *{box-sizing:border-box}
+.svx-head{container-type:inline-size;min-width:0}
+/* кегль от ширины колонки: самое длинное слово заголовка помещается целиком (без переноса внутри слова) */
+.svx-h1{margin:0;font:900 min(15cqi,200px)/.88 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.005em;
+  text-transform:uppercase}
+.svx-note{margin:clamp(16px,1.8vw,24px) 0 0;max-width:24em;font:500 clamp(17px,1.35vw,20px)/1.45 'Golos Text',sans-serif;color:var(--nd-mute);text-wrap:pretty}
+/* документ: лист на поверхности страницы, строки «поле — значение» */
+.svx-doc{margin:0;padding:clamp(8px,1vw,12px) clamp(24px,3vw,44px);border-radius:8px;background:var(--nd-surface);
+  box-shadow:var(--nd-shadow),0 0 0 1px var(--nd-soft)}
+.svx-doc>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:12px 28px;padding:clamp(20px,2vw,28px) 0}
+.svx-doc>div+div{border-top:1px solid var(--nd-soft)}
+.svx-doc dt{font:600 13px/1.35 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute);padding-top:4px}
+.svx-doc dd{margin:0;font:600 clamp(17px,1.4vw,20px)/1.45 'Golos Text',sans-serif;overflow-wrap:anywhere}
+/* номера — цифрой Poster, как цены мастер-группы */
+.svx-doc dd.svx-num{font:900 clamp(34px,3vw,48px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+@media (max-width:700px){
+  .svx-doc{padding:4px 20px}
+  .svx-doc>div{grid-template-columns:minmax(0,1fr);gap:6px;padding:18px 0}
+}
+
+/* 404: та же сетка; справа — «404» цифрой Poster с рыжим градиентом плиты, слева — заголовок, текст и две кнопки */
+.svx--404{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(32px,5vw,96px);align-items:center;min-height:min(calc(100svh - 64px),860px)}
+.svx--404 .svx-h1{font-size:min(19cqi,150px)}
+.svx-code{order:2;margin:0;justify-self:end;font:900 clamp(200px,27vw,440px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.03em;
+  background:var(--nd-glow);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
+.svx-acts{display:flex;flex-wrap:wrap;gap:12px;margin:clamp(24px,2.6vw,36px) 0 0}
+.svx-acts .nw-btn{min-width:240px}
+@media (max-width:1100px){.svx--404{grid-template-columns:minmax(0,1fr);min-height:0}.svx-code{order:-1;justify-self:start;font-size:clamp(150px,44vw,300px)}}
+@media (max-width:700px){.svx-acts>a{flex:1 1 100%}.svx-acts .nd-pay{width:100%}}
+/* широкие мониторы (≥2000): служебная сетка шире, как у статьи, — без «маленькой страницы» посреди пустого экрана */
+@media (min-width:2000px){
+  .nd .page-band>.svx{max-width:1760px}
+  .svx-h1{font-size:min(15cqi,260px)}
+  .svx--404 .svx-h1{font-size:min(19cqi,220px)}
+  .svx-code{font-size:620px}
+  .svx-note{font-size:24px}
+}
