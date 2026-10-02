@@ -497,7 +497,7 @@
 .rcx-poster img{display:block;width:100%;height:auto;aspect-ratio:1200/2133}
 .rcx-poster>a:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px}
 .rcx-poster figcaption{font:500 13px/1.3 'Golos Text',sans-serif;color:var(--nd-mute)}
-.rcx-poster figcaption a{display:inline-flex;align-items:center;min-height:32px;margin-left:6px;color:var(--nd-ink);text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:3px}
+.rcx-poster figcaption a{display:inline-flex;align-items:center;min-height:44px;margin-left:6px;color:var(--nd-ink);text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);text-underline-offset:3px}
 @media (prefers-reduced-motion:no-preference){.rcx-poster>a{animation:nd-rise .7s var(--md-ease) both;animation-delay:.12s}}
 
 /* высокие широкие мониторы (3440×1440, 5120×1440): колонка растёт вместе с высотой кадра, а не остаётся «ноутбучной» */
@@ -554,3 +554,78 @@
 }
 @media (max-width:380px){.rcx-tk .nd-pay-t{padding-right:14px;white-space:normal}}
 @media (max-width:1100px) and (max-height:700px){.rcx--lb{--ph:min(96vw,33svh)}.rcx--lb .nd-back{display:none}}   /* на домой ведёт имя в шапке */
+
+/* ===================== записи вебинаров целиком (волна 3, T016–T017): блоки ниже первого экрана =====================
+   Каркас полос — /networking/nw-nd.css (.nw2, .nw-head, .nw2-format, .nw-big, .nw-facts, .nw-cta-panel) и .lpd-* выше.
+   Здесь только то, чего у посадочных нет: программа карточками и билет-пейволл .rcx-tk вне первого экрана. body: home nd nw-page lpd rc-page */
+.rcd-lead{margin:0;max-width:34em;font:600 clamp(22px,2.1vw,34px)/1.35 'Golos Text',sans-serif;text-wrap:pretty}
+.rcd-sub{margin:0 0 18px;max-width:34em;font:500 clamp(17px,1.35vw,20px)/1.5 'Golos Text',sans-serif;text-wrap:pretty}
+.rcd-sub:last-child{margin-bottom:0}
+.nw-big.rcd-big b{font-size:clamp(64px,6.4vw,112px);white-space:normal}
+@media (max-width:700px){.nw-big.rcd-big b{font-size:clamp(56px,18vw,96px)}}
+
+/* программа: карточки ровной высоты в ряду, внутри «номер/заголовок → текст» */
+.rcd-prog{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+.rcd-prog--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rcd-prog li{display:flex;flex-direction:column;gap:12px;padding:clamp(20px,2.2vw,30px);border-radius:8px;background:var(--nd-surface);border:1px solid var(--nd-soft);box-shadow:var(--nd-shadow)}
+.rcd-prog h3{margin:0;font:800 clamp(19px,1.5vw,23px)/1.25 'Golos Text',sans-serif;text-wrap:balance}
+.rcd-prog p{margin:0;font:500 clamp(16px,1.2vw,18px)/1.5 'Golos Text',sans-serif;text-wrap:pretty}
+.rcd-prog strong{font-weight:700}
+.rcd-prog .rcd-n{font:900 clamp(48px,3.8vw,64px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:var(--nd-or);font-variant-numeric:tabular-nums}
+.rcd-prog--num p{font-size:clamp(17px,1.35vw,20px)}
+.rcd-jump{display:inline-flex;align-items:center;min-height:44px;font:600 16px/1.3 'Golos Text',sans-serif;color:var(--nd-ink);text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:4px;text-decoration-thickness:1.5px}
+.rcd-jump:hover{color:var(--nd-acc)}
+.rcd-bonus{margin-top:clamp(20px,2.4vw,32px)}
+
+/* оплата в середине и в финале: билет-пейволл первого экрана рядом с текстом */
+.rcd-buy{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,96px);align-items:center}
+.rcd-buy .rcx-tk{margin:0;max-width:none}
+.rcd-kick{margin:0 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
+.rcd-kick i{font-style:normal;color:var(--nd-or)}
+.rcd-h2{margin:0 0 clamp(20px,2.4vw,32px);font:900 clamp(30px,4.4vw,72px)/.92 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;text-wrap:balance}
+.rcd-buy .nw-facts{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* на графите билет и кнопка — как тёмный тариф нетворкинга (.nw-plan--ink): поверхность графита, кнопка рыжая */
+.nd-band--graphite .rcx-tk{--nd-glass:var(--nd-surface);--nd-edge:rgba(250,247,242,.16);--nd-btn-bg:#fe6c1f;--nd-btn-fg:#111;--nd-cell:#111;--nd-cell-fg:#faf7f2;
+  -webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.nd-band--graphite .rcx-tk-note a:focus-visible{outline-color:#faf7f2}
+/* финал: оранжевая плита нетворкинга, справа вместо фото — билет */
+.rcd-final .nw-cta-panel{align-items:center;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.rc-page .rcd-final{padding-bottom:clamp(64px,7.4vw,120px)}   /* у посадочных под плитой идёт «Ещё на сайте», здесь плита последняя */
+.rcd-final .rcd-tkcol{padding:clamp(24px,3.4vw,56px) clamp(24px,3.4vw,56px) clamp(24px,3.4vw,56px) 0}
+.rcd-final .rcx-tk{margin:0;max-width:none;--nd-glass:rgba(255,253,249,.9);--nd-ink:#111;--nd-mute:#5e5750;--nd-edge:rgba(255,255,255,.75);--nd-btn-bg:#111;--nd-btn-fg:#faf7f2;--nd-cell:#faf7f2;--nd-cell-fg:#111;color:#111;
+  box-shadow:0 24px 60px -18px rgba(90,30,0,.5)}
+.rcd-final .rcd-kick{color:#3b1d0c}.rcd-final .rcd-kick i{color:#111}
+@media (prefers-color-scheme:dark){
+  .rcd-final .rcx-tk{--nd-glass:rgba(35,37,41,.92);--nd-ink:#faf7f2;--nd-mute:#cfc8be;--nd-edge:rgba(250,247,242,.2);--nd-btn-bg:#fe6c1f;--nd-btn-fg:#111;--nd-cell:#111;--nd-cell-fg:#faf7f2;color:#faf7f2}
+}
+.rcd-tk-kick{display:block;margin:0 0 6px;font:600 12px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
+
+/* автор: фото 3:4 + 20+ слева, текст справа */
+.rcd-author .lpd-author-ph{order:0}
+.rcd-author figcaption{padding:10px 14px;font:600 13px/1.3 'Golos Text',sans-serif;background:var(--nd-surface);color:var(--nd-ink)}
+.rcd-author .lpd-author-ph:has(figcaption){aspect-ratio:auto}
+.rcd-author .lpd-author-ph:has(figcaption) img{aspect-ratio:3/4;height:auto}
+.rcd-brand{margin:0 0 10px;font:900 clamp(26px,2.4vw,38px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;color:var(--nd-acc)}
+.rcd-links{margin:clamp(14px,1.6vw,22px) 0 0;font:600 17px/1.9 'Golos Text',sans-serif}
+.rcd-links a{display:inline;padding-block:11px;color:inherit;text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:4px;text-decoration-thickness:1.5px}
+.rcd-links a:hover{color:var(--nd-acc)}
+
+@media (max-width:1100px){
+  .rcd-prog--3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rcd-buy{grid-template-columns:minmax(0,1fr)}
+  .rcd-final .nw-cta-panel{grid-template-columns:minmax(0,1fr)}
+  .rcd-final h2{font-size:clamp(34px,8.6vw,64px)}
+  .rcd-final .rcd-tkcol{padding:0 clamp(20px,4vw,40px) clamp(24px,4vw,40px)}
+}
+@media (max-width:700px){
+  .rcd-prog,.rcd-prog--3{grid-template-columns:1fr}
+  .rcd-buy .nw-facts{grid-template-columns:1fr}
+  .rcd-author{grid-template-columns:1fr}
+  .rcd-author .lpd-author-ph{width:min(100%,320px)}
+}
+/* подпись к фото «Личного бренда» (была figcaption старого первого экрана): на десктопе — у края кадра справа сверху, на стене */
+.rcx-who{position:absolute;top:clamp(16px,2.4vw,40px);right:var(--nd-pad);margin:0;display:grid;justify-items:end;gap:2px;font:600 14px/1.3 'Golos Text',sans-serif;color:var(--lp-ink)}
+.rcx-who span+span{font-weight:500;color:var(--lp-mute)}
+@media (prefers-color-scheme:dark){.rcx--lb .rcx-who{color:#111;--lp-mute:#3d3a36}}   /* в тёмной справа фото без затемнения — подпись тёмная на светлой стене */
+@media (max-width:1100px),(max-aspect-ratio:5/4){.rcx-who{position:static;justify-items:start;margin:14px 0 0;color:var(--nd-mute)}.rcx-who span+span{color:var(--nd-mute)}
+  .rcx--lb .rcx-who{color:var(--nd-mute)}}

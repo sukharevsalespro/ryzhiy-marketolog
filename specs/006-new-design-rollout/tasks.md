@@ -33,9 +33,9 @@
 
 ## Волна 3: `/zapis-lichnyj-brend/`, `/zapis-marketing-doveriya/`
 - [x] **T015** 02.10: макет — один общий каркас `.rcx` на обе записи («кадр записи на паузе»: билет-пейволл + полоса плеера), медиа разное: `mockup/zapis-lb-hero.html` (фото во весь экран, дорисованная стена `zb-wide-*`), `mockup/zapis-md-hero.html` (афиша как вертикальное видео); design-system.md §9. Скрины и CMP: `scratchpad/ryzhiy-nd/w3/final/`. Ждёт «да» владельца. Макет первого экрана записи: цена + «Оплатить доступ» в первом экране, постер/фото без срезанного лица. Один макет на обе записи, если владелец согласится (иначе два). Цена 888 ₽ на `/zapis-marketing-doveriya/` показывается (В4) — в `check-parity` это разрешённое отличие. **Стоп до «да».**
-- [ ] **T016** [P] Вёрстка `/zapis-lichnyj-brend/` (800 ₽, `g9cC0N3`).
-- [ ] **T017** [P] Вёрстка `/zapis-marketing-doveriya/` (`e0cjdjM`).
-- [ ] **T018** Приёмка: `check-parity` пустой; клик-тест оплаты — открывается `valentina-promarketing.payform.ru`, цели `pay_webinar` / `pay_zapis`; CMP-кропы; `/webinar/` редиректит на запись.
+- [x] **T016** 02.10: собрано `mockup/mk_zapis_pages.py`, design-system.md §10. [P] Вёрстка `/zapis-lichnyj-brend/` (800 ₽, `g9cC0N3`).
+- [x] **T017** 02.10: тем же скриптом. [P] Вёрстка `/zapis-marketing-doveriya/` (`e0cjdjM`).
+- [x] **T018** 02.10: check-parity по записям 0 (3 старых по /networking/), клик-тест 5 кнопок → valentina-promarketing.payform.ru, цели pay_webinar ×3 / pay_zapis ×2, /webinar/ редиректит, 44 прогона (10 ширин × 2 темы × 2 страницы + распаковка) без скролла и ошибок. Ждёт показа владельцу. Приёмка: `check-parity` пустой; клик-тест оплаты — открывается `valentina-promarketing.payform.ru`, цели `pay_webinar` / `pay_zapis`; CMP-кропы; `/webinar/` редиректит на запись.
 
 ## Волна 4: `/pozicionirovanie/`, `/otzyvy/`
 - [ ] **T019** Макет первого экрана статьи + читальный шаблон (ширина строки, кегль 1440/390, врезки-схемы, автор, CTA). **Стоп до «да».**

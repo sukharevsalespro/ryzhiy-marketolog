@@ -28,6 +28,7 @@ LB = f'''<main id="main">
 <p class="rcx-tk-note"><a href="/legal/oferta/">Условия публичной оферты</a><span>Оплата через Продамус</span></p>
 </div>
 </div>
+<p class="rcx-who"><span>Валентина Сухарева</span><span>«Рыжий маркетолог»</span></p>
 <div class="rcx-bar" role="img" aria-label="Формула личного бренда: Смыслы × Позиционирование × Якоря × Дисциплина × Легенда">{DISK}
 <ol class="rcx-track" aria-hidden="true"><li><span>Смыслы <b>×</b></span></li><li><span>Позиционирование <b>×</b></span></li><li><span>Якоря <b>×</b></span></li><li><span>Дисциплина <b>×</b></span></li><li><span>Легенда</span></li></ol>
 </div>
