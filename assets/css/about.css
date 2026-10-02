@@ -47,7 +47,7 @@
 .home .xp-tags{display:contents}
 .home .xp-tags p{margin:0;padding:16px 0 0;border-top:1px solid var(--xp-g-line);position:static;transform:none;white-space:normal;width:auto}
 .home .xp-tags p:first-child{font:600 12px/1.9 'Golos Text',sans-serif;letter-spacing:.18em;color:var(--xp-g-soft)}
-.home .xp-tags p+p{align-self:end;font:900 clamp(24px,2.2vw,32px)/.95 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.01em;color:var(--xp-g-ink);
+.home .xp-tags p+p{align-self:end;font:900 clamp(24px,2.2vw,32px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.01em;color:var(--xp-g-ink);
   border-top:4px solid var(--xp-or)}
 
 /* планшет: текст сверху, плашка на всю ширину строкой «20+ · метки · формула» */

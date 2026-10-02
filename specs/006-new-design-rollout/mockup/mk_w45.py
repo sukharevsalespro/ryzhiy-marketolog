@@ -71,7 +71,7 @@ def restyle(b):
     if b.startswith('<p><b>'):
         return b.replace('<p>', '<p class="ndr-callout">', 1)
     if b.startswith('<p><a href="https://t.me/'):
-        return b.replace('<p>', '<p class="ndr-tg">', 1)
+        return b.replace('<p>', '<p class="ndr-tg">', 1).replace('<a href=', '<a class="nw-btn" href=', 1)
     if b.startswith('<p class="article-original">'):
         return b.replace('class="article-original"', 'class="ndr-orig"', 1)
     return b
@@ -92,6 +92,14 @@ A_IMG = ('<img src="/assets/img/portrait-armchair-smile-1200.webp" srcset="/asse
 a_kick = one(r'<p class="article-kicker">(.*?)</p>', author)
 a_name = one(r'<h2 id="author-title">(.*?)</h2>', author)
 a_bio = one(r'</h2><p>(.*?)</p>', author)
+# блок автора наполняется как на записях (координатор 03.10): «Рыжий маркетолог», «20+ лет в маркетинге», путь —
+# дословно из блока автора /zapis-lichnyj-brend/ (новый дизайн); текст автора самой статьи (a_bio) остаётся целиком.
+# Ссылки блока записи не берём: одна ведёт на эту же статью, вторая («Маркетинг доверия») стоит в финале ниже.
+zl = (R / 'zapis-lichnyj-brend/index.html').read_text()
+zl_rca = one(r'<section class="nw2 rca"[^>]*>(.*?)</section>', zl)
+z_brand = one(r'(<p class="rca-brand">.*?</p>)', zl_rca)
+z_years = one(r'(<p class="rca-years">.*?</p>)', zl_rca)
+z_path = one(r'(<p class="rca-path">.*?</p>)', zl_rca)
 nxt = one(r'<section class="article-next"[^>]*>(.*?)</section>', s)
 n_kick = one(r'<p class="article-kicker">(.*?)</p>', nxt)
 n_h2 = one(r'<h2 id="next-title">(.*?)</h2>', nxt)
@@ -128,12 +136,14 @@ POZ = f'''<main id="main">
 </div>
 </article>
 <div class="page-band nd-band nw2-band">
-<section class="nw2 rca rca--md" id="article-author" aria-labelledby="author-title">
+<section class="nw2 rca ar-author" id="article-author" aria-labelledby="author-title">
 <figure class="rca-ph rca-ph--chair">{A_IMG}</figure>
 <div class="rca-copy">
 <p class="rcd-kick"><i>*</i> {a_kick}</p>
 <h2 id="author-title" class="rca-name">{a_name}</h2>
-<div class="rca-plate"><p class="rca-bio">{a_bio}</p></div>
+{z_brand}
+<div class="rca-plate">{z_years}<p class="rca-bio">{a_bio}</p></div>
+{z_path}
 </div>
 </section></div>
 <div class="page-band nd-band nw2-band">
@@ -254,13 +264,13 @@ def legal(path):
 <aside class="svx-tocwrap"><details class="svx-toc" open><summary>Оглавление</summary>{nav}</details></aside>
 <div class="svx-main">
 <a class="nd-back" href="/">{back}</a>
-{rev}
-{art}
+{art.replace('</h1>', '</h1>' + rev, 1)}
 </div>
 </div>
 </div>
 </main>'''
-        keep = [nav, art, rev]
+        # «Действующая редакция…» — сразу под H1 (координатор 03.10); сам документ до и после H1 — побайтно
+        keep = [nav, rev, art.split('</h1>', 1)[0] + '</h1>', art.split('</h1>', 1)[1]]
     else:
         lab = one(r'<p class="utility-label">(.*?)</p>', m)
         h1 = one(r'<h1>(.*?)</h1>', m)

@@ -75,9 +75,9 @@
   .ndr-fig a{transition:translate .2s var(--md-ease),box-shadow .2s var(--md-ease)}
   .ndr-fig a:hover{translate:0 -3px;box-shadow:var(--nd-shadow),0 0 0 1px var(--nd-soft),6px 6px 0 0 var(--nd-or)}
 }
-/* канал в телеграме — вторичная кнопка (контур, как .nw-btn) */
-.ndr-body .ndr-tg a{display:inline-flex;align-items:center;min-height:52px;padding:0 22px;border:1.5px solid var(--nd-ink);border-radius:4px;font:600 17px/1.2 'Golos Text',sans-serif;text-decoration:none}
-.ndr-body .ndr-tg a:hover{background:var(--nd-ink);color:var(--nd-bg)}
+/* канал в телеграме — вторичная кнопка .nw-btn (контур, как «Календарь встреч» 404 и кнопки посадочных) */
+.ndr-body .ndr-tg .nw-btn{display:inline-flex;text-decoration:none;color:var(--nd-ink)}
+.ndr-body .ndr-tg .nw-btn:hover{color:var(--nd-bg)}
 .ndr-body .ndr-orig{margin-top:2em;padding-top:18px;border-top:1px solid var(--nd-soft);font-size:16px}
 .ndr-body .ndr-orig a{display:inline-flex;align-items:center;min-height:44px}
 @media (min-width:2000px){.nd .page-band>.ndr{max-width:1760px}}
@@ -116,7 +116,7 @@
 .svx *{box-sizing:border-box}
 .svx-head{container-type:inline-size;min-width:0}
 /* кегль от ширины колонки: самое длинное слово заголовка помещается целиком (без переноса внутри слова) */
-.svx-h1{margin:0;font:900 min(15cqi,200px)/.88 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.005em;
+.svx-h1{margin:0;font:900 min(15cqi,200px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.005em;
   text-transform:uppercase}
 .svx-note{margin:clamp(16px,1.8vw,24px) 0 0;max-width:24em;font:500 clamp(17px,1.35vw,20px)/1.45 'Golos Text',sans-serif;color:var(--nd-mute);text-wrap:pretty}
 /* документ (реквизиты, позже legal): справочная страница — спокойно и компактно. Колонка по ширине читального текста,
@@ -201,8 +201,9 @@
 .svx--legal :is(.document-section,.offer-document) a:hover{color:var(--nd-acc)}
 .svx--legal a:focus-visible,.svx-toc summary:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px}
 /* оферта: «Договор оферты» над заголовком — кикер; редакция — под «На главную» */
-.offer-document>p:first-child{margin:clamp(14px,1.6vw,22px) 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
-.offer-document>h1{margin-bottom:clamp(28px,3vw,44px)}
+.offer-document>p:first-child{margin:0 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
+.offer-document>h1{margin-bottom:0}
+.svx--legal .offer-document>p.offer-revision{margin:16px 0 clamp(28px,3vw,44px);font:500 15px/1.5 'Golos Text',sans-serif;color:var(--nd-mute)}
 /* оглавление: десктоп — sticky слева, всегда открыто; ≤1100 — свёрнутый список над текстом */
 .svx-tocwrap{position:sticky;top:96px;max-height:calc(100vh - 120px);overflow:auto;padding:4px 4px 4px 0}
 .svx-toc summary{display:none}
@@ -214,7 +215,7 @@
   /* порядок на узких: «На главную» → редакция → оглавление → документ */
   .svx--toc{display:flex;flex-direction:column}
   .svx--toc .svx-main{display:contents}
-  .svx--toc .nd-back,.svx--toc .offer-revision{order:0}
+  .svx--toc .nd-back{order:0}
   .svx-tocwrap{order:1;align-self:stretch;position:static;max-height:none;overflow:visible;padding:0;margin:20px 0 0}
   .svx-toc{width:100%}
   .svx--toc .offer-document{order:2}
@@ -229,3 +230,7 @@
   .svx-main>.nd-back{margin-top:4px}
 }
 @media (max-width:700px){.svx--legal :is(.document-section,.offer-document) p{font-size:16px}}
+
+/* низ статьи: «Читать оригинал» → автор без пустой полосы ~200px */
+.ar-page .ndr{padding-bottom:clamp(24px,2.4vw,40px)}
+.ar-page .rca{padding-top:clamp(16px,2vw,32px)}

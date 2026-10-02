@@ -582,7 +582,7 @@
 .rcd-buy .rcx-tk{margin:0;max-width:none}
 .rcd-kick{margin:0 0 14px;font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
 .rcd-kick i{font-style:normal;color:var(--nd-or)}
-.rcd-h2{margin:0 0 clamp(20px,2.4vw,32px);font:900 clamp(30px,4.4vw,72px)/.92 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;text-wrap:balance}
+.rcd-h2{margin:0 0 clamp(20px,2.4vw,32px);font:900 clamp(30px,4.4vw,72px)/1.04 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;text-wrap:balance}
 .rcd-buy .nw-facts{grid-template-columns:repeat(3,minmax(0,1fr))}
 /* на графите билет и кнопка — как тёмный тариф нетворкинга (.nw-plan--ink): поверхность графита, кнопка рыжая */
 .nd-band--graphite .rcx-tk{--nd-glass:var(--nd-surface);--nd-edge:rgba(250,247,242,.16);--nd-btn-bg:#fe6c1f;--nd-btn-fg:#111;--nd-cell:#111;--nd-cell-fg:#faf7f2;

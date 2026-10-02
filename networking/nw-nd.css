@@ -8,7 +8,7 @@
 
 /* заголовок секции: слово + линия + (у тарифов) выбранная дата */
 .nw-head{display:flex;align-items:baseline;gap:14px 24px;flex-wrap:wrap;margin:0 0 clamp(28px,3.2vw,48px)}
-.nw-head h2,.nw-cta h2{margin:0;font:900 clamp(44px,5.2vw,84px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;letter-spacing:-.005em}
+.nw-head h2,.nw-cta h2{margin:0;font:900 clamp(44px,5.2vw,84px)/1.04 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase;letter-spacing:-.005em}
 .nw-rule{flex:1 1 80px;align-self:center;height:1.5px;background:var(--nd-soft)}
 .nw-picked{margin:0;font:500 16px/1.4 'Golos Text',sans-serif;color:var(--nd-mute)}
 .nw-picked b{color:var(--nd-ink);font-weight:700}
