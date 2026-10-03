@@ -667,3 +667,6 @@
    (была отдельная кремовая полоса с .btn — в тёмной теме светлое пятно между графитом отзывов и подвалом) ===================== */
 .otzyvy .rv-write{position:relative;margin:clamp(40px,4.6vw,72px) 0 0}
 @media (max-width:700px){.otzyvy .rv-write .nd-pay{display:flex;width:100%}}
+/* Текстовые цитаты под «пузырями» отзывов (карточки .nwr-card из nw-nd.css) */
+.lpd-rev .rev-lead+.lpd-quotes{margin-top:clamp(16px,2vw,28px)}
+@media (min-width:1101px){.lpd-rev .nwr-list--even>li:first-child{grid-column:auto}}  /* специфичнее правила span 2 из nw-nd.css */
