@@ -49,19 +49,21 @@
 .nw-ticket:has(input:checked) .nw-tag{background:#111;color:#faf7f2}
 @media (hover:hover){.nw-ticket:hover{translate:0 -3px;border-color:var(--nd-or)}.nw-ticket:has(input:checked):hover{border-color:#111}}
 .nw-ticket:active{translate:0 0;transition-duration:var(--md-t-tap)}
-/* ≥701 (с 03.10 — на всех ширинах, раньше только 701–1240): три билета в ряд уже ~220–390px — корешок (день недели + «10:00–12:00 МСК») в 56% не помещался
+/* 701–1240: три билета в ряд уже ~220–370px — корешок (день недели + «10:00–12:00 МСК») в 56% не помещался
    и вылезал за край страницы (809px на 768). Здесь билет «стоячий»: дата сверху, отрывной корешок снизу,
-   перфорация горизонтальная. ≤700 — одна колонка, там билет лежачий, как был. */
-@media (min-width:701px){
+   перфорация горизонтальная. ≤700 и ≥1241 — билет лежачий (владелец 03.10: на десктопе лежачий лучше). */
+@media (min-width:701px) and (max-width:1240px){
   .nw-ticket{grid-template-columns:1fr;grid-template-rows:auto 1fr}  /* верх — по содержимому (у всех одинаковый), корешок забирает остаток: билеты в ряду равной высоты → перфорация на одной линии */
   .nw-t-main{border-right:0;border-bottom:1.5px dashed color-mix(in srgb,var(--nd-ink) 32%,transparent)}
   .nw-ticket:has(input:checked) .nw-t-main{border-bottom-color:rgba(17,17,17,.45)}
-  .nw-t-stub{position:static;min-width:0;justify-content:flex-start;padding:14px 46px 16px 22px}
-  /* плашка «Ближайший» (вставляет networking.js в корешок) — в правый верхний угол билета, над месяцем:
-     корешки у всех трёх одинаковые по содержимому, без пустой полосы снизу у соседей */
-  .nw-tag{position:absolute;top:14px;right:16px;margin:0}
-  /* кружок выбора — у правого края, на уровне первой строки корешка (корешок static → отсчёт от билета) */
-  .nw-t-pick{top:auto;right:16px;margin-top:-2px}
+  .nw-t-stub{min-width:0;justify-content:flex-start;padding:14px 46px 16px 22px}
+}
+/* ≥1241, лежачий билет: месяц под цифрой — рядом с двузначной цифрой «ноября»/«декабря» заходили на перфорацию;
+   содержимое корешка — от верха, чтобы день недели и время стояли на одной высоте у всех трёх (плашка у ближайшего ниже) */
+@media (min-width:1241px){
+  .nw-t-main{flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:10px}
+  .nw-t-mon{padding-bottom:0}
+  .nw-t-stub{justify-content:flex-start;padding-top:22px}
 }
 .nw-empty{margin:0;font:500 18px/1.45 'Golos Text',sans-serif}
 /* прошедшие даты (networking.js, applyEvents): .nw-ticket/.nw-tickets тут и .nd-tix/li[data-hero-ev] первого
