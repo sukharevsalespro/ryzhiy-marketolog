@@ -167,19 +167,20 @@
 .home .rv--r1 .rv-heart{display:block;position:absolute;right:max(0px,calc(100% - 900px - 40px));top:-18px;width:clamp(96px,11vw,160px);height:auto;rotate:12deg;filter:drop-shadow(0 18px 24px rgba(90,20,0,.30));pointer-events:none}
 .home .rv--r1 .rv-grid{columns:3 300px;column-gap:clamp(22px,2.6vw,40px)}
 .home .rv--r1 .rv-card{break-inside:avoid;margin:0 0 clamp(30px,3vw,44px);padding-top:18px;filter:var(--rv-shadow);color:#111}
-.home .rv--r1 .rv-sheet{--rv-bub:#fff;--rv-out:#ffe1cb;isolation:isolate;padding:30px 24px 22px 32px;rotate:var(--rot,-1deg);transition:rotate .35s cubic-bezier(.2,.7,.2,1),translate .35s cubic-bezier(.2,.7,.2,1)}
+/* наклонена только бумага (::before) и скрепка/скотч; текст, переписка и подпись стоят ровно — на телефоне наклонённые строки «плыли» */
+.home .rv--r1 .rv-sheet{--rv-bub:#fff;--rv-out:#ffe1cb;isolation:isolate;padding:30px 24px 22px 32px;transition:translate .35s cubic-bezier(.2,.7,.2,1)}
 .home .rv--r1 .rv-card:nth-child(3n+2) .rv-sheet{--rot:1.2deg}
 .home .rv--r1 .rv-card:nth-child(3n) .rv-sheet{--rot:-.5deg}
 .home .rv--r1 .rv-card:nth-child(4n) .rv-sheet{--rot:1.5deg}
 /* лист: бумага с рваным левым краем. Маска на ::before, а не на листе — иначе срежет скрепку. */
-.home .rv--r1 .rv-sheet::before{content:"";position:absolute;inset:0;z-index:-1;
+.home .rv--r1 .rv-sheet::before{content:"";position:absolute;inset:0;z-index:-1;rotate:var(--rot,-1deg);transition:rotate .35s cubic-bezier(.2,.7,.2,1);
   background:repeating-linear-gradient(180deg,transparent 0 31px,rgba(30,60,120,.07) 31px 32px),linear-gradient(170deg,#fffdf9,#f7f1e7);
   -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='260' viewBox='0 0 16 260'><path d='M16 0H5L2 5L3 11L6 15L8 18L9 23L6 29L5 33L2 39L3 43L6 48L3 52L6 55L4 60L1 66L3 71L4 76L5 80L6 83L5 86L2 89L1 94L4 97L6 104L3 108L2 111L3 117L5 120L6 125L4 130L1 134L4 141L7 147L6 154L3 158L1 163L3 166L4 170L3 176L5 179L8 184L9 190L7 195L5 202L6 206L9 210L6 213L7 219L5 226L2 232L5 238L6 243L4 250L5 260H16Z' fill='black'/></svg>") left top/16px 260px repeat-y,linear-gradient(#000,#000) 15px 0/calc(100% - 15px) 100% no-repeat;
           mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='260' viewBox='0 0 16 260'><path d='M16 0H5L2 5L3 11L6 15L8 18L9 23L6 29L5 33L2 39L3 43L6 48L3 52L6 55L4 60L1 66L3 71L4 76L5 80L6 83L5 86L2 89L1 94L4 97L6 104L3 108L2 111L3 117L5 120L6 125L4 130L1 134L4 141L7 147L6 154L3 158L1 163L3 166L4 170L3 176L5 179L8 184L9 190L7 195L5 202L6 206L9 210L6 213L7 219L5 226L2 232L5 238L6 243L4 250L5 260H16Z' fill='black'/></svg>") left top/16px 260px repeat-y,linear-gradient(#000,#000) 15px 0/calc(100% - 15px) 100% no-repeat}
-.home .rv--r1 .rv-clip{display:block;position:absolute;z-index:3;top:-26px;right:30px;width:26px;height:72px;rotate:6deg;
+.home .rv--r1 .rv-clip{display:block;position:absolute;z-index:3;top:-26px;right:30px;width:26px;height:72px;rotate:calc(6deg + var(--rot,-1deg));transition:rotate .35s cubic-bezier(.2,.7,.2,1);
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 72'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='%23f4f4f2'/><stop offset='.45' stop-color='%239a9a98'/><stop offset='1' stop-color='%23e2e2de'/></linearGradient></defs><path d='M6 22V56a7 7 0 0 0 14 0V10a5 5 0 0 0-10 0V50a2 2 0 0 0 4 0V22' fill='none' stroke='%23000' stroke-opacity='.28' stroke-width='3.4' stroke-linecap='round' transform='translate(.6 1)'/><path d='M6 22V56a7 7 0 0 0 14 0V10a5 5 0 0 0-10 0V50a2 2 0 0 0 4 0V22' fill='none' stroke='url(%23g)' stroke-width='2.6' stroke-linecap='round'/></svg>") center/contain no-repeat}
 /* у каждого второго — полоска скотча вместо скрепки */
-.home .rv--r1 .rv-card:nth-child(even) .rv-clip{top:-12px;right:auto;left:50%;width:96px;height:26px;translate:-50% 0;rotate:-3deg;background:linear-gradient(90deg,rgba(255,250,240,.72),rgba(255,244,228,.6));box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.home .rv--r1 .rv-card:nth-child(even) .rv-clip{top:-12px;right:auto;left:50%;width:96px;height:26px;translate:-50% 0;rotate:calc(-3deg + var(--rot,-1deg));background:linear-gradient(90deg,rgba(255,250,240,.72),rgba(255,244,228,.6));box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .home .rv--r1 .rv-note{order:-1;color:#c4490a;rotate:-3deg;transform-origin:left center;height:38px;width:calc(var(--ar) * 38px);margin:-6px 0 2px}
 .home .rv--r1 .rv-chat{max-height:460px}
 .home .rv--r1 .rv-bub{box-shadow:0 1px 0 rgba(0,0,0,.06),0 2px 6px rgba(60,30,10,.07)}
@@ -196,7 +197,7 @@
 .home .rv--r1 .rv-cta .rv-note{order:0;height:52px;width:calc(var(--ar) * 52px);margin:0}
 .home .rv--r1 .rv-cta-btn{align-self:flex-start}
 @media (hover:hover) and (prefers-reduced-motion:no-preference){
-  .home .rv--r1 .rv-card:hover .rv-sheet{rotate:0deg;translate:0 -4px}
+  .home .rv--r1 .rv-card:hover .rv-sheet{--rot:0deg;translate:0 -4px}
 }
 @supports (animation-timeline:view()){
   @media (prefers-reduced-motion:no-preference){
