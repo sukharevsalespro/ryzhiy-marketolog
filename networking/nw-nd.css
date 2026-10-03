@@ -168,7 +168,7 @@
 /* ---------- отзывы (007): цитаты из переписок дословно, оригинал — в #shot (main.js, класс .reviews) ---------- */
 .nd .nw2.nwr{padding:clamp(64px,7.4vw,120px) var(--nd-pad)}
 .nwr-lead{margin:0;flex-basis:100%;max-width:46em;font:500 16px/1.45 'Golos Text',sans-serif;color:var(--nd-mute)}
-.nwr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.4vw,20px)}
+.nwr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,20px)}
 .nwr-list>li{display:flex;min-width:0}
 .nwr-card{display:flex;flex-direction:column;gap:18px;width:100%;margin:0;padding:clamp(20px,1.8vw,26px);border-radius:8px;background:var(--nd-surface);border:1px solid var(--nd-soft);box-shadow:var(--nd-shadow)}
 .nwr-card blockquote{margin:0;flex:1}
@@ -180,6 +180,8 @@
   text-decoration:underline;text-decoration-color:var(--nd-or);text-underline-offset:4px;text-decoration-thickness:1.5px;touch-action:manipulation}
 .nwr-orig:hover{color:var(--nd-acc)}
 .nwr-orig:focus-visible{outline:2px solid var(--nd-ink);outline-offset:3px;border-radius:2px}
+/* пять карточек: первая на две колонки — ровные ряды 2+1 / 3 на десктопе, 2 / 2+2 на планшете, столбик на телефоне */
+.nwr-list>li:first-child{grid-column:span 2}
 @media (max-width:1100px){.nwr-list{grid-template-columns:1fr 1fr}}
-@media (max-width:700px){.nd .nw2.nwr{padding:56px var(--nd-pad)}.nwr-list{grid-template-columns:1fr}.nwr-card blockquote p{font-size:16px}}
+@media (max-width:700px){.nd .nw2.nwr{padding:56px var(--nd-pad)}.nwr-list{grid-template-columns:1fr}.nwr-list>li:first-child{grid-column:auto}.nwr-card blockquote p{font-size:16px}}
 
