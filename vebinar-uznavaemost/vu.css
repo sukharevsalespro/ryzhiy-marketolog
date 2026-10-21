@@ -1,0 +1,100 @@
+/* /vebinar-uznavaemost/ — живой вебинар 29.10.2026 (Валентина Сухарева и Анна Шиндина).
+   Система — страницы записей (nd-pages.css: .rcx-tk, .nd-h1, .rcd-prog, .rcd-buy, .lpd-punch; nw-nd.css: .nw2, .nw-cta-panel).
+   Своё только здесь: первый экран (направление C, выбор владельца 22.10), вторая кнопка MAX в билете,
+   сетки «О чём» и «Кому полезно». Режима .webinar:not(.recording) больше нет — webinar.css удалён 03.10. */
+.vu-page .vux{--vux-pad:clamp(16px,4.4vw,64px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,4vw,72px);
+  align-items:center;max-width:1440px;margin:0 auto;padding:clamp(20px,3vw,40px) var(--vux-pad) clamp(40px,5vw,80px);box-sizing:border-box}
+.vux-col{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.vux .nd-back{margin-bottom:clamp(6px,1vh,16px)}
+.vux-h1{font-size:clamp(40px,3.7vw,64px);line-height:.92;text-wrap:balance;max-width:11em}
+.vux .vux-sub{margin-top:clamp(12px,1.4vw,20px);font-size:clamp(18px,1.5vw,24px);font-weight:600}
+.vux-hosts{margin:10px 0 0;max-width:30em;font:500 clamp(15px,1.1vw,17px)/1.45 'Golos Text',sans-serif;color:var(--nd-mute)}
+.vux-hosts b{font-weight:700;color:var(--nd-ink)}
+/* билет: вторая кнопка — MAX контуром, под ней строка про оплату и подсказка мессенджеров */
+.vux-tk .vux-max{display:flex;justify-content:center;width:calc(100% - 28px);margin:10px 14px 0;box-sizing:border-box}
+.vux-tk .vux-note{justify-content:flex-start;padding-top:12px;font-weight:600;color:var(--nd-ink)}
+.vux-tk .vux-hint{margin:0;padding:0 20px 16px}
+/* «О чём» и «Кому полезно» */
+.vu-about-grid,.vu-who-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:start}
+.vu-about .lpd-lead,.vu-who .lpd-lead{margin:0;max-width:30em}
+.vu-hostlist{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+.vu-hostlist li{display:grid;gap:6px;padding:clamp(18px,2vw,26px);border-radius:8px;background:var(--nd-surface);border:1px solid var(--nd-soft)}
+.vu-hostlist .rcd-kick{margin:0}
+.vu-host-name{margin:0;font:900 clamp(26px,2.2vw,34px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase}
+.vu-host-role{margin:0;font:500 15px/1.4 'Golos Text',sans-serif;color:var(--nd-mute)}
+.vu-final-ph img{object-position:50% 18%}
+.vu-page .rcd-buy .nw-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+
+/* ===== Первый экран, направление C (владелец 22.10): графит, вырез обеих ведущих с табличкой (vu-duo, вырез на NVR:
+   BiRefNet-portrait ∪ segformer face-parsing, края 2 px, волосы мягко, pymatting), за ними слово из заголовка
+   «ЗАПОМИНАЛИ» — строка рыжей заливкой и та же строка контуром, головы перекрывают контур. Слово всегда целиком:
+   кегль от ширины сцены (cqi) — обрезанное «ЗАПОМИНАЛ…» меняет слово, а смысл экрана в нём.
+   Рыжий слова приглушён до .82 — рядом пурпур кимоно; кнопка Telegram — чистый рыжий, она главная. Графит в обеих темах. */
+.vu-page .page-band.nd-band:has(>.vux--c){background-color:#26282d;
+  background-image:radial-gradient(40% 50% at 72% 42%,rgba(254,108,31,.24),rgba(254,108,31,0) 100%),
+    radial-gradient(30% 40% at 8% 92%,rgba(168,51,12,.28),rgba(168,51,12,0) 100%),var(--nb-noise,none),linear-gradient(180deg,#2b2d32,#232529)}
+.vu-page .page-band>.vux--c{max-width:none}
+.vu-page .vux--c{--nd-ink:#faf7f2;--nd-mute:#cfc8be;color:#faf7f2;position:relative;isolation:isolate;overflow:hidden;
+  grid-template-columns:minmax(0,clamp(440px,36vw,560px)) minmax(0,1fr);gap:0 clamp(16px,2vw,32px);align-items:stretch;max-width:none;
+  min-height:max(720px,calc(100svh - var(--hdr-h,64px)));
+  padding:clamp(20px,3vw,36px) 0 0 calc(max(0px,(100% - 1320px) / 2) + var(--vux-pad))}
+.vux--c .vux-col{position:relative;z-index:3;align-self:center;padding-bottom:clamp(20px,3vw,40px)}
+.vux--c .nd-back{color:#faf7f2;text-decoration-color:rgba(250,247,242,.45)}
+.vux--c .nd-kick{color:#cfc8be}
+.vux--c .vux-hosts{color:#cfc8be}.vux--c .vux-hosts b{color:#faf7f2}
+/* билет — светлый, как на рыжей плите записей: крем на графите, кнопка рыжая с тёмной ячейкой */
+.vux--c .rcx-tk{--nd-glass:rgba(250,247,242,.97);--nd-ink:#111;--nd-mute:#5e5750;--nd-edge:rgba(255,255,255,.85);color:#111;box-shadow:0 22px 60px rgba(0,0,0,.4)}
+.vux--c .rcx-tk .nd-pay{--plate:#111;background:#fe6c1f;color:#111}
+.vux--c .rcx-tk .nd-pay-c{background:#111;color:#faf7f2}
+.vux--c .rcx-tk .vux-max{color:#111;border-color:#111}
+.vux-stage{position:relative;min-height:100%;container-type:inline-size}
+.vux-word{position:absolute;z-index:0;left:0;right:0;top:clamp(14px,4%,48px);margin:0;display:grid;justify-items:end;
+  font:900 15.4cqi/.82 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.02em;white-space:nowrap;user-select:none;
+  padding-right:clamp(8px,2.4cqi,40px)}
+.vux-word span:first-child{color:rgba(254,108,31,.82)}
+.vux-word span+span{color:transparent;-webkit-text-stroke:2px rgba(250,247,242,.5)}
+/* высота фигуры — от высоты сцены (82 %), но не шире 80 % её ширины: на высоких экранах фигура растёт вместе с экраном, а не стоит маленькой внизу */
+.vux-duo{position:absolute;z-index:1;right:clamp(12px,5cqi,96px);bottom:0;height:min(82%,calc(80cqi * 1.1));width:auto;max-width:none;display:block}
+.vux-stamp{position:absolute;z-index:2;left:clamp(0px,2cqi,24px);bottom:clamp(36px,9cqi,90px);width:clamp(96px,15cqi,140px);aspect-ratio:1;rotate:-8deg;
+  border-radius:50%;background:#faf7f2;border:1.5px solid #111;display:grid;place-items:center}
+.vux-stamp svg{position:absolute;inset:6%;width:88%;height:88%;overflow:visible}
+.vux-stamp text{font:700 10.4px 'Golos Text',sans-serif;letter-spacing:.16em;text-transform:uppercase;fill:#111}
+.vux-stamp b{position:relative;font:700 clamp(34px,5cqi,52px)/1 Poster,sans-serif;color:#fe6c1f;translate:0 .12em}
+@media (prefers-reduced-motion:no-preference){.vux-stamp svg{animation:vux-spin 22s linear infinite}}
+@keyframes vux-spin{to{rotate:360deg}}
+@media (max-width:1100px){
+  .vu-page .vux--c{grid-template-columns:minmax(0,1fr);min-height:0;padding:0 var(--vux-pad) clamp(28px,5vw,48px)}
+  .vux--c .vux-stage{order:-1;height:calc(22.6vw + 420px);min-height:0;margin:0 calc(-1 * var(--vux-pad));overflow:hidden}
+  .vux--c .vux-col{padding:0}
+  /* Рыжая строка над макушками, головы только на контурной (верх выреза ниже её середины ≈21cqi). */
+  .vux-word{top:3cqi;font-size:15cqi}
+  .vux-duo{height:auto;width:440px;top:22.6cqi;bottom:auto;right:14px}
+  .vux-stamp{left:12px;bottom:14px;width:clamp(80px,22cqi,120px)}.vux-stamp text{font-size:10px}
+  .vux--c .nd-back{display:none}
+}
+@media (max-width:700px){
+  /* Мобилка: макушки сразу под рыжей строкой (низ её глифов ≈14.2cqi, зазор 4–8px),
+     головы закрывают контурную строку, как на ПК; ноги режет низ сцены. Всё от ширины окна. */
+  .vux--c .vux-stage{height:82vw}
+  .vux-duo{width:72cqi;top:calc(14.2cqi + 5px);right:3.6cqi}
+  .vux--c .vux-h1{font-size:30px;margin-top:4px}
+  .vux--c .vux-sub{font-size:16px;margin-top:8px}
+  .vux--c .vux-hosts{font-size:14px;margin-top:6px}
+  .vux--c .rcx-tk{margin-top:12px}
+  .vux--c .rcx-tk .rcx-tk-top{padding:10px 14px 8px}
+  .vux--c .rcx-tk .rcx-price{font-size:40px}
+  .vux--c .rcx-tk .nd-pay{min-height:48px;margin-top:10px}
+  .vux--c .rcx-tk .vux-max{min-height:44px;margin-top:8px}
+  .vux--c .rcx-tk .vux-note{padding-top:8px;font-size:12px}
+  .vux--c .rcx-tk .vux-hint{display:none}
+}
+@media (max-width:760px){
+  .vu-about-grid,.vu-who-grid{grid-template-columns:minmax(0,1fr)}
+  .vu-prog{grid-template-columns:minmax(0,1fr)}
+  .vu-page .rcd-buy .nw-facts{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  .vu-hostlist{grid-template-columns:minmax(0,1fr)}
+  .vux-h1{font-size:clamp(36px,11vw,48px)}
+}

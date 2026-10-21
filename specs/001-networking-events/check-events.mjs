@@ -150,6 +150,23 @@ if (next) {
   expect(!home.includes('<a class="hero-announcement"'), 'главная: анонс обложки должен быть скрыт — будущих событий нет');
 }
 
+// 4. Страницы живых вебинаров: JSON-LD и видимые дата/время/цена совпадают с events.json (добавлено 21.10.2026, /vebinar-uznavaemost/).
+for (const ev of data.events.filter((e) => e.type === 'webinar' && e.url === '/vebinar-uznavaemost/')) {
+  const page = read(ev.url.replace(/^\//, '') + 'index.html');
+  const node = JSON.parse(page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'].find((n) => n['@type'] === 'EducationEvent');
+  expect(node, `${ev.url}: нет EducationEvent в JSON-LD`);
+  if (!node) continue;
+  expect(node.startDate === ev.start, `${ev.url}: startDate ${node.startDate} ≠ ${ev.start}`);
+  expect(node.endDate === ev.end, `${ev.url}: endDate ${node.endDate} ≠ ${ev.end}`);
+  expect(node.name === ev.title, `${ev.url}: name JSON-LD ≠ title events.json`);
+  expect(`${node.offers.price.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽` === ev.price, `${ev.url}: цена offers ${node.offers.price} ≠ ${ev.price}`);
+  const body = text(page).replace(/&nbsp;|\u00a0/g, ' ');
+  const [d, m] = fmt(ev.start, { day: 'numeric', month: 'long' }).split(' ');
+  expect(body.includes(`${d} ${m}, ${fmt(ev.start, { weekday: 'short' })}`.toUpperCase()) || body.includes(`${d} ${m}, ${fmt(ev.start, { weekday: 'short' })}`), `${ev.url}: нет даты «${d} ${m}» с днём недели`);
+  expect(body.includes(ev.time.replace(/\s*МСК$/, '')), `${ev.url}: нет времени ${ev.time}`);
+  expect(body.includes(ev.price), `${ev.url}: нет цены ${ev.price}`);
+}
+
 if (errors.length) {
   console.error(`check-events: ${errors.length} расхождений\n- ` + errors.join('\n- '));
   process.exit(1);

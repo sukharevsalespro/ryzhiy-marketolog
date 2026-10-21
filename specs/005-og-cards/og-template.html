@@ -52,6 +52,8 @@ const C={
    k:'Наставник · 20+ лет в маркетинге',h:'Развитие личного бренда',hs:80,pr:'от 10\u00a0000'+R,st:S+'онлайн',fl:'Валентина Сухарева <b>· консультация, мастер-группа, сопровождение</b>'},
  'networking':{img:'portrait-phone-call-2400.webp',w:900,x:-20,y:-130,side:'R',pw:620,
    k:'Онлайн-нетворкинг · 15–20 человек',h:'Полезные знакомства',hs:80,dt:'<b>8 октября</b> — 10:00–12:00<br><b>10 ноября, 11 декабря</b> — 12:00–14:00',pr:'от 990'+R,st:S+'Контур.Толк',fl:'Валентина Сухарева <b>· время московское</b>'},
+ 'vebinar-uznavaemost':{img:'vu-duo-1600.webp',w:600,x:60,y:24,side:'R',pw:490,nobg:1,
+   k:'Практический вебинар',h:'Как сделать так, чтобы тебя запоминали',hs:56,pr:'1\u00a0500'+R,st:S+'29 октября<br>15:00 МСК',ss:27,fl:'Валентина Сухарева <b>и Анна Шиндина, стилист-архетипист</b>'},
  'zapis-lichnyj-brend':{img:'portrait-mic-2400.webp',w:720,x:-40,y:-60,side:'R',
    k:'Вебинар в записи',h:'Как развить личный бренд',hs:80,pr:'800'+R,st:S+'доступ сразу<br>после оплаты',fl:'Валентина Сухарева <b>· практический вебинар</b>'},
  'marketing-doveriya':{img:'portrait-terrace-2400.webp',w:900,x:-150,y:-150,side:'R',
@@ -62,7 +64,8 @@ const C={
 const q=new URLSearchParams(location.search), c=C[q.get('id')];
 document.body.classList.add(c.side);
 const ph=document.getElementById('ph'), pn=document.querySelector('.pn');
-ph.style.backgroundImage=bg.style.backgroundImage=`url(../../assets/img/${c.img})`;
+ph.style.backgroundImage=`url(../../assets/img/${c.img})`;
+if(c.nobg){bg.remove();document.body.style.background='radial-gradient(40% 60% at 30% 45%,rgba(254,108,31,.3),rgba(254,108,31,0)),linear-gradient(180deg,#2b2d32,#232529)'} else bg.style.backgroundImage=ph.style.backgroundImage; /* nobg: вырез на графите (вебинар 29.10) */
 ph.style.backgroundSize=`${c.w}px auto`;
 ph.style.backgroundPosition=`${c.x}px ${c.y}px`;
 pn.style.width=(c.pw||580)+'px';
