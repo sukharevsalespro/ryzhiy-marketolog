@@ -45,7 +45,8 @@
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
       .then(function (data) {
         var now = Date.now();
-        var next = (data.events || []).filter(function (ev) { return new Date(ev.end || ev.start).getTime() >= now; })
+        /* ближайшее = ещё не началось (start > now), как анонс и корешок билета в main.js (правило 21.10.2026) */
+        var next = (data.events || []).filter(function (ev) { return new Date(ev.start).getTime() > now; })
           .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
         if (!next) return;
         var day = new Date(next.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });

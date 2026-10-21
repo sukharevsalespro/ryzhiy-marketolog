@@ -12,7 +12,10 @@
   /* Календарь встреч: события из /assets/data/events.json, даты по Москве.
      Вариант C3: лента встреч + вертикальное слово месяца + мини-календарь (от 1280).
      Прошедшие приглушены, ближайшая с бейджем. Без JS остаётся статичная афиша месяца ближайшей встречи.
-     Анонс на обложке (.hero-announcement) — та же ближайшая дата, из тех же данных. */
+     Анонс на обложке (.hero-announcement) — та же ближайшая дата, из тех же данных.
+     Правило «ближайшего» (21.10.2026): анонс, корешок билета, «Форматы» и бейдж «Ближайшая» в календаре берут
+     событие, которое ЕЩЁ НЕ НАЧАЛОСЬ (start > now); «прошла» — по-прежнему по концу (end, иначе start),
+     поэтому идущее событие в календаре не серое, но и не «ближайшее». Шапка — то же правило в header.js. */
   var agenda = document.querySelector('[data-agenda]');
   var hero = document.querySelector('.hero-announcement');
   var fmtCards = document.querySelectorAll('[data-fmt-type]');
@@ -32,7 +35,7 @@
 
   function fillHero(events) {
     var now = Date.now();
-    var next = events.filter(function (ev) { return !isPast(ev, now); })
+    var next = events.filter(function (ev) { return isUpcoming(ev, now); })
       .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
     if (!next) { hero.remove(); return; }
     var p = mskParts(next.start);
@@ -43,11 +46,11 @@
     hero.querySelector('.strip-text span:last-child').textContent = next.title;
   }
 
-  /* Карточки «Форматов»: ближайшая непрошедшая дата своего типа и цена. Нет такой — остаётся текст из разметки. */
+  /* Карточки «Форматов»: ближайшая ещё не начавшаяся дата своего типа и цена. Нет такой — остаётся текст из разметки. */
   function fillFormats(events) {
     var now = Date.now();
     fmtCards.forEach(function (el) {
-      var next = events.filter(function (ev) { return ev.type === el.dataset.fmtType && !isPast(ev, now); })
+      var next = events.filter(function (ev) { return ev.type === el.dataset.fmtType && isUpcoming(ev, now); })
         .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
       var meta = el.querySelector('.fmt-meta');
       if (!next || !meta) return;
@@ -64,7 +67,7 @@
   /* Корешок билета-заявки: ближайшая дата и тип встречи (как CTA шапки). Нет будущих — корешок без даты. */
   function fillTicket(events) {
     var now = Date.now();
-    var next = events.filter(function (ev) { return !isPast(ev, now); })
+    var next = events.filter(function (ev) { return isUpcoming(ev, now); })
       .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
     if (!next) { ticket.hidden = true; return; }
     var kinds = { networking: 'Нетворкинг', webinar: 'Вебинар', mastergroup: 'Мастер-группа' };
@@ -82,6 +85,7 @@
     return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' }).split(' ')[1];
   }
   function isPast(ev, now) { return new Date(ev.end || ev.start).getTime() < now; }
+  function isUpcoming(ev, now) { return new Date(ev.start).getTime() > now; }
 
   function initAgenda(events) {
     if (!events.length) return;
@@ -95,15 +99,15 @@
     var items = events.map(function (ev) {
       var p = mskParts(ev.start);
       return {
-        ev: ev, y: p.y, m: p.m, d: p.d, past: isPast(ev, now),
+        ev: ev, y: p.y, m: p.m, d: p.d, past: isPast(ev, now), upcoming: isUpcoming(ev, now),
         wd: new Date(ev.start).toLocaleDateString('ru-RU', { weekday: 'short', timeZone: 'Europe/Moscow' }),
         gen: ruMonthGen(ev.start),
         time: ev.time.replace(/\s*МСК$/, ''),
         fmt: FORMAT[ev.type] || ev.label
       };
     }).sort(function (a, b) { return new Date(a.ev.start) - new Date(b.ev.start); });
-    var nearest = items.filter(function (e) { return !e.past; })[0] || null;
-    var anchor = nearest || items[items.length - 1];
+    var nearest = items.filter(function (e) { return e.upcoming; })[0] || null;
+    var anchor = nearest || items.filter(function (e) { return !e.past; })[0] || items[items.length - 1];
     var first = items[0], last = items[items.length - 1];
     var minKey = key(first.y, first.m), maxKey = key(last.y, last.m) + 1; /* +1: месяц «анонс скоро» */
     var cur = key(anchor.y, anchor.m);

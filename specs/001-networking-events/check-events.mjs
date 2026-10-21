@@ -93,8 +93,12 @@ if (near) {
 }
 
 // 3. Главная: статичная афиша месяца ближайшего события (фолбэк без JS; с JS main.js перерисует из events.json).
-const all = data.events.filter((e) => new Date(e.end || e.start) >= cutoff);
-const next = all[0];
+// Правило «ближайшего» с 21.10.2026: событие, которое ЕЩЁ НЕ НАЧАЛОСЬ (start > now) — анонс, шапка, корешок билета,
+// «Форматы», бейдж «Ближайшая». «Прошла» — по-прежнему по концу (end, иначе start): идущее событие не серое.
+// Срез главной — дата снимка статичной разметки (HOME_NOW), отдельно от среза /networking/.
+const homeCut = process.env.CHECK_NOW ? new Date(process.env.CHECK_NOW) : new Date(process.env.HOME_NOW || '2026-10-21T12:00:00+03:00');
+const upcoming = data.events.filter((e) => new Date(e.start) > homeCut).sort((a, b) => new Date(a.start) - new Date(b.start));
+const next = upcoming[0];
 if (next) {
   const month = fmt(next.start, { month: 'long' });
   const title = month.charAt(0).toUpperCase() + month.slice(1);
@@ -116,8 +120,21 @@ if (next) {
   expect(cardHtml.includes(`<a class="ag-cta" href="${next.url}">Записаться`), `главная: кнопка карточки не на "${next.url}"`);
   // Все встречи из данных есть в ленте, прошедшие помечены.
   for (const ev of data.events) {
-    const pastEv = new Date(ev.end || ev.start) < cutoff;
+    const pastEv = new Date(ev.end || ev.start) < homeCut;
     expect(new RegExp(`<li class="c2-card[^"]*${pastEv ? ' is-past' : ''}[^"]*" id="c2-${ev.id}">`).test(home), `главная: в ленте нет ${ev.id}${pastEv ? ' с is-past' : ''}`);
+  }
+
+  // Корешок билета-заявки (#zayavka): статичная копия ближайшего события и ссылка на его страницу.
+  {
+    const kinds = { networking: 'Нетворкинг', webinar: 'Вебинар', mastergroup: 'Мастер-группа' };
+    const want = `${d} ${m} · ${kinds[next.type] || next.label.toLowerCase()}`;
+    const tk = home.match(/<a class="tk-when" href="([^"]+)" data-next-ticket><span>([^<]+)<\/span>/);
+    expect(tk && tk[2] === want, `корешок билета: "${tk && tk[2]}" ≠ "${want}"`);
+    expect(tk && tk[1] === next.url, `корешок билета: ссылка "${tk && tk[1]}" ≠ "${next.url}"`);
+  }
+  // Идущее событие (началось, не закончилось) не «ближайшее» и не «прошла».
+  for (const ev of data.events.filter((e) => new Date(e.start) <= homeCut && new Date(e.end || e.start) >= homeCut)) {
+    expect(!home.includes(`<li class="c2-card is-near" id="c2-${ev.id}">`), `главная: идущее ${ev.id} помечено ближайшим`);
   }
 
   // С новой обложки (bbd3a7c, 28.09) анонса на первом экране нет; если вернётся — обязан совпадать с данными.
@@ -137,4 +154,4 @@ if (errors.length) {
   console.error(`check-events: ${errors.length} расхождений\n- ` + errors.join('\n- '));
   process.exit(1);
 }
-console.log(`check-events: ok (${data.events.length} событий, ${future.length} билетов, ${ldEvents.length} Event в JSON-LD, срез ${cutoff.toISOString()})`);
+console.log(`check-events: ok (${data.events.length} событий, ${future.length} билетов, ${ldEvents.length} Event в JSON-LD, срез /networking/ ${cutoff.toISOString()}, главной ${homeCut.toISOString()})`);
