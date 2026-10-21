@@ -21,7 +21,7 @@
    Фото одно на обе темы (вечерний кадр pick-2); тёмная — графитовое стекло, светлая — кремовое. Переключение только
    prefers-color-scheme: ручного переключателя темы на сайте нет (шапка тоже только на media-запросе). */
 .mg-hero-band{--mg-bg:#faf7f2;--mg-ink:#111;--mg-mute:#5e5750;--mg-or:#fe6c1f;--mg-acc:#9e3a0a;
-  --mg-glass:rgba(250,247,242,.84);--mg-line:rgba(255,255,255,.75);--mg-pbg:#111;--mg-pfg:#faf7f2;--mg-cell:#faf7f2;--mg-cellfg:#111;
+  --mg-glass:rgba(250,247,242,.94); /* было .84: над чёрной стеной suit-wall-bag стекло читалось серым (210/207/203) */--mg-line:rgba(255,255,255,.75);--mg-pbg:#111;--mg-pfg:#faf7f2;--mg-cell:#faf7f2;--mg-cellfg:#111;
   --mg-plate:var(--mg-or);--mg-sec:#111;--mg-tband:#efe9df;--mg-tline:rgba(17,17,17,.12);--mg-num:#111;--mg-numfg:#faf7f2;
   color:var(--mg-ink)}
 .home .page-band.mg-hero-band{background:var(--mg-bg)}
@@ -33,21 +33,20 @@
   overflow:hidden;font-family:'Golos Text',sans-serif;isolation:isolate}
 .mg-hero *,.mg-trackband *{box-sizing:border-box}
 .mg-ph{position:absolute;inset:0;z-index:-1}
-.mg-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 28%}
-/* лёгкая растушёвка слева — подложка под стекло, лица не касается (лицо на ~66% ширины) */
-.mg-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,color-mix(in srgb,var(--mg-bg) 55%,transparent) 0%,transparent 40%)}
+.mg-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:62% 10%}
+/* 21.10.2026: кадр suit-wall-bag на ровной чёрной стене — светлая растушёвка слева читалась серой «грязью» на стене;
+   на широких экранах её больше нет, стекло карточки держит контраст само. На ≤1000 остаётся нижний переход к карточке. */
+.mg-ph::after{content:"";position:absolute;inset:0;background:none}
 /* ===== Широкий монитор (≥2:1 — 21:9/32:9 ultrawide). Решение владельца 01.10: «собери в центре композицию,
-   а бока оставь под фон». Кадр mg-evening-wide (8192×2048, 4:1) симметричен: в центре ОРИГИНАЛЬНЫЕ пиксели
-   3072×2048 (Валентина, кружка, окно — как на 1920), слева дорисовано продолжение окна и набережной, справа —
-   продолжение комнаты (лампа, полки, стена). object-position 50% — оригинальный кадр 3:2 всегда по центру
+   а бока оставь под фон». С 21.10.2026 кадр mg-wall-wide (8192×2048, 4:1, suit-wall-bag): чёрная стена из панелей
+   продолжена синтетикой из самой стены (средние строки + швы панелей + зерно, scratchpad mg_wall.py), Валентина —
+   пиксели исходника 1:1 на 66% центрального кадра 3:2. object-position 50% — центральный кадр 3:2 всегда по центру
    экрана высотой в первый экран (ширина 1.5 × высота блока); карточка — у левого края этого кадра, плашка — у правого,
    т. е. композиция «карточка + Валентина» как на 1920, бока — фон. Карточка и плашка растут ступенями zoom
    по высоте экрана; px-часть отступов делится на --z, потому что zoom масштабирует и её. Ниже 2:1 ничего не меняется. */
 @media (min-aspect-ratio: 2/1){
   .mg-hero{--hh:max(680px,calc(100svh - var(--mg-hdr,64px)));--cl:calc(50% - .75 * var(--hh))}
-  .mg-ph img{object-position:50% 35%}
-  .mg-ph::after{background:linear-gradient(90deg,transparent calc(var(--cl) - .45 * var(--hh)),
-    color-mix(in srgb,var(--mg-bg) 55%,transparent) calc(var(--cl) + .08 * var(--hh)),transparent calc(var(--cl) + .6 * var(--hh)))}
+  .mg-ph img{object-position:50% 50%}
   /* под zoom проценты берутся от родителя как есть, а px-часть масштабируется — поэтому делим только её */
   .mg-hero .mg-hcard{left:calc(50% + (var(--mg-pad) - .75 * var(--hh)) / var(--z,1))}
   .mg-hero .mg-chip{right:calc(50% + (var(--mg-pad) - .75 * var(--hh)) / var(--z,1))}
@@ -123,7 +122,7 @@
 @media (max-width:1000px){
   .mg-hero{min-height:0;overflow:visible;padding:0 0 var(--mg-pad)}
   .mg-ph{position:relative;inset:auto;display:block;height:var(--mg-phh,66.6vw);z-index:0}
-  .mg-ph::after{background:linear-gradient(0deg,var(--mg-bg) 0%,transparent 26%)}
+  .mg-ph::after{background:linear-gradient(0deg,var(--mg-bg) 0%,transparent 14%)} /* было 26%: сумка (76–87% кадра) уходила в растушёвку */
   .mg-hcard{position:relative;left:auto;bottom:auto;z-index:1;width:auto;max-width:600px;margin:-64px var(--mg-pad) 0}
   .mg-chip{top:calc(var(--mg-phh,66.6vw) - 64px - 58px);right:var(--mg-pad);z-index:2}
 }
