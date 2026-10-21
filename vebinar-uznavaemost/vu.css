@@ -1,0 +1,43 @@
+/* /vebinar-uznavaemost/ — живой вебинар 29.10.2026 (Валентина Сухарева и Анна Шиндина).
+   Система — страницы записей (nd-pages.css: .rcx-tk, .nd-h1, .rcd-prog, .rcd-buy, .lpd-punch; nw-nd.css: .nw2, .nw-cta-panel).
+   Своё только здесь: первый экран «колонка + кадр ведущих» (кадр по плечи — табличка «Деловые люди» за кадром),
+   вторая кнопка MAX в билете, сетки «О чём» и «Кому полезно». Режима .webinar:not(.recording) больше нет — webinar.css удалён 03.10. */
+.vu-page .vux{--vux-pad:clamp(16px,4.4vw,64px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,4vw,72px);
+  align-items:center;max-width:1440px;margin:0 auto;padding:clamp(20px,3vw,40px) var(--vux-pad) clamp(40px,5vw,80px);box-sizing:border-box}
+.vux-col{display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+.vux .nd-back{margin-bottom:clamp(6px,1vh,16px)}
+.vux-h1{font-size:clamp(40px,3.7vw,64px);line-height:.92;text-wrap:balance;max-width:11em}
+.vux .vux-sub{margin-top:clamp(12px,1.4vw,20px);font-size:clamp(18px,1.5vw,24px);font-weight:600}
+.vux-hosts{margin:10px 0 0;max-width:30em;font:500 clamp(15px,1.1vw,17px)/1.45 'Golos Text',sans-serif;color:var(--nd-mute)}
+.vux-hosts b{font-weight:700;color:var(--nd-ink)}
+.vux-ph{margin:0;position:relative;aspect-ratio:3/2;border-radius:8px;overflow:hidden;background:var(--nd-surface);
+  box-shadow:0 24px 60px rgba(0,0,0,.14)}
+.vux-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+/* билет: вторая кнопка — MAX контуром, под ней строка про оплату и подсказка мессенджеров */
+.vux-tk .vux-max{display:flex;justify-content:center;width:calc(100% - 28px);margin:10px 14px 0;box-sizing:border-box}
+.vux-tk .vux-note{justify-content:flex-start;padding-top:12px;font-weight:600;color:var(--nd-ink)}
+.vux-tk .vux-hint{margin:0;padding:0 20px 16px}
+/* «О чём» и «Кому полезно» */
+.vu-about-grid,.vu-who-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:start}
+.vu-about .lpd-lead,.vu-who .lpd-lead{margin:0;max-width:30em}
+.vu-hostlist{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+.vu-hostlist li{display:grid;gap:6px;padding:clamp(18px,2vw,26px);border-radius:8px;background:var(--nd-surface);border:1px solid var(--nd-soft)}
+.vu-hostlist .rcd-kick{margin:0}
+.vu-host-name{margin:0;font:900 clamp(26px,2.2vw,34px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;text-transform:uppercase}
+.vu-host-role{margin:0;font:500 15px/1.4 'Golos Text',sans-serif;color:var(--nd-mute)}
+.vu-final-ph img{object-position:50% 18%}
+.vu-page .rcd-buy .nw-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:1100px){
+  .vu-page .vux{grid-template-columns:minmax(0,1fr)}
+  .vux-ph{order:-1}
+  .vux .nd-back{order:-2}
+}
+@media (max-width:760px){
+  .vu-about-grid,.vu-who-grid{grid-template-columns:minmax(0,1fr)}
+  .vu-prog{grid-template-columns:minmax(0,1fr)}
+  .vu-page .rcd-buy .nw-facts{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  .vu-hostlist{grid-template-columns:minmax(0,1fr)}
+  .vux-h1{font-size:clamp(36px,11vw,48px)}
+}
