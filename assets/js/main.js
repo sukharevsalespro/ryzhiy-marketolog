@@ -638,13 +638,32 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
   var nav = band.querySelector('.rv-nav');
   var dots = nav && nav.querySelector('.rv-dots');
   var prev = nav && nav.querySelector('.rv-prev'), next = nav && nav.querySelector('.rv-next');
+  /* Стрелки: прокрутка ровно к началу карточки (точка привязки = левый край карточки − scroll-padding),
+     а не на фиксированный шаг: шаг «ширина + 16px» не совпадал с gap 12–24px, и smooth-scroll, перебитый
+     привязкой, оставлял карточку со сдвигом (возврат владельца 22.10, Android). */
+  function snapPoints() {
+    var pad = parseFloat(getComputedStyle(grid).scrollPaddingLeft) || 0;
+    var gl = grid.getBoundingClientRect().left, max = grid.scrollWidth - grid.clientWidth;
+    return [].map.call(grid.querySelectorAll('.rv-card'), function (c) {
+      return Math.max(0, Math.min(max, Math.round(c.getBoundingClientRect().left - gl + grid.scrollLeft - pad)));
+    });
+  }
+  function perView() {
+    var card = grid.querySelector('.rv-card');
+    return card ? Math.max(1, Math.floor((grid.clientWidth + 1) / (card.getBoundingClientRect().width + 1))) : 1;
+  }
   function syncNav() {
     if (!nav) return;
     var scrollable = getComputedStyle(grid).overflowX !== 'visible' && grid.scrollWidth > grid.clientWidth + 2;
     nav.hidden = !scrollable;
     if (!scrollable) return;
-    var n = Math.max(1, Math.round(grid.scrollWidth / grid.clientWidth)), max = grid.scrollWidth - grid.clientWidth;
-    var i = Math.round(grid.scrollLeft / max * (n - 1)) || 0;
+    /* точки = «страницы» ленты: на телефоне по карточке, на ПК по шагу стрелки (сколько карточек видно целиком) */
+    var max = grid.scrollWidth - grid.clientWidth, all = snapPoints(), per = perView(), pts = [];
+    for (var q = 0; q < all.length; q += per) pts.push(all[q]);
+    if (pts[pts.length - 1] < max - 4) pts.push(max);
+    pts = pts.filter(function (x, k, a) { return k === 0 || x - a[k - 1] > 4; });
+    var n = Math.max(1, pts.length), i = 0, best = Infinity;
+    pts.forEach(function (x, k) { var d = Math.abs(x - grid.scrollLeft); if (d < best) { best = d; i = k; } });
     if (dots.children.length !== n) {
       dots.textContent = '';
       for (var k = 0; k < n; k++) dots.appendChild(document.createElement('i'));
@@ -654,10 +673,13 @@ q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=
     next.disabled = grid.scrollLeft > max - 4;
   }
   function step(dir) {
-    var card = grid.querySelector('.rv-card');
-    var cw = card ? card.getBoundingClientRect().width : grid.clientWidth;
-    var per = Math.max(1, Math.round(grid.clientWidth / cw));
-    grid.scrollBy({ left: dir * (cw + 16) * per, behavior: 'smooth' });
+    var pts = snapPoints();
+    if (!pts.length) return;
+    var per = perView();
+    var cur = 0, best = Infinity;
+    pts.forEach(function (x, k) { var d = Math.abs(x - grid.scrollLeft); if (d < best) { best = d; cur = k; } });
+    var to = Math.max(0, Math.min(pts.length - 1, cur + dir * per));
+    grid.scrollTo({ left: pts[to], behavior: 'smooth' });
   }
   if (nav) {
     prev.addEventListener('click', function () { step(-1); });
