@@ -123,7 +123,12 @@
 @media (max-width:1023px){.home .rv--r3 .rv-grid{grid-auto-columns:calc((100% - 20px) / 2);gap:20px}}
 @media (max-width:699px){
   .home .rv--r3{--rv-top:200px;--rv-obj:124px}
-  .home .rv--r3 .rv-grid{grid-auto-columns:88%;gap:14px;margin:0 -20px;padding:6px 20px 10px;scroll-padding-inline:20px}
+  /* телефон (возврат владельца 22.10: карточка шире экрана, слева срезаны кружок и имя):
+     ширина карточки — от ширины окна, а не процентом трека (проценты в прокручиваемой сетке считаются от разной базы);
+     текущая карточка целиком с полями 16px, соседняя выглядывает справа на 10% окна; привязка к началу карточки. */
+  .home .rv--r3 .rv-grid{--rv-peek:10vw;grid-auto-columns:calc(100vw - 16px - 12px - var(--rv-peek));gap:12px;
+    margin:0 -20px;padding:6px 16px 10px;scroll-padding-inline:16px}   /* -20px = боковой отступ секции на телефоне (padding 48px 20px ниже) */
+  .home .rv--r3 .rv-card{scroll-snap-align:start;scroll-snap-stop:always}
 }
 
 /* ============ /otzyvy/ · листки: бумага, скрепки, рукописная пометка-вывод ============ */
