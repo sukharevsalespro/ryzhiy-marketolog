@@ -73,8 +73,11 @@
   .vux--c .nd-back{display:none}
 }
 @media (max-width:700px){
-  .vux--c .vux-stage{height:300px}
-  .vux-duo{width:262px}
+  /* Мобилка: рыжая строка целиком над макушками, головы заходят только на контурную
+     (верх выреза ниже середины второй строки); ноги режет низ сцены. Всё от ширины окна. */
+  .vux--c .vux-stage{height:82vw}
+  .vux-word{top:3cqi;font-size:15cqi}
+  .vux-duo{width:67cqi;top:22.6cqi;bottom:auto;right:3.6cqi}
   .vux--c .vux-h1{font-size:30px;margin-top:4px}
   .vux--c .vux-sub{font-size:16px;margin-top:8px}
   .vux--c .vux-hosts{font-size:14px;margin-top:6px}
