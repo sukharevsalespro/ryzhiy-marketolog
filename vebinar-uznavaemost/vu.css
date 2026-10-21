@@ -65,19 +65,19 @@
 @keyframes vux-spin{to{rotate:360deg}}
 @media (max-width:1100px){
   .vu-page .vux--c{grid-template-columns:minmax(0,1fr);min-height:0;padding:0 var(--vux-pad) clamp(28px,5vw,48px)}
-  .vux--c .vux-stage{order:-1;height:clamp(300px,78vw,560px);min-height:0;margin:0 calc(-1 * var(--vux-pad));overflow:hidden}
+  .vux--c .vux-stage{order:-1;height:calc(22.6vw + 420px);min-height:0;margin:0 calc(-1 * var(--vux-pad));overflow:hidden}
   .vux--c .vux-col{padding:0}
-  .vux-word{top:12px;font-size:15.6cqi}
-  .vux-duo{height:auto;width:min(68cqi,440px);right:14px}
+  /* Рыжая строка над макушками, головы только на контурной (верх выреза ниже её середины ≈21cqi). */
+  .vux-word{top:3cqi;font-size:15cqi}
+  .vux-duo{height:auto;width:440px;top:22.6cqi;bottom:auto;right:14px}
   .vux-stamp{left:12px;bottom:14px;width:clamp(80px,22cqi,120px)}.vux-stamp text{font-size:10px}
   .vux--c .nd-back{display:none}
 }
 @media (max-width:700px){
-  /* Мобилка: рыжая строка целиком над макушками, головы заходят только на контурную
-     (верх выреза ниже середины второй строки); ноги режет низ сцены. Всё от ширины окна. */
+  /* Мобилка: макушки сразу под рыжей строкой (низ её глифов ≈14.2cqi, зазор 4–8px),
+     головы закрывают контурную строку, как на ПК; ноги режет низ сцены. Всё от ширины окна. */
   .vux--c .vux-stage{height:82vw}
-  .vux-word{top:3cqi;font-size:15cqi}
-  .vux-duo{width:67cqi;top:22.6cqi;bottom:auto;right:3.6cqi}
+  .vux-duo{width:72cqi;top:calc(14.2cqi + 5px);right:3.6cqi}
   .vux--c .vux-h1{font-size:30px;margin-top:4px}
   .vux--c .vux-sub{font-size:16px;margin-top:8px}
   .vux--c .vux-hosts{font-size:14px;margin-top:6px}
