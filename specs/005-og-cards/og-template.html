@@ -43,7 +43,10 @@ const rub=s=>s.replace(/\s*₽/,R).replace(/(\d) (\d{3})/g,'$1 $2');
 // Кадры: вырезы новой съёмки (cut/og-suit-*.webp, x4 + BiRefNet + face-parsing) и дуэт вебинара.
 // fh — высота выреза на карточке. Макушка всегда на y=118: голова заходит только на низ слова-эхо (приём первого экрана вебинара),
 // низ фигуры уходит за край. Левый край фигуры — не левее x=752: колонке текста остаётся 660 px. fr — желаемый отступ справа.
-const STAIRS='cut/og-suit-stairs-tongue.webp', SQUAT='cut/og-suit-street-squat.webp', WALL='cut/og-suit-wall-bag.webp';
+const STAIRS='cut/og-suit-stairs-tongue.webp', WALL='cut/og-suit-wall-bag.webp';
+// у каждой из 10 содержательных страниц свой кадр (возврат владельца 22.10: «не каждая повторяется, а одна и та же»);
+// библиотека — cut/og-<имя>.webp из assets/img/<имя>-2400.webp, лица прошли QC 1:1 (qc.py), ступени с языком — только главная
+const CUT=n=>'cut/og-'+n+'.webp';
 const FULL={fh:520}, MID={fh:1000}, TOP=118, TEXT_W=660;
 const C=ev=>{
  const next=t=>ev.filter(e=>e.type===t&&Date.parse(e.start)>Date.now()).sort((a,b)=>Date.parse(a.start)-Date.parse(b.start));
@@ -52,16 +55,16 @@ const C=ev=>{
  'home':{img:STAIRS,...MID,fr:40,echo:'бренд',k:'Валентина Сухарева',h:'<em>Рыжий</em><br>маркетолог',sub:'Наставник по личному бренду',acc:'20+ лет в маркетинге'},
  'master-gruppa':{img:WALL,...FULL,fh:540,fr:90,echo:'группа',k:'Мастер-группа · до 5 человек',h:'Личный <em>бренд</em><br>за 4 недели',
    sub:'Онлайн · '+(mg?rub(mg.price):''),acc:mg?'Старт '+day(mg.start):''},
- 'networking':{img:SQUAT,...FULL,fr:30,echo:'связи',k:'Онлайн-нетворкинг',h:'Полезные<br><em>знакомства</em>',
+ 'networking':{img:CUT('portrait-phone-call'),fh:900,fr:0,echo:'связи',k:'Онлайн-нетворкинг',h:'Полезные<br><em>знакомства</em>',
    sub:nw.length?nw[0].time+' · Контур.Толк':'',acc:nw.slice(0,2).map(e=>day(e.start)).join(' и ')},
  'vebinar-uznavaemost':{img:'../../assets/img/vu-duo-1600.webp',fh:512,fr:24,gx:'74%',echo:'стиль',k:'Практический вебинар',h:'Чтобы тебя<br><em>запоминали</em>',
    sub:(vu?rub(vu.price):'')+' · с Анной Шиндиной',acc:vu?day(vu.start)+' · '+msk(vu.start,{hour:'2-digit',minute:'2-digit'})+' МСК':''},
- 'otzyvy':{img:WALL,...MID,fh:1040,fr:60,echo:'отзывы',k:'Отзывы клиенток',h:'Своими<br><em>словами</em>',sub:'Оригинал под каждым отзывом',acc:'30 отзывов без правок'},
- 'raspakovka':{img:STAIRS,...FULL,fr:30,echo:'игра',k:'Игра «Путь гениальности»',h:'Распаковка<br><em>личности</em>',sub:'2–4 часа · лично 10 000'+R,acc:'5 000'+R+' в группе'},
- 'razvitie':{img:SQUAT,...MID,fr:10,echo:'рост',k:'Наставник · 20+ лет в маркетинге',h:'Развитие<br>личного <em>бренда</em>',sub:'Консультация, мастер-группа, сопровождение',acc:'от 10 000'+R},
- 'pozicionirovanie':{img:SQUAT,...FULL,fr:30,echo:'смысл',k:'Статья',h:'Своё<br><em>позиционирование</em>',sub:'Вопросы и пример из практики',acc:'Больше подписчиков и клиентов'},
- 'zapis-lichnyj-brend':{img:STAIRS,...MID,fr:30,echo:'запись',k:'Вебинар в записи',h:'Как развить<br>личный <em>бренд</em>',sub:'Доступ сразу после оплаты',acc:'800'+R},
- 'marketing-doveriya':{img:WALL,...MID,fr:80,echo:'доверие',k:'Вебинар в записи',h:'Маркетинг<br><em>доверия</em>',sub:'Доступ после оплаты',acc:'888'+R},
+ 'otzyvy':{img:CUT('portrait-yalta-wall-smile'),fh:760,fr:20,echo:'отзывы',k:'Отзывы клиенток',h:'Своими<br><em>словами</em>',sub:'Оригинал под каждым отзывом',acc:'30 отзывов без правок'},
+ 'raspakovka':{img:CUT('portrait-plaid-closeup'),fh:620,fr:30,echo:'игра',k:'Игра «Путь гениальности»',h:'Распаковка<br><em>личности</em>',sub:'2–4 часа · лично 10 000'+R,acc:'5 000'+R+' в группе'},
+ 'razvitie':{img:CUT('portrait-terrace'),fh:880,fr:0,echo:'рост',k:'Наставник · 20+ лет в маркетинге',h:'Развитие<br>личного <em>бренда</em>',sub:'Консультация, мастер-группа, сопровождение',acc:'от 10 000'+R},
+ 'pozicionirovanie':{img:CUT('portrait-table-talk'),fh:560,fr:0,echo:'смысл',k:'Статья',h:'Своё<br><em>позиционирование</em>',sub:'Вопросы и пример из практики',acc:'Больше подписчиков и клиентов'},
+ 'zapis-lichnyj-brend':{img:CUT('portrait-mic'),fh:900,fr:40,echo:'запись',k:'Вебинар в записи',h:'Как развить<br>личный <em>бренд</em>',sub:'Доступ сразу после оплаты',acc:'800'+R},
+ 'marketing-doveriya':{img:CUT('speaker-balloons'),fh:760,fr:60,echo:'доверие',k:'Вебинар в записи',h:'Маркетинг<br><em>доверия</em>',sub:'Доступ после оплаты',acc:'888'+R},
  }};
 (async()=>{
  const id=new URLSearchParams(location.search).get('id');
