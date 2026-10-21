@@ -192,3 +192,12 @@
 @media (max-width:599.98px){.th-plate--red .th-hand{width:clamp(50px,14vw,60px);right:18px;bottom:22px}}
 /* планшет 600–899 (лента T1): фотозона была 150px при ширине ~400 (2.6:1) — лицо не помещалось; даём высоту под 1.8:1 */
 @media (min-width:600px) and (max-width:899.98px){.th[data-th="t1"] .th-vis{height:clamp(150px,29vw,240px)}}
+
+/* 21.10.2026: заголовок пластины не шире своей колонки. Длинное слово («усовершенствовать», «позиционирование»)
+   распирало пластину шире ячейки сетки и съедало зазор до соседней (в т. ч. старый вылет 14–27 px у третьей).
+   Колонка текста — контейнер по ширине, кегль — не больше 11.6 % её ширины: самое длинное слово
+   (Poster 900, wdth 78) занимает ≈8.4 кегля, т. е. влезает с запасом; слова не переносятся. */
+.th-copy{container-type:inline-size;min-width:0}
+.th-plate{min-width:0}
+.th-plate .th-copy h3{font-size:min(clamp(30px,2.95vw,44px),11.6cqi)}
+@media (max-width:599.98px){.th-plate .th-copy h3{font-size:min(clamp(28px,8.6vw,36px),11.6cqi)}}
