@@ -1,76 +1,85 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
-<!-- OG-карточки, дизайн B «графит» (выбор владельца 01.10.2026): фото на всю площадь,
-     графитовое стекло буквой «Г» (колонка + нижняя полоса), оранжевый только акцент.
-     Токены — из mastergruppa.css (.mg-hero-band, тёмная тема). Рендер: render.py <id> … -->
+<!-- OG-карточки, облик B «графит, слово-эхо» (выбор владельца 22.10.2026; прежний «графит со стеклом» от 01.10 заменён).
+     Язык первых экранов: вырез из новой съёмки на графите, рыжее свечение за фигурой, контурное слово-эхо над головой,
+     постерный заголовок 2–4 слова, один акцент в рыжей плашке, рыжая кромка по краю (в тёмной ленте Telegram не сливается с фоном).
+     Даты нетворкинга, мастер-группы и вебинара — из assets/data/events.json по правилу сайта «ближайшее = ещё не началось».
+     Рендер: ?id=<страница>; готовность — body[data-ready]. Шрифты сайта не содержат ₽ — он рисуется DejaVu Sans. -->
 <style>
 @font-face{font-family:Golos;src:url(../../assets/fonts/golos-cyrillic.woff2) format('woff2');font-weight:400 900;unicode-range:U+0400-045F,U+2116}
 @font-face{font-family:Golos;src:url(../../assets/fonts/golos-latin.woff2) format('woff2');font-weight:400 900;unicode-range:U+0000-00FF,U+2000-206F}
 @font-face{font-family:Poster;src:url(../../assets/fonts/roboto-var-cyrillic.woff2) format('woff2');font-weight:100 900;font-stretch:75% 100%;unicode-range:U+0400-045F}
 @font-face{font-family:Poster;src:url(../../assets/fonts/roboto-var-latin.woff2) format('woff2');font-weight:100 900;font-stretch:75% 100%;unicode-range:U+0000-00FF,U+2000-206F}
-/* Шрифты сайта не содержат ₽ — он рисуется DejaVu Sans (системный на NVR) */
-:root{--or:#fe6c1f;--ink:#faf7f2;--mute:#cfc8be;--glass:rgba(35,37,41,.72);--line:rgba(250,247,242,.2);--blur:blur(18px) saturate(1.1)}
+:root{--or:#fe6c1f;--ink:#111;--cream:#faf7f2;--mute:#cfc8be}
 *{box-sizing:border-box;margin:0}
 html,body{width:1200px;height:630px;overflow:hidden}
-body{position:relative;font-family:Golos,'DejaVu Sans',sans-serif;color:var(--ink);background:#232529}
-/* .bg — то же фото, размытое, на всю карточку: подложка под стеклом, если резкое фото уже карточки (вертикальные кадры) */
-.bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(28px) brightness(.6)}
-.ph{position:absolute;inset:0;background-repeat:no-repeat}
-.pn{position:absolute;top:0;bottom:64px;padding:44px 40px 30px 52px;display:flex;flex-direction:column;
-  background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
-.L .pn{left:0;border-right:1px solid var(--line);box-shadow:20px 0 60px rgba(0,0,0,.18)}
-.R .pn{right:0;border-left:1px solid var(--line);box-shadow:-20px 0 60px rgba(0,0,0,.18)}
-.k{font-weight:600;font-size:18px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);line-height:1.3}
-.k i,.st i{font-style:normal;color:var(--or);font-weight:800}
-h1{margin-top:20px;font:900 84px/.94 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.005em}
-.dt{margin-top:22px;font-size:24px;line-height:1.35;font-weight:500}
-.dt b{font-weight:700}
-.row{margin-top:auto;display:flex;align-items:center;gap:22px}
-.pr{background:var(--or);color:#111;font:900 56px/1 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;padding:10px 18px 9px;border-radius:4px;white-space:nowrap}
-.r{font-family:'DejaVu Sans',sans-serif;font-weight:700;font-size:.78em;font-stretch:normal}
-.st{font:800 34px/1.05 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;white-space:nowrap}
-.f{position:absolute;left:0;right:0;bottom:0;height:64px;padding:0 52px;display:flex;align-items:center;justify-content:space-between;
-  font-size:20px;font-weight:600;background:var(--glass);border-top:1px solid var(--line);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
-.f b{font-weight:600;color:var(--mute)}
-</style></head>
-<body><div class="bg" id="bg"></div><div class="ph" id="ph"></div>
-<div class="pn"><p class="k" id="k"></p><h1 id="h"></h1><p class="dt" id="dt"></p><div class="row" id="row"></div></div>
-<div class="f"><span id="fl"></span><span>рыжий-маркетолог.рф</span></div>
+body{position:relative;font-family:Golos,'DejaVu Sans',sans-serif;color:var(--cream);
+  background:radial-gradient(42% 70% at var(--gx,78%) 52%,rgba(254,108,31,.62),rgba(254,108,31,.18) 55%,rgba(254,108,31,0) 100%),
+             radial-gradient(30% 45% at 6% 100%,rgba(168,51,12,.30),rgba(168,51,12,0)),linear-gradient(180deg,#2b2d32,#202226)}
+body::after{content:"";position:absolute;inset:0;z-index:9;border:6px solid var(--or);pointer-events:none}
+.echo{position:absolute;right:36px;top:24px;z-index:0;display:flex;justify-content:flex-end;overflow:hidden;
+  font:900 150px/.8 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:2px rgba(250,247,242,.3);white-space:nowrap}
+.fig{position:absolute;z-index:1;display:block;max-width:none}
+.txt{position:absolute;left:64px;top:56px;bottom:80px;z-index:3;display:flex;flex-direction:column;align-items:flex-start}
+.k{font:700 22px/1.2 Golos,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+h1{margin-top:18px;font:900 120px/.86 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.02em;white-space:nowrap}
+h1 em{font-style:normal;color:var(--or)}
+.sub{margin-top:14px;font:600 22px/1.25 Golos,'DejaVu Sans',sans-serif}
+.acc{margin-top:auto;background:var(--or);color:var(--ink);font:900 46px/1 Poster,'DejaVu Sans',sans-serif;font-stretch:75%;
+  text-transform:uppercase;padding:12px 20px 10px;white-space:nowrap}
+.r{font-family:'DejaVu Sans',sans-serif;font-weight:700;font-size:.8em;font-stretch:normal}
+.dom{position:absolute;left:64px;bottom:32px;z-index:4;font:700 20px/1 Golos,sans-serif;opacity:.85}
+</style></head><body>
+<div class="echo" id="echo"></div><img class="fig" id="fig" alt="">
+<div class="txt"><p class="k" id="k"></p><h1 id="h"></h1><p class="sub" id="sub"></p><p class="acc" id="acc"></p></div>
+<p class="dom">рыжий-маркетолог.рф</p>
 <script>
-const R=' <span class="r">₽</span>', S='<i>*</i> ';
-// img — файл из assets/img; w — ширина фото на карточке (px, ≥1200); x,y — сдвиг фона; side — где стекло (L/R), pw — ширина колонки
-const C={
- 'master-gruppa':{img:'mg-wall-2400.webp',w:1200,x:0,y:-6,side:'L',
-   k:'Мастер-группа · до 5 человек',h:'Личный бренд за\u00a04\u00a0недели',hs:80,pr:'12\u00a0500'+R,st:S+'Старт<br>5 ноября',fl:'Валентина Сухарева <b>· онлайн по всей России</b>'},
- 'home':{img:'thoughts-position-1200.webp',w:1200,x:-20,y:-20,side:'R',
-   k:'Наставник по личному бренду',h:'Рыжий маркетолог',hs:80,pr:'20+ лет',st:S+'в маркетинге',fl:'Валентина Сухарева <b>· онлайн по всей России, база\u00a0— Сочи</b>'},
- 'otzyvy':{img:'portrait-newyear-2400.webp',w:720,x:-40,y:-20,side:'R',
-   k:'Отзывы клиенток',h:'Своими словами',hs:92,pr:'30',st:S+'отзывов<br>без правок',fl:'Валентина Сухарева <b>· оригинал под каждым отзывом</b>'},
- 'raspakovka':{img:'portrait-yalta-wall-smile-2400.webp',w:720,x:520,y:-120,side:'L',
-   k:'Игра «Путь гениальности» · 2–4\u00a0часа',h:'Распаковка личности',hs:84,pr:'5\u00a0000'+R,st:S+'в группе<br>лично — 10\u00a0000\u00a0₽',ss:29,fl:'Валентина Сухарева <b>· онлайн по всей России</b>'},
- 'razvitie':{img:'portrait-crimea-rock-2400.webp',w:720,x:-10,y:-160,side:'R',
-   k:'Наставник · 20+ лет в маркетинге',h:'Развитие личного бренда',hs:80,pr:'от 10\u00a0000'+R,st:S+'онлайн',fl:'Валентина Сухарева <b>· консультация, мастер-группа, сопровождение</b>'},
- 'networking':{img:'portrait-phone-call-2400.webp',w:900,x:-20,y:-130,side:'R',pw:620,
-   k:'Онлайн-нетворкинг · 15–20 человек',h:'Полезные знакомства',hs:80,dt:'<b>8 октября</b> — 10:00–12:00<br><b>10 ноября, 11 декабря</b> — 12:00–14:00',pr:'от 990'+R,st:S+'Контур.Толк',fl:'Валентина Сухарева <b>· время московское</b>'},
- 'vebinar-uznavaemost':{img:'vu-duo-1600.webp',w:600,x:60,y:24,side:'R',pw:490,nobg:1,
-   k:'Практический вебинар',h:'Как сделать так, чтобы тебя запоминали',hs:56,pr:'1\u00a0500'+R,st:S+'29 октября<br>15:00 МСК',ss:27,fl:'Валентина Сухарева <b>и Анна Шиндина, стилист-архетипист</b>'},
- 'zapis-lichnyj-brend':{img:'portrait-mic-2400.webp',w:720,x:-40,y:-60,side:'R',
-   k:'Вебинар в записи',h:'Как развить личный бренд',hs:80,pr:'800'+R,st:S+'доступ сразу<br>после оплаты',fl:'Валентина Сухарева <b>· практический вебинар</b>'},
- 'marketing-doveriya':{img:'portrait-terrace-2400.webp',w:900,x:-150,y:-150,side:'R',
-   k:'Вебинар в записи',h:'Маркетинг доверия',hs:84,pr:'888'+R,st:S+'доступ<br>после оплаты',fl:'Валентина Сухарева <b>· практический эфир</b>'},
- 'pozicionirovanie':{img:'portrait-bench-2400.webp',w:720,x:-120,y:-50,side:'R',pw:700,
-   k:'Статья',h:'Как найти своё позиционирование',hs:64,st:S+'Больше подписчиков<br>и клиентов',fl:'Валентина Сухарева <b>· вопросы и пример из практики</b>'},
-};
-const q=new URLSearchParams(location.search), c=C[q.get('id')];
-document.body.classList.add(c.side);
-const ph=document.getElementById('ph'), pn=document.querySelector('.pn');
-ph.style.backgroundImage=`url(../../assets/img/${c.img})`;
-if(c.nobg){bg.remove();document.body.style.background='radial-gradient(40% 60% at 30% 45%,rgba(254,108,31,.3),rgba(254,108,31,0)),linear-gradient(180deg,#2b2d32,#232529)'} else bg.style.backgroundImage=ph.style.backgroundImage; /* nobg: вырез на графите (вебинар 29.10) */
-ph.style.backgroundSize=`${c.w}px auto`;
-ph.style.backgroundPosition=`${c.x}px ${c.y}px`;
-pn.style.width=(c.pw||580)+'px';
-k.innerHTML=S+c.k; const h=document.getElementById('h'); h.textContent=c.h; if(c.hs) h.style.fontSize=c.hs+'px';
-dt.innerHTML=c.dt||''; if(!c.dt) dt.remove();
-row.innerHTML=(c.pr?`<span class="pr">${c.pr}</span>`:'')+(c.st?`<span class="st">${c.st}</span>`:'');
-fl.innerHTML=c.fl; if(c.ss) document.querySelector('.st').style.fontSize=c.ss+'px';
+const R=' <span class="r">₽</span>';
+const MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const msk=(s,o)=>new Date(s).toLocaleString('ru-RU',Object.assign({timeZone:'Europe/Moscow'},o));
+const day=s=>msk(s,{day:'numeric'})+' '+MON[+new Date(s).toLocaleString('en-US',{month:'numeric',timeZone:'Europe/Moscow'})-1];
+const rub=s=>s.replace(/\s*₽/,R).replace(/(\d) (\d{3})/g,'$1 $2');
+// Кадры: вырезы новой съёмки (cut/og-suit-*.webp, x4 + BiRefNet + face-parsing) и дуэт вебинара.
+// fh — высота выреза на карточке. Макушка всегда на y=118: голова заходит только на низ слова-эхо (приём первого экрана вебинара),
+// низ фигуры уходит за край. Левый край фигуры — не левее x=752: колонке текста остаётся 660 px. fr — желаемый отступ справа.
+const STAIRS='cut/og-suit-stairs-tongue.webp', SQUAT='cut/og-suit-street-squat.webp', WALL='cut/og-suit-wall-bag.webp';
+const FULL={fh:520}, MID={fh:1000}, TOP=118, TEXT_W=660;
+const C=ev=>{
+ const next=t=>ev.filter(e=>e.type===t&&Date.parse(e.start)>Date.now()).sort((a,b)=>Date.parse(a.start)-Date.parse(b.start));
+ const nw=next('networking'), mg=next('mastergroup')[0], vu=ev.find(e=>e.id==='webinar-2026-10-29');
+ return {
+ 'home':{img:STAIRS,...MID,fr:40,echo:'бренд',k:'Валентина Сухарева',h:'<em>Рыжий</em><br>маркетолог',sub:'Наставник по личному бренду',acc:'20+ лет в маркетинге'},
+ 'master-gruppa':{img:WALL,...FULL,fh:540,fr:90,echo:'группа',k:'Мастер-группа · до 5 человек',h:'Личный <em>бренд</em><br>за 4 недели',
+   sub:'Онлайн · '+(mg?rub(mg.price):''),acc:mg?'Старт '+day(mg.start):''},
+ 'networking':{img:SQUAT,...FULL,fr:30,echo:'связи',k:'Онлайн-нетворкинг',h:'Полезные<br><em>знакомства</em>',
+   sub:nw.length?nw[0].time+' · Контур.Толк':'',acc:nw.slice(0,2).map(e=>day(e.start)).join(' и ')},
+ 'vebinar-uznavaemost':{img:'../../assets/img/vu-duo-1600.webp',fh:512,fr:24,gx:'74%',echo:'стиль',k:'Практический вебинар',h:'Чтобы тебя<br><em>запоминали</em>',
+   sub:(vu?rub(vu.price):'')+' · с Анной Шиндиной',acc:vu?day(vu.start)+' · '+msk(vu.start,{hour:'2-digit',minute:'2-digit'})+' МСК':''},
+ 'otzyvy':{img:WALL,...MID,fh:1040,fr:60,echo:'отзывы',k:'Отзывы клиенток',h:'Своими<br><em>словами</em>',sub:'Оригинал под каждым отзывом',acc:'30 отзывов без правок'},
+ 'raspakovka':{img:STAIRS,...FULL,fr:30,echo:'игра',k:'Игра «Путь гениальности»',h:'Распаковка<br><em>личности</em>',sub:'2–4 часа · лично 10 000'+R,acc:'5 000'+R+' в группе'},
+ 'razvitie':{img:SQUAT,...MID,fr:10,echo:'рост',k:'Наставник · 20+ лет в маркетинге',h:'Развитие<br>личного <em>бренда</em>',sub:'Консультация, мастер-группа, сопровождение',acc:'от 10 000'+R},
+ 'pozicionirovanie':{img:SQUAT,...FULL,fr:30,echo:'смысл',k:'Статья',h:'Своё<br><em>позиционирование</em>',sub:'Вопросы и пример из практики',acc:'Больше подписчиков и клиентов'},
+ 'zapis-lichnyj-brend':{img:STAIRS,...MID,fr:30,echo:'запись',k:'Вебинар в записи',h:'Как развить<br>личный <em>бренд</em>',sub:'Доступ сразу после оплаты',acc:'800'+R},
+ 'marketing-doveriya':{img:WALL,...MID,fr:80,echo:'доверие',k:'Вебинар в записи',h:'Маркетинг<br><em>доверия</em>',sub:'Доступ после оплаты',acc:'888'+R},
+ }};
+(async()=>{
+ const id=new URLSearchParams(location.search).get('id');
+ const ev=(await (await fetch('../../assets/data/events.json',{cache:'no-store'})).json()).events, c=C(ev)[id];
+ if(c.gx) document.body.style.setProperty('--gx',c.gx);
+ fig.src=c.img; fig.style.height=c.fh+'px'; fig.style.top=TOP+'px';
+ k.textContent=c.k; h.innerHTML=c.h; sub.innerHTML=c.sub; if(!c.sub) sub.remove(); acc.innerHTML=c.acc; if(!c.acc) acc.remove();
+ echo.textContent=c.echo;
+ await fig.decode(); await document.fonts.ready;
+ const fw=fig.getBoundingClientRect().width; fig.style.right=Math.min(c.fr,1200-(64+TEXT_W+28)-fw)+'px';
+ const fl=fig.getBoundingClientRect().left;
+ // заголовок и акцент не заходят на фигуру: кегль подгоняется под ширину до её левого края (минус 28 px)
+ const maxW=Math.min(TEXT_W,fl-64-28); let fs=parseFloat(getComputedStyle(h).fontSize); while(h.scrollWidth>maxW&&fs>56){fs-=2;h.style.fontSize=fs+'px'}
+ let as=46; while(acc.isConnected&&acc.getBoundingClientRect().right>fl-20&&as>28){as-=2;acc.style.fontSize=as+'px'}
+ // слово-эхо — над фигурой, целиком (без среза посреди буквы)
+ echo.style.left=(fl-30)+'px'; let ef=150; const ew=()=>{const g=document.createRange();g.selectNodeContents(echo);return g.getBoundingClientRect().width};
+ while(ew()>echo.clientWidth&&ef>80){ef-=4;echo.style.fontSize=ef+'px'}   // ширину меряем по тексту: при flex-end лишнее уходит влево и scrollWidth его не видит
+ document.body.dataset.fit=JSON.stringify({h:fs,acc:as,echo:ef,echoFits:ew()<=echo.clientWidth,hFits:h.scrollWidth<=maxW});
+ document.body.dataset.ready=1;
+})();
 </script></body></html>
