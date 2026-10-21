@@ -37,17 +37,19 @@
 .home .vy-date b{display:block;font:900 clamp(44px,4vw,60px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.04em;
   font-variant-numeric:tabular-nums;white-space:nowrap;-webkit-text-stroke:0;color:var(--vy-soft)}
 .home .vy-date span{display:block;margin-top:8px;font:600 14px/1.3 'Golos Text',sans-serif;color:var(--vy-soft)}
+.home .vy-date span i{display:block;font-style:normal}
 .home .vy-venue{margin:0;font:900 clamp(24px,2.3vw,32px)/1.02 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.01em;
   text-transform:uppercase;color:var(--vy-ink);-webkit-text-stroke:0;overflow-wrap:break-word;hyphens:auto}
-/* одна анатомия у всех трёх: площадка → формат и место (серым) → роль (серым, полужирным) → тема (чёрным, только где она есть) → ссылка */
+/* одна анатомия у всех трёх: площадка → формат и место (серым) → роль или тема (чёрным полужирным) → ссылка */
 .home .vy-org{margin:8px 0 0;max-width:36em;font:400 15px/1.4 'Golos Text',sans-serif;color:var(--vy-soft)}
 .home .vy-org+.vy-org{margin-top:2px}
 .home .vy-topic{margin:12px 0 0;max-width:34em;font:600 clamp(16px,1.25vw,18px)/1.4 'Golos Text',sans-serif;color:var(--vy-ink)}
 .home .vy-points{list-style:none;margin:10px 0 0;padding:0;max-width:36em}
 .home .vy-points li{position:relative;margin:6px 0 0;padding-left:18px;font:400 15px/1.45 'Golos Text',sans-serif;color:var(--vy-soft)}
 .home .vy-points li::before{content:"";position:absolute;left:0;top:.68em;width:8px;height:2px;background:var(--vy-or)}
-.home .vy-role{margin:6px 0 0;font:600 15px/1.4 'Golos Text',sans-serif;color:var(--vy-soft)}
+.home .vy-role{margin:6px 0 0;font:600 15px/1.4 'Golos Text',sans-serif;color:var(--vy-ink)}
 /* ссылка — как .xp-more по виду; линия нарисована фоном, чтобы шла одной чертой под текстом и стрелкой ↗ */
+.home a.vy-link,.home a.vy-link:hover{text-decoration:none}
 .home .vy-link{justify-self:start;display:inline-block;box-sizing:border-box;min-height:44px;padding:12px 0;margin-top:6px;color:var(--vy-ink);
   font:600 15px/20px 'Golos Text',sans-serif;text-decoration:none;
   background:linear-gradient(currentColor,currentColor) 0 calc(100% - 7px)/100% 1px no-repeat;transition:color .2s ease}
