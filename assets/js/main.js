@@ -54,6 +54,10 @@
         .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
       var meta = el.querySelector('.fmt-meta');
       if (!next || !meta) return;
+      /* ссылка карточки ведёт туда же, куда относится подпись с датой (21.10.2026: «Вебинары» → страница ближайшего вебинара);
+         после старта события ближайшего нет — остаётся ссылка из разметки (запись) */
+      var link = el.querySelector('.fmt-link');
+      if (link && next.url) link.href = next.url;
       var day = new Date(next.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
       meta.textContent = '';
       [day, next.price].filter(Boolean).forEach(function (t, i) {
