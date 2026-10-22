@@ -45,7 +45,9 @@ const rub=s=>s.replace(/\s*₽/,R).replace(/(\d) (\d{3})/g,'$1 $2');
 // низ фигуры уходит за край. Левый край фигуры — не левее x=752: колонке текста остаётся 660 px. fr — желаемый отступ справа.
 const STAIRS='cut/og-suit-stairs-tongue.webp', WALL='cut/og-suit-wall-bag.webp';
 // у каждой из 10 содержательных страниц свой кадр (возврат владельца 22.10: «не каждая повторяется, а одна и та же»);
-// библиотека — cut/og-<имя>.webp из assets/img/<имя>-2400.webp, лица прошли QC 1:1 (qc.py), ступени с языком — только главная
+// библиотека — cut/og-<имя>.webp из assets/img/<имя>-2400.webp, лица прошли QC 1:1 (qc.py), ступени с языком — только главная.
+// 23.10: кадр OG — только фото, которое есть на самой странице: распаковка — N14 (блок внизу), развитие — N15 (обложка),
+// позиционирование — L4 (блок с кнопкой), маркетинг доверия — L1 (билет); вырезы тем же рецептом (ogcut1023.py, исходники docs/neurophoto-2026-10-22)
 const CUT=n=>'cut/og-'+n+'.webp';
 const FULL={fh:520}, MID={fh:1000}, TOP=118, TEXT_W=660;
 const C=ev=>{
@@ -60,11 +62,11 @@ const C=ev=>{
  'vebinar-uznavaemost':{img:'../../assets/img/vu-duo-1600.webp',fh:512,fr:24,gx:'74%',echo:'стиль',k:'Практический вебинар',h:'Чтобы тебя<br><em>запоминали</em>',
    sub:(vu?rub(vu.price):'')+' · с Анной Шиндиной',acc:vu?day(vu.start)+' · '+msk(vu.start,{hour:'2-digit',minute:'2-digit'})+' МСК':''},
  'otzyvy':{img:CUT('portrait-yalta-wall-smile'),fh:760,fr:20,echo:'отзывы',k:'Отзывы клиенток',h:'Своими<br><em>словами</em>',sub:'Оригинал под каждым отзывом',acc:'30 отзывов без правок'},
- 'raspakovka':{img:CUT('portrait-plaid-closeup'),fh:620,fr:30,echo:'игра',k:'Игра «Путь гениальности»',h:'Распаковка<br><em>личности</em>',sub:'2–4 часа · лично 10 000'+R,acc:'5 000'+R+' в группе'},
- 'razvitie':{img:CUT('portrait-terrace'),fh:880,fr:0,echo:'рост',k:'Наставник · 20+ лет в маркетинге',h:'Развитие<br>личного <em>бренда</em>',sub:'Консультация, мастер-группа, сопровождение',acc:'от 10 000'+R},
- 'pozicionirovanie':{img:CUT('portrait-table-talk'),fh:560,fr:0,echo:'смысл',k:'Статья',h:'Своё<br><em>позиционирование</em>',sub:'Вопросы и пример из практики',acc:'Больше подписчиков и клиентов'},
+ 'raspakovka':{img:CUT('raspakovka-game-host'),fh:660,fr:30,echo:'игра',k:'Игра «Путь гениальности»',h:'Распаковка<br><em>личности</em>',sub:'2–4 часа · лично 10 000'+R,acc:'5 000'+R+' в группе'},
+ 'razvitie':{img:CUT('rv-n15'),fh:740,fr:0,echo:'рост',k:'Наставник · 20+ лет в маркетинге',h:'Развитие<br>личного <em>бренда</em>',sub:'Консультация, мастер-группа, сопровождение',acc:'от 10 000'+R},
+ 'pozicionirovanie':{img:CUT('nf-silk-l4'),fh:900,fr:40,echo:'смысл',k:'Статья',h:'Своё<br><em>позиционирование</em>',sub:'Вопросы и пример из практики',acc:'Больше подписчиков и клиентов'},
  'zapis-lichnyj-brend':{img:CUT('portrait-mic'),fh:900,fr:40,echo:'запись',k:'Вебинар в записи',h:'Как развить<br>личный <em>бренд</em>',sub:'Доступ сразу после оплаты',acc:'800'+R},
- 'marketing-doveriya':{img:CUT('speaker-balloons'),fh:760,fr:60,echo:'доверие',k:'Вебинар в записи',h:'Маркетинг<br><em>доверия</em>',sub:'Доступ после оплаты',acc:'888'+R},
+ 'marketing-doveriya':{img:CUT('nf-velvet-l1'),fh:700,fr:30,echo:'доверие',k:'Вебинар в записи',h:'Маркетинг<br><em>доверия</em>',sub:'Доступ после оплаты',acc:'888'+R},
  }};
 (async()=>{
  const id=new URLSearchParams(location.search).get('id');
