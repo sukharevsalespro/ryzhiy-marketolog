@@ -625,6 +625,15 @@
 .rcd-final .nw-cta-copy h2{text-wrap:balance}
 .rcd-final .nw-cta-text{margin-bottom:0}
 .rcd-ph--chin img{object-position:50% 18%}
+/* кадр N17 (кофейня, 2:3, 23.10): волосы с 20%, кулаки под подбородком до 52%, чашка 74–84%. Двойной класс — иначе .nw-cta-photo img из nw-nd.css (грузится позже) перебивает.
+   На широких мобильных боксах (до 1.7:1) окно держит лицо и руки; на почти квадратном телефоне опускается, чтобы целиком вошла чашка */
+.nw-cta-photo.rcd-ph--n17 img{object-position:50% 25%}
+@media (max-width:400px){.nw-cta-photo.rcd-ph--n17 img{object-position:50% 50%}}
+/* кадр N20 (лобби, 4:5, 23.10): волосы с 15%, левая рука x 16.5–33% и y до 96.5%, пальцы правой руки до x 99.5% — на десктопе окно к правому краю.
+   На широких мобильных боксах держит лицо и плечи, на почти квадратном телефоне опускается к рукам */
+.nw-cta-photo.nw-cta-photo--n20 img{object-position:100% 6%}
+@media (max-width:700px){.nw-cta-photo.nw-cta-photo--n20 img{object-position:50% 25%}}
+@media (max-width:400px){.nw-cta-photo.nw-cta-photo--n20 img{object-position:50% 78%}}
 @media (max-width:1100px){.rcd-final .rcx-tk{max-width:none}.rcd-final .nw-cta-panel{grid-template-columns:minmax(0,1fr)}.rcd-final .nw-cta-copy h2{font-size:clamp(36px,9.4vw,64px)}}
 
 /* ===== автор записи: разворот — фото крупно (половина контейнера, до 80vh) с рыжей «плитой», справа имя, плашка 20+ с текстом, путь, ссылки ===== */
