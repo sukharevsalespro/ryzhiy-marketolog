@@ -229,36 +229,40 @@
 .rpx-price b{display:block;font:900 clamp(40px,3.3vw,56px)/1 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;white-space:nowrap;font-variant-numeric:tabular-nums}
 .rpx .nd-pay{margin-top:clamp(18px,2vw,28px)}
 
-/* ===== развитие: «разговор с наставником» — кадр консультации (Валентина за столом, жест открытой ладонью),
-   тёмный кадр, текст белым прямо на фото справа от жеста; заголовок крупнее, чем у распаковки, без подложки-стекла ===== */
-.rvx{--ar:4.3359;--fx:.3777;--fx-at:calc(50vw - min(26vw,600px))}   /* rv-wide: 8880×2048, центр лица x=3354; правый край ладони x=5078 (.5719) */
-.rvx .lpx-ph{background:#1d1714}
-/* логотип мероприятия на спинке дивана (в исходном кадре) уходит в тень: пятно привязано к координатам кадра, а не экрана */
-.rvx .lpx-ph::before{content:"";position:absolute;z-index:1;pointer-events:none;left:calc(var(--il) + var(--iw) * .45);width:calc(var(--iw) * .16);
-  top:0;height:calc(var(--hh) * .46);background:radial-gradient(closest-side,rgba(18,13,10,.92),rgba(18,13,10,.8) 50%,rgba(18,13,10,0))}
-/* затемнение справа под текст + пятно за заголовком (гасит логотип на диване), ладонь и стакан остаются светлыми */
-.rvx .lpx-ph::after{background:radial-gradient(46% 44% at 70% 30%,rgba(18,13,10,.78),rgba(18,13,10,0) 100%),
-  linear-gradient(270deg,rgba(18,13,10,.78) 0%,rgba(18,13,10,.6) 28%,rgba(18,13,10,.12) 50%,rgba(18,13,10,0) 60%),
-  linear-gradient(0deg,rgba(18,13,10,.3) 0%,rgba(18,13,10,0) 22%)}
-@media (prefers-color-scheme:dark){.rvx .lpx-ph::after{background:radial-gradient(46% 44% at 70% 30%,rgba(24,25,28,.8),rgba(24,25,28,0) 100%),
-  linear-gradient(270deg,rgba(24,25,28,.84) 0%,rgba(24,25,28,.68) 28%,rgba(24,25,28,.2) 50%,rgba(24,25,28,.08) 60%),
-  linear-gradient(0deg,rgba(24,25,28,.42) 0%,rgba(24,25,28,0) 22%)}}
-.rvx{--lp-ink:#faf7f2;--lp-mute:rgba(250,247,242,.82)}
-/* колонка прижата низом к линии над открытой ладонью (66% высоты кадра): цена и кнопка всегда над жестом, при любой высоте экрана */
-.rvx .lpx-in{display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;padding-bottom:calc(var(--hh) * .34)}
-.rvx-col{width:min(700px,50%);display:flex;flex-direction:column;align-items:flex-start}
-.rvx .nd-back{position:absolute;top:clamp(12px,1.6vw,28px);right:var(--nd-pad);margin:0;text-decoration-color:rgba(250,247,242,.45)}
+/* ===== развитие: «запись в студии» — светлый кадр N15 (21:9): Валентина слева с телефоном у стола с MacBook, камера на штативе
+   на переднем плане; справа стена с окном и диваном — там колонка текста. Светлая тема: тёмный текст, правее камеры кадр уходит в крем;
+   тёмная: светлый текст, кадр правее камеры уходит в графит. Лицо, телефон, ноутбук и камера не перекрыты ни вуалью, ни текстом ===== */
+.rvx{--ar:2.3571;--fx:.211;--fx-at:clamp(16px,2.2vw,44px)}   /* rv-n15-wide: 3168×1344; .211 — левый край руки с телефоном, встаёт у левого поля */
+/* на «узких» десктопах (≈4:3) первый экран ниже окна: кадр 21:9 во всю высоту оставил бы тексту полосу ~300px между камерой и краем */
+.rvx{--hh:max(640px,min(100svh - 64px,100vw * .58))}
+/* зона текста: левый край — правее камеры (её правый край .607 кадра) и вуали; правый — поле контейнера шапки, на узких — край экрана */
+.rvx{--rvx-w:min(100vw,var(--page-max,1320px));--rvx-x:calc(var(--il) + var(--iw) * .645);--rvx-r:calc(50vw + var(--rvx-w) / 2 - var(--nd-pad))}
+@media (min-aspect-ratio:2/1) and (min-width:1101px){.rvx{--rvx-w:min(100vw,1600px)}}
+/* экран шире 21:9: кадр растянут по ширине — режем больше снизу (стол, штатив), сверху не больше 10% высоты кадра: голова целиком */
+.rvx .lpx-ph img{bottom:auto;top:calc(-1 * min(max(var(--iw) / var(--ar) - var(--hh), 0px), var(--iw) / var(--ar) * .1))}
+/* вуаль под колонкой: один градиент на обе темы, привязан к кадру — от нуля у правого края камеры (.605) до плотной у начала текста (.65);
+   гасит растение, стойку света и переплёт окна за текстом. Светлая — крем страницы, тёмная — графит */
+.rvx{--rvx-veil:#faf7f2}
+@media (prefers-color-scheme:dark){.rvx{--rvx-veil:#18191c}}
+.rvx .lpx-ph{background:var(--rvx-veil)}
+.rvx .lpx-ph::after{background:linear-gradient(90deg,color-mix(in srgb,var(--rvx-veil) 0%,transparent) calc(var(--il) + var(--iw) * .605),
+  color-mix(in srgb,var(--rvx-veil) 80%,transparent) calc(var(--il) + var(--iw) * .65),color-mix(in srgb,var(--rvx-veil) 86%,transparent) 100%)}
+.rvx .lpx-in{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:var(--rvx-w)}
+.rvx{--rvx-cw:min(100vw - var(--nd-pad) - var(--rvx-x),clamp(440px,var(--rvx-r) - var(--rvx-x),620px))}
+.rvx-col{width:var(--rvx-cw);margin-left:calc(var(--rvx-x) - (50vw - var(--rvx-w) / 2 + var(--nd-pad)));display:flex;flex-direction:column;align-items:flex-start}
+/* крошки — по правому краю колонки (на 32:9 колонка выходит за контейнер, крошки уходят с ней на вуаль, а не на камеру) */
+.rvx .nd-back{position:absolute;top:clamp(12px,1.6vw,28px);right:min(var(--nd-pad),50vw + var(--rvx-w) / 2 - var(--rvx-x) - var(--rvx-cw));margin:0}
 .rvx .nd-h1{font-size:clamp(60px,min(5.6vw,9.6vh),132px);line-height:.86}
 .rvx .nd-lead{font-size:clamp(16px,1.15vw,19px);max-width:34em;margin-top:clamp(12px,1.2vw,20px)}
 .rvx-lab{margin:clamp(16px,1.8vw,26px) 0 0;font:600 13px/1.25 'Golos Text',sans-serif;color:var(--lp-mute)}
 .rvx-from{margin:0}
 .rvx-from b{display:block;font:900 clamp(44px,min(3.2vw,6vh),68px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;color:var(--lp-ink);white-space:nowrap}
-/* цена и кнопка одной строкой — строка заканчивается над открытой ладонью (жест «вот») */
+/* цена и кнопка одной строкой, на узкой колонке кнопка уходит под цену */
 .rvx-buy{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:8px}
 .rvx-buy .rvx-from{margin:0}
-.rvx .nd-pay{--plate:#faf7f2;background:#fe6c1f;color:#111}
+.rvx .nd-pay{--plate:var(--lp-ink);background:#fe6c1f;color:#111}
 .rvx .nd-pay-c{background:#111;color:#faf7f2}
-.rvx .nd-pay:focus-visible{outline-color:#faf7f2}
+.rvx .nd-pay:focus-visible{outline-color:var(--lp-ink)}
 
 /* ---------- ≤1100 и портрет: фото-портрет сверху (исходник страницы), текст ниже на фоне страницы ---------- */
 @media (max-width:1100px),(max-aspect-ratio:5/4){
@@ -270,14 +274,13 @@
   .lpx-in{height:auto;margin-top:-104px;padding:0 var(--nd-pad) 36px;display:block}
   .lpx .nd-back,.rpx .nd-back{position:absolute;top:calc(-1 * min(112vw,62svh) + 112px);left:var(--nd-pad);right:auto;color:#faf7f2;text-decoration-color:rgba(250,247,242,.5);text-shadow:0 1px 2px rgba(0,0,0,.55),0 0 12px rgba(0,0,0,.35)}
   .rvx{--lp-ink:var(--nd-ink);--lp-mute:var(--nd-mute)}
-  .rvx-col{width:100%}
-  .rvx .lpx-ph::after{background:linear-gradient(180deg,rgba(20,14,10,.55) 0%,rgba(20,14,10,.3) 12%,rgba(20,14,10,0) 26%),
-    linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 12%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 48%)!important}
+  .rvx-col{width:100%;margin-left:0}
+  /* без верхнего затемнения: у крошек своя тёмная пилюля, а волосы и лоб в кадре N15 близко к верху */
+  .rvx .lpx-ph::after{content:"";background:linear-gradient(0deg,var(--nd-bg) 0,var(--nd-bg) 16%,color-mix(in srgb,var(--nd-bg) 0%,transparent) 44%)!important}
   .rvx .nd-pay{background:var(--nd-btn-bg);color:var(--nd-btn-fg)}.rvx .nd-pay-c{background:var(--nd-cell);color:var(--nd-cell-fg)}
   .rvx-buy{flex-direction:column;align-items:stretch;gap:18px;align-self:stretch}
-  .rvx .lpx-ph::before{display:none}
   .rvx .lpx-in{padding-bottom:36px}
-  .rvx .nd-back{left:auto;right:var(--nd-pad);top:calc(-1 * min(112vw,62svh) + 112px)}   /* лицо в кадре слева — ссылка справа, на диване */
+  .rvx .nd-back{left:auto;right:var(--nd-pad);top:calc(-1 * min(112vw,62svh) + 112px);max-width:calc(100vw - 2 * var(--nd-pad))}   /* крошки справа, над софтбоксом: лицо по центру ниже пилюли */
   .rvx{--iw:auto;--il:auto}
   .rpx-col{width:100%;position:static}.rpx-col::before{display:none}
   .rpx .nd-h1,.rvx .nd-h1{font-size:clamp(44px,12.6vw,64px)}
@@ -285,7 +288,7 @@
   .rpx-game-head{padding:12px 14px}.rpx-price{padding:12px 14px 14px}.rpx-price b{font-size:36px}
   .lpx .nd-pay{width:100%;min-height:54px;font-size:16px}.lpx .nd-pay-t{flex:1;justify-content:center;padding-right:52px}
   .rpx--a .lpx-ph img{object-position:60% 18%}
-  .rvx .lpx-ph img{object-position:0% 30%}   /* логотип мероприятия (x≥.68 кадра) остаётся за краем */
+  .rvx .lpx-ph img{object-position:50% 0%}   /* rv-n15-m 2:3: лицо по центру, верх кадра целиком — волосы ниже крошек и на 320 */
 }
 
 /* ===================== посадочные целиком (волна 2): блоки ниже первого экрана =====================
