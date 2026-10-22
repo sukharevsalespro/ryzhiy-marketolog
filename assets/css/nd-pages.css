@@ -311,6 +311,10 @@
 .lpd-author .nw-big .lpd-author-cap{font:600 13px/1.25 'Golos Text',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--nd-mute)}
 .lpd-author-ph{margin:0;width:min(100%,300px);aspect-ratio:3/4;border-radius:8px;overflow:hidden;box-shadow:var(--nd-shadow);order:2}
 .lpd-author-ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+/* --close: портрет от макушки до середины груди (владелец 23.10.2026: оверсайз-пиджак читался огромными плечами, «ещё кропай»).
+   Кадр в исходнике 600×800: видно y 22–555, x 100–500; волосы (верх y 47) и серьги (x 200–405) целиком, вырез и плечи пиджака срезаны.
+   sizes у img пересчитан под 300×1,5 = 450 px, чтобы на DPR 2 брался 910w без растяжения. */
+.lpd-author-ph--close img{scale:1.5;transform-origin:50% 8.25%}
 .lpd-lead{margin:0 0 clamp(18px,2vw,28px);max-width:30em;font:700 clamp(21px,1.9vw,30px)/1.3 'Golos Text',sans-serif;text-wrap:balance}
 .lpd-what .nw-format-text{margin-bottom:clamp(20px,2.2vw,30px)}
 .lpd .lpd-list{margin:0 0 clamp(20px,2.2vw,30px);font-size:clamp(17px,1.35vw,20px)}   /* nw-nd.css грузится позже — специфичность выше */
