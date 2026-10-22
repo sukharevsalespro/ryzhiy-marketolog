@@ -97,6 +97,29 @@
 
   /* Дропдаун «Форматы» (десктоп) + аккордеон «Вебинары» (десктоп-подменю и мобильное меню).
      Открытие/закрытие через aria-expanded — CSS реагирует на атрибут, JS только его переключает. */
+  var dd = document.querySelector('.hdr-menu .hdr-dd'), hoverT = 0;
+  /* Закрыть явно: aria-expanded снят, :hover/:focus-within не держат список, пока курсор не войдёт заново. */
+  function ddDismiss() {
+    if (!dd) return;
+    clearTimeout(hoverT); dd.classList.remove('is-hover'); dd.classList.add('is-dismissed');
+    Array.prototype.forEach.call(dd.querySelectorAll('[aria-expanded="true"]'), function (b) { b.setAttribute('aria-expanded', 'false'); });
+  }
+  if (dd) {
+    /* Только мышь: на тач-экранах список открывается кликом по кнопке. */
+    dd.addEventListener('pointerenter', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      clearTimeout(hoverT); dd.classList.remove('is-dismissed'); dd.classList.add('is-hover');
+    });
+    dd.addEventListener('pointerleave', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      clearTimeout(hoverT); hoverT = setTimeout(function () { dd.classList.remove('is-hover'); }, 300);
+    });
+    /* Фокус пришёл снаружи (Tab) — снова можно открыть фокусом; уход фокуса не трогаем: после выбора якоря он уходит на страницу. */
+    dd.addEventListener('focusin', function (e) { if (!dd.contains(e.relatedTarget)) dd.classList.remove('is-dismissed'); });
+    /* Выбор пункта: на главной ссылки-якоря остаются на странице, список не должен висеть поверх блока. */
+    dd.querySelector('.hdr-dd-panel').addEventListener('click', function (e) { if (e.target.closest('a')) ddDismiss(); });
+  }
+
   var ddToggles = document.querySelectorAll('.hdr-dd-btn, .hdr-dd-acc-btn, .hdr-dialog-acc-btn');
   Array.prototype.forEach.call(ddToggles, function (btn) {
     btn.addEventListener('click', function (e) {
@@ -106,6 +129,10 @@
         Array.prototype.forEach.call(document.querySelectorAll('.hdr-dd-btn[aria-expanded="true"]'), function (b) {
           if (b !== btn) b.setAttribute('aria-expanded', 'false');
         });
+      }
+      if (btn.classList.contains('hdr-dd-btn')) {
+        if (open) { ddDismiss(); return; }
+        btn.closest('.hdr-dd').classList.remove('is-dismissed');
       }
       btn.setAttribute('aria-expanded', open ? 'false' : 'true');
     });
@@ -120,11 +147,17 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       var openBtn = document.querySelector('.hdr-dd-btn[aria-expanded="true"]');
-      if (!openBtn) return;
+      if (!openBtn) {
+        /* открыт наведением или фокусом, без aria-expanded */
+        var hd = document.querySelector('.hdr-menu .hdr-dd');
+        if (hd && hd.matches(':hover, :focus-within, .is-hover')) ddDismiss();
+        return;
+      }
       Array.prototype.forEach.call(openBtn.parentElement.querySelectorAll('.hdr-dd-acc-btn[aria-expanded="true"]'), function (b) {
         b.setAttribute('aria-expanded', 'false');
       });
       openBtn.setAttribute('aria-expanded', 'false');
+      ddDismiss();
       openBtn.focus();
       return;
     }
@@ -133,6 +166,7 @@
     if (!dd) return;
     var topBtn = dd.querySelector('.hdr-dd-btn');
     if (e.key === 'ArrowDown' && document.activeElement === topBtn && topBtn.getAttribute('aria-expanded') !== 'true') {
+      dd.classList.remove('is-dismissed');
       topBtn.setAttribute('aria-expanded', 'true');
     }
     var items = Array.prototype.filter.call(

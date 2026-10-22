@@ -1124,6 +1124,12 @@ html:not(.js) [data-motion]{opacity:1}
 :is(.home,.webinar) .hdr-dd-panel{position:absolute;top:100%;left:0;z-index:70;display:none;flex-direction:column;min-width:252px;max-width:calc(100vw - 40px);margin-top:6px;padding:6px;background:var(--hdr-bg);color:var(--hdr-fg);border:1.5px solid var(--hdr-fg);box-shadow:5px 5px 0 0 var(--hdr-fg)}
 @media (hover:hover){:is(.home,.webinar) .hdr-dd:hover .hdr-dd-panel{display:flex}}
 :is(.home,.webinar) .hdr-dd:focus-within .hdr-dd-panel,:is(.home,.webinar) .hdr-dd-btn[aria-expanded="true"] ~ .hdr-dd-panel{display:flex}
+/* Курсор от «Форматов» к списку (жалоба 23.10): между кнопкой и панелью зазор 6px (margin-top) — в нём :hover терялся и список
+   пропадал. Мостик ::before закрывает зазор; .is-hover держит список ещё 300 мс после ухода курсора (header.js).
+   .is-dismissed — закрыто явно (Esc, выбор пункта): сильнее :hover и :focus-within, снимается при новом входе курсора или открытии. */
+:is(.home,.webinar) .hdr-dd-panel::before{content:"";position:absolute;left:-1.5px;right:-1.5px;bottom:100%;height:8px}
+@media (hover:hover){:is(.home,.webinar) .hdr-dd.is-hover .hdr-dd-panel{display:flex}}
+:is(.home,.webinar) .hdr-dd.is-dismissed .hdr-dd-panel{display:none}
 :is(.home,.webinar) .hdr-dd-panel a,:is(.home,.webinar) .hdr-dd-acc-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;margin:0;padding:0 10px;border:0;background:none;font:inherit;color:inherit;text-align:left;text-decoration:none;cursor:pointer;white-space:nowrap}
 /* пункты дропдауна не должны переноситься на 2 строки — иначе абсолютная ::after-линия .hdr-menu (line 1115) с фиксированным bottom:9px перечёркивает вторую строку */
 @media (hover:hover){:is(.home,.webinar) .hdr-dd-panel a:hover,:is(.home,.webinar) .hdr-dd-acc-btn:hover{color:var(--hdr-hover)}}

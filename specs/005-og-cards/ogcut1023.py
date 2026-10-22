@@ -7,8 +7,9 @@ from PIL import Image, ImageFilter
 from rembg import new_session, remove
 from pymatting import estimate_foreground_ml
 from transformers import SegformerImageProcessor, SegformerForSemanticSegmentation
-SRC = '/srv/work/rm-talks-1023/ogsrc'
-os.chdir('/srv/work/rm-talks-1023'); os.makedirs('ogcut', exist_ok=True)
+WORK = os.environ.get('OGCUT_WORK', '/srv/work/rm-talks-1023')   # рабочая папка на NVR: ogsrc/ — исходники, ogcut/ — выход
+SRC = WORK + '/ogsrc'
+os.chdir(WORK); os.makedirs('ogcut', exist_ok=True)
 JOBS = {  # имя выреза: (исходник, кроп x0,y0,x1,y1 — низ кропа по краю стола/кадра)
     'raspakovka-game-host': ('N14-raspakovka.jpg', (200, 0, 1620, 1790)),
     'rv-n15': ('N15-razvitie-mobile.png', (0, 0, 1330, 1815)),

@@ -5,6 +5,9 @@
    по сетке .xp ниже (1.12fr / .88fr, тот же gap) — правый край фото совпадает с плашкой «20+». */
 .home .vy-band{--vy-ink:#141414;--vy-soft:#4a4a48;--vy-line:rgba(20,20,20,.16);--vy-or:#fe6c1f;--vy-focus:#c2410c;--vy-pad:clamp(16px,4vw,48px)}
 .home .vy2{box-sizing:border-box;padding:clamp(56px,7vw,112px) var(--vy-pad) clamp(48px,6vw,88px);color:var(--vy-ink);position:relative}
+/* переход из пункта шапки «Выступления» (/#vystupleniya): верх секции встаёт под липкую шапку (64 / 60 px ≤1023), а не за неё */
+.home #vystupleniya{scroll-margin-top:64px}
+@media (max-width:1023.98px){.home #vystupleniya{scroll-margin-top:60px}}
 .home .vy2::after{content:"";position:absolute;left:var(--vy-pad);right:var(--vy-pad);bottom:0;height:1px;background:var(--vy-line)}
 .home .vy2-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;margin-bottom:clamp(24px,3vw,44px)}
 .home .vy2 .vy-h{margin:0;font:900 clamp(44px,5vw,80px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;text-transform:uppercase;-webkit-text-stroke:0;color:var(--vy-ink)}
