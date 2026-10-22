@@ -61,7 +61,8 @@
 .home .vy2-nw{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,48px);padding:clamp(24px,3vw,44px);
   background-color:#26282d;background-image:radial-gradient(40% 60% at 100% 0,rgba(254,108,31,.22),rgba(254,108,31,0)),linear-gradient(180deg,#2b2d32,#232529);color:#faf7f2}
 .home .vy2-nw-k{margin:0;font:700 13px/1.2 'Golos Text',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#cfc8be}
-.home .vy2-nw-n{margin:10px 0 0;font:900 min(clamp(48px,5vw,80px),12.5vw)/.86 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.02em}
+/* кегль «50+ нетворкингов» не больше 72: при 80 (≥1600 px) слово выходило за левую колонку полосы на 34 px */
+.home .vy2-nw-n{margin:10px 0 0;font:900 min(clamp(48px,5vw,72px),12.5vw)/.86 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.02em}
 .home .vy2-nw-n em{font-style:normal;color:var(--vy-or)}
 .home .vy2-nw ul{list-style:none;margin:20px 0 0;padding:0}
 .home .vy2-nw li{position:relative;padding:10px 0 10px 18px;border-top:1px solid rgba(250,247,242,.16);font:400 15px/1.45 'Golos Text',sans-serif;color:#e6e1da}
@@ -93,7 +94,8 @@
 @media (max-width:1100px){
   .home .vy2-fresh{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 }
-@media (max-width:760px){
+/* полоса «Нетворкинги» в одну колонку до 900: на 761–900 «НЕТВОРКИНГОВ» не помещалось в левую колонку и уходило под фото */
+@media (max-width:900px){
   .home .vy2-nw{grid-template-columns:minmax(0,1fr)}
   .home .vy2-nw-ph{aspect-ratio:4/3}
 }
