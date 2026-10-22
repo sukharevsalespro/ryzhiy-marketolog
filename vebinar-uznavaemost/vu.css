@@ -11,9 +11,6 @@
 .vux-hosts{margin:10px 0 0;max-width:30em;font:500 clamp(15px,1.1vw,17px)/1.45 'Golos Text',sans-serif;color:var(--nd-mute)}
 .vux-hosts b{font-weight:700;color:var(--nd-ink)}
 /* билет: вторая кнопка — MAX контуром, под ней строка про оплату и подсказка мессенджеров */
-.vux-tk .vux-max{display:flex;justify-content:center;width:calc(100% - 28px);margin:10px 14px 0;box-sizing:border-box}
-.vux-tk .vux-note{justify-content:flex-start;padding-top:12px;font-weight:600;color:var(--nd-ink)}
-.vux-tk .vux-hint{margin:0;padding:0 20px 16px}
 /* «О чём» и «Кому полезно» */
 .vu-about-grid,.vu-who-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:start}
 .vu-about .lpd-lead,.vu-who .lpd-lead{margin:0;max-width:30em}
@@ -47,7 +44,6 @@
 .vux--c .rcx-tk{--nd-glass:rgba(250,247,242,.97);--nd-ink:#111;--nd-mute:#5e5750;--nd-edge:rgba(255,255,255,.85);color:#111;box-shadow:0 22px 60px rgba(0,0,0,.4)}
 .vux--c .rcx-tk .nd-pay{--plate:#111;background:#fe6c1f;color:#111}
 .vux--c .rcx-tk .nd-pay-c{background:#111;color:#faf7f2}
-.vux--c .rcx-tk .vux-max{color:#111;border-color:#111}
 .vux-stage{position:relative;min-height:100%;container-type:inline-size}
 .vux-word{position:absolute;z-index:0;left:0;right:0;top:clamp(14px,4%,48px);margin:0;display:grid;justify-items:end;
   font:900 15.4cqi/.82 Poster,'Golos Text',sans-serif;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:-.02em;white-space:nowrap;user-select:none;
@@ -63,6 +59,10 @@
 .vux-stamp b{position:relative;font:700 clamp(34px,5cqi,52px)/1 Poster,sans-serif;color:#fe6c1f;translate:0 .12em}
 @media (prefers-reduced-motion:no-preference){.vux-stamp svg{animation:vux-spin 22s linear infinite}}
 @keyframes vux-spin{to{rotate:360deg}}
+/* вопросы до оплаты: тихие ссылки под кнопкой оплаты, как «Есть вопросы» на /networking/ (тач-цель 44px из .nw-quiet a) */
+/* глобальный a:not(.pay):hover{underline} подчёркивал кнопку оплаты при наведении */
+.vux-tk a.nd-pay:hover{text-decoration:none}
+.vux-tk .vux-ask{display:flex;flex-wrap:wrap;gap:0 18px;margin:0;padding:0 20px 8px;color:var(--nd-ink)}
 @media (max-width:1100px){
   .vu-page .vux--c{grid-template-columns:minmax(0,1fr);min-height:0;padding:0 var(--vux-pad) clamp(28px,5vw,48px)}
   .vux--c .vux-stage{order:-1;height:calc(22.6vw + 420px);min-height:0;margin:0 calc(-1 * var(--vux-pad));overflow:hidden}
@@ -85,9 +85,6 @@
   .vux--c .rcx-tk .rcx-tk-top{padding:10px 14px 8px}
   .vux--c .rcx-tk .rcx-price{font-size:40px}
   .vux--c .rcx-tk .nd-pay{min-height:48px;margin-top:10px}
-  .vux--c .rcx-tk .vux-max{min-height:44px;margin-top:8px}
-  .vux--c .rcx-tk .vux-note{padding-top:8px;font-size:12px}
-  .vux--c .rcx-tk .vux-hint{display:none}
 }
 @media (max-width:760px){
   .vu-about-grid,.vu-who-grid{grid-template-columns:minmax(0,1fr)}
