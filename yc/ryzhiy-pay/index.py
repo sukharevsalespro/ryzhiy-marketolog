@@ -43,6 +43,12 @@ FIELD_LEN = 300
 # g9cC0N3 «Доступ к вебинару "Личный бренд"», e0cjdjM «Доступ к вебинару "Маркетинг доверия"».
 # ponytail: список в коде; новый товар Валентины = строка сюда + деплой.
 OUR_PRODUCT_MARKERS = ("нетворкинг", "личный бренд", "маркетинг доверия")
+# Точные названия (после схлопывания пробелов и lower), НЕ подстроки: вебинар 29.10
+# (payform.ru/nscR7nB, 1500 ₽) в Продамусе называется просто «услуги маркетолога»
+# (инцидент 22.10.2026: оплата ушла в группу katipa). Слишком общее имя — поэтому
+# только полное совпадение. Держать в синхроне с VALENTINA_PRODUCT_NAMES в
+# clarity-marathon/yc/webhook/index.py.
+OUR_PRODUCT_NAMES = ("услуги маркетолога",)
 
 # Дедуп ПО КАНАЛУ: маркер `<order_id>/<канал>` ставится только после успешной
 # отправки. Любой канал упал → 502, Продамус повторит и дошлёт только в упавший.
@@ -170,8 +176,13 @@ def product_names(data: dict[str, Any]) -> list[str]:
     return [str(p.get("name", "")).strip()[:FIELD_LEN] for p in items if isinstance(p, dict) and p.get("name")]
 
 
+def _is_our_name(name: str) -> bool:
+    norm = " ".join(name.split()).lower()
+    return norm in OUR_PRODUCT_NAMES or any(marker in norm for marker in OUR_PRODUCT_MARKERS)
+
+
 def is_our_product(names: list[str]) -> bool:
-    return any(marker in name.lower() for name in names for marker in OUR_PRODUCT_MARKERS)
+    return any(_is_our_name(name) for name in names)
 
 
 def _parts(data: dict[str, Any], names: list[str]) -> list[str]:

@@ -141,6 +141,24 @@ def test_all_our_products_match() -> None:
     assert not pay.is_our_product(["Вебинар «Распаковка снов»", "тариф «Проводник»"])
 
 
+def test_webinar_2910_exact_name_matches() -> None:
+    # вебинар 29.10 (payform nscR7nB): в Продамусе товар называется «услуги маркетолога»
+    assert pay.is_our_product(["услуги маркетолога"])
+    assert pay.is_our_product(["  Услуги   маркетолога "])
+    # точное совпадение, не подстрока
+    assert not pay.is_our_product(["Услуги маркетолога для katipa"])
+    assert not pay.is_our_product(["маркетолога"])
+
+
+def test_webinar_2910_order_notified() -> None:
+    _reset()
+    fields = {**FIELDS, "order_id": "50000002", "sum": "1500.00", "products[0][name]": "услуги маркетолога",
+              "products[0][price]": "1500.00", "products[0][sum]": "1500.00"}
+    resp, t, m = _run(_event(fields))
+    assert resp["statusCode"] == 200 and t.call_count == 1 and m.call_count == 1
+    assert "услуги маркетолога" in t.call_args[0][0] and "1500.00 ₽" in t.call_args[0][0]
+
+
 def test_non_success_skipped() -> None:
     _reset()
     for status in ("canceled", "denied"):
