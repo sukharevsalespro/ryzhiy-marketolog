@@ -1,88 +1,126 @@
-/* «Выступления» (21.10.2026, ветка talks-2026-10-21): главная и мастер-группа, перед «Маркетинг с опытом».
-   Сетка, отступы и поля секции — как у .xp (about.css): колонки 1.12fr / .88fr, тот же gap и padding, —
-   поэтому фото стоит ровно над графитовой плашкой «20+» и края колонок совпадают.
-   Слева список из трёх прошедших выступлений (порядок — как задал владелец), справа кадр speaker-balloons.
-   Даты прошедшие, поэтому числа приглушены (правило календаря 27.09: прошедшее — серым, рыжий — ближайшее);
-   рыжий остаётся только линейкой 4px над списком (повтор формулы .xp-tags) и маркерами тезисов.
-   Углы прямые, теней нет, разделители волосяные. Префикс vy- (.tk-* уже занят билетом-формой в home-blocks.css). */
-.home .vy-band{--vy-ink:#141414;--vy-soft:#4a4a48;--vy-line:rgba(20,20,20,.16);--vy-or:#fe6c1f;--vy-focus:#c2410c}
-.home .vy-band>.vy{position:relative;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
-  grid-template-rows:auto 1fr;grid-template-areas:"head photo" "list photo";column-gap:clamp(32px,4vw,64px);
-  padding:clamp(56px,7vw,112px) clamp(16px,4vw,48px) clamp(40px,5vw,80px);color:var(--vy-ink);container-type:inline-size}
-/* стык со «Маркетинг с опытом» (та же кремовая полоса): волосяная линия ровно по краям контента */
-.home .vy-band>.vy::after{content:"";position:absolute;left:clamp(16px,4vw,48px);right:clamp(16px,4vw,48px);bottom:0;height:1px;
-  background:var(--vy-line);pointer-events:none}
+/* «Выступления» v2 (перенос одобренного макета specs/talks-mock, 23.10.2026; главная и мастер-группа, перед «Маркетинг с опытом»):
+   шапка с числом → темы → три свежих крупно → лента по годам + большое фото → полоса «Нетворкинги».
+   Токены — крем, графит, рыжий только акцентом; углы прямые, теней нет. Фото — оригиналы, только кроп.
+   Отличие от макета: лента по годам стоит в одной колонке, справа от неё слот большого фото (.vy2-photo)
+   по сетке .xp ниже (1.12fr / .88fr, тот же gap) — правый край фото совпадает с плашкой «20+». */
+.home .vy-band{--vy-ink:#141414;--vy-soft:#4a4a48;--vy-line:rgba(20,20,20,.16);--vy-or:#fe6c1f;--vy-focus:#c2410c;--vy-pad:clamp(16px,4vw,48px)}
+.home .vy2{box-sizing:border-box;padding:clamp(56px,7vw,112px) var(--vy-pad) clamp(48px,6vw,88px);color:var(--vy-ink);position:relative}
+.home .vy2::after{content:"";position:absolute;left:var(--vy-pad);right:var(--vy-pad);bottom:0;height:1px;background:var(--vy-line)}
+.home .vy2-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;margin-bottom:clamp(24px,3vw,44px)}
+.home .vy2 .vy-h{margin:0;font:900 clamp(44px,5vw,80px)/.9 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.02em;text-transform:uppercase;-webkit-text-stroke:0;color:var(--vy-ink)}
+.home .vy2-count{margin:0;display:flex;align-items:baseline;gap:12px;font:600 16px/1.3 'Golos Text',sans-serif;color:var(--vy-soft)}
+.home .vy2-count b{font:900 clamp(48px,4.6vw,72px)/.8 Poster,sans-serif;font-stretch:75%;color:var(--vy-ink);letter-spacing:-.03em}
+.home .vy2-count span{max-width:16em}
 
-.home .vy-h{grid-area:head;margin:0 0 clamp(24px,2.8vw,40px);font:900 clamp(44px,5vw,80px)/.9 Poster,'Golos Text',sans-serif;
-  font-stretch:75%;letter-spacing:-.02em;text-transform:uppercase;color:var(--vy-ink);-webkit-text-stroke:0}
+/* свежие: 4 карточки в ряд, фото 9:8 сверху, дата меткой над площадкой */
+.home .vy2-fresh{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,36px)}
+.home .vy2-card{position:relative;display:flex;flex-direction:column;border-top:4px solid var(--vy-or);padding-top:14px}
+.home .vy2-card figure{order:-2;margin:0 0 14px;aspect-ratio:9/8;overflow:hidden;background:#e7e2da}
+.home .vy2-card img{width:100%;height:100%;object-fit:cover;display:block}
+.home .vy2-date{order:-1;margin:0 0 10px;font:700 13px/1.2 'Golos Text',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--vy-soft)}
+.home .vy2-card h3{margin:0;font:900 clamp(22px,1.9vw,28px)/1.02 Poster,'Golos Text',sans-serif;font-stretch:75%;text-transform:uppercase;-webkit-text-stroke:0;color:var(--vy-ink);overflow-wrap:break-word;hyphens:manual}
+.home .vy2-topic{margin:8px 0 0;font:600 15px/1.4 'Golos Text',sans-serif;color:var(--vy-ink)}
+.home .vy2-q{margin:12px 0 0;padding-left:14px;border-left:2px solid var(--vy-or);font:400 15px/1.45 'Golos Text',sans-serif;color:var(--vy-soft)}
+/* метка роли — своей строкой под площадкой: при переносе длинного названия inline-метка вставала с отступом 8px от края */
+.home .vy2-tag{display:table;margin:8px 0 0;padding:2px 6px;border:1px solid var(--vy-line);font:600 11px/1.2 'Golos Text',sans-serif;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;color:var(--vy-soft)}
+.home a.vy2-link,.home a.vy2-link:hover{text-decoration:none}
+.home .vy2-link{align-self:flex-start;margin-top:auto;padding:12px 0;min-height:44px;box-sizing:border-box;color:var(--vy-ink);font:600 15px/20px 'Golos Text',sans-serif;
+  background:linear-gradient(currentColor,currentColor) 0 calc(100% - 7px)/100% 1px no-repeat}
+.home .vy2-card .vy2-q+.vy2-link,.home .vy2-card .vy2-topic+.vy2-link{margin-top:auto}
+.home .vy2-card>.vy2-link{margin-top:auto;padding-top:16px}
+@media (hover:hover) and (pointer:fine){.home .vy2-link:hover{background-image:linear-gradient(var(--vy-or),var(--vy-or));background-size:100% 2px}}
+.home .vy2-link:active{color:var(--vy-soft)}
+.home .vy2-link:focus-visible{outline:2px solid var(--vy-focus);outline-offset:3px}
 
-/* фото: один и тот же квадратный кадр на всех ширинах — героиня и шары целиком (единственная примета события).
-   Окно кадра — x 300…1100 из 1200: табличка «Служебное помещение» в исходнике кончается на x≈290.
-   Квадрат короче списка, поэтому кадр липкий: едет внутри своей области сетки и встаёт на низ списка. */
-.home .vy-photo{grid-area:photo;align-self:start;position:sticky;top:96px;margin:0;aspect-ratio:1/1;overflow:hidden;background:#e7e2da}
-.home .vy-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:76% 40%;display:block}
+/* лента по годам: три колонки, строка «дата · площадка — тема · ссылка» */
+.home .vy2-years{display:grid;grid-template-columns:minmax(0,1fr);gap:36px;align-items:start}
+.home .vy2-year h3{margin:0 0 4px;padding-bottom:10px;border-bottom:1px solid var(--vy-ink);font:900 clamp(28px,2.6vw,40px)/1 Poster,sans-serif;font-stretch:75%;-webkit-text-stroke:0;color:var(--vy-ink)}
+.home .vy2-year ol{list-style:none;margin:0;padding:0}
+.home .vy2-row{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 0;border-bottom:1px solid var(--vy-line)}
+.home .vy2-row.has-th{grid-template-columns:48px minmax(0,1fr) auto}
+.home .vy2-th{grid-row:1/span 2;width:48px;height:48px;object-fit:cover;display:block;background:#e7e2da}
+.home .vy2-rd{grid-row:1;margin:0 0 2px;font:700 12px/1.3 'Golos Text',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--vy-soft)}
+.home .vy2-rt{grid-row:2;margin:0;grid-column:1;font:600 15px/1.35 'Golos Text',sans-serif;color:var(--vy-ink)}
+.home .vy2-row.has-th .vy2-rt,.home .vy2-row.has-th .vy2-rd{grid-column:2}
+.home .vy2-rt span{font-weight:400;color:var(--vy-soft)}
+.home a.vy2-rl{grid-column:-2;grid-row:1/span 2;align-self:center;display:inline-flex;align-items:center;min-height:44px;padding:0 0 0 8px;color:var(--vy-ink);text-decoration:none;white-space:nowrap;font:600 13px/1 'Golos Text',sans-serif;letter-spacing:.02em}
+@media (hover:hover) and (pointer:fine){.home a.vy2-rl:hover{color:var(--vy-focus);text-decoration:none}}
+.home a.vy2-rl:active{color:var(--vy-soft)}
+.home a.vy2-rl:focus-visible{outline:2px solid var(--vy-focus);outline-offset:-4px}
+.home .vy2-sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* список */
-.home .vy-list{grid-area:list;list-style:none;margin:0;padding:0;align-self:start}
-.home .vy-item{margin:0;padding:0}
-/* в DOM дата идёт после h3 (навигация скринридера по заголовкам попадает на площадку), на место её ставит сетка */
-.home .vy-card{display:grid;grid-template-columns:clamp(72px,6.4vw,96px) minmax(0,1fr);gap:0 clamp(16px,2vw,28px);
-  padding:clamp(20px,2.2vw,28px) 0;border-top:1px solid var(--vy-line)}
-.home .vy-body{display:contents}
-.home .vy-body>*{grid-column:2}
-.home .vy-card>.vy-body>.vy-date{grid-column:1;grid-row:1/span 9}
-.home .vy-item:first-child .vy-card{border-top:4px solid var(--vy-or)}
-.home .vy-date{margin:0;padding-top:2px}
-.home .vy-date time{display:flex;flex-direction:column;align-items:flex-start}
-.home .vy-date b{display:block;font:900 clamp(44px,4vw,60px)/.8 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.04em;
-  font-variant-numeric:tabular-nums;white-space:nowrap;-webkit-text-stroke:0;color:var(--vy-soft)}
-.home .vy-date span{display:block;margin-top:8px;font:600 14px/1.3 'Golos Text',sans-serif;color:var(--vy-soft)}
-.home .vy-date span i{display:block;font-style:normal}
-.home .vy-venue{margin:0;font:900 clamp(24px,2.3vw,32px)/1.02 Poster,'Golos Text',sans-serif;font-stretch:75%;letter-spacing:-.01em;
-  text-transform:uppercase;color:var(--vy-ink);-webkit-text-stroke:0;overflow-wrap:break-word;hyphens:auto}
-/* одна анатомия у всех трёх: площадка → формат и место (серым) → роль или тема (чёрным полужирным) → ссылка */
-.home .vy-org{margin:8px 0 0;max-width:36em;font:400 15px/1.4 'Golos Text',sans-serif;color:var(--vy-soft)}
-.home .vy-org+.vy-org{margin-top:2px}
-.home .vy-topic{margin:12px 0 0;max-width:34em;font:600 clamp(16px,1.25vw,18px)/1.4 'Golos Text',sans-serif;color:var(--vy-ink)}
-.home .vy-points{list-style:none;margin:10px 0 0;padding:0;max-width:36em}
-.home .vy-points li{position:relative;margin:6px 0 0;padding-left:18px;font:400 15px/1.45 'Golos Text',sans-serif;color:var(--vy-soft)}
-.home .vy-points li::before{content:"";position:absolute;left:0;top:.68em;width:8px;height:2px;background:var(--vy-or)}
-.home .vy-role{margin:6px 0 0;font:600 15px/1.4 'Golos Text',sans-serif;color:var(--vy-ink)}
-/* ссылка — как .xp-more по виду; линия нарисована фоном, чтобы шла одной чертой под текстом и стрелкой ↗ */
-.home a.vy-link,.home a.vy-link:hover{text-decoration:none}
-.home .vy-link{justify-self:start;display:inline-block;box-sizing:border-box;min-height:44px;padding:12px 0;margin-top:6px;color:var(--vy-ink);
-  font:600 15px/20px 'Golos Text',sans-serif;text-decoration:none;
-  background:linear-gradient(currentColor,currentColor) 0 calc(100% - 7px)/100% 1px no-repeat;transition:color .2s ease}
-@media (hover:hover) and (pointer:fine){.home .vy-link:hover{background-image:linear-gradient(var(--vy-or),var(--vy-or));background-size:100% 2px}}
-.home .vy-link:active{color:var(--vy-soft)}
-.home .vy-link:focus-visible{outline:2px solid var(--vy-focus);outline-offset:3px}
-.home .vy-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* лента по годам + большое фото: сетка как у .xp (about.css) — колонки 1.12fr / .88fr, тот же gap.
+   Фото — СЛОТ под замену одной картинкой: один <img> в .vy2-photo; квадратное окно, точка кадра — --vy-pos.
+   Квадрат короче ленты, поэтому кадр липкий (sticky) и встаёт на низ ленты, не заходя на полосу «Нетворкинги». */
+.home .vy2-split{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+  column-gap:clamp(32px,4vw,64px);align-items:start}
+.home .vy2-photo{position:sticky;top:96px;margin:0;aspect-ratio:1/1;overflow:hidden;background:#e7e2da}
+.home .vy2-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--vy-pos,50% 50%);display:block}
 
-/* планшет 701–1023: две колонки, как на десктопе (одна колонка давала дыру ~200px справа от квадратного фото) */
-@media (max-width:1023px){
-  .home .vy-card{grid-template-columns:64px minmax(0,1fr);gap:0 16px}
+/* полоса «Нетворкинги»: графит, слева цифра и факты, справа три кадра */
+.home .vy2-nw{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,48px);padding:clamp(24px,3vw,44px);
+  background-color:#26282d;background-image:radial-gradient(40% 60% at 100% 0,rgba(254,108,31,.22),rgba(254,108,31,0)),linear-gradient(180deg,#2b2d32,#232529);color:#faf7f2}
+.home .vy2-nw-k{margin:0;font:700 13px/1.2 'Golos Text',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#cfc8be}
+.home .vy2-nw-n{margin:10px 0 0;font:900 min(clamp(48px,5vw,80px),12.5vw)/.86 Poster,sans-serif;font-stretch:75%;text-transform:uppercase;letter-spacing:-.02em}
+.home .vy2-nw-n em{font-style:normal;color:var(--vy-or)}
+.home .vy2-nw ul{list-style:none;margin:20px 0 0;padding:0}
+.home .vy2-nw li{position:relative;padding:10px 0 10px 18px;border-top:1px solid rgba(250,247,242,.16);font:400 15px/1.45 'Golos Text',sans-serif;color:#e6e1da}
+.home .vy2-nw li b{font-weight:600;color:#faf7f2}
+.home .vy2-nw li::before{content:"";position:absolute;left:0;top:1.25em;width:8px;height:2px;background:var(--vy-or)}
+.home .vy2-nw .vy2-btn{display:inline-flex;align-items:center;gap:12px;margin-top:22px;min-height:48px;padding:0 20px;background:var(--vy-or);color:#111;text-decoration:none;font:600 16px/1 'Golos Text',sans-serif}
+@media (hover:hover) and (pointer:fine){.home .vy2-nw .vy2-btn:hover{background:#ff7d36;text-decoration:none}}
+.home .vy2-nw .vy2-btn{transition:background-color .15s ease,transform .16s cubic-bezier(.23,1,.32,1)}
+.home .vy2-nw .vy2-btn:active{transform:scale(.97)}
+.home .vy2-nw .vy2-btn:focus-visible{outline:2px solid #faf7f2;outline-offset:3px}
+.home .vy2-nw-ph{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:10px;min-height:100%}
+.home .vy2-nw-ph figure{margin:0;overflow:hidden;background:#303237}
+.home .vy2-nw-ph figure:first-child{grid-row:1/span 2}
+.home .vy2-nw-ph img{width:100%;height:100%;object-fit:cover;display:block}
+
+
+/* темы выступлений (из резюме спикера): тихая строка-облако под шапкой, не кнопки */
+.home .vy2-topics{list-style:none;margin:-12px 0 clamp(28px,3vw,44px);padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.home .vy2-topics li{padding:6px 12px;border:1px solid var(--vy-line);font:500 14px/1.25 'Golos Text',sans-serif;color:var(--vy-soft)}
+.home .vy2-more{grid-column:1/-1;margin:0;padding-top:4px;font:400 15px/1.45 'Golos Text',sans-serif;color:var(--vy-soft)}
+.home .vy2-more a{display:inline-flex;align-items:center;min-height:44px;color:var(--vy-ink);font-weight:600;text-underline-offset:3px}
+.home .vy2-more a:focus-visible{outline:2px solid var(--vy-focus);outline-offset:2px}
+.home .vy2-nw-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin-top:22px}
+.home .vy2-nw .vy2-nw-acts .vy2-btn{margin-top:0}
+.home .vy2-nw-v{display:inline-flex;align-items:center;min-height:44px;color:#faf7f2;font:600 15px/1 'Golos Text',sans-serif;text-underline-offset:4px}
+@media (hover:hover) and (pointer:fine){.home .vy2-nw-v:hover{color:var(--vy-or)}}
+.home .vy2-nw-v:active{color:#cfc8be}
+.home .vy2-nw-v:focus-visible{outline:2px solid #faf7f2;outline-offset:3px}
+@media (max-width:1100px){
+  .home .vy2-fresh{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 }
-/* телефон: заголовок → фото → список. Кадр квадратный: при кадре шире 9:8 в него попадает табличка */
+@media (max-width:760px){
+  .home .vy2-nw{grid-template-columns:minmax(0,1fr)}
+  .home .vy2-nw-ph{aspect-ratio:4/3}
+}
 @media (max-width:700px){
-  .home .vy-band>.vy{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"head" "photo" "list";
-    padding:48px 20px 32px}
-  .home .vy-band>.vy::after{left:20px;right:20px}
-  .home .vy-h{font-size:clamp(40px,12vw,56px)}
-  .home .vy-photo{position:relative;top:auto;margin-bottom:20px}
+  /* темы на телефоне — одна строка со свайпом, а не 12 строк столбиком */
+  .home .vy2-topics{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:-8px -20px 24px;padding:0 20px;scroll-padding-inline:20px}
+  .home .vy2-topics::-webkit-scrollbar{display:none}
+  .home .vy2-topics li{flex:0 0 auto;white-space:nowrap;font-size:13px;padding:5px 10px}
+  .home .vy2{padding:48px 20px 32px}
+  .home .vy2::after{left:20px;right:20px}
+  .home .vy2 .vy-h{font-size:clamp(40px,12vw,56px)}
+  /* телефон: свежие — лента со свайпом (как карусель отзывов): карточка целиком с полями 16px, соседняя выглядывает на 10 % */
+  .home .vy2-fresh{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc(100vw - 16px - 12px - 10vw);gap:12px;
+    overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -20px;padding:0 16px 6px;scroll-padding-inline:16px}
+  .home .vy2-fresh::-webkit-scrollbar{display:none}
+  .home .vy2-card{scroll-snap-align:start;scroll-snap-stop:always}
+  .home .vy2-nw{margin-inline:-20px;padding:28px 20px}
+  /* телефон: фото над лентой по годам, не липкое */
+  .home .vy2-split{grid-template-columns:minmax(0,1fr)}
+  .home .vy2-photo{order:-1;position:relative;top:auto;margin-bottom:28px}
 }
-/* узкое окно и зум 200% на телефоне: дата строкой над текстом, иначе колонке текста остаётся ~75px */
-@media (max-width:300px){
-  .home .vy-card{grid-template-columns:minmax(0,1fr)}
-  .home .vy-card>.vy-body>*{grid-column:1}
-  .home .vy-card>.vy-body>.vy-date{grid-row:auto;margin:8px 0 4px}
-  .home .vy-date time{flex-direction:row;align-items:baseline;gap:10px}
-  .home .vy-date span{margin-top:0}
-}
-@media (prefers-reduced-motion:reduce){.home .vy-link{transition:none}}
 
-/* тёмная тема: полоса и токены — как у .xp-band в тёмной (about.css) */
 @media (prefers-color-scheme:dark){
   .home .page-band.vy-band{background-color:var(--nb-graphite,#26282d);background-image:var(--nb-noise,none),linear-gradient(180deg,#2b2d32,#232529)}
   .home .vy-band{--vy-ink:#faf7f2;--vy-soft:#cfc8be;--vy-line:rgba(250,247,242,.16);--vy-focus:#fe6c1f}
-  .home .vy-photo{background:#303237}
+  .home .vy2-card figure,.home .vy2-th,.home .vy2-photo{background:#303237}
+  .home .vy2-nw{background-color:#1c1d21;background-image:radial-gradient(40% 60% at 100% 0,rgba(254,108,31,.22),rgba(254,108,31,0));border:1px solid rgba(250,247,242,.1)}
 }
+
+@media (prefers-reduced-motion:reduce){.home .vy2-nw .vy2-btn{transition:none}.home .vy2-nw .vy2-btn:active{transform:none}}
