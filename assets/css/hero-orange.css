@@ -152,3 +152,32 @@
   .ph-orange :is(.phero-copy,.ph-glass),.ph-v2 .phero-copy{background:rgba(58,19,6,.94)}
   .phero-stamp{background:rgba(35,37,41,.94)}
 }
+
+/* ---------- фигура целиком: от макушки до ботинок и сумки (правка владельца 23.10:
+   «должно умещаться всё фото, без ног и сумки теряется композиция») ----------
+   Вырез suit 1600×2152: фигура в нём x 428–1311, y 23–1576 (bbox альфы), высота/ширина 1.7588.
+   Размер картинки считается от высоты фигуры --fig-h: подошвы ровно на нижней кромке зоны
+   (над полосой цифр, без растворения), макушка не выше --fig-t от верха зоны.
+   По ширине фигура входит в просвет между левым краем плиты и рукописью (--fig-l … --fig-r)
+   и стоит по его центру — рукопись и штамп не ложатся на ботинки и сумку.
+   Только ≥701px: на ≤700 грузится телефонный кадр suit-m (по колено), его раскладка прежняя. */
+@media (min-width:701px){
+  .ph-orange .phero-cut--b{
+    container-type:size;--fig-t:16px;--fig-gap:8px;
+    --fig-h:min(100cqh - var(--fig-t),(var(--fig-r) - var(--fig-l) - 2 * var(--fig-gap)) * 1.7588)
+  }
+  .ph-orange .phero-cut--b img{
+    top:auto;width:auto;
+    height:calc(var(--fig-h) * 1.385705);
+    bottom:calc(var(--fig-h) * -.370893);
+    left:calc((var(--fig-l) + var(--fig-r)) / 2 - var(--fig-h) * .559888)
+  }
+}
+/* ПК: слева — край плиты (18% зоны), справа — левый край рукописи (right:10px, ширина clamp(104px,9.4vw,150px)) */
+@media (min-width:901px){
+  .ph-orange .phero-cut--b{--fig-l:18cqw;--fig-r:calc(100cqw - 10px - clamp(104px,9.4vw,150px))}
+}
+/* 701–900: плита во всю ширину, рукопись в левом нижнем углу, штамп в правом */
+@media (min-width:701px) and (max-width:900px){
+  .ph-orange .phero-cut--b{--fig-t:12px;--fig-l:calc(8px + clamp(80px,24vw,106px));--fig-r:calc(100cqw - 110px)}
+}
