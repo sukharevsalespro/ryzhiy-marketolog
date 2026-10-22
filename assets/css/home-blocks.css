@@ -12,11 +12,15 @@
 .bn-num{font:900 condensed 58rem/.8 Poster,sans-serif;letter-spacing:-.05em;color:var(--nb-orange)}
 .bn-item h3{margin-top:8rem;font:700 condensed 17rem/1 Poster,sans-serif;letter-spacing:-.03em;text-wrap:balance}
 .bn-line{margin-top:5rem;font-size:8.5rem;line-height:1.4;color:#000;text-wrap:pretty}
-.bn-proof{margin:10rem 0 0;align-self:stretch;display:flex;flex-direction:column;gap:6rem;padding:9rem 10rem 10rem;background:var(--nb-graphite) var(--nb-noise);color:var(--nb-cream);transition:translate .25s var(--md-ease,ease),box-shadow .25s var(--md-ease,ease)}
-.bn-item:hover .bn-proof{translate:0 -3rem;box-shadow:0 3rem 0 var(--nb-orange)}
+.bn-proof{margin:10rem 0 0;align-self:stretch;display:flex;flex-direction:column;gap:6rem;padding:9rem 10rem 10rem;background:var(--nb-graphite) var(--nb-noise);color:var(--nb-cream);transition:box-shadow .2s var(--md-ease,ease)}
+/* наведение: только рыжая черта снизу, без подъёма — подъём одной плашки ломал ровный ряд (возврат 22.10) */
+@media (hover:hover) and (pointer:fine){.bn-item:hover .bn-proof{box-shadow:0 3rem 0 var(--nb-orange)}}
 .bn-fig{font:400 condensed 10rem/1.15 Poster,sans-serif;letter-spacing:.01em;color:var(--nb-muted-d)}
 .bn-fig b{display:block;font-weight:900;font-size:21rem;line-height:.9;letter-spacing:-.03em;color:var(--nb-orange-soft)}
-.bn-proof{justify-content:flex-end}
+/* плашки одной высоты (subgrid), содержимое у всех начинается сверху: цифра или сразу цитата, подпись прижата к низу.
+   Раньше flex-end оставлял пустоту сверху у карточек без цифры (02, 03). */
+.bn-proof{justify-content:flex-start}
+.bn-proof figcaption{margin-top:auto}
 .bn-proof blockquote{margin:0}
 .bn-proof blockquote p{font-size:8.5rem;line-height:1.4;text-wrap:pretty}
 .bn-proof figcaption{display:grid;gap:1rem;padding-top:6rem;border-top:1px solid rgba(255,255,255,.14);font-size:7rem;line-height:1.3}
@@ -125,7 +129,7 @@
   .bn-item h3{margin-top:var(--s1);font-size:26px}
   .bn-line{margin-top:8px;font-size:16px}
   .bn-proof{margin-top:var(--s2);gap:10px;padding:16px 18px 18px}
-  .bn-item:hover .bn-proof{translate:0 -3px;box-shadow:0 3px 0 var(--nb-orange)}
+  @media (hover:hover) and (pointer:fine){.bn-item:hover .bn-proof{box-shadow:0 3px 0 var(--nb-orange)}}
   .bn-fig{font-size:15px}.bn-fig b{font-size:34px}
   .bn-proof blockquote p{font-size:16px}
   .bn-proof figcaption{padding-top:10px;font-size:13px}
