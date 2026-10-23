@@ -431,7 +431,11 @@
    (диск с замком = запись закрыта до оплаты, шкала из глав). Медиа разное: у «Личного бренда» — фото во весь экран
    (portrait-mic с дорисованным фоном, каркас .lpx), у «Маркетинга доверия» — афиша эфира как вертикальное видео. */
 .rcx{--fx-at:calc(50vw + min(20vw,330px))}
-.rcx--lb{--ar:3.9941;--fx:.5901}   /* zb-wide: 8180×2048, центр лица x≈4827 */
+/* «Личный бренд», кадр Z5 (23.10): zb-z5-wide 3168×1344 (21:9), сцена конференции. Валентина слева: левый край пиджака .125, лицо .2–.29,
+   волосы с .065 по высоте, рука с пультом до .396 (y .76–.92); правее — экран и зал, там колонка. Левый край пиджака встаёт у левого поля */
+.rcx--lb{--ar:2.3571;--fx:.125;--fx-at:clamp(16px,2.2vw,44px)}
+/* почти квадратные десктопы (1280×1000): кадр во всю высоту окна оставил бы колонке ~480px правее руки — первый экран ниже окна, как у «Развития» */
+.rcx--lb{--hh:max(640px,min(100svh - 64px,100vw * .58))}
 .rcx .lpx-in{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;align-items:center;row-gap:clamp(16px,2vw,28px)}
 .rcx-col{width:min(620px,46%);display:flex;flex-direction:column;align-items:flex-start}
 .rcx .nd-back{margin-bottom:clamp(6px,1vh,16px)}
@@ -480,13 +484,34 @@
 
 /* «Личный бренд»: фото высокого ключа (белая стена). Светлая — без подложки, стена сама даёт контраст;
    тёмная — кадр приглушён, слева под колонкой графит (без белой «дыры» во весь экран) */
-.rcx--lb .lpx-ph{background:#e9eee9}
-@media (prefers-color-scheme:dark){
-  .rcx--lb .lpx-ph{background:#1c1d20}
-  /* без общей вуали: фото почти как в светлой (−8%), графит только слева под колонкой и гаснет к середине, до человека */
-  .rcx--lb .lpx-ph img{filter:brightness(.92)}
-  .rcx--lb .lpx-ph::after{background:linear-gradient(90deg,rgba(28,29,33,.92) 0,rgba(28,29,33,.86) calc(50vw - 150px),rgba(28,29,33,.5) calc(50vw - 70px),rgba(28,29,33,.14) calc(50vw + 20px),rgba(28,29,33,0) calc(50vw + 100px))}
-}
+/* зона текста: левый край .45 кадра (правее руки с пультом; вуаль к нему уже набрала плотность), правый — поле контейнера шапки */
+.rcx--lb{--lb-w:min(100vw,var(--page-max,1320px));--lb-x:calc(var(--il) + var(--iw) * .45);--lb-r:calc(50vw + var(--lb-w) / 2 - var(--nd-pad));
+  --lb-cw:min(100vw - var(--nd-pad) - var(--lb-x),clamp(440px,var(--lb-r) - var(--lb-x),680px));--lb-ml:calc(var(--lb-x) - (50vw - var(--lb-w) / 2 + var(--nd-pad)))}
+@media (min-aspect-ratio:2/1) and (min-width:1101px){.rcx--lb{--lb-w:min(100vw,1600px)}}
+@media (min-aspect-ratio:2/1) and (min-height:1200px){.rcx--lb{--lb-w:min(100vw,2000px);--lb-cw:min(100vw - var(--nd-pad) - var(--lb-x),clamp(440px,var(--lb-r) - var(--lb-x),960px))}}   /* «ВАШ ЛИЧНЫЙ» при 151px — 906px: в 860 строка ломалась на три */
+/* колонка по центру высоты, а если не влезает — от верха (safe): строка «← На главную» и подпись справа никогда не съезжают друг на друга */
+.rcx--lb .rcx-col{width:var(--lb-cw);margin-left:var(--lb-ml);align-self:safe center}
+/* полоса плеера — под колонкой до правого поля, не через пиджак и руку с пультом */
+.rcx--lb .rcx-bar{justify-self:start;width:calc(var(--lb-r) - var(--lb-x));margin-left:var(--lb-ml)}
+/* полоса уже прежней: главы по ширине своих подписей, а не поровну — «Позиционирование» и «Дисциплина» без многоточия */
+.rcx--lb .rcx-track li{flex:1 1 auto}
+/* ширина полосы зависит и от высоты окна (кадр шире), поэтому подписи подгоняются по самой полосе: уже 720 (по содержимому, без полей) — плотнее трекинг,
+   уже 590 — кегль 12 и без знаков «×» (формула целиком в aria-label полосы) */
+.rcx--lb .rcx-bar{container-type:inline-size}
+@container (max-width:719px){.rcx--lb .rcx-track span{letter-spacing:.04em}}
+@container (max-width:589px){.rcx--lb .rcx-track span{font-size:12px}.rcx--lb .rcx-track span b{display:none}}
+/* низкий первый экран (окно до 800 по высоте или до 1279 по ширине — кадр ≤742): колонка не помещается над полосой — ссылка «На главную» скрыта, домой ведёт имя в шапке (как на планшетах) */
+@media (min-width:1101px) and (min-aspect-ratio:5/4) and (max-height:800px),(min-width:1101px) and (max-width:1279px) and (min-aspect-ratio:5/4){.rcx--lb .nd-back{display:none}
+  .rcx--lb .rcx-who{display:flex;gap:0 8px;white-space:nowrap}}   /* подпись одной строкой в ряд с «ПРАКТИЧЕСКИЙ ВЕБИНАР», выше заголовка */
+/* экран шире 21:9: кадр растянут по ширине — режем снизу (зал), сверху не больше 5% высоты кадра: волосы с .065 целиком */
+.rcx--lb .lpx-ph img{bottom:auto;top:calc(-1 * min(max(var(--iw) / var(--ar) - var(--hh), 0px), var(--iw) / var(--ar) * .05))}
+/* вуаль под колонкой: фон страницы (крем / графит), от нуля правее пульта (.40) до рабочей плотности до начала текста (.44);
+   лицо и руки без вуали и без фильтров в обеих темах */
+.rcx--lb{--lb-veil:var(--nd-bg);--lb-v1:62%;--lb-v2:70%}
+@media (prefers-color-scheme:dark){.rcx--lb{--lb-v1:84%;--lb-v2:88%}}
+.rcx--lb .lpx-ph{background:var(--nd-bg)}
+.rcx--lb .lpx-ph::after{background:linear-gradient(90deg,color-mix(in srgb,var(--lb-veil) 0%,transparent) calc(var(--il) + var(--iw) * .40),
+  color-mix(in srgb,var(--lb-veil) var(--lb-v1),transparent) calc(var(--il) + var(--iw) * .44),color-mix(in srgb,var(--lb-veil) var(--lb-v2),transparent) 100%)}
 
 /* «Маркетинг доверия»: полоса страницы (крем / графит), афиша — вертикальное видео справа, за ней тлеющее сияние */
 .rcx--md{--pw:calc((var(--hh) - var(--pw-rest,250px)) * .5626)}   /* ширина афиши от высоты кадра: 1200×2133 */
@@ -521,11 +546,14 @@
   .rcx .lpx-in{display:block}
   .rcx-col{width:100%}
   .rcx-bar{display:none}
-  .rcx--lb{--ph:min(96vw,42svh)}
-  .rcx--lb .lpx-in{margin-top:-48px}
+  .rcx--lb{--ph:min(96vw,42svh - 48px)}   /* текст больше не заходит на фото (было −48px): высоту кадра уменьшили на столько же, оплата на прежнем месте */
+  .rcx--lb .lpx-in{margin-top:0;padding-top:4px}
   .rcx--lb .lpx-ph{height:var(--ph)}
+  .rcx--lb .rcx-col,.rcx--lb .rcx-bar{width:100%;margin-left:0}
+  /* низ кадра не растворяется и сверху нет затемнения: фото режется ровной кромкой */
+  .rcx--lb .lpx-ph::after{content:none!important;background:none!important}
   .rcx--lb .nd-back{position:static;margin:0 0 4px;color:var(--nd-ink);text-shadow:none;text-decoration-color:color-mix(in srgb,var(--nd-ink) 35%,transparent)}   /* не на фото: на узком кадре ссылка ложилась на лицо */
-  .rcx--lb .lpx-ph img{object-position:50% 16%}
+  .rcx--lb .lpx-ph img{object-position:50% 9%}   /* zb-z5-m 2:3: волосы с .09, кулак с микрофоном до .56 — в кадре 390×306 видно .045–.57 */
   .rcx-h1{font-size:clamp(46px,12.6vw,72px)}
   .rcx .nd-lead{font-size:16px}
   .rcx-tk{max-width:none}
@@ -549,10 +577,11 @@
 }
 /* планшеты (701…1100): фото ниже, иначе цена и оплата «Личного бренда» уходят под сгиб на 1024×768 */
 @media (min-width:701px) and (max-width:1100px),(min-width:701px) and (max-aspect-ratio:5/4){.rcx--lb{--ph:min(60vw,34svh)}}
-/* планшет в альбомной: широкий кадр (zb-wide) полосой во всю ширину — человек целиком, а не узкий портрет по центру */
-@media (min-width:701px) and (max-width:1100px) and (min-aspect-ratio:5/4){.rcx-tk{max-width:560px}.rcx--lb .lpx-ph{width:100%}.rcx--lb .lpx-ph img{object-position:59% 50%}}
-/* планшет в альбомной: широкий кадр (zb-wide) во всю ширину полосой — человек целиком, а не узкий портрет по центру */
-@media (min-width:701px) and (max-width:1100px) and (min-aspect-ratio:5/4){.rcx-tk{max-width:560px}.rcx--lb .lpx-ph{width:100%}.rcx--lb .lpx-ph img{object-position:59% 50%}}
+/* планшет в альбомной: широкий кадр полосой во всю ширину — человек целиком, а не узкий портрет по центру */
+@media (min-width:701px) and (max-width:1100px) and (min-aspect-ratio:5/4){.rcx-tk{max-width:560px}}
+/* планшеты 701…1100 в любой ориентации: кадр Z5 21:9 полосой во всю ширину; в портретной полоса ≈2.2:1 — кадр почти целиком,
+   в альбомной ≈4:1 — режется снизу, сверху держим волосы (.065) */
+@media (min-width:701px) and (max-width:1100px){.rcx--lb .lpx-ph{width:100%}.rcx--lb .lpx-ph img{object-position:25% 3%}}
 /* планшеты (701…1100): билет в левой колонке рядом с афишей — цена и оплата не уходят под сгиб */
 @media (min-width:701px) and (max-width:1100px),(min-width:701px) and (max-aspect-ratio:5/4){
   .rcx--md .lpx-in{grid-template-columns:minmax(0,1fr) min(36%,300px);column-gap:32px}
@@ -621,7 +650,8 @@
 /* подпись к фото «Личного бренда» (была figcaption старого первого экрана): на десктопе — у края кадра справа сверху, на стене */
 .rcx-who{position:absolute;top:clamp(16px,2.4vw,40px);right:var(--nd-pad);margin:0;display:grid;justify-items:end;gap:2px;font:600 14px/1.3 'Golos Text',sans-serif;color:var(--lp-ink)}
 .rcx-who span+span{font-weight:500;color:var(--lp-mute)}
-@media (prefers-color-scheme:dark){.rcx--lb .rcx-who{color:#111;--lp-mute:#3d3a36}}   /* в тёмной справа фото без затемнения — подпись тёмная на светлой стене */
+/* «Личный бренд»: подпись в строке «← На главную», по правому краю колонки, на вуали — цвета темы */
+.rcx--lb .rcx-who{top:clamp(12px,1.6vw,28px);right:calc(50vw + var(--lb-w) / 2 - var(--lb-x) - var(--lb-cw))}
 @media (max-width:1100px),(max-aspect-ratio:5/4){.rcx-who{position:static;justify-items:start;margin:14px 0 0;color:var(--nd-mute)}.rcx-who span+span{color:var(--nd-mute)}
   .rcx--lb .rcx-who{color:var(--nd-mute)}}
 
