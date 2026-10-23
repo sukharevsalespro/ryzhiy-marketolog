@@ -10,22 +10,30 @@ from transformers import SegformerImageProcessor, SegformerForSemanticSegmentati
 WORK = os.environ.get('OGCUT_WORK', '/srv/work/rm-talks-1023')   # рабочая папка на NVR: ogsrc/ — исходники, ogcut/ — выход
 SRC = WORK + '/ogsrc'
 os.chdir(WORK); os.makedirs('ogcut', exist_ok=True)
-JOBS = {  # имя выреза: (исходник, кроп x0,y0,x1,y1 — низ кропа по краю стола/кадра)
+JOBS = {  # имя выреза: (исходник, кроп x0,y0,x1,y1 — низ кропа по краю стола/кадра[, 'objects' — вместе с предметами])
     'raspakovka-game-host': ('N14-raspakovka.jpg', (200, 0, 1620, 1790)),
     'rv-n15': ('N15-razvitie-mobile.png', (0, 0, 1330, 1815)),
     'nf-velvet-l1': ('L1.jpg', (0, 0, 1792, 2400)),
     'nf-silk-l4': ('L4.jpg', (0, 0, 1792, 2400)),
-    'otzyvy-n40-armchair': ('N40-armchair.png', (0, 0, 1856, 2304)),   # «Отзывы», 23.10: голубой пиджак, синее кресло (zapis-n40)
+    'otzyvy-n40-armchair': ('N40-armchair.png', (0, 0, 1856, 2304)),
+    'otzyvy-n40-chair': ('N40-armchair.png', (0, 0, 1856, 2304), 'objects'),   # то же с креслом: маска человека ∪ isnet-general-use   # «Отзывы», 23.10: голубой пиджак, синее кресло (zapis-n40)
 }
 only = sys.argv[1:] or list(JOBS)
 sess = new_session('birefnet-portrait')
+sess_obj = None   # isnet-general-use: захватывает предметы (кресло); модель в ~/.rembg/models/isnet-general-use
 proc = SegformerImageProcessor.from_pretrained('jonathandinu/face-parsing')
 model = SegformerForSemanticSegmentation.from_pretrained('jonathandinu/face-parsing').cuda().eval()
 for n in only:
-    f, box = JOBS[n]
+    f, box, *opt = JOBS[n]
     work = Image.open(f'{SRC}/{f}').convert('RGB').crop(box); W, H = work.size
     a = np.asarray(remove(work, session=sess, only_mask=True), np.float32) / 255
-    ys, xs = np.where(a > .5); top = ys.min(); S = min(1500, W, H)
+    person = a.copy()
+    if 'objects' in opt:
+        if sess_obj is None:
+            os.environ['U2NET_HOME'] = os.path.expanduser('~/.rembg/models/isnet-general-use'); sess_obj = new_session('isnet-general-use')
+        g = np.asarray(remove(work, session=sess_obj, only_mask=True), np.float32) / 255
+        a = np.maximum(a, np.where(g > .35, g, 0))   # полупрозрачные листья растения отсекаем
+    ys, xs = np.where(person > .5); top = ys.min(); S = min(1500, W, H)
     cx = (xs[ys < top + 1000].min() + xs[ys < top + 1000].max()) // 2
     bx = int(np.clip(cx - S // 2, 0, W - S)); by = int(max(0, top - 60))
     crop = work.crop((bx, by, bx + S, by + S))
