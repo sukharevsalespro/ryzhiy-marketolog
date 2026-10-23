@@ -1,0 +1,46 @@
+/* Плашка про cookie и Яндекс Метрику (23.10.2026). Информирует, согласия не собирает:
+   Метрика грузится как раньше, плашка её не блокирует и не откладывает.
+   Цвета — значения токенов сайта (--nd-surface/--nd-ink/--rust, тёмная — --nd-* графита).
+   Тёмная тема — обычный @media: theme.js переписывает его при ручном выборе темы,
+   поэтому файл подключается в <head> до theme.js. */
+.ck{
+  --ck-bg:rgba(255,253,249,.5);--ck-bg-solid:rgba(255,253,249,.94);--ck-fg:#111;--ck-edge:rgba(17,17,17,.18);--ck-link:#fe6c1f;
+  --ck-btn-bg:#111;--ck-btn-fg:#faf7f2;
+  --ck-gap:12px;
+  position:fixed;z-index:55;left:var(--ck-gap);right:var(--ck-gap);
+  bottom:calc(var(--ck-gap) + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:12px;
+  box-sizing:border-box;max-width:max-content;margin:0;
+  padding:6px 6px 6px 14px;
+  background:var(--ck-bg-solid);color:var(--ck-fg);border:1px solid var(--ck-edge);border-radius:0;
+  font:400 14px/1.35 'Golos Text',system-ui,sans-serif;
+  opacity:0;translate:0 8px;visibility:hidden;
+  transition:opacity 260ms cubic-bezier(.23,1,.32,1),translate 260ms cubic-bezier(.23,1,.32,1),visibility 0s linear 260ms
+}
+.ck[data-state="in"]{opacity:1;translate:0 0;visibility:visible;transition-delay:0s}
+.ck[data-state="out"]{opacity:0;translate:0 6px;visibility:hidden;
+  transition:opacity 160ms cubic-bezier(.23,1,.32,1),translate 160ms cubic-bezier(.23,1,.32,1),visibility 0s linear 160ms}
+/* Полупрозрачная плашка (50%): фото и надписи под ней просвечивают, размытие 12px (правило ≤ 12px).
+   Без backdrop-filter и при «меньше прозрачности» — плотнее, чтобы текст читался. */
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  .ck{background:var(--ck-bg);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+}
+@media (prefers-reduced-transparency:reduce){.ck{background:var(--ck-bg-solid);-webkit-backdrop-filter:none;backdrop-filter:none}}
+.ck-t{flex:1 1 auto;margin:0;min-width:0;text-shadow:0 1px 6px rgba(255,253,249,.6)} /* лёгкая подсветка: фон 50% бывает тёмным */
+.ck-t a{color:inherit;text-decoration:underline;text-decoration-color:var(--ck-link);text-decoration-thickness:1.5px;text-underline-offset:3px;white-space:nowrap}
+.ck-t a:focus-visible{outline:2px solid var(--ck-fg);outline-offset:2px}
+.ck .ck-b{flex:none;min-height:44px;min-width:44px;padding:0 16px;margin:0;
+  border:1px solid var(--ck-btn-bg);border-radius:0;background:var(--ck-btn-bg);color:var(--ck-btn-fg);
+  font:600 14px/1 'Golos Text',system-ui,sans-serif;cursor:pointer;touch-action:manipulation}
+.ck .ck-b:focus-visible{outline:2px solid var(--ck-fg);outline-offset:3px}
+@media (max-width:479px){.ck{gap:10px}.ck-t{font-size:13px}.ck .ck-b{padding:0 14px}} /* 390: текст в две строки, плашка ≤ 72px */
+@media (min-width:768px){.ck{--ck-gap:24px;right:auto;max-width:calc(100vw - 48px)}}
+@media (prefers-color-scheme:dark){
+  .ck{--ck-bg:rgba(44,46,51,.5);--ck-bg-solid:rgba(44,46,51,.94);--ck-fg:#faf7f2;--ck-edge:rgba(250,247,242,.2);--ck-btn-bg:#fe6c1f;--ck-btn-fg:#111}
+  .ck .ck-b.md-plate{--plate:#faf7f2}
+  .ck-t{text-shadow:0 1px 6px rgba(17,17,17,.5)}
+}
+@media (prefers-reduced-motion:reduce){
+  .ck,.ck[data-state="in"],.ck[data-state="out"]{transition:none;translate:none}
+}
+@media print{.ck{display:none}}
