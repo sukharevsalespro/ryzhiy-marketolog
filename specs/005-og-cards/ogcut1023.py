@@ -15,6 +15,7 @@ JOBS = {  # имя выреза: (исходник, кроп x0,y0,x1,y1 — н�
     'rv-n15': ('N15-razvitie-mobile.png', (0, 0, 1330, 1815)),
     'nf-velvet-l1': ('L1.jpg', (0, 0, 1792, 2400)),
     'nf-silk-l4': ('L4.jpg', (0, 0, 1792, 2400)),
+    'otzyvy-n40-armchair': ('N40-armchair.png', (0, 0, 1856, 2304)),   # «Отзывы», 23.10: голубой пиджак, синее кресло (zapis-n40)
 }
 only = sys.argv[1:] or list(JOBS)
 sess = new_session('birefnet-portrait')
