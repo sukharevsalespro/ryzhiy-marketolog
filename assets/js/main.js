@@ -528,7 +528,10 @@ function show(el,play=true){
  running.add(a);a.onfinish=a.oncancel=()=>{t.style.willChange='';running.delete(a)};
  if(el.matches('.cal')){el.classList.add('date-pulse');setTimeout(()=>el.classList.remove('date-pulse'),650)}
 }
-items.forEach(el=>io.observe(el));
+/* Элемент прячется заранее (style.css: .motion-pending{opacity:0}), пока не въехал в экран. Без этого он виден
+   при прокрутке, а в момент пересечения анимация с fill:'backwards' на время задержки ставит первый ключевой
+   кадр (opacity:0) — блок пропадает и появляется снова: «моргание при скролле» (23.10.2026). */
+items.forEach(el=>{el.classList.add('motion-pending');io.observe(el)});
 document.addEventListener('focusin',e=>items.forEach(el=>{if(el.contains(e.target))show(el,false)}));
 q.addEventListener('change',()=>{if(q.matches){io.disconnect();items.forEach(el=>show(el,false));running.forEach(a=>a.cancel())}});
 })();
