@@ -41,7 +41,8 @@
   /* CTA «Ближайшее событие» и пункт ближайшего вебинара в «Вебинарах» — из того же events.json, что календарь и анонс обложки. */
   var ctas = document.querySelectorAll('[data-next-event]');
   var webItems = document.querySelectorAll('[data-next-webinar]');
-  if ((ctas.length || webItems.length) && window.fetch) {
+  var typedItems = document.querySelectorAll('[data-next-type]');
+  if ((ctas.length || webItems.length || typedItems.length) && window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
       .then(function (data) {
@@ -50,6 +51,7 @@
         var upcoming = (data.events || []).filter(function (ev) { return new Date(ev.start).getTime() > now; })
           .sort(function (a, b) { return new Date(a.start) - new Date(b.start); });
         fillWebinarItems(upcoming.filter(function (ev) { return ev.type === 'webinar'; })[0]);
+        fillTypedItems(upcoming);
         var next = upcoming[0];
         if (!next) return;
         var day = new Date(next.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
@@ -65,19 +67,32 @@
       .catch(function (err) { console.error('CTA ближайшего события и пункт вебинара остаются статичными:', err); });
   }
 
+  /* Дата пункта меню цифрами по Москве: «29.10.26г» (решение владельца 23.10.2026). Перед датой неразрывный пробел
+     у точки-разделителя: строка переносится только целиком перед датой. */
+  function navLabel(name, start) {
+    var d = new Date(start).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'Europe/Moscow' });
+    return name + '\u00a0· ' + d + 'г';
+  }
+
   /* Первый пункт «Вебинаров» (шапка и мобильное меню): ближайший ещё не начавшийся вебинар, «Название · дата».
      Название берётся из data-next-webinar, если в данных та же страница; иначе «Ближайший». Вебинара впереди нет — пункта нет,
      остаются записи. Без данных (ошибка сети) остаётся пункт из разметки. */
   function fillWebinarItems(w) {
     Array.prototype.forEach.call(webItems, function (a) {
       if (!w || !w.url) { a.remove(); return; }
-      var day = new Date(w.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
       var name = a.getAttribute('href') === w.url ? a.getAttribute('data-next-webinar') : 'Ближайший';
-      /* в мобильном меню кегль 22px: полный месяц на 390 переносился посреди даты — там короткий «29 окт», как у CTA */
-      var parts = day.split(' ');
-      if (a.closest('.hdr-dialog-acc-panel')) day = parts[0] + '\u00a0' + (parts[1] || '').slice(0, 3);
       a.href = w.url;
-      a.textContent = name + ' · ' + day;
+      a.textContent = navLabel(name, w.start);
+    });
+  }
+
+  /* «Мастер-группа», «Нетворкинг» (data-next-type): дата ближайшего ещё не начавшегося события своего типа.
+     События впереди нет или данные не пришли — пункт без даты, как в разметке. */
+  function fillTypedItems(upcoming) {
+    Array.prototype.forEach.call(typedItems, function (a) {
+      var type = a.getAttribute('data-next-type');
+      var ev = upcoming.filter(function (e) { return e.type === type; })[0];
+      if (ev) a.textContent = navLabel(a.textContent.trim(), ev.start);
     });
   }
 
