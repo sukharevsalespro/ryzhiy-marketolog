@@ -38,16 +38,19 @@
     Object.keys(byId).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
   }
 
-  /* CTA «Ближайшее событие» — из того же events.json, что календарь и анонс обложки. */
+  /* CTA «Ближайшее событие» и пункт ближайшего вебинара в «Вебинарах» — из того же events.json, что календарь и анонс обложки. */
   var ctas = document.querySelectorAll('[data-next-event]');
-  if (ctas.length && window.fetch) {
+  var webItems = document.querySelectorAll('[data-next-webinar]');
+  if ((ctas.length || webItems.length) && window.fetch) {
     fetch('/assets/data/events.json', { cache: 'no-cache' })
       .then(function (r) { if (!r.ok) throw new Error('events.json: HTTP ' + r.status); return r.json(); })
       .then(function (data) {
         var now = Date.now();
         /* ближайшее = ещё не началось (start > now), как анонс и корешок билета в main.js (правило 21.10.2026) */
-        var next = (data.events || []).filter(function (ev) { return new Date(ev.start).getTime() > now; })
-          .sort(function (a, b) { return new Date(a.start) - new Date(b.start); })[0];
+        var upcoming = (data.events || []).filter(function (ev) { return new Date(ev.start).getTime() > now; })
+          .sort(function (a, b) { return new Date(a.start) - new Date(b.start); });
+        fillWebinarItems(upcoming.filter(function (ev) { return ev.type === 'webinar'; })[0]);
+        var next = upcoming[0];
         if (!next) return;
         var day = new Date(next.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
         var kind = next.type === 'networking' ? 'Нетворкинг' : next.type === 'webinar' ? 'Вебинар' : next.type === 'mastergroup' ? 'Мастер-группа' : 'Встреча';
@@ -59,7 +62,23 @@
           a.querySelector('.hdr-cta-text').innerHTML = '<b><span class="m-long">' + day + '</span><span class="m-short">' + shortDay + '</span></b> · ' + kind;
         });
       })
-      .catch(function (err) { console.error('CTA ближайшего события остаётся статичной:', err); });
+      .catch(function (err) { console.error('CTA ближайшего события и пункт вебинара остаются статичными:', err); });
+  }
+
+  /* Первый пункт «Вебинаров» (шапка и мобильное меню): ближайший ещё не начавшийся вебинар, «Название · дата».
+     Название берётся из data-next-webinar, если в данных та же страница; иначе «Ближайший». Вебинара впереди нет — пункта нет,
+     остаются записи. Без данных (ошибка сети) остаётся пункт из разметки. */
+  function fillWebinarItems(w) {
+    Array.prototype.forEach.call(webItems, function (a) {
+      if (!w || !w.url) { a.remove(); return; }
+      var day = new Date(w.start).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Europe/Moscow' });
+      var name = a.getAttribute('href') === w.url ? a.getAttribute('data-next-webinar') : 'Ближайший';
+      /* в мобильном меню кегль 22px: полный месяц на 390 переносился посреди даты — там короткий «29 окт», как у CTA */
+      var parts = day.split(' ');
+      if (a.closest('.hdr-dialog-acc-panel')) day = parts[0] + '\u00a0' + (parts[1] || '').slice(0, 3);
+      a.href = w.url;
+      a.textContent = name + ' · ' + day;
+    });
   }
 
   /* Мобильное меню. */
